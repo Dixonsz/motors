@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from ...models import Recepcion
 from ...services.evidencia_service import EvidenciaService
@@ -41,18 +42,26 @@ def evidencia_create(request, recepcion_id):
 def evidencia_editar(request, evidencia_id):
 
     evidencias = EvidenciaService.get_evidencia_by_id(evidencia_id)
+    if not evidencias:
+        messages.error(request, 'La evidencia no existe.')
+        return redirect('recepcion_lista')
 
     if request.method == 'POST':
         tipo = request.POST.get('tipo')
         descripcion = request.POST.get('descripcion')
         url_archivo = request.FILES.get('url_archivo')
 
-        EvidenciaService.update_evidencia(
-            evidencia_id,
-            tipo=tipo,
-            url_archivo=url_archivo,
-            descripcion=descripcion
-        )
+        try:
+            EvidenciaService.update_evidencia(
+                evidencia_id,
+                tipo=tipo,
+                url_archivo=url_archivo,
+                descripcion=descripcion
+            )
+            messages.success(request, 'Evidencia actualizada correctamente.')
+        except ValueError as exc:
+            messages.error(request, str(exc))
+            return render(request, 'evidencias/evidencias_editar.html', {'evidencia': evidencias})
 
         return redirect('evidencia_lista', recepcion_id=evidencias.recepcion.id)
 
@@ -62,11 +71,19 @@ def evidencia_editar(request, evidencia_id):
 def evidencia_eliminar(request, evidencia_id):
 
     evidencia = EvidenciaService.get_evidencia_by_id(evidencia_id)
+    if not evidencia:
+        messages.error(request, 'La evidencia no existe.')
+        return redirect('recepcion_lista')
 
     if request.method == 'POST':
 
         recepcion_id = evidencia.recepcion.id
-        EvidenciaService.delete_evidencia(evidencia_id)
+        try:
+            EvidenciaService.delete_evidencia(evidencia_id)
+            messages.success(request, 'Evidencia eliminada correctamente.')
+        except ValueError as exc:
+            messages.error(request, str(exc))
+            return redirect('evidencia_lista', recepcion_id=recepcion_id)
 
         return redirect('evidencia_lista', recepcion_id=recepcion_id)
 

@@ -35,6 +35,8 @@ class ModeloView(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         except ValueError as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except KeyError as e:
+            return Response({'error': f'Campo requerido faltante: {e.args[0]}'}, status=status.HTTP_400_BAD_REQUEST)
         
     @never_cache
     def update(self, request, pk=None):
@@ -53,9 +55,7 @@ class ModeloView(viewsets.ViewSet):
     @never_cache
     def destroy(self, request, pk=None):
         try:
-            modelo_nombre = ModeloService.delete_modelo(pk)
+            ModeloService.delete_modelo(pk)
             return Response(status=status.HTTP_204_NO_CONTENT)
         except ValueError as e:
             return Response({'error': str(e)}, status=status.HTTP_404_NOT_FOUND)
-        except Exception as e:
-            return Response({'error': f'Error al eliminar:{str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

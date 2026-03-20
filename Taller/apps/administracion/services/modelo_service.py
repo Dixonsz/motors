@@ -1,5 +1,4 @@
 from ..models.modelo import Modelo
-from django.core.exceptions import ObjectDoesNotExist
 
 class ModeloService:
 
@@ -11,7 +10,7 @@ class ModeloService:
     def get_modelo_by_id(modelo_id):
         try:
             return Modelo.objects.get(id=modelo_id)
-        except ObjectDoesNotExist:
+        except Modelo.DoesNotExist:
             return None
         
     @staticmethod
@@ -27,12 +26,10 @@ class ModeloService:
         modelo = ModeloService.get_modelo_by_id(modelo_id)
         if not modelo:
             raise ValueError("El modelo no existe.")
-        if modelo:
-            if Modelo.objects.filter(nombre=nombre).exclude(id=modelo_id).exists():
-                raise ValueError("El modelo ya existe.")
-            modelo.nombre = nombre
 
         if nombre is not None:
+            if Modelo.objects.filter(nombre=nombre).exclude(id=modelo_id).exists():
+                raise ValueError("El modelo ya existe.")
             modelo.nombre = nombre
 
         modelo.save()
@@ -43,8 +40,6 @@ class ModeloService:
         modelo = ModeloService.get_modelo_by_id(modelo_id)
         if not modelo:
             raise ValueError("El modelo no existe.")
-        modelo_nombre = modelo.nombre
         modelo.delete()
-        return modelo_nombre
+        return modelo.nombre
 
-            

@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import redirect, render
 from ...services.cliente_service import ClienteService
 
@@ -14,13 +15,20 @@ def cliente_create(request):
         cedula = request.POST.get('cedula')
         direccion = request.POST.get('direccion')
 
-        ClienteService.create_cliente(nombre, correo, telefono, cedula, direccion)
-        return redirect('clientes_lista')
+        try:
+            ClienteService.create_cliente(nombre, correo, telefono, cedula, direccion)
+            messages.success(request, 'Cliente creado correctamente.')
+            return redirect('clientes_lista')
+        except ValueError as exc:
+            messages.error(request, str(exc))
 
     return render(request, 'clientes/clientes_crear.html')
 
 def cliente_editar(request, cliente_id):
     cliente = ClienteService.get_cliente_by_id(cliente_id)
+    if not cliente:
+        messages.error(request, 'El cliente no existe.')
+        return redirect('clientes_lista')
 
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -29,14 +37,27 @@ def cliente_editar(request, cliente_id):
         cedula = request.POST.get('cedula')
         direccion = request.POST.get('direccion')
 
-        ClienteService.update_cliente(cliente_id, nombre, correo, telefono, cedula, direccion)
-        return redirect('clientes_lista')
+        try:
+            ClienteService.update_cliente(cliente_id, nombre, correo, telefono, cedula, direccion)
+            messages.success(request, 'Cliente actualizado correctamente.')
+            return redirect('clientes_lista')
+        except ValueError as exc:
+            messages.error(request, str(exc))
 
     return render(request, 'clientes/clientes_editar.html', {'cliente': cliente})
 
 def cliente_eliminar(request, cliente_id):
-    if request.method == 'POST':
-        ClienteService.delete_cliente(cliente_id)
+    cliente = ClienteService.get_cliente_by_id(cliente_id)
+    if not cliente:
+        messages.error(request, 'El cliente no existe.')
         return redirect('clientes_lista')
+
+    if request.method == 'POST':
+        try:
+            ClienteService.delete_cliente(cliente_id)
+            messages.success(request, 'Cliente eliminado correctamente.')
+            return redirect('clientes_lista')
+        except ValueError as exc:
+            messages.error(request, str(exc))
 
     return render(request, 'clientes/clientes_eliminar.html', {'cliente_id': cliente_id})

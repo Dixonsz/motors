@@ -1,5 +1,4 @@
 from ..models.marca import Marca
-from django.core.exceptions import ObjectDoesNotExist
 
 class MarcaService:
 
@@ -11,7 +10,7 @@ class MarcaService:
     def get_marca_by_id(marca_id):
         try:
             return Marca.objects.get(id=marca_id)
-        except ObjectDoesNotExist:
+        except Marca.DoesNotExist:
             return None
        
         
@@ -42,7 +41,6 @@ class MarcaService:
         marca = MarcaService.get_marca_by_id(marca_id)
         if not marca:
             raise ValueError("La marca no existe.")
-        marca_nombre = marca.nombre
         marca.delete()
-        return marca_nombre
+        return marca.nombre
 

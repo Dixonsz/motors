@@ -1,5 +1,5 @@
 from ..models import Usuario, Rol
-from django.core.exceptions import ObjectDoesNotExist
+from .utils import get_required_instance
 
 class UsuarioService:
 
@@ -11,15 +11,15 @@ class UsuarioService:
     def get_usuario_by_id(usuario_id):
         try:
             return Usuario.objects.get(id=usuario_id)
-        except ObjectDoesNotExist:
+        except Usuario.DoesNotExist:
             return None
         
     @staticmethod
     def create_usuario(nombre,apellido, telefono,correo, rol_id, password):
         if Usuario.objects.filter(email=correo).exists():
             raise ValueError("El correo ya está registrado.")
-        
-        rol = Rol.objects.get(id=rol_id)
+
+        rol = get_required_instance(Rol, rol_id, "El rol no existe.")
 
         usuario = Usuario(nombre=nombre,
                           apellido=apellido,
@@ -48,7 +48,7 @@ class UsuarioService:
                 raise ValueError("El correo ya está registrado.")
             usuario.email = correo
         if rol_id:
-            rol = Rol.objects.get(id=rol_id)
+            rol = get_required_instance(Rol, rol_id, "El rol no existe.")
             usuario.rol = rol
         if password:
             usuario.set_password(password)

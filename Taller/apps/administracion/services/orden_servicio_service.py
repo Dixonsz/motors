@@ -1,10 +1,9 @@
 from decimal import Decimal, InvalidOperation
 
-from django.core.exceptions import ObjectDoesNotExist
-
 from ..models.orden import Orden
 from ..models.orden_servicio import OrdenServicio
 from ..models.servicio import Servicio
+from .utils import get_required_instance
 
 
 class OrdenServicioService:
@@ -44,7 +43,7 @@ class OrdenServicioService:
     def get_detalle_by_id(detalle_id):
         try:
             return OrdenServicio.objects.select_related('servicio', 'orden').get(id=detalle_id)
-        except ObjectDoesNotExist:
+        except OrdenServicio.DoesNotExist:
             return None
 
     @staticmethod
@@ -57,11 +56,8 @@ class OrdenServicioService:
 
     @staticmethod
     def create_detalle(orden_id, servicio_id, cantidad, precio=None, observaciones=''):
-        try:
-            orden = Orden.objects.get(id=orden_id)
-            servicio = Servicio.objects.get(id=servicio_id)
-        except (Orden.DoesNotExist, Servicio.DoesNotExist):
-            raise ValueError('La orden o el servicio no existen.')
+        orden = get_required_instance(Orden, orden_id, 'La orden no existe.')
+        servicio = get_required_instance(Servicio, servicio_id, 'El servicio no existe.')
 
         detalle = OrdenServicio(
             orden=orden,
@@ -93,12 +89,16 @@ class OrdenServicioService:
 
     @staticmethod
     def delete_detalle(detalle_id, orden_id=None):
-        try:
-            detalle = OrdenServicio.objects.get(id=detalle_id)
-        except ObjectDoesNotExist:
-            raise ValueError('El detalle de servicio no existe.')
+        detalle = get_required_instance(OrdenServicio, detalle_id, 'El detalle de servicio no existe.')
 
-        if orden_id and detalle.orden_id != int(orden_id):
-            raise ValueError('El detalle no pertenece a la orden seleccionada.')
+        if orden_id:
+            try:
+                orden_id_value = int(orden_id)
+            except (TypeError, ValueError):
+                raise ValueError('El id de la orden no es valido.')
+
+            if detalle.orden_id != orden_id_value:
+                raise ValueError('El detalle no pertenece a la orden seleccionada.')
 
         detalle.delete()
+

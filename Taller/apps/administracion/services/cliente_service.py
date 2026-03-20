@@ -1,5 +1,4 @@
 from ..models.cliente import Cliente
-from django.core.exceptions import ObjectDoesNotExist
 
 class ClienteService:
     @staticmethod
@@ -10,7 +9,7 @@ class ClienteService:
     def get_cliente_by_id(cliente_id):
         try:
             return Cliente.objects.get(id=cliente_id)
-        except ObjectDoesNotExist:
+        except Cliente.DoesNotExist:
             return None
         
     @staticmethod
@@ -54,6 +53,5 @@ class ClienteService:
         cliente = ClienteService.get_cliente_by_id(cliente_id)
         if not cliente:
             raise ValueError("El cliente no existe.")
-        cliente_nombre = cliente.nombre
         cliente.delete()
-        return cliente_nombre
+        return cliente.nombre

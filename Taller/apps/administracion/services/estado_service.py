@@ -1,5 +1,4 @@
 from ..models.estado import Estado
-from django.core.exceptions import ObjectDoesNotExist
 
 class EstadoService:
 
@@ -11,7 +10,7 @@ class EstadoService:
     def get_estado_by_id(estado_id):
         try:
             return Estado.objects.get(id=estado_id)
-        except ObjectDoesNotExist:
+        except Estado.DoesNotExist:
             return None
        
         
@@ -48,9 +47,8 @@ class EstadoService:
         estado = EstadoService.get_estado_by_id(estado_id)
         if not estado:
             raise ValueError("El estado no existe.")
-        estado_nombre = estado.nombre
         estado.delete()
-        return estado_nombre
+        return estado.nombre
+
     
 
-        

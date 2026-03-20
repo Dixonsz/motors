@@ -1,7 +1,7 @@
 from ..models import Recepcion, Vehiculo, Usuario
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from .evidencia_service import EvidenciaService
+from .utils import get_required_instance
 
 class RecepcionService:
 
@@ -54,7 +54,7 @@ class RecepcionService:
     def get_recepcion_by_id(recepcion_id):
         try:
             return Recepcion.objects.get(id=recepcion_id)
-        except ObjectDoesNotExist:
+        except Recepcion.DoesNotExist:
             return None
         
     @staticmethod
@@ -62,9 +62,12 @@ class RecepcionService:
         km_actual = RecepcionService._validar_kilometraje_no_menor(vehiculo_id, kilometraje)
         nivel_actual = RecepcionService._parse_nivel_combustible(nivel_combustible)
 
+        vehiculo = get_required_instance(Vehiculo, vehiculo_id, "El vehiculo no existe.")
+        usuario = get_required_instance(Usuario, usuario_id, "El usuario no existe.")
+
         recepcion = Recepcion.objects.create(
-            vehiculo_id=vehiculo_id,
-            usuario_id=usuario_id,
+            vehiculo=vehiculo,
+            usuario=usuario,
             fecha_ingreso=fecha_ingreso,
             observaciones=observaciones,
             kilometraje=km_actual,
@@ -89,10 +92,10 @@ class RecepcionService:
         nivel_validado = RecepcionService._parse_nivel_combustible(nivel_objetivo)
 
         if vehiculo_id:
-            vehiculo = Vehiculo.objects.get(id=vehiculo_id)
+            vehiculo = get_required_instance(Vehiculo, vehiculo_id, "El vehiculo no existe.")
             recepcion.vehiculo = vehiculo
         if usuario_id:
-            usuario = Usuario.objects.get(id=usuario_id)
+            usuario = get_required_instance(Usuario, usuario_id, "El usuario no existe.")
             recepcion.usuario = usuario
         if fecha_ingreso:
             recepcion.fecha_ingreso = fecha_ingreso

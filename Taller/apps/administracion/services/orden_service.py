@@ -2,7 +2,7 @@ from ..models.orden import Orden
 from ..models.recepcion import Recepcion
 from ..models.usuario import Usuario
 from ..models.estado import Estado
-from django.core.exceptions import ObjectDoesNotExist
+from .utils import get_required_instance
 
 class OrdenService:
 
@@ -38,7 +38,7 @@ class OrdenService:
     def get_orden_by_id(orden_id):
         try:
             return Orden.objects.select_related('recepcion', 'usuario', 'estado').get(id=orden_id)
-        except ObjectDoesNotExist:
+        except Orden.DoesNotExist:
             return None
        
         
@@ -47,12 +47,9 @@ class OrdenService:
         if not recepcion_id or not usuario_id or not estado_id:
             raise ValueError('Recepcion, usuario y estado son obligatorios.')
 
-        try:
-            recepcion = Recepcion.objects.get(id=recepcion_id)
-            usuario = Usuario.objects.get(id=usuario_id)
-            estado = Estado.objects.get(id=estado_id)
-        except (Recepcion.DoesNotExist, Usuario.DoesNotExist, Estado.DoesNotExist):
-            raise ValueError('La recepcion, el usuario o el estado no existen.')
+        recepcion = get_required_instance(Recepcion, recepcion_id, 'La recepcion no existe.')
+        usuario = get_required_instance(Usuario, usuario_id, 'El usuario no existe.')
+        estado = get_required_instance(Estado, estado_id, 'El estado no existe.')
 
         OrdenService._validar_recepcion_disponible(recepcion.id)
 
@@ -72,29 +69,20 @@ class OrdenService:
             raise ValueError("La orden no existe.")
         
         if recepcion_id:
-            try:
-                recepcion = Recepcion.objects.get(id=recepcion_id)
-            except Recepcion.DoesNotExist:
-                raise ValueError('La recepcion indicada no existe.')
+            recepcion = get_required_instance(Recepcion, recepcion_id, 'La recepcion indicada no existe.')
 
             OrdenService._validar_recepcion_disponible(recepcion.id, orden_id_excluir=orden.id)
             orden.recepcion = recepcion
 
         if usuario_id:
-            try:
-                usuario = Usuario.objects.get(id=usuario_id)
-            except Usuario.DoesNotExist:
-                raise ValueError('El usuario indicado no existe.')
+            usuario = get_required_instance(Usuario, usuario_id, 'El usuario indicado no existe.')
             orden.usuario = usuario
 
         if diagnostico is not None:
             orden.dignostico = OrdenService._normalizar_diagnostico(diagnostico)
 
         if estado_id is not None and str(estado_id).strip() != '':
-            try:
-                estado = Estado.objects.get(id=estado_id)
-            except Estado.DoesNotExist:
-                raise ValueError('El estado indicado no existe.')
+            estado = get_required_instance(Estado, estado_id, 'El estado indicado no existe.')
             orden.estado = estado
 
         orden.save()

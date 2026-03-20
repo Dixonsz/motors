@@ -1,5 +1,4 @@
 from ..models.agenda_horario import AgendaHorario
-from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 
 class AgendaHorarioService:
@@ -89,7 +88,7 @@ class AgendaHorarioService:
     def get_agenda_horario_by_id(agenda_horario_id):
         try:
             return AgendaHorario.objects.get(id=agenda_horario_id)
-        except ObjectDoesNotExist:
+        except AgendaHorario.DoesNotExist:
             return None
        
         
@@ -188,8 +187,7 @@ class AgendaHorarioService:
         agenda_horario = AgendaHorarioService.get_agenda_horario_by_id(agenda_horario_id)
         if not agenda_horario:
             raise ValueError("El horario no existe.")
-        agenda_horario_nombre = agenda_horario.fecha
         agenda_horario.delete()
-        return agenda_horario_nombre
+        return agenda_horario.fecha
 
         

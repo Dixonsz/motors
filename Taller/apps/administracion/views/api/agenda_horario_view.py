@@ -55,6 +55,8 @@ class AgendaHorarioView(viewsets.ViewSet):
 
         except ValueError as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except KeyError as e:
+            return Response({'error': f'Campo requerido faltante: {e.args[0]}'}, status=status.HTTP_400_BAD_REQUEST)
 
     @never_cache
     def update(self, request, pk=None):
@@ -80,10 +82,8 @@ class AgendaHorarioView(viewsets.ViewSet):
     @never_cache
     def destroy(self, request, pk=None):
         try:
-            agenda_horario_nombre = AgendaHorarioService.delete_agenda_horario(pk)
+            AgendaHorarioService.delete_agenda_horario(pk)
             return Response(status=status.HTTP_204_NO_CONTENT)
 
         except ValueError as e:
             return Response({'error': str(e)}, status=status.HTTP_404_NOT_FOUND)
-        except Exception as e:
-            return Response({'error': f'Error al eliminar: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

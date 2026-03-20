@@ -5,16 +5,13 @@ from django.utils.dateparse import parse_duration
 
 from ..models import Servicio
 from ..models.categoria_servicio import CategoriaServicio
-from django.core.exceptions import ObjectDoesNotExist
+from .utils import get_required_instance
 
 class ServicioService:
 
     @staticmethod
     def _get_categoria_or_error(categoria_id):
-        try:
-            return CategoriaServicio.objects.get(id=categoria_id)
-        except ObjectDoesNotExist:
-            raise ValueError("La categoria del servicio no existe.")
+        return get_required_instance(CategoriaServicio, categoria_id, "La categoria del servicio no existe.")
 
     @staticmethod
     def _parse_duracion_estimada(duracion_estimada):
@@ -48,7 +45,7 @@ class ServicioService:
     def get_servicio_by_id(servicio_id):
         try:
             return Servicio.objects.get(id=servicio_id)
-        except ObjectDoesNotExist:
+        except Servicio.DoesNotExist:
             return None
         
     @staticmethod
@@ -69,9 +66,6 @@ class ServicioService:
         )  
         servicio.save()
         return servicio
-        
-
-        
 
     @staticmethod
     def update_servicio(servicio_id, categoria_id=None, nombre=None, descripcion=None, precio_base=None, duracion_estimada=None, is_active=None):
@@ -102,4 +96,5 @@ class ServicioService:
         if not servicio:
             raise ValueError("El servicio no existe.")
         servicio.delete()
+
       

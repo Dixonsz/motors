@@ -1,5 +1,4 @@
 from ..models.categoria_servicio import CategoriaServicio
-from django.core.exceptions import ObjectDoesNotExist
 
 class CategoriaServicioService:
 
@@ -11,7 +10,7 @@ class CategoriaServicioService:
     def get_categoria_by_id(categoria_id):
         try:
             return CategoriaServicio.objects.get(id=categoria_id)
-        except ObjectDoesNotExist:
+        except CategoriaServicio.DoesNotExist:
             return None
        
         
@@ -48,11 +47,12 @@ class CategoriaServicioService:
         categoria = CategoriaServicioService.get_categoria_by_id(categoria_id)
         if not categoria:
             raise ValueError("La categoria no existe.")
-        categoria_nombre = categoria.nombre
         categoria.delete()
-        return categoria_nombre
+        return categoria.nombre
 
 
 
 
-        
+
+
+

@@ -1,5 +1,4 @@
 from ..models.rol import Rol
-from django.core.exceptions import ObjectDoesNotExist
 
 class RolService:
 
@@ -11,7 +10,7 @@ class RolService:
     def get_rol_by_id(rol_id):
         try:
             return Rol.objects.get(id=rol_id)
-        except ObjectDoesNotExist:
+        except Rol.DoesNotExist:
             return None
        
         
@@ -45,9 +44,8 @@ class RolService:
         rol = RolService.get_rol_by_id(rol_id)
         if not rol:
             raise ValueError("El rol no existe.")
-        rol_nombre = rol.nombre
         rol.delete()
-        return rol_nombre
+        return rol.nombre
+
     
 
-        

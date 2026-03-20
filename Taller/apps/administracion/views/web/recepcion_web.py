@@ -46,6 +46,10 @@ def recepcion_create(request):
 
 def recepciones_editar(request, recepcion_id):
     recepcion = RecepcionService.get_recepcion_by_id(recepcion_id)
+    if not recepcion:
+        messages.error(request, 'La recepcion no existe.')
+        return redirect('recepcion_lista')
+
     vehiculos = VehiculoService.get_all_vehiculos()
     usuarios = UsuarioService.get_all_usuarios()
     evidencias = EvidenciaService.get_evidencias_by_recepcion(recepcion_id) 
@@ -87,9 +91,18 @@ def recepciones_editar(request, recepcion_id):
     })
 
 def recepcion_eliminar(request, recepcion_id):
-    if request.method == 'POST':
-        RecepcionService.delete_recepcion(recepcion_id)
+    recepcion = RecepcionService.get_recepcion_by_id(recepcion_id)
+    if not recepcion:
+        messages.error(request, 'La recepcion no existe.')
         return redirect('recepcion_lista')
+
+    if request.method == 'POST':
+        try:
+            RecepcionService.delete_recepcion(recepcion_id)
+            messages.success(request, 'Recepcion eliminada correctamente.')
+            return redirect('recepcion_lista')
+        except ValueError as exc:
+            messages.error(request, str(exc))
 
     return render(request, 'recepciones/recepciones_eliminar.html', {'recepcion_id': recepcion_id})
 

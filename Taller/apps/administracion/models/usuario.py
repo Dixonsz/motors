@@ -11,6 +11,6 @@ class Usuario(AbstractUser):
    
 
     def __str__(self):
-        correo = getattr(self, "correo", None) or getattr(self, "email", "sin-correo")
+        correo = self.email or "sin-correo"
         rol_nombre = self.rol.nombre if self.rol else "sin-rol"
         return f"Nombre: {self.nombre} Apellido: {self.apellido} - Correo: {correo} - Rol: {rol_nombre}"

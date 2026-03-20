@@ -1,5 +1,4 @@
 from ..models.combustible import Combustible
-from django.core.exceptions import ObjectDoesNotExist
 
 class CombustibleService:
 
@@ -11,7 +10,7 @@ class CombustibleService:
     def get_combustible_by_id(combustible_id):
         try:
             return Combustible.objects.get(id=combustible_id)
-        except ObjectDoesNotExist:
+        except Combustible.DoesNotExist:
             return None
         
     @staticmethod
@@ -41,6 +40,5 @@ class CombustibleService:
         combustible = CombustibleService.get_combustible_by_id(combustible_id)
         if not combustible:
             raise ValueError("El tipo de combustible no existe.")
-        combustible_nombre = combustible.nombre
         combustible.delete()
-        return combustible_nombre
+        return combustible.nombre

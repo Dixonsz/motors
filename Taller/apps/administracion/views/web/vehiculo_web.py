@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import redirect, render
 from ...services.vehiculo_service import VehiculoService
 from ...services.cliente_service import ClienteService
@@ -22,8 +23,12 @@ def vehiculo_create(request):
         marca_id = request.POST.get('marca_id')
         combustible_id = request.POST.get('combustible_id')
 
-        VehiculoService.create_vehiculo(placa, anio, color, vin, cliente_id, modelo_id, marca_id, combustible_id)
-        return redirect('vehiculos_lista')
+        try:
+            VehiculoService.create_vehiculo(placa, anio, color, vin, cliente_id, modelo_id, marca_id, combustible_id)
+            messages.success(request, 'Vehiculo creado correctamente.')
+            return redirect('vehiculos_lista')
+        except ValueError as exc:
+            messages.error(request, str(exc))
     
     clientes = ClienteService.get_all_clientes()
     modelos = ModeloService.get_all_modelos()
@@ -39,6 +44,10 @@ def vehiculo_editar(request, vehiculo_id):
     marcas = MarcaService.get_all_marcas()
     combustibles = CombustibleService.get_all_combustibles()
 
+    if not vehiculo:
+        messages.error(request, 'El vehiculo no existe.')
+        return redirect('vehiculos_lista')
+
     if request.method == 'POST':
         placa = request.POST.get('placa')
         anio = request.POST.get('anio')
@@ -49,15 +58,28 @@ def vehiculo_editar(request, vehiculo_id):
         marca_id = request.POST.get('marca_id')
         combustible_id = request.POST.get('combustible_id')
 
-        VehiculoService.update_vehiculo(vehiculo_id,placa, anio, color, vin, cliente_id, modelo_id, marca_id, combustible_id)
-        return redirect('vehiculos_lista')
+        try:
+            VehiculoService.update_vehiculo(vehiculo_id, placa, anio, color, vin, cliente_id, modelo_id, marca_id, combustible_id)
+            messages.success(request, 'Vehiculo actualizado correctamente.')
+            return redirect('vehiculos_lista')
+        except ValueError as exc:
+            messages.error(request, str(exc))
 
     return render(request, 'vehiculos/vehiculos_editar.html', {'vehiculo': vehiculo, 'clientes': clientes, 'modelos': modelos, 'marcas': marcas, 'combustibles': combustibles})
 
 def vehiculo_eliminar(request, vehiculo_id):
-    if request.method == 'POST':
-        VehiculoService.delete_vehiculo(vehiculo_id)
+    vehiculo = VehiculoService.get_vehiculo_by_id(vehiculo_id)
+    if not vehiculo:
+        messages.error(request, 'El vehiculo no existe.')
         return redirect('vehiculos_lista')
+
+    if request.method == 'POST':
+        try:
+            VehiculoService.delete_vehiculo(vehiculo_id)
+            messages.success(request, 'Vehiculo eliminado correctamente.')
+            return redirect('vehiculos_lista')
+        except ValueError as exc:
+            messages.error(request, str(exc))
 
     return render(request, 'vehiculos/vehiculos_eliminar.html', {'vehiculo_id': vehiculo_id})
 

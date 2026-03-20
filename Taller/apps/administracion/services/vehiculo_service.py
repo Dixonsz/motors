@@ -1,5 +1,5 @@
 from ..models import Vehiculo, Modelo, Marca, Combustible, Cliente
-from django.core.exceptions import ObjectDoesNotExist
+from .utils import get_required_instance
 
 class VehiculoService:
 
@@ -11,7 +11,7 @@ class VehiculoService:
     def get_vehiculo_by_id(vehiculo_id):
         try:
             return Vehiculo.objects.get(id=vehiculo_id)
-        except ObjectDoesNotExist:
+        except Vehiculo.DoesNotExist:
             return None
         
     @staticmethod
@@ -20,11 +20,11 @@ class VehiculoService:
             raise ValueError("La Placa ya está registrada.")
         if Vehiculo.objects.filter(vin=vin).exists():
             raise ValueError("El VIN ya está registrado. ")
-        
-        cliente = Cliente.objects.get(id=cliente_id)
-        modelo = Modelo.objects.get(id=modelo_id)
-        marca = Marca.objects.get(id=marca_id)
-        combustible = Combustible.objects.get(id=combustible_id)
+
+        cliente = get_required_instance(Cliente, cliente_id, "El cliente no existe.")
+        modelo = get_required_instance(Modelo, modelo_id, "El modelo no existe.")
+        marca = get_required_instance(Marca, marca_id, "La marca no existe.")
+        combustible = get_required_instance(Combustible, combustible_id, "El combustible no existe.")
 
 
         vehiculo = Vehiculo(placa=placa,
@@ -57,16 +57,16 @@ class VehiculoService:
                 raise ValueError("El VIN ya está registrado.")
             vehiculo.vin = vin
         if cliente_id:
-            cliente = Cliente.objects.get(id=cliente_id)
+            cliente = get_required_instance(Cliente, cliente_id, "El cliente no existe.")
             vehiculo.cliente = cliente
         if modelo_id:
-            modelo = Modelo.objects.get(id=modelo_id)
+            modelo = get_required_instance(Modelo, modelo_id, "El modelo no existe.")
             vehiculo.modelo = modelo
         if marca_id:
-            marca = Marca.objects.get(id=marca_id)
+            marca = get_required_instance(Marca, marca_id, "La marca no existe.")
             vehiculo.marca = marca
         if combustible_id:
-            combustible = Combustible.objects.get(id=combustible_id)
+            combustible = get_required_instance(Combustible, combustible_id, "El combustible no existe.")
             vehiculo.combustible = combustible
         
         vehiculo.save()
