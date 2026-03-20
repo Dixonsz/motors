@@ -1,0 +1,569 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Taller{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-0: #111417;
+            --bg-1: #1c2228;
+            --bg-2: #232b33;
+            --panel: #f4f6f8;
+            --ink: #20252b;
+            --ink-soft: #5c6670;
+            --line: #cbd3db;
+            --accent: #ef9b20;
+            --accent-dark: #a5650f;
+            --ok: #2f7d32;
+            --danger: #b4282d;
+            --radius: 14px;
+            --shadow: 0 16px 35px rgba(8, 10, 12, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Barlow", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 12% 18%, rgba(239, 155, 32, 0.26), transparent 34%),
+                radial-gradient(circle at 92% 5%, rgba(255, 255, 255, 0.08), transparent 28%),
+                linear-gradient(160deg, var(--bg-0), var(--bg-1) 58%, var(--bg-2));
+            padding: 0;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 28px 28px;
+            opacity: 0.35;
+        }
+
+        .app-shell {
+            width: 100%;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 260px minmax(0, 1fr);
+            gap: 0;
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+        }
+
+        .content-shell {
+            min-width: 0;
+        }
+
+        header,
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            color: #f7f8fa;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0;
+            animation: slideDown 0.45s ease-out;
+            padding: 1.2rem 1.4rem;
+            background: linear-gradient(180deg, #20262d, #1a2026);
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: "Rajdhani", sans-serif;
+            letter-spacing: 0.3px;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: clamp(1.8rem, 3vw, 2.45rem);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: clamp(1.3rem, 2.1vw, 1.8rem);
+            margin-bottom: 0.55rem;
+        }
+
+        .sidebar {
+            background: linear-gradient(180deg, rgba(16, 20, 24, 0.95), rgba(27, 33, 40, 0.95));
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 0;
+            box-shadow: none;
+            padding: 1rem 0.85rem;
+            color: #f6f8fa;
+            min-height: 100vh;
+            position: sticky;
+            top: 0;
+        }
+
+        .sidebar h2 {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #f6f8fa;
+        }
+
+        .module-nav {
+            display: grid;
+            gap: 0.45rem;
+        }
+
+        .module-nav a {
+            display: block;
+            padding: 0.55rem 0.65rem;
+            border-radius: 8px;
+            color: #d9e1e8;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid transparent;
+            font-family: "Rajdhani", sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.35px;
+            box-shadow: none;
+        }
+
+        .module-nav a:hover {
+            color: #fff;
+            border-color: rgba(239, 155, 32, 0.55);
+            background: rgba(239, 155, 32, 0.16);
+            transform: none;
+        }
+
+        .module-nav a.active {
+            color: #2f2413;
+            border-color: rgba(239, 155, 32, 0.6);
+            background: linear-gradient(180deg, #ffd48d, #ef9b20);
+        }
+
+        main {
+            background: linear-gradient(160deg, #ffffff, #f1f4f7);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 0;
+            box-shadow: none;
+            padding: clamp(1rem, 2.2vw, 1.8rem);
+            animation: fadeUp 0.55s ease-out;
+            min-height: calc(100vh - 88px);
+        }
+
+        section {
+            margin-bottom: 1.15rem;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+        }
+
+        a {
+            color: var(--accent-dark);
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: #7b4b0a;
+        }
+
+        nav a,
+        button,
+        input[type="submit"] {
+            border: 1px solid rgba(239, 155, 32, 0.45);
+            background: linear-gradient(180deg, #ffd48d, #ef9b20);
+            color: #2f2413;
+            padding: 0.58rem 0.88rem;
+            border-radius: 10px;
+            font-family: "Rajdhani", sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            box-shadow: 0 7px 18px rgba(239, 155, 32, 0.28);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+
+        nav a:hover,
+        button:hover,
+        input[type="submit"]:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 18px rgba(239, 155, 32, 0.34);
+        }
+
+        form {
+            display: grid;
+            gap: 0.85rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 0.62rem 0.75rem;
+            font: inherit;
+            background: #fff;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(239, 155, 32, 0.2);
+        }
+
+        fieldset {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 0.9rem;
+            background: rgba(255, 255, 255, 0.86);
+        }
+
+        legend {
+            font-family: "Rajdhani", sans-serif;
+            font-weight: 700;
+            padding: 0 0.35rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid var(--line);
+        }
+
+        caption {
+            text-align: left;
+            padding: 0.65rem 0;
+            color: var(--ink-soft);
+            font-weight: 600;
+        }
+
+        thead {
+            background: linear-gradient(180deg, #2a3139, #20262d);
+            color: #f9fafb;
+        }
+
+        th,
+        td {
+            padding: 0.65rem 0.75rem;
+            border-bottom: 1px solid #e6ebf0;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background-color: #faf5ea;
+        }
+
+        .action-links {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .action-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.28rem 0.48rem;
+            border: 1px solid #d4dce4;
+            border-radius: 8px;
+            background: #f8fafc;
+            color: #25303a;
+            font-weight: 600;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .action-link:hover {
+            background: #fff5df;
+            border-color: #efc06a;
+            color: #1d232a;
+        }
+
+        .action-link svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex: 0 0 auto;
+        }
+
+        .action-link.delete {
+            border-color: #e7c4c5;
+            color: #8c1e22;
+            background: #fff7f7;
+        }
+
+        .action-link.delete:hover {
+            border-color: #d9686c;
+            background: #ffe9ea;
+            color: #6e1619;
+        }
+
+        .fuel-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 190px;
+        }
+
+        .fuel-gauge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            min-width: 190px;
+        }
+
+        .fuel-mark {
+            font-family: "Rajdhani", sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #55616d;
+            letter-spacing: 0.3px;
+        }
+
+        .fuel-tank {
+            position: relative;
+            width: 96px;
+            height: 18px;
+            border-radius: 10px;
+            border: 1px solid #bcc7d2;
+            background: linear-gradient(180deg, #eef2f6, #dfe6ed);
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(14, 20, 28, 0.16);
+        }
+
+        .fuel-tank::after {
+            content: "";
+            position: absolute;
+            right: -5px;
+            top: 4px;
+            width: 4px;
+            height: 8px;
+            border-radius: 0 2px 2px 0;
+            border: 1px solid #bcc7d2;
+            border-left: none;
+            background: #d3dce5;
+        }
+
+        .fuel-tank::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: repeating-linear-gradient(90deg, transparent 0 10px, rgba(255, 255, 255, 0.18) 10px 12px);
+            pointer-events: none;
+        }
+
+        .fuel-fill {
+            display: block;
+            height: 100%;
+            width: 1%;
+            background: linear-gradient(90deg, #e85a5d, #f2b740, #3ca55b);
+            transition: width 0.2s ease;
+        }
+
+        .fuel-gauge.low .fuel-fill {
+            background: linear-gradient(90deg, #d63f43, #ef6a6d);
+        }
+
+        .fuel-gauge.medium .fuel-fill {
+            background: linear-gradient(90deg, #d9891e, #f2b740);
+        }
+
+        .fuel-gauge.high .fuel-fill {
+            background: linear-gradient(90deg, #2f9448, #43ba62);
+        }
+
+        .fuel-value {
+            font-weight: 700;
+            color: #2a333c;
+            min-width: 46px;
+            text-align: right;
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 1.15rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        article {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 0.8rem;
+            background: #fff;
+            margin-bottom: 0.7rem;
+        }
+
+        img,
+        video {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            margin: 0.45rem 0;
+        }
+
+        section[aria-label="Mensajes del sistema"] ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0 0 1rem;
+        }
+
+        section[aria-label="Mensajes del sistema"] li {
+            border-left: 4px solid var(--ok);
+            background: #edf7ee;
+            padding: 0.58rem 0.7rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 780px) {
+            body {
+                padding: 0;
+            }
+
+            .app-shell {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .sidebar {
+                position: static;
+                min-height: auto;
+            }
+
+            .module-nav {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            nav {
+                width: 100%;
+            }
+
+            nav a {
+                flex: 1 1 auto;
+                text-align: center;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" aria-label="Navegacion principal">
+            <h2>Modulos</h2>
+            <nav class="module-nav" aria-label="Menu de modulos">
+                <a href="{% url 'roles_lista' %}" class="{% if request.path|slice:':7' == '/roles/' %}active{% endif %}">Roles</a>
+                <a href="{% url 'usuarios_lista' %}" class="{% if request.path|slice:':10' == '/usuarios/' %}active{% endif %}">Usuarios</a>
+                <a href="{% url 'clientes_lista' %}" class="{% if request.path|slice:':10' == '/clientes/' %}active{% endif %}">Clientes</a>
+                <a href="{% url 'marcas_lista' %}" class="{% if request.path|slice:':8' == '/marcas/' %}active{% endif %}">Marcas</a>
+                <a href="{% url 'modelos_lista' %}" class="{% if request.path|slice:':9' == '/modelos/' %}active{% endif %}">Modelos</a>
+                <a href="{% url 'combustibles_lista' %}" class="{% if request.path|slice:':13' == '/combustibles/' %}active{% endif %}">Combustibles</a>
+                <a href="{% url 'vehiculos_lista' %}" class="{% if request.path|slice:':10' == '/vehiculos/' %}active{% endif %}">Vehiculos</a>
+                <a href="{% url 'categorias_lista' %}" class="{% if request.path|slice:':11' == '/categorias/' %}active{% endif %}">Categorías</a>
+                <a href="{% url 'servicios_lista' %}" class="{% if request.path|slice:':10' == '/servicios/' %}active{% endif %}">Servicios</a>
+                <a href="{% url 'recepcion_lista' %}" class="{% if request.path|slice:':12' == '/recepciones/' %}active{% endif %}">Recepciones</a>
+                <a href="{% url 'ordenes_lista' %}" class="{% if request.path|slice:':9' == '/ordenes/' %}active{% endif %}">Ordenes</a>
+                <a href="{% url 'estados_lista' %}" class="{% if request.path|slice:':9' == '/estados/' %}active{% endif %}">Estados</a>
+                <a href="{% url 'agenda_horarios_lista' %}" class="{% if request.path|slice:':18' == '/agenda-horarios/' %}active{% endif %}">Horarios</a>
+            </nav>
+        </aside>
+
+        <div class="content-shell">
+            <header>
+                <h1>{% block page_title %}Taller{% endblock %}</h1>
+                {% block page_actions %}{% endblock %}
+            </header>
+
+            <main>
+                {% if messages %}
+                    <section aria-label="Mensajes del sistema">
+                        <ul>
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </section>
+                {% endif %}
+
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+</body>
+</html>

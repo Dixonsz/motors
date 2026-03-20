@@ -1,0 +1,23 @@
+{
+  "name": "reusable-templates-project",
+  "version": "1.0.0",
+  "description": "A project for reusable HTML templates organized by modules.",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [
+    "templates",
+    "html",
+    "reusable",
+    "modules"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^4.0.0"
+  }
+}

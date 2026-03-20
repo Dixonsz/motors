@@ -1,0 +1,20 @@
+﻿{% extends 'base.html' %}
+{% block title %}Eliminando Modelo...{% endblock %}
+{% block page_title %}Eliminando Modelo...{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de modelos">
+    <a href="{% url 'modelos_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Eliminar modelo</h1>
+    <p>Â¿EstÃ¡s seguro de que deseas eliminar el modelo con ID {{ modelo_id }}?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">SÃ­, eliminar</button>
+                <a href="{% url 'modelos_lista' %}">No, volver a la lista</a>
+
+    </form>
+{% endblock %}

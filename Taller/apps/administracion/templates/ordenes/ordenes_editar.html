@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+{% block title %}{% if orden %}Gestionar Orden de Trabajo{% else %}Crear Orden de Trabajo{% endif %}{% endblock %}
+{% block page_title %}{% if orden %}Gestionar Orden de Trabajo{% else %}Crear Orden de Trabajo{% endif %}{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de ordenes">
+  <a href="{% url 'ordenes_lista' %}">Volver al listado</a>
+  {% if orden %}
+    <a href="{% url 'ordenes_crear' %}">Nueva orden</a>
+  {% endif %}
+</nav>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="orden-editar-title">
+  <h2 id="orden-editar-title">{% if orden %}Datos generales de la orden{% else %}Datos para nueva orden{% endif %}</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="guardar_orden">
+
+    <div>
+      <label for="recepcion_id">Recepcion</label>
+      <select id="recepcion_id" name="recepcion_id" required>
+        {% if recepciones %}
+          <option value="">Seleccione una recepcion</option>
+          {% for recepcion in recepciones %}
+            <option value="{{ recepcion.id }}" {% if orden and orden.recepcion.id == recepcion.id %}selected{% endif %}>
+              {{ recepcion }}
+            </option>
+          {% endfor %}
+        {% else %}
+          <option value="">No hay recepciones disponibles</option>
+        {% endif %}
+      </select>
+    </div>
+
+    <div>
+      <label for="usuario_id">Usuario</label>
+      <select id="usuario_id" name="usuario_id" required>
+        <option value="">Seleccione un usuario</option>
+        {% for usuario in usuarios %}
+          <option value="{{ usuario.id }}" {% if orden.usuario.id == usuario.id %}selected{% endif %}>
+            {{ usuario.nombre }} {{ usuario.apellido }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label for="diagnostico">Diagnostico</label>
+      <textarea id="diagnostico" name="diagnostico" rows="4">{{ orden.diagnostico }}</textarea>
+    </div>
+
+    <div>
+        <label for="estado_id">Estado</label>
+        <select name="estado_id" id="estado_id" required>
+          {% if estados %}
+            <option value="">Seleccione un estado</option>
+            {% for estado in estados %}
+              <option value="{{ estado.id }}" {% if orden and orden.estado_id == estado.id %}selected{% endif %}>{{ estado.nombre }}</option>
+            {% endfor %}
+          {% else %}
+            <option value="">No hay estados disponibles</option>
+          {% endif %}
+        </select>
+    </div>
+
+    <button type="submit">{% if orden %}Actualizar orden{% else %}Crear orden{% endif %}</button>
+  </form>
+</section>
+
+<section aria-labelledby="orden-servicios-title">
+  <h2 id="orden-servicios-title">Servicios de la orden</h2>
+
+  {% if not orden %}
+    <p>Guarda primero la orden para habilitar el detalle de servicios en esta misma vista.</p>
+  {% else %}
+
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="agregar_detalle">
+
+    <div>
+      <label for="servicio_id">Servicio</label>
+      <select id="servicio_id" name="servicio_id" required>
+        <option value="">Seleccione un servicio</option>
+        {% for servicio in servicios %}
+          <option value="{{ servicio.id }}">{{ servicio.nombre }} (Base: {{ servicio.precio_base }})</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label for="cantidad">Cantidad</label>
+      <input type="number" id="cantidad" name="cantidad" min="1" value="1" required>
+    </div>
+
+    <div>
+      <label for="precio">Precio unitario (opcional)</label>
+      <input type="number" id="precio" name="precio" min="0" step="0.01" placeholder="Si se deja vacio toma precio base">
+    </div>
+
+    <div>
+      <label for="observaciones">Observaciones</label>
+      <textarea id="observaciones" name="observaciones" rows="2"></textarea>
+    </div>
+
+    <button type="submit">Agregar servicio</button>
+  </form>
+
+    {% if detalle_items %}
+    <table>
+      <caption>Detalle de servicios</caption>
+      <thead>
+        <tr>
+          <th scope="col">Servicio</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Precio unitario</th>
+          <th scope="col">Subtotal</th>
+          <th scope="col">Observaciones</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in detalle_items %}
+          <tr>
+            <td>{{ item.detalle.servicio.nombre }}</td>
+            <td>
+              <input
+                form="detalle-update-{{ item.detalle.id }}"
+                type="number"
+                name="cantidad"
+                min="1"
+                value="{{ item.detalle.cantidad }}"
+                required>
+            </td>
+            <td>
+              <input
+                form="detalle-update-{{ item.detalle.id }}"
+                type="number"
+                name="precio"
+                min="0"
+                step="0.01"
+                value="{{ item.detalle.precio }}"
+                required>
+            </td>
+            <td>{{ item.subtotal|floatformat:2 }}</td>
+            <td>
+              <textarea form="detalle-update-{{ item.detalle.id }}" name="observaciones" rows="2">{{ item.detalle.observaciones }}</textarea>
+            </td>
+            <td>
+              <form id="detalle-update-{{ item.detalle.id }}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="actualizar_detalle">
+                <input type="hidden" name="detalle_id" value="{{ item.detalle.id }}">
+                <button type="submit">Actualizar</button>
+              </form>
+              <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="eliminar_detalle">
+                <input type="hidden" name="detalle_id" value="{{ item.detalle.id }}">
+                <button type="submit">Eliminar</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <p><strong>Total de la orden:</strong> {{ total_orden|floatformat:2 }}</p>
+    {% else %}
+    <p>Esta orden no tiene servicios asociados.</p>
+    {% endif %}
+  {% endif %}
+</section>
+{% endblock %}

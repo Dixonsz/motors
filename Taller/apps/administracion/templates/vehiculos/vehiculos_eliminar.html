@@ -1,0 +1,19 @@
+﻿{% extends 'base.html' %}
+{% block title %}Vehiculos{% endblock %}
+{% block page_title %}Vehiculos{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de vehiculos">
+    <a href="{% url 'vehiculos_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Eliminar Vehiculo</h1>
+    <p>Â¿EstÃ¡ seguro de que desea eliminar el vehiculo "{{ vehiculo.placa }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">SÃ­, eliminar</button>
+        <a href="{% url 'vehiculos_lista' %}">Cancelar</a>
+    </form>
+{% endblock %}

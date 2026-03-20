@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Editar Estado{% endblock %}
+{% block page_title %}Editar Estado{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de estados">
+    <a href="{% url 'estados_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Editar Estado</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="text" name="nombre" value="{{ estado.nombre }}" required placeholder="Nombre del Estado">
+        <input type="text" name="descripcion" value="{{ estado.descripcion }}" placeholder="Descripción del Estado">
+        <label> 
+            <input type="checkbox" name="is_active" {% if estado.is_active %}checked{% endif %}> Activo
+        </label>
+        <br>
+        <button type="submit">Guardar</button>
+    </form>
+{% endblock %}

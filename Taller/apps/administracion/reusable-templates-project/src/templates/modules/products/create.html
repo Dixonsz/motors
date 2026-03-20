@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% include '../../base/head.html' %}
+    <title>Crear Producto</title>
+</head>
+<body>
+    {% include '../../base/layout.html' %}
+    
+    <main>
+        <h1>Crear Nuevo Producto</h1>
+        {% include '../../components/form/form.html' %}
+            <form action="/products/create" method="POST">
+                {% include '../../components/form/field.html' %}
+                    <label for="productName">Nombre del Producto</label>
+                    {% include '../../components/form/input.html' %}
+                        <input type="text" id="productName" name="productName" required>
+                    {% endinclude %}
+                {% endinclude %}
+                
+                {% include '../../components/form/field.html' %}
+                    <label for="productDescription">Descripción</label>
+                    {% include '../../components/form/textarea.html' %}
+                        <textarea id="productDescription" name="productDescription" required></textarea>
+                    {% endinclude %}
+                {% endinclude %}
+                
+                {% include '../../components/form/field.html' %}
+                    <label for="productCategory">Categoría</label>
+                    {% include '../../components/form/select.html' %}
+                        <select id="productCategory" name="productCategory" required>
+                            <option value="">Seleccione una categoría</option>
+                            <option value="electronics">Electrónica</option>
+                            <option value="clothing">Ropa</option>
+                            <option value="accessories">Accesorios</option>
+                        </select>
+                    {% endinclude %}
+                {% endinclude %}
+                
+                {% include '../../components/form/button.html' %}
+                    <button type="submit">Crear Producto</button>
+                {% endinclude %}
+            </form>
+    </main>
+
+    {% include '../../base/scripts.html' %}
+</body>
+</html>

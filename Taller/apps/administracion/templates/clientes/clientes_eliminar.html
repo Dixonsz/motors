@@ -1,0 +1,23 @@
+﻿{% extends 'base.html' %}
+{% block title %}Eliminar cliente | Taller{% endblock %}
+{% block page_title %}Eliminar cliente | Taller{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de clientes">
+    <a href="{% url 'clientes_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="confirmar-eliminacion-title">
+    <h2 id="confirmar-eliminacion-title">Confirmacion de eliminacion</h2>
+    <p>Esta accion eliminara el cliente seleccionado y no se puede deshacer.</p>
+    <p>Cliente a eliminar:  {{ cliente.nombre }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Si, eliminar cliente</button>
+        <a href="{% url 'clientes_lista' %}">Cancelar</a>
+    </form>
+</section>
+{% endblock %}

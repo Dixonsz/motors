@@ -1,0 +1,24 @@
+﻿{% extends 'base.html' %}
+{% block title %}Tipos de Combustibles{% endblock %}
+{% block page_title %}Tipos de Combustibles{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Acciones de combustibles">
+    <a href="{% url 'combustibles_crear' %}">Nuevo combustible</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<p>Define los tipos de combustible para clasificar correctamente los vehiculos.</p>
+    <hr>
+
+    {% if combustibles %}
+    <ul>
+        {% for combustible in combustibles %}
+        <li>{{combustible.nombre}} <a href="{% url 'combustibles_editar' combustible.id%}"> Editar</a> <a href="{% url 'combustibles_eliminar' combustible.id %}">Eliminar</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="empty-message" style="text-align: center;">No hay combustibles registrados.</p>
+    {% endif %}
+{% endblock %}

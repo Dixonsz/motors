@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Modal</title>
+    <link rel="stylesheet" href="../../styles/base.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+</head>
+<body>
+    <div class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Título del Formulario</h2>
+            <form action="#" method="POST">
+                <div class="form-field">
+                    <label for="input1">Etiqueta del Campo 1</label>
+                    <input type="text" id="input1" name="input1" required>
+                </div>
+                <div class="form-field">
+                    <label for="input2">Etiqueta del Campo 2</label>
+                    <input type="text" id="input2" name="input2" required>
+                </div>
+                <div class="form-field">
+                    <button type="submit">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="../../scripts/modal.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% include 'base/head.html' %}
+    <title>Configuración</title>
+</head>
+<body>
+    {% include 'base/layout.html' %}
+    
+    <main>
+        <h1>Configuración</h1>
+        <section>
+            <h2>Opciones de Configuración</h2>
+            <form action="/settings" method="post">
+                {% include 'components/form/form.html' %}
+                {% include 'components/form/field.html' %}
+                {% include 'components/form/input.html' %}
+                {% include 'components/form/select.html' %}
+                {% include 'components/form/textarea.html' %}
+                {% include 'components/form/button.html' %}
+            </form>
+        </section>
+    </main>
+
+    {% include 'base/scripts.html' %}
+</body>
+</html>

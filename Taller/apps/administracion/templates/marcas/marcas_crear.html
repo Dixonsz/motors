@@ -1,0 +1,19 @@
+﻿{% extends 'base.html' %}
+{% block title %}Crear Marca{% endblock %}
+{% block page_title %}Crear Marca{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de marcas">
+    <a href="{% url 'marcas_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Crear Nueva Marca</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+        <button type="submit">Guardar</button>
+    </form>
+{% endblock %}

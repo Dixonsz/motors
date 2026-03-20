@@ -1,0 +1,19 @@
+﻿{% extends 'base.html' %}
+{% block title %}Eliminar Usuario{% endblock %}
+{% block page_title %}Eliminar Usuario{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de usuarios">
+    <a href="{% url 'usuarios_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Eliminar Usuario</h1>
+    <p>Â¿EstÃ¡ seguro de que desea eliminar al usuario "{{ usuario.nombre }} {{ usuario.apellido }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">SÃ­, eliminar</button>
+        <a href="{% url 'usuarios_lista' %}">Cancelar</a>
+    </form>
+{% endblock %}

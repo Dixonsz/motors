@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar evidencia{% endblock %}
+{% block page_title %}Eliminar evidencia{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de evidencias">
+	<a href="{% url 'evidencia_lista' evidencia.recepcion.id %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="evidencia-eliminar-title">
+	<h2 id="evidencia-eliminar-title">Confirmacion de eliminacion</h2>
+	<p>Esta accion eliminara la evidencia seleccionada.</p>
+	<p>Evidencia ID: {{ evidencia.id }}</p>
+
+	<form method="post">
+		{% csrf_token %}
+		<button type="submit">Si, eliminar evidencia</button>
+		<a href="{% url 'evidencia_lista' evidencia.recepcion.id %}">Cancelar</a>
+	</form>
+</section>
+{% endblock %}

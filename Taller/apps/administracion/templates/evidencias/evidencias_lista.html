@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Evidencias{% endblock %}
+{% block page_title %}Evidencias de recepcion #{{ recepcion.id }}{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Acciones de evidencia">
+	<a href="{% url 'evidencia_create' recepcion.id %}">Agregar evidencia</a>
+	<a href="{% url 'recepcion_lista' %}">Volver a recepciones</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="evidencias-lista-title">
+	<h2 id="evidencias-lista-title">Listado de evidencias</h2>
+	<p>Revisa las evidencias asociadas a esta recepcion y gestiona su contenido.</p>
+	<hr>
+
+	{% if evidencias %}
+		<div>
+			{% for evidencia in evidencias %}
+				<article>
+					<p><strong>Tipo:</strong> {{ evidencia.tipo }}</p>
+
+					{% if evidencia.tipo == "foto" %}
+						<img src="{{ evidencia.url_archivo.url }}" width="220" alt="Evidencia fotografica">
+					{% else %}
+						<video width="320" controls>
+							<source src="{{ evidencia.url_archivo.url }}">
+						</video>
+					{% endif %}
+
+					<p>{{ evidencia.descripcion }}</p>
+
+					<a href="{% url 'evidencia_editar' evidencia.id %}">Editar</a>
+					<a href="{% url 'evidencia_eliminar' evidencia.id %}">Eliminar</a>
+				</article>
+			{% endfor %}
+		</div>
+	{% else %}
+		<p class="empty-message" style="text-align: center;">No hay evidencias registradas para esta recepcion.</p>
+	{% endif %}
+</section>
+{% endblock %}

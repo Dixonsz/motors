@@ -1,0 +1,23 @@
+﻿{% extends 'base.html' %}
+{% block title %}Marcas de vehiculos{% endblock %}
+{% block page_title %}Marcas de vehiculos{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Acciones de marcas">
+    <a href="{% url 'marcas_crear' %}">Nueva marca</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<p>Gestiona las marcas de vehiculos para mantener un catalogo ordenado.</p>
+    <hr>
+    {% if marcas %}
+    <ul>
+        {% for marca in marcas %}
+            <li>{{ marca.nombre }} - <a href="{% url 'marcas_editar' marca.id %}">Editar</a> - <a href="{% url 'marcas_eliminar' marca.id %}">Eliminar</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="empty-message" style="text-align: center;">No hay marcas registradas.</p>
+    {% endif %}
+{% endblock %}

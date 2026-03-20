@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar Orden de Trabajo{% endblock %}
+{% block page_title %}Eliminar Orden de Trabajo{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de ordenes">
+    <a href="{% url 'ordenes_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="orden-eliminar-title">
+    <h2 id="orden-eliminar-title">Confirmacion de eliminacion</h2>
+    <p>Esta accion eliminara la orden con el ID "{{ orden.id }}".</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Si, eliminar</button>
+        <a href="{% url 'ordenes_lista' %}">Cancelar</a>
+    </form>
+</section>
+{% endblock %}

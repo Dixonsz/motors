@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}Crear Orden de Trabajo{% endblock %}
+{% block page_title %}Crear Orden de Trabajo{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de ordenes">
+	<a href="{% url 'ordenes_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="orden-crear-title">
+	<h2 id="orden-crear-title">Nueva orden</h2>
+
+	<form method="post">
+		{% csrf_token %}
+
+		<div>
+			<label for="recepcion_id">Recepcion</label>
+			<select id="recepcion_id" name="recepcion_id" required>
+				<option value="">Seleccione una recepcion</option>
+				{% for recepcion in recepciones %}
+					<option value="{{ recepcion.id }}">{{ recepcion }}</option>
+				{% endfor %}
+			</select>
+		</div>
+
+		<div>
+			<label for="usuario_id">Usuario</label>
+			<select id="usuario_id" name="usuario_id" required>
+				<option value="">Seleccione un usuario</option>
+				{% for usuario in usuarios %}
+					<option value="{{ usuario.id }}">{{ usuario.nombre }} {{ usuario.apellido }}</option>
+				{% endfor %}
+			</select>
+		</div>
+
+		<div>
+			<label for="diagnostico">Diagnostico</label>
+			<textarea id="diagnostico" name="diagnostico" rows="4" placeholder="Describe el diagnostico inicial"></textarea>
+		</div>
+
+		<div>
+			<label for="estado_id">Estado</label>
+			<select id="estado_id" name="estado_id" required>
+				{% if estados %}
+					<option value="">Seleccione un estado</option>
+					{% for estado in estados %}
+						<option value="{{ estado.id }}" {% if estado.nombre == 'Pendiente' %}selected{% endif %}>{{ estado.nombre }}</option>
+					{% endfor %}
+				{% else %}
+					<option value="">No hay estados disponibles</option>
+				{% endif %}
+			</select>
+		</div>
+
+		<button type="submit">Guardar</button>
+	</form>
+</section>
+{% endblock %}

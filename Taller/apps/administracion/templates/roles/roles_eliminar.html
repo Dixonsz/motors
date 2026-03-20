@@ -1,0 +1,19 @@
+﻿{% extends 'base.html' %}
+{% block title %}Eliminando Rol{% endblock %}
+{% block page_title %}Eliminando Rol{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de roles">
+    <a href="{% url 'roles_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Eliminando Rol</h1>
+    <p>¿Estás seguro de que deseas eliminar el rol con ID {{ rol_id }}?</p>
+    <form action="" method="post">
+        {% csrf_token %}
+        <button type="submit">Sí, eliminar</button>
+        <a href="{% url 'roles_lista' %}">No, volver a la lista</a>
+    </form>
+{% endblock %}

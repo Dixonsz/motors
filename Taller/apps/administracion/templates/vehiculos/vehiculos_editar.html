@@ -1,0 +1,61 @@
+﻿{% extends 'base.html' %}
+{% block title %}Vehiculos{% endblock %}
+{% block page_title %}Vehiculos{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de vehiculos">
+    <a href="{% url 'vehiculos_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Editar Vehiculo</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="cliente_id">Cliente:</label>
+        <select id="cliente_id" name="cliente_id" required>
+            <option value="">Seleccione un cliente</option>
+            {% for cliente in clientes %}
+                <option value="{{ cliente.id }}" {% if vehiculo.cliente_id == cliente.id %}selected{% endif %}>{{ cliente.nombre }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="placa">Placa:</label>
+        <input type="text" id="placa" name="placa" value="{{ vehiculo.placa }}" required>
+        <br>
+        <label for="anio">Año:</label>
+        <input type="text" id="anio" name="anio" value="{{ vehiculo.anio }}" required>
+        <br>
+        <label for="color">Color:</label>
+        <input type="text" id="color" name="color" value="{{ vehiculo.color }}" required>
+        <br>
+        <label for="vin">VIN:</label>
+        <input type="text" id="vin" name="vin" value="{{ vehiculo.vin }}" required>
+        <br>
+        <label for="modelo_id">Modelo:</label>
+        <select id="modelo_id" name="modelo_id" required>
+            <option value="">Seleccione el modelo</option>
+            {% for modelo in modelos %}
+                <option value="{{ modelo.id }}" {% if vehiculo.modelo_id == modelo.id %}selected{% endif %}>{{ modelo.nombre }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="marca_id">Marca:</label>
+        <select id="marca_id" name="marca_id" required>
+            <option value="">Seleccione la marca</option>
+            {% for marca in marcas %}
+                <option value="{{ marca.id }}" {% if vehiculo.marca_id == marca.id %}selected{% endif %}>{{ marca.nombre }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="combustible_id">Combustible:</label>
+        <select id="combustible_id" name="combustible_id" required>
+            <option value="">Seleccione el tipo de combustible</option>
+            {% for combustible in combustibles %}
+                <option value="{{ combustible.id }}" {% if vehiculo.combustible_id == combustible.id %}selected{% endif %}>{{ combustible.nombre }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <button type="submit">Guardar</button>
+    </form>
+{% endblock %}

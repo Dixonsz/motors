@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% include 'base/head.html' %}
+</head>
+<body>
+    <header>
+        <h1>Mi Aplicación</h1>
+        <!-- Aquí puedes agregar un menú de navegación si es necesario -->
+    </header>
+    
+    <main>
+        {% block content %}
+        <!-- El contenido específico de cada página se insertará aquí -->
+        {% endblock %}
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 Mi Aplicación. Todos los derechos reservados.</p>
+    </footer>
+    
+    {% include 'base/scripts.html' %}
+</body>
+</html>

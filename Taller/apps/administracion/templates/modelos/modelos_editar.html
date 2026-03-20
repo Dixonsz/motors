@@ -1,0 +1,18 @@
+﻿{% extends 'base.html' %}
+{% block title %}Editar Modelo{% endblock %}
+{% block page_title %}Editar Modelo{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de modelos">
+    <a href="{% url 'modelos_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Editar Modelo</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="nombre" value="{{modelo.nombre}}" required>
+        <button type="submit">Guardar</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% include '../../base/head.html' %}
+    <title>Lista de Usuarios</title>
+</head>
+<body>
+    {% include '../../base/layout.html' %}
+    
+    <div class="container">
+        <h1>Lista de Usuarios</h1>
+        {% include '../../components/table/table.html' %}
+        <table>
+            {% include '../../components/table/thead.html' %}
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <a href="/users/edit/{{ user.id }}">Editar</a>
+                        <a href="/users/delete/{{ user.id }}">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% include '../../base/scripts.html' %}
+</body>
+</html>

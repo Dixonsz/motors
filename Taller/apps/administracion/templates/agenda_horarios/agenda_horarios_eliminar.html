@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar horario de agenda{% endblock %}
+{% block page_title %}Eliminar horario de agenda{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Acciones de agenda horarios">
+	<a href="{% url 'agenda_horarios_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="agenda-horario-eliminar-title">
+	<h2 id="agenda-horario-eliminar-title">Eliminar bloque horario</h2>
+
+	<p>
+		Estas seguro de eliminar el bloque de
+		{% if agenda_horario.dia_semana %}
+			{{ agenda_horario.get_dia_semana_display }}
+		{% else %}
+			{{ agenda_horario.fecha|date:'Y-m-d' }}
+		{% endif %}
+		de {{ agenda_horario.hora_inicio|time:'H:i' }} a {{ agenda_horario.hora_fin|time:'H:i' }}?
+	</p>
+
+	<form method="post">
+		{% csrf_token %}
+		<button type="submit">Si, eliminar</button>
+		<a href="{% url 'agenda_horarios_lista' %}">Cancelar</a>
+	</form>
+</section>
+{% endblock %}

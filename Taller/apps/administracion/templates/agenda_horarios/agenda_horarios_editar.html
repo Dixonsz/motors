@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block title %}Editar horario de agenda{% endblock %}
+{% block page_title %}Editar horario de agenda{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Acciones de agenda horarios">
+	<a href="{% url 'agenda_horarios_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="agenda-horario-editar-title">
+	<h2 id="agenda-horario-editar-title">Editar bloque horario</h2>
+	<p>
+		Mantén solo uno entre fecha o dia de semana.
+	</p>
+
+	<form method="post">
+		{% csrf_token %}
+
+		<div>
+			<label for="tipo_bloque">Tipo de bloque</label>
+			<select id="tipo_bloque" name="tipo_bloque" required>
+				{% for value, label in tipos_bloque_choices %}
+					<option value="{{ value }}" {% if agenda_horario.tipo_bloque == value %}selected{% endif %}>{{ label }}</option>
+				{% endfor %}
+			</select>
+			<small>Disponible abre cupos; Bloqueado reserva o cierra ese dia o franja.</small>
+		</div>
+
+		<fieldset>
+			<legend>Configuracion de bloqueo</legend>
+			<label for="bloquear_todo_dia">
+				<input type="checkbox" id="bloquear_todo_dia" name="bloquear_todo_dia" {% if bloqueo_todo_dia %}checked{% endif %}>
+				Bloquear todo el dia (00:00 a 23:59)
+			</label>
+			<small>Si activas esta opcion y el tipo es Bloqueado, las horas se completan automaticamente.</small>
+		</fieldset>
+
+		<div>
+			<label for="dia_semana">Dia de la semana (opcional)</label>
+			<select id="dia_semana" name="dia_semana">
+				<option value="">Seleccione un dia</option>
+				{% for value, label in dias_semana_choices %}
+					<option value="{{ value }}" {% if agenda_horario.dia_semana == value %}selected{% endif %}>{{ label }}</option>
+				{% endfor %}
+			</select>
+		</div>
+
+		<div>
+			<label for="fecha">Fecha especifica (solo si no eliges dia de semana)</label>
+			<input type="date" id="fecha" name="fecha" value="{{ agenda_horario.fecha|date:'Y-m-d' }}">
+			<small>Deja vacio este campo si deseas manejarlo como bloque semanal.</small>
+		</div>
+
+		<div>
+			<label for="hora_inicio">Hora de inicio</label>
+			<input type="time" id="hora_inicio" name="hora_inicio" value="{{ agenda_horario.hora_inicio|time:'H:i' }}" required>
+		</div>
+
+		<div>
+			<label for="hora_fin">Hora de fin</label>
+			<input type="time" id="hora_fin" name="hora_fin" value="{{ agenda_horario.hora_fin|time:'H:i' }}" required>
+		</div>
+
+		<div>
+			<label for="is_active">Activo</label>
+			<input type="checkbox" id="is_active" name="is_active" {% if agenda_horario.is_active %}checked{% endif %}>
+		</div>
+
+		<button type="submit">Guardar cambios</button>
+	</form>
+</section>
+
+<script>
+	(function () {
+		const tipoBloque = document.getElementById('tipo_bloque');
+		const bloquearTodoDia = document.getElementById('bloquear_todo_dia');
+		const horaInicio = document.getElementById('hora_inicio');
+		const horaFin = document.getElementById('hora_fin');
+
+		if (!tipoBloque || !bloquearTodoDia || !horaInicio || !horaFin) return;
+
+		const syncBloqueo = () => {
+			const esBloqueado = tipoBloque.value === 'bloqueado';
+			const esTodoDia = bloquearTodoDia.checked;
+
+			if (esBloqueado && esTodoDia) {
+				horaInicio.value = '00:00';
+				horaFin.value = '23:59';
+				horaInicio.readOnly = true;
+				horaFin.readOnly = true;
+			} else {
+				horaInicio.readOnly = false;
+				horaFin.readOnly = false;
+			}
+		};
+
+		tipoBloque.addEventListener('change', syncBloqueo);
+		bloquearTodoDia.addEventListener('change', syncBloqueo);
+		syncBloqueo();
+	})();
+</script>
+{% endblock %}

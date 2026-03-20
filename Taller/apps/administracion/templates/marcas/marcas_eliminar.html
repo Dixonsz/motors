@@ -1,0 +1,19 @@
+﻿{% extends 'base.html' %}
+{% block title %}Eliminar Marca{% endblock %}
+{% block page_title %}Eliminar Marca{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de marcas">
+    <a href="{% url 'marcas_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Eliminar Marca</h1>
+    <p>Â¿EstÃ¡s seguro de que quieres eliminar la marca "{{ marca.nombre }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">SÃ­, eliminar</button>
+        <a href="{% url 'marcas_lista' %}">Cancelar</a>
+    </form>
+{% endblock %}

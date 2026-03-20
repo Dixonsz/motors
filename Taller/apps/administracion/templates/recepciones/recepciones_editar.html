@@ -1,0 +1,126 @@
+﻿{% extends 'base.html' %}
+{% block title %}Editar Recepcion{% endblock %}
+{% block page_title %}Editar Recepcion{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de recepciones">
+  <a href="{% url 'recepcion_lista' %}">Volver al listado</a>
+  <a href="{% url 'evidencia_create' recepcion.id %}">Agregar evidencia</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="recepcion-editar-title">
+  <h2 id="recepcion-editar-title">Actualizar recepcion</h2>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <div>
+      <label for="vehiculo_id">Vehiculo</label>
+      <select id="vehiculo_id" name="vehiculo_id" required>
+        <option value="">Seleccione la placa del vehiculo</option>
+        {% for vehiculo in vehiculos %}
+          <option value="{{ vehiculo.id }}" {% if recepcion.vehiculo.id == vehiculo.id %}selected{% endif %}>
+            {{ vehiculo.placa }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label for="usuario_id">Usuario</label>
+      <select id="usuario_id" name="usuario_id" required>
+        <option value="">Seleccione un usuario</option>
+        {% for usuario in usuarios %}
+          <option value="{{ usuario.id }}" {% if recepcion.usuario.id == usuario.id %}selected{% endif %}>
+            {{ usuario.nombre }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label for="fecha_ingreso">Fecha de ingreso</label>
+      <input type="text" id="fecha_ingreso" value="{{ recepcion.fecha_ingreso|date:'Y-m-d H:i' }}" readonly>
+    </div>
+
+    <div>
+      <label for="observaciones">Observaciones</label>
+      <input type="text" id="observaciones" name="observaciones" value="{{ recepcion.observaciones }}" required>
+    </div>
+
+    <div>
+      <label for="kilometraje">Kilometraje</label>
+      <input type="number" id="kilometraje" name="kilometraje" value="{{ recepcion.kilometraje }}" required>
+    </div>
+
+    <div>
+      <label for="nivel_combustible">Nivel de combustible</label>
+      <input type="number" id="nivel_combustible" name="nivel_combustible" value="{{ recepcion.nivel_combustible }}" min="1" max="100" step="1" required placeholder="Ingrese un valor entre 1-100">
+      <div class="fuel-gauge" id="fuel-gauge-editar" data-fuel="{{ recepcion.nivel_combustible }}" aria-live="polite">
+        <span class="fuel-mark">E</span>
+        <span class="fuel-tank" aria-hidden="true">
+          <span class="fuel-fill" id="fuel-fill-editar"></span>
+        </span>
+        <span class="fuel-mark">F</span>
+        <span class="fuel-value" id="fuel-value-editar">{{ recepcion.nivel_combustible }}%</span>
+      </div>
+    </div>
+
+    <button type="submit">Guardar</button>
+  </form>
+</section>
+
+<script>
+  (function () {
+    const input = document.getElementById('nivel_combustible');
+    const gauge = document.getElementById('fuel-gauge-editar');
+    const fill = document.getElementById('fuel-fill-editar');
+    const label = document.getElementById('fuel-value-editar');
+
+    if (!input || !gauge || !fill || !label) return;
+
+    const syncFuel = () => {
+      const raw = parseInt(input.value, 10);
+      const value = Number.isFinite(raw) ? Math.min(100, Math.max(1, raw)) : 1;
+      fill.style.width = value + '%';
+      label.textContent = value + '%';
+      gauge.dataset.fuel = value;
+
+      gauge.classList.remove('low', 'medium', 'high');
+      if (value <= 25) {
+        gauge.classList.add('low');
+      } else if (value <= 60) {
+        gauge.classList.add('medium');
+      } else {
+        gauge.classList.add('high');
+      }
+    };
+
+    input.addEventListener('input', syncFuel);
+    syncFuel();
+  })();
+</script>
+
+<section aria-labelledby="recepcion-evidencias-title">
+  <h2 id="recepcion-evidencias-title">Evidencias adjuntas</h2>
+  <a href="{% url 'evidencia_create' recepcion.id %}">Agregar evidencia</a>
+
+  {% if evidencias %}
+    <ul>
+      {% for e in evidencias %}
+        <li>
+          <strong>{{ e.tipo }}</strong>
+          {% if e.descripcion %} - {{ e.descripcion }}{% endif %}
+          {% if e.url_archivo %}
+            - <a href="{{ e.url_archivo.url }}" target="_blank" rel="noopener noreferrer">Ver archivo</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No hay evidencias para esta recepcion.</p>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar Servicio{% endblock %}
+{% block page_title %}Eliminar Servicio{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de usuarios">
+    <a href="{% url 'servicios_lista' %}">Regresar</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Eliminar Servicio</h1>
+    <p>Â¿EstÃ¡ seguro de que desea eliminar el servicio "{{ servicio.nombre }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">SÃ­, eliminar</button>
+        <a href="{% url 'servicios_lista' %}">Cancelar</a>
+    </form>
+{% endblock %}

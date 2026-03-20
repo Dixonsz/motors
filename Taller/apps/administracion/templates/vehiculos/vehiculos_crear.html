@@ -1,0 +1,51 @@
+﻿{% extends 'base.html' %}
+{% block title %}Vehiculos{% endblock %}
+{% block page_title %}Vehiculos{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de vehiculos">
+    <a href="{% url 'vehiculos_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Crear Vehiculos</h1>
+    <form method="post">
+        {% csrf_token %}
+
+          <select id="cliente_id" name="cliente_id" required>
+            <option value="">Seleccione el propietario del vehiculo</option>
+            {% for cliente in clientes %}
+                <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="text" id="placa" name="placa" required placeholder="Placa">
+        <br>
+        <input type="text" id="anio" name="anio" required placeholder="Año del Vehiculo">
+        <br>
+        <input type="text" id="color" name="color" required placeholder="Color">
+        <br>
+        <input type="text" id="vin" name="vin" required placeholder="VIN del Vehiculo">
+        <br>
+        <select id="modelo_id" name="modelo_id" required>
+            <option value="">Seleccione el modelo</option>
+            {% for modelo in modelos %}
+                <option value="{{ modelo.id }}">{{ modelo.nombre }}</option>
+            {% endfor %}
+        </select>
+        <select id="marca_id" name="marca_id" required>
+            <option value="">Seleccione la marca</option>
+            {% for marca in marcas %}
+                <option value="{{ marca.id }}">{{ marca.nombre }}</option>
+            {% endfor %}
+        </select>
+        <select id="combustible_id" name="combustible_id" required>
+            <option value="">Seleccione el tipo de combustible</option>
+            {% for combustible in combustibles %}
+                <option value="{{ combustible.id }}">{{ combustible.nombre }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Guardar</button>
+    </form>
+{% endblock %}

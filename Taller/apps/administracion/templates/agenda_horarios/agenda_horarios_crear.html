@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}Crear horario de agenda{% endblock %}
+{% block page_title %}Crear horario de agenda{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Acciones de agenda horarios">
+	<a href="{% url 'agenda_horarios_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="agenda-horario-crear-title">
+	<h2 id="agenda-horario-crear-title">Registrar bloque horario</h2>
+	<p>
+		Puedes registrar un bloque por fecha puntual o seleccionar varios dias de semana
+		para crear varios bloques a la vez.
+	</p>
+
+	<form method="post">
+		{% csrf_token %}
+
+		<div>
+			<label for="tipo_bloque">Tipo de bloque</label>
+			<select id="tipo_bloque" name="tipo_bloque" required>
+				{% for value, label in tipos_bloque_choices %}
+					<option value="{{ value }}">{{ label }}</option>
+				{% endfor %}
+			</select>
+			<small>Disponible abre cupos; Bloqueado reserva o cierra ese dia o franja.</small>
+		</div>
+
+		<fieldset>
+			<legend>Configuracion de bloqueo</legend>
+			<label for="bloquear_todo_dia">
+				<input type="checkbox" id="bloquear_todo_dia" name="bloquear_todo_dia">
+				Bloquear todo el dia (00:00 a 23:59)
+			</label>
+			<small>Si activas esta opcion y el tipo es Bloqueado, las horas se completan automaticamente.</small>
+		</fieldset>
+
+		<fieldset>
+			<legend>Dias de la semana (opcional)</legend>
+			{% for value, label in dias_semana_choices %}
+				<label for="dia_{{ value }}">
+					<input type="checkbox" id="dia_{{ value }}" name="dias_semana" value="{{ value }}">
+					{{ label }}
+				</label>
+			{% endfor %}
+		</fieldset>
+
+		<div>
+			<label for="fecha">Fecha especifica (solo si no seleccionas dias de semana)</label>
+			<input type="date" id="fecha" name="fecha">
+			<small>Usa este campo para un unico dia, por ejemplo 2026-03-24.</small>
+		</div>
+
+		<div>
+			<label for="hora_inicio">Hora de inicio</label>
+			<input type="time" id="hora_inicio" name="hora_inicio" required>
+		</div>
+
+		<div>
+			<label for="hora_fin">Hora de fin</label>
+			<input type="time" id="hora_fin" name="hora_fin" required>
+		</div>
+
+		<div>
+			<label for="is_active">Activo</label>
+			<input type="checkbox" id="is_active" name="is_active" checked>
+		</div>
+
+		<button type="submit">Guardar</button>
+	</form>
+</section>
+
+<script>
+	(function () {
+		const tipoBloque = document.getElementById('tipo_bloque');
+		const bloquearTodoDia = document.getElementById('bloquear_todo_dia');
+		const horaInicio = document.getElementById('hora_inicio');
+		const horaFin = document.getElementById('hora_fin');
+
+		if (!tipoBloque || !bloquearTodoDia || !horaInicio || !horaFin) return;
+
+		const syncBloqueo = () => {
+			const esBloqueado = tipoBloque.value === 'bloqueado';
+			const esTodoDia = bloquearTodoDia.checked;
+
+			if (esBloqueado && esTodoDia) {
+				horaInicio.value = '00:00';
+				horaFin.value = '23:59';
+				horaInicio.readOnly = true;
+				horaFin.readOnly = true;
+			} else {
+				horaInicio.readOnly = false;
+				horaFin.readOnly = false;
+			}
+		};
+
+		tipoBloque.addEventListener('change', syncBloqueo);
+		bloquearTodoDia.addEventListener('change', syncBloqueo);
+		syncBloqueo();
+	})();
+</script>
+{% endblock %}

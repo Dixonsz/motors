@@ -1,0 +1,22 @@
+﻿{% extends 'base.html' %}
+{% block title %}Editar Combustible{% endblock %}
+{% block page_title %}Editar Combustible{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de combustibles">
+    <a href="{% url 'combustibles_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Editar Combustible</h1>
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" value="{{combustible.nombre}}" required>
+        <button type="submit">Guardar</button>
+
+
+    </form>
+{% endblock %}

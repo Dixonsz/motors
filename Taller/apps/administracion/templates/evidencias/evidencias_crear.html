@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Agregar evidencia{% endblock %}
+{% block page_title %}Agregar evidencia{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Acciones de evidencia">
+    <a href="{% url 'recepcion_lista' %}">Volver a recepciones</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="evidencia-crear-title">
+    <h2 id="evidencia-crear-title">Agregar evidencia a recepcion #{{ recepcion.id }}</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="tipo" value="imagen">
+
+        <div>
+            <label for="url_archivo">Archivo</label>
+            <input type="file" id="url_archivo" name="url_archivo" required>
+        </div>
+
+        <div>
+            <label for="descripcion">Descripcion</label>
+            <textarea id="descripcion" name="descripcion" rows="3"></textarea>
+        </div>
+
+        <button type="submit">Guardar evidencia</button>
+    </form>
+</section>
+{% endblock %}

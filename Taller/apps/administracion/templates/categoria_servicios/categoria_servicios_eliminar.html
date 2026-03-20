@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Eliminando Categoria{% endblock %}
+{% block page_title %}Eliminando Categoria{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de categorias">
+    <a href="{% url 'categorias_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Eliminando Categoria</h1>
+    <p>¿Estás seguro de que deseas eliminar el categoria con ID {{ categoria_id }}?</p>
+    <form action="" method="post">
+        {% csrf_token %}
+        <button type="submit">Sí, eliminar</button>
+        <a href="{% url 'categorias_lista' %}">No, volver a la lista</a>
+    </form>
+{% endblock %}

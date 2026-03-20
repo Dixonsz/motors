@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% include '../../base/head.html' %}
+    <title>Lista de Productos</title>
+</head>
+<body>
+    {% include '../../base/layout.html' %}
+    <main>
+        <h1>Lista de Productos</h1>
+        {% include '../../../components/table/table.html' %}
+        <table>
+            {% include '../../../components/table/thead.html' %}
+            <tbody>
+                {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.id }}</td>
+                    <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.precio }}</td>
+                    <td>
+                        <a href="/productos/edit/{{ producto.id }}">Editar</a>
+                        <a href="/productos/delete/{{ producto.id }}">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+    {% include '../../base/scripts.html' %}
+</body>
+</html>

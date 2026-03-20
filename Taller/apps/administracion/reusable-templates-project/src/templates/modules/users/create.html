@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% include '../../base/head.html' %}
+    <title>Crear Usuario</title>
+</head>
+<body>
+    {% include '../../base/layout.html' %}
+    
+    <main>
+        <h1>Crear Nuevo Usuario</h1>
+        {% include '../../components/form/form.html' %}
+            <form action="/users/create" method="POST">
+                {% include '../../components/form/field.html' %}
+                    <label for="username">Nombre de Usuario:</label>
+                    {% include '../../components/form/input.html' %}
+                        <input type="text" id="username" name="username" required>
+                    {% endinclude %}
+                {% endinclude %}
+                
+                {% include '../../components/form/field.html' %}
+                    <label for="email">Correo Electrónico:</label>
+                    {% include '../../components/form/input.html' %}
+                        <input type="email" id="email" name="email" required>
+                    {% endinclude %}
+                {% endinclude %}
+                
+                {% include '../../components/form/field.html' %}
+                    <label for="password">Contraseña:</label>
+                    {% include '../../components/form/input.html' %}
+                        <input type="password" id="password" name="password" required>
+                    {% endinclude %}
+                {% endinclude %}
+                
+                {% include '../../components/form/button.html' %}
+                    <button type="submit">Crear Usuario</button>
+                {% endinclude %}
+            </form>
+    </main>
+
+    {% include '../../base/scripts.html' %}
+</body>
+</html>

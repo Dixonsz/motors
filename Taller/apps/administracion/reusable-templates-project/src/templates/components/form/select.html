@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campo de Selección</title>
+</head>
+<body>
+    <div class="form-group">
+        <label for="{{ id }}">{{ label }}</label>
+        <select id="{{ id }}" name="{{ name }}" class="form-control">
+            {% for option in options %}
+                <option value="{{ option.value }}" {% if option.selected %}selected{% endif %}>{{ option.text }}</option>
+            {% endfor %}
+        </select>
+        {% if help_text %}
+            <small class="form-text text-muted">{{ help_text }}</small>
+        {% endif %}
+    </div>
+</body>
+</html>

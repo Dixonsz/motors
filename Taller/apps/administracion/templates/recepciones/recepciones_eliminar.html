@@ -1,0 +1,22 @@
+﻿{% extends 'base.html' %}
+{% block title %}Eliminar Recepcion{% endblock %}
+{% block page_title %}Eliminar Recepcion{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de recepciones">
+    <a href="{% url 'recepcion_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="recepcion-eliminar-title">
+    <h2 id="recepcion-eliminar-title">Confirmacion de eliminacion</h2>
+    <p>Esta accion eliminara la recepcion con la placa"{{ recepcion.vehiculo.placa }}".</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Si, eliminar</button>
+        <a href="{% url 'recepcion_lista' %}">Cancelar</a>
+    </form>
+</section>
+{% endblock %}
