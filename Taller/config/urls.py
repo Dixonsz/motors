@@ -3,6 +3,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from apps.administracion.views.api.orden_view import OrdenView
 from apps.administracion.views.api.orden_servicio_view import OrdenServicioView
+from apps.administracion.views.api.cita_view import CitaView
 from apps.administracion.views.web.rol_web import rol_lista, rol_create, rol_editar, rol_eliminar
 from apps.administracion.views.web.usuario_web import usuario_lista, usuario_create, usuario_editar, usuario_eliminar
 from apps.administracion.views.web.cliente_web import cliente_lista, cliente_create, cliente_editar, cliente_eliminar
@@ -14,6 +15,7 @@ from apps.administracion.views.web.recepcion_web import recepcion_lista,recepcio
 from apps.administracion.views.web.evidencia_web import evidencia_lista, evidencia_create,evidencia_editar,evidencia_eliminar
 from apps.administracion.views.web.categoria_servicio_web import categoria_lista, categoria_create, categoria_editar, categoria_eliminar
 from apps.administracion.views.web.servicio_web import servicio_lista, servicio_create, servicio_editar, servicio_eliminar
+from apps.administracion.views.web.cita_web import cita_lista, cita_create, cita_editar, cita_eliminar, calendario_citas_lista
 from apps.administracion.views.web.orden_web import (orden_lista, orden_create, orden_editar, orden_eliminar, orden_detalle_agregar, orden_detalle_eliminar, orden_detalle_actualizar)
 from apps.administracion.views.web.estado_web import estado_lista, estado_create, estado_editar, estado_eliminar
 from apps.administracion.views.web.agenda_horario_web import agenda_horario_lista, agenda_horario_create, agenda_horario_editar, agenda_horario_eliminar
@@ -21,6 +23,7 @@ from apps.administracion.views.web.agenda_horario_web import agenda_horario_list
 router = DefaultRouter()
 router.register(r'ordenes', OrdenView, basename='api-ordenes')
 router.register(r'ordenes-detalle', OrdenServicioView, basename='api-ordenes-detalle')
+router.register(r'citas', CitaView, basename='api-citas')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -80,6 +83,12 @@ urlpatterns = [
     path('servicios/crear/', servicio_create, name='servicios_crear'),
     path('servicios/editar/<int:servicio_id>/', servicio_editar, name='servicios_editar'),
     path('servicios/eliminar/<int:servicio_id>/', servicio_eliminar,  name='servicios_eliminar'),
+
+    path('citas/', cita_lista, name='citas_lista'),
+    path('citas/calendario/', calendario_citas_lista, name='citas_calendario'),
+    path('citas/crear/', cita_create, name='citas_crear'),
+    path('citas/editar/<int:cita_id>/', cita_editar, name='citas_editar'),
+    path('citas/eliminar/<int:cita_id>/', cita_eliminar, name='citas_eliminar'),
 
     path('ordenes/', orden_lista, name='ordenes_lista'),
     path('ordenes/crear/', orden_create, name='ordenes_crear'),

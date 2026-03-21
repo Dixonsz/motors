@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Crear Cita{% endblock %}
+{% block page_title %}Crear Cita{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de citas">
+	<a href="{% url 'citas_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="crear-cita-title">
+	<p>Programa una o varias citas segun los servicios seleccionados; el sistema valida cada servicio, lo aplica automaticamente y asigna mecanico activo con estado Reservado.</p>
+	<hr>
+
+	<form method="post">
+		{% csrf_token %}
+
+		<label for="vehiculo_id">Vehiculo</label>
+		<select id="vehiculo_id" name="vehiculo_id" required>
+			<option value="">Seleccione un vehiculo</option>
+			{% for vehiculo in vehiculos %}
+				<option value="{{ vehiculo.id }}">{{ vehiculo.placa }}</option>
+			{% endfor %}
+		</select>
+
+		<label for="servicio_ids">Servicios</label>
+		<select id="servicio_ids" name="servicio_ids" multiple size="6" required>
+			{% for servicio in servicios %}
+				<option value="{{ servicio.id }}">{{ servicio.nombre }}</option>
+			{% endfor %}
+		</select>
+		<small>Manten presionada la tecla Ctrl para seleccionar multiples servicios y crear citas consecutivas.</small>
+
+		<label for="fecha">Fecha</label>
+		<input type="date" id="fecha" name="fecha" required>
+
+		<label for="hora_inicio">Hora de inicio</label>
+		<input type="time" id="hora_inicio" name="hora_inicio" required>
+
+		<label for="hora_fin">Hora fin (opcional si el servicio tiene duracion)</label>
+		<input type="time" id="hora_fin" name="hora_fin">
+
+		<label for="anotaciones">Anotaciones</label>
+		<textarea id="anotaciones" name="anotaciones" rows="3" placeholder="Detalles adicionales"></textarea>
+
+		<button type="submit">Guardar cita</button>
+	</form>
+</section>
+{% endblock %}

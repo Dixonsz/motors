@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Editar Cita{% endblock %}
+{% block page_title %}Editar Cita{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de citas">
+	<a href="{% url 'citas_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="editar-cita-title">
+	<p>Actualiza los datos de la cita; la asignacion de mecanico la mantiene automaticamente el sistema.</p>
+	<hr>
+
+	<form method="post">
+		{% csrf_token %}
+
+		<label for="vehiculo_id">Vehiculo</label>
+		<select id="vehiculo_id" name="vehiculo_id" required>
+			{% for vehiculo in vehiculos %}
+				<option value="{{ vehiculo.id }}" {% if cita.vehiculo_id == vehiculo.id %}selected{% endif %}>{{ vehiculo.placa }}</option>
+			{% endfor %}
+		</select>
+
+		<label for="servicio_id">Servicio</label>
+		<select id="servicio_id" name="servicio_id" required>
+			{% for servicio in servicios %}
+				<option value="{{ servicio.id }}" {% if cita.servicio_id == servicio.id %}selected{% endif %}>{{ servicio.nombre }}</option>
+			{% endfor %}
+		</select>
+
+		<label for="fecha">Fecha</label>
+		<input type="date" id="fecha" name="fecha" value="{{ cita.fecha|date:'Y-m-d' }}" required>
+
+		<label for="hora_inicio">Hora de inicio</label>
+		<input type="time" id="hora_inicio" name="hora_inicio" value="{{ cita.hora_inicio|time:'H:i' }}" required>
+
+		<label for="hora_fin">Hora fin</label>
+		<input type="time" id="hora_fin" name="hora_fin" value="{{ cita.hora_fin|time:'H:i' }}">
+
+		<label for="anotaciones">Anotaciones</label>
+		<textarea id="anotaciones" name="anotaciones" rows="3">{{ cita.anotaciones|default:'' }}</textarea>
+
+		<button type="submit">Guardar cambios</button>
+	</form>
+</section>
+{% endblock %}

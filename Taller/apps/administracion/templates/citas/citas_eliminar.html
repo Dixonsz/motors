@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar Cita{% endblock %}
+{% block page_title %}Eliminar Cita{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de citas">
+	<a href="{% url 'citas_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="eliminar-cita-title">
+	<p>Confirma la eliminacion de la cita seleccionada.</p>
+	<hr>
+
+	<p>
+		Vas a eliminar la cita del vehiculo <strong>{{ cita.vehiculo.placa }}</strong>
+		para el servicio <strong>{{ cita.servicio.nombre }}</strong> el dia
+		<strong>{{ cita.fecha }}</strong> de <strong>{{ cita.hora_inicio|time:'H:i' }}</strong>
+		a <strong>{{ cita.hora_fin|time:'H:i' }}</strong>.
+	</p>
+
+	<form method="post">
+		{% csrf_token %}
+		<button type="submit">Si, eliminar</button>
+		<a href="{% url 'citas_lista' %}">Cancelar</a>
+	</form>
+</section>
+{% endblock %}

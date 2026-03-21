@@ -1,0 +1,499 @@
+{% extends 'base.html' %}
+{% block title %}Calendario de Citas{% endblock %}
+{% block page_title %}Calendario de Citas{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Acciones de calendario">
+	<a href="{% url 'citas_crear' %}">Nueva cita</a>
+	<a href="{% url 'citas_lista' %}">Ver listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section class="calendar-view" aria-labelledby="calendar-title">
+	<style>
+		.calendar-view {
+			--cal-bg: #ffffff;
+			--cal-line: #dbe2e9;
+			--cal-ink: #1e2935;
+			--cal-soft: #5d6c7a;
+			--cal-accent: #d87d04;
+			--cal-accent-soft: #ffe3b4;
+			--cal-good: #2c8a4c;
+			--cal-muted: #eff3f7;
+		}
+
+		.calendar-head {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 0.8rem;
+			margin-bottom: 0.9rem;
+			flex-wrap: wrap;
+		}
+
+		.calendar-head h2 {
+			margin: 0;
+			color: var(--cal-ink);
+		}
+
+		.calendar-controls {
+			display: inline-flex;
+			gap: 0.5rem;
+			flex-wrap: wrap;
+		}
+
+		.calendar-controls button {
+			min-width: 44px;
+		}
+
+		.calendar-month {
+			margin: 0;
+			font-family: "Rajdhani", sans-serif;
+			font-size: clamp(1.3rem, 2.3vw, 1.8rem);
+			color: var(--cal-ink);
+			letter-spacing: 0.25px;
+		}
+
+		.calendar-grid-wrap {
+			border: 1px solid var(--cal-line);
+			border-radius: 14px;
+			background: linear-gradient(180deg, #ffffff, #f7fafc);
+			overflow: hidden;
+		}
+
+		.calendar-weekdays,
+		.calendar-grid {
+			display: grid;
+			grid-template-columns: repeat(7, minmax(0, 1fr));
+		}
+
+		.calendar-weekdays {
+			background: linear-gradient(180deg, #2a3139, #20262d);
+			color: #f9fafb;
+			font-family: "Rajdhani", sans-serif;
+			text-transform: uppercase;
+			letter-spacing: 0.35px;
+			font-size: 0.86rem;
+		}
+
+		.calendar-weekdays div {
+			padding: 0.6rem 0.5rem;
+			text-align: center;
+			border-right: 1px solid rgba(255, 255, 255, 0.08);
+		}
+
+		.calendar-weekdays div:last-child {
+			border-right: none;
+		}
+
+		.calendar-day {
+			min-height: 104px;
+			border-right: 1px solid var(--cal-line);
+			border-top: 1px solid var(--cal-line);
+			background: var(--cal-bg);
+			padding: 0.45rem;
+			display: flex;
+			flex-direction: column;
+			gap: 0.42rem;
+			cursor: pointer;
+			transition: background-color 0.2s ease, transform 0.2s ease;
+		}
+
+		.calendar-day:hover {
+			background: #fff7ea;
+			transform: translateY(-1px);
+		}
+
+		.calendar-day.outside {
+			background: var(--cal-muted);
+			color: #8b97a4;
+		}
+
+		.calendar-day.today {
+			box-shadow: inset 0 0 0 2px #ef9b20;
+		}
+
+		.calendar-day.selected {
+			background: #fff1d7;
+			box-shadow: inset 0 0 0 2px var(--cal-accent);
+		}
+
+		.calendar-day:nth-child(7n) {
+			border-right: none;
+		}
+
+		.day-number {
+			font-family: "Rajdhani", sans-serif;
+			font-weight: 700;
+			font-size: 1rem;
+			color: var(--cal-ink);
+		}
+
+		.calendar-day.outside .day-number {
+			color: #8b97a4;
+		}
+
+		.day-count {
+			width: fit-content;
+			border-radius: 999px;
+			padding: 0.15rem 0.5rem;
+			font-size: 0.78rem;
+			font-weight: 700;
+			color: #3f4d59;
+			background: #e9eef3;
+		}
+
+		.day-count.has-events {
+			background: linear-gradient(180deg, #ffd48d, #ef9b20);
+			color: #2f2413;
+		}
+
+		.calendar-footer {
+			margin-top: 1rem;
+			display: grid;
+			gap: 0.9rem;
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.calendar-details {
+			border: 1px solid var(--cal-line);
+			border-radius: 12px;
+			background: #fff;
+			padding: 0.9rem;
+		}
+
+		.calendar-details h3 {
+			margin: 0 0 0.45rem;
+			color: var(--cal-ink);
+		}
+
+		.calendar-empty {
+			color: var(--cal-soft);
+			margin: 0;
+		}
+
+		.event-list {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			display: grid;
+			gap: 0.55rem;
+		}
+
+		.event-item {
+			border: 1px solid var(--cal-line);
+			border-left: 5px solid var(--cal-accent);
+			border-radius: 10px;
+			padding: 0.58rem 0.62rem;
+			background: #fffdf9;
+			display: grid;
+			gap: 0.18rem;
+		}
+
+		.event-time {
+			font-family: "Rajdhani", sans-serif;
+			font-weight: 700;
+			color: #1f2a34;
+		}
+
+		.event-meta {
+			color: var(--cal-soft);
+			font-size: 0.93rem;
+		}
+
+		.event-status {
+			width: fit-content;
+			border-radius: 999px;
+			padding: 0.14rem 0.52rem;
+			font-size: 0.78rem;
+			font-weight: 700;
+			color: #16512a;
+			background: #d7f2df;
+		}
+
+		@media (max-width: 860px) {
+			.calendar-day {
+				min-height: 92px;
+			}
+		}
+
+		@media (max-width: 680px) {
+			.calendar-weekdays div {
+				font-size: 0.74rem;
+				padding: 0.48rem 0.3rem;
+			}
+
+			.calendar-day {
+				min-height: 82px;
+				padding: 0.4rem;
+			}
+
+			.day-number {
+				font-size: 0.93rem;
+			}
+
+			.day-count {
+				font-size: 0.72rem;
+			}
+		}
+	</style>
+
+	<div class="calendar-head">
+		<div>
+			<h2 id="calendar-title">Vista mensual</h2>
+			<p style="margin: 0.2rem 0 0; color: #5d6c7a;">Selecciona un dia para ver el detalle de citas.</p>
+		</div>
+
+		<div class="calendar-controls" aria-label="Controles del calendario">
+			<button type="button" id="prev-month" aria-label="Mes anterior">&lt;</button>
+			<button type="button" id="today-month">Hoy</button>
+			<button type="button" id="next-month" aria-label="Mes siguiente">&gt;</button>
+		</div>
+	</div>
+
+	<p id="calendar-month-label" class="calendar-month" aria-live="polite"></p>
+
+	<div class="calendar-grid-wrap" role="region" aria-label="Calendario mensual de citas">
+		<div class="calendar-weekdays" aria-hidden="true">
+			<div>Lun</div>
+			<div>Mar</div>
+			<div>Mie</div>
+			<div>Jue</div>
+			<div>Vie</div>
+			<div>Sab</div>
+			<div>Dom</div>
+		</div>
+		<div id="calendar-grid" class="calendar-grid"></div>
+	</div>
+
+	<div class="calendar-footer">
+		<article class="calendar-details" aria-live="polite">
+			<h3 id="selected-day-label">Sin dia seleccionado</h3>
+			<p id="selected-day-empty" class="calendar-empty">Haz clic en una fecha para revisar las citas.</p>
+			<ul id="selected-day-events" class="event-list" hidden></ul>
+		</article>
+	</div>
+
+	<script id="calendar-events" type="application/json">
+		[
+		{% for cita in citas %}
+			{
+				"id": "{{ cita.id }}",
+				"fecha": "{{ cita.fecha|date:'Y-m-d' }}",
+				"hora_inicio": "{{ cita.hora_inicio|time:'H:i' }}",
+				"hora_fin": "{{ cita.hora_fin|time:'H:i' }}",
+				"vehiculo": "{{ cita.vehiculo.placa|escapejs }}",
+				"servicio": "{{ cita.servicio.nombre|escapejs }}",
+				"estado": "{{ cita.estado.nombre|default:'Sin estado'|escapejs }}",
+				"url_editar": "{% url 'citas_editar' cita.id %}"
+			}{% if not forloop.last %},{% endif %}
+		{% endfor %}
+		]
+	</script>
+
+	<script>
+		(function () {
+			const eventsNode = document.getElementById('calendar-events');
+			const monthLabel = document.getElementById('calendar-month-label');
+			const grid = document.getElementById('calendar-grid');
+			const prevButton = document.getElementById('prev-month');
+			const nextButton = document.getElementById('next-month');
+			const todayButton = document.getElementById('today-month');
+			const selectedDayLabel = document.getElementById('selected-day-label');
+			const selectedDayEmpty = document.getElementById('selected-day-empty');
+			const selectedDayEvents = document.getElementById('selected-day-events');
+
+			const monthFormatter = new Intl.DateTimeFormat('es-CO', {
+				month: 'long',
+				year: 'numeric'
+			});
+
+			const dayFormatter = new Intl.DateTimeFormat('es-CO', {
+				weekday: 'long',
+				day: 'numeric',
+				month: 'long',
+				year: 'numeric'
+			});
+
+			let rawEvents = [];
+			try {
+				rawEvents = JSON.parse(eventsNode.textContent || '[]');
+			} catch (_error) {
+				rawEvents = [];
+			}
+
+			const eventsByDate = rawEvents.reduce(function (acc, event) {
+				if (!event.fecha) return acc;
+				if (!acc[event.fecha]) {
+					acc[event.fecha] = [];
+				}
+				acc[event.fecha].push(event);
+				return acc;
+			}, {});
+
+			const today = new Date();
+			let currentYear = today.getFullYear();
+			let currentMonth = today.getMonth();
+			let selectedDateISO = null;
+
+			function toISO(date) {
+				const year = date.getFullYear();
+				const month = String(date.getMonth() + 1).padStart(2, '0');
+				const day = String(date.getDate()).padStart(2, '0');
+				return year + '-' + month + '-' + day;
+			}
+
+			function sortEvents(events) {
+				return events.slice().sort(function (a, b) {
+					return (a.hora_inicio || '').localeCompare(b.hora_inicio || '');
+				});
+			}
+
+			function renderDayDetails(dateISO) {
+				selectedDateISO = dateISO;
+				const parts = dateISO.split('-').map(Number);
+				const selectedDate = new Date(parts[0], parts[1] - 1, parts[2]);
+				selectedDayLabel.textContent = dayFormatter.format(selectedDate);
+
+				const dayEvents = sortEvents(eventsByDate[dateISO] || []);
+				selectedDayEvents.innerHTML = '';
+
+				if (!dayEvents.length) {
+					selectedDayEvents.hidden = true;
+					selectedDayEmpty.hidden = false;
+					selectedDayEmpty.textContent = 'No hay citas registradas para esta fecha.';
+					return;
+				}
+
+				dayEvents.forEach(function (event) {
+					const item = document.createElement('li');
+					item.className = 'event-item';
+
+					const time = document.createElement('div');
+					time.className = 'event-time';
+					time.textContent = (event.hora_inicio || '--:--') + ' - ' + (event.hora_fin || '--:--');
+
+					const meta = document.createElement('div');
+					meta.className = 'event-meta';
+					meta.textContent = event.servicio + ' | Vehiculo ' + event.vehiculo;
+
+					const status = document.createElement('span');
+					status.className = 'event-status';
+					status.textContent = event.estado || 'Sin estado';
+
+					item.appendChild(time);
+					item.appendChild(meta);
+					item.appendChild(status);
+
+					if (event.url_editar) {
+						const action = document.createElement('a');
+						action.href = event.url_editar;
+						action.textContent = 'Editar cita';
+						action.className = 'action-link';
+						action.style.marginTop = '0.2rem';
+						item.appendChild(action);
+					}
+
+					selectedDayEvents.appendChild(item);
+				});
+
+				selectedDayEmpty.hidden = true;
+				selectedDayEvents.hidden = false;
+			}
+
+			function buildCell(date, inCurrentMonth) {
+				const button = document.createElement('button');
+				button.type = 'button';
+				button.className = 'calendar-day';
+
+				if (!inCurrentMonth) {
+					button.classList.add('outside');
+				}
+
+				const iso = toISO(date);
+				const todayISO = toISO(today);
+				if (iso === todayISO) {
+					button.classList.add('today');
+				}
+
+				if (iso === selectedDateISO) {
+					button.classList.add('selected');
+				}
+
+				const events = eventsByDate[iso] || [];
+
+				const number = document.createElement('span');
+				number.className = 'day-number';
+				number.textContent = String(date.getDate());
+
+				const count = document.createElement('span');
+				count.className = 'day-count';
+				if (events.length > 0) {
+					count.classList.add('has-events');
+					count.textContent = events.length + (events.length === 1 ? ' cita' : ' citas');
+				} else {
+					count.textContent = 'Sin citas';
+				}
+
+				button.appendChild(number);
+				button.appendChild(count);
+
+				button.addEventListener('click', function () {
+					renderDayDetails(iso);
+					renderCalendar();
+				});
+
+				return button;
+			}
+
+			function renderCalendar() {
+				const firstDay = new Date(currentYear, currentMonth, 1);
+				const lastDay = new Date(currentYear, currentMonth + 1, 0);
+
+				monthLabel.textContent = monthFormatter.format(firstDay);
+
+				const startOffset = (firstDay.getDay() + 6) % 7;
+				const totalCells = Math.ceil((startOffset + lastDay.getDate()) / 7) * 7;
+
+				grid.innerHTML = '';
+
+				for (let i = 0; i < totalCells; i += 1) {
+					const dayNumber = i - startOffset + 1;
+					const date = new Date(currentYear, currentMonth, dayNumber);
+					const inCurrentMonth = date.getMonth() === currentMonth;
+					grid.appendChild(buildCell(date, inCurrentMonth));
+				}
+			}
+
+			prevButton.addEventListener('click', function () {
+				currentMonth -= 1;
+				if (currentMonth < 0) {
+					currentMonth = 11;
+					currentYear -= 1;
+				}
+				renderCalendar();
+			});
+
+			nextButton.addEventListener('click', function () {
+				currentMonth += 1;
+				if (currentMonth > 11) {
+					currentMonth = 0;
+					currentYear += 1;
+				}
+				renderCalendar();
+			});
+
+			todayButton.addEventListener('click', function () {
+				currentYear = today.getFullYear();
+				currentMonth = today.getMonth();
+				renderDayDetails(toISO(today));
+				renderCalendar();
+			});
+
+			renderDayDetails(toISO(today));
+			renderCalendar();
+		}());
+	</script>
+</section>
+{% endblock %}

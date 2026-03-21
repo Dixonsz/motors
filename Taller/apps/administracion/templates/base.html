@@ -541,6 +541,8 @@
                 <a href="{% url 'ordenes_lista' %}" class="{% if request.path|slice:':9' == '/ordenes/' %}active{% endif %}">Ordenes</a>
                 <a href="{% url 'estados_lista' %}" class="{% if request.path|slice:':9' == '/estados/' %}active{% endif %}">Estados</a>
                 <a href="{% url 'agenda_horarios_lista' %}" class="{% if request.path|slice:':18' == '/agenda-horarios/' %}active{% endif %}">Horarios</a>
+                <a href="{% url 'citas_lista' %}" class="{% if request.path|slice:':7' == '/citas/' %}active{% endif %}">Citas</a>
+                <a href="{% url 'citas_calendario' %}" class="{% if request.path|slice:':17' == '/citas/calendario/' %}active{% endif %}">Calendario</a>
             </nav>
         </aside>
 
