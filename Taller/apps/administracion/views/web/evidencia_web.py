@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from ...models import Recepcion
 from ...services.evidencia_service import EvidenciaService
@@ -9,6 +10,9 @@ def evidencia_lista(request, recepcion_id):
 
     recepcion = RecepcionService.get_recepcion_by_id(recepcion_id)
     evidencias = EvidenciaService.get_evidencias_by_recepcion(recepcion_id)
+    paginator = Paginator(evidencias, 10)
+    page_number = request.GET.get('page')
+    evidencias = paginator.get_page(page_number)
 
     return render(
         request,

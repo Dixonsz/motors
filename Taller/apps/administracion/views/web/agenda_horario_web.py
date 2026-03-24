@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
+from django.core.paginator import Paginator
 from ...services.agenda_horario_service import AgendaHorarioService
 
 
@@ -13,6 +14,9 @@ def _es_bloqueo_todo_dia(agenda_horario):
 
 def agenda_horario_lista(request):
     agenda_horarios = AgendaHorarioService.get_all_agenda_horarios()
+    paginator = Paginator(agenda_horarios, 10)
+    page_number = request.GET.get('page')
+    agenda_horarios = paginator.get_page(page_number)
 
     return render(request, 'agenda_horarios/agenda_horarios_lista.html', {'agenda_horarios': agenda_horarios})
 

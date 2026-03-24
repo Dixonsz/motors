@@ -1,9 +1,13 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from ...services.cliente_service import ClienteService
 
 def cliente_lista(request):
     clientes = ClienteService.get_all_clientes()
+    paginator = Paginator(clientes, 10)
+    page_number = request.GET.get('page')
+    clientes = paginator.get_page(page_number)
 
     return render(request, 'clientes/clientes_lista.html', {'clientes': clientes})
 

@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
+from django.core.paginator import Paginator
 from ...services.orden_service import OrdenService
 from ...services.orden_servicio_service import OrdenServicioService
 from ...services.usuario_service import UsuarioService
@@ -101,16 +102,19 @@ def _procesar_accion_orden(request, orden):
 
 def orden_lista(request):
     ordenes = OrdenService.get_all_ordenes()
+    paginator = Paginator(ordenes, 10)
+    page_number = request.GET.get('page')
+    ordenes_page = paginator.get_page(page_number)
 
     orden_items = [
         {
             'orden': orden,
             'total': OrdenServicioService.get_total_by_orden(orden.id),
         }
-        for orden in ordenes
+        for orden in ordenes_page
     ]
 
-    return render(request, 'ordenes/ordenes_lista.html', {'orden_items': orden_items})
+    return render(request, 'ordenes/ordenes_lista.html', {'orden_items': orden_items, 'ordenes_page': ordenes_page})
 
 def orden_gestion(request, orden_id=None):
     orden = None

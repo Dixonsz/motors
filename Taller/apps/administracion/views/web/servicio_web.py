@@ -1,10 +1,14 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from ...services.servicio_service import ServicioService
 from ...services.categoria_servicio_service import CategoriaServicioService
 
 def servicio_lista(request):
     servicios = ServicioService.get_all_servicios()
+    paginator = Paginator(servicios, 10)
+    page_number = request.GET.get('page')
+    servicios = paginator.get_page(page_number)
     categorias = CategoriaServicioService.get_all_categorias()
 
     return render(request, 'servicios/servicios_lista.html', {'servicios': servicios, 'categorias': categorias})

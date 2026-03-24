@@ -130,6 +130,29 @@
             gap: 0.45rem;
         }
 
+        .module-group {
+            display: grid;
+            gap: 0.45rem;
+            padding-top: 0.25rem;
+            margin-top: 0.25rem;
+        }
+
+        .module-group + .module-group {
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            padding-top: 0.65rem;
+            margin-top: 0.45rem;
+        }
+
+        .module-group-title {
+            font-family: "Rajdhani", sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: #f0c57e;
+            padding: 0 0.2rem;
+        }
+
         .module-nav a {
             display: block;
             padding: 0.55rem 0.65rem;
@@ -528,21 +551,32 @@
         <aside class="sidebar" aria-label="Navegacion principal">
             <h2>Modulos</h2>
             <nav class="module-nav" aria-label="Menu de modulos">
-                <a href="{% url 'roles_lista' %}" class="{% if request.path|slice:':7' == '/roles/' %}active{% endif %}">Roles</a>
-                <a href="{% url 'usuarios_lista' %}" class="{% if request.path|slice:':10' == '/usuarios/' %}active{% endif %}">Usuarios</a>
-                <a href="{% url 'clientes_lista' %}" class="{% if request.path|slice:':10' == '/clientes/' %}active{% endif %}">Clientes</a>
-                <a href="{% url 'marcas_lista' %}" class="{% if request.path|slice:':8' == '/marcas/' %}active{% endif %}">Marcas</a>
-                <a href="{% url 'modelos_lista' %}" class="{% if request.path|slice:':9' == '/modelos/' %}active{% endif %}">Modelos</a>
-                <a href="{% url 'combustibles_lista' %}" class="{% if request.path|slice:':13' == '/combustibles/' %}active{% endif %}">Combustibles</a>
-                <a href="{% url 'vehiculos_lista' %}" class="{% if request.path|slice:':10' == '/vehiculos/' %}active{% endif %}">Vehiculos</a>
-                <a href="{% url 'categorias_lista' %}" class="{% if request.path|slice:':11' == '/categorias/' %}active{% endif %}">Categorías</a>
-                <a href="{% url 'servicios_lista' %}" class="{% if request.path|slice:':10' == '/servicios/' %}active{% endif %}">Servicios</a>
-                <a href="{% url 'recepcion_lista' %}" class="{% if request.path|slice:':12' == '/recepciones/' %}active{% endif %}">Recepciones</a>
-                <a href="{% url 'ordenes_lista' %}" class="{% if request.path|slice:':9' == '/ordenes/' %}active{% endif %}">Ordenes</a>
-                <a href="{% url 'estados_lista' %}" class="{% if request.path|slice:':9' == '/estados/' %}active{% endif %}">Estados</a>
-                <a href="{% url 'agenda_horarios_lista' %}" class="{% if request.path|slice:':18' == '/agenda-horarios/' %}active{% endif %}">Horarios</a>
-                <a href="{% url 'citas_lista' %}" class="{% if request.path|slice:':7' == '/citas/' %}active{% endif %}">Citas</a>
-                <a href="{% url 'citas_calendario' %}" class="{% if request.path|slice:':17' == '/citas/calendario/' %}active{% endif %}">Calendario</a>
+                <div class="module-group" aria-label="Navegacion operativa">
+                    <span class="module-group-title">Operación</span>
+                    <a href="{% url 'citas_calendario' %}" class="{% if request.path|slice:':17' == '/citas/calendario/' %}active{% endif %}">Calendario</a>
+                    <a href="{% url 'citas_lista' %}" class="{% if request.path|slice:':7' == '/citas/' %}active{% endif %}">Citas</a>
+                    <a href="{% url 'recepcion_lista' %}" class="{% if request.path|slice:':12' == '/recepciones/' %}active{% endif %}">Recepciones</a>
+                    <a href="{% url 'ordenes_lista' %}" class="{% if request.path|slice:':9' == '/ordenes/' %}active{% endif %}">Ordenes</a>
+                    <a href="{% url 'estados_lista' %}" class="{% if request.path|slice:':9' == '/estados/' %}active{% endif %}">Estados</a>
+                    <a href="{% url 'agenda_horarios_lista' %}" class="{% if request.path|slice:':18' == '/agenda-horarios/' %}active{% endif %}">Horarios</a>
+                </div>
+
+                <div class="module-group" aria-label="Navegacion de catalogos">
+                    <span class="module-group-title">Catálogo</span>
+                    <a href="{% url 'clientes_lista' %}" class="{% if request.path|slice:':10' == '/clientes/' %}active{% endif %}">Clientes</a>
+                    <a href="{% url 'vehiculos_lista' %}" class="{% if request.path|slice:':10' == '/vehiculos/' %}active{% endif %}">Vehiculos</a>
+                    <a href="{% url 'servicios_lista' %}" class="{% if request.path|slice:':10' == '/servicios/' %}active{% endif %}">Servicios</a>
+                    <a href="{% url 'categorias_lista' %}" class="{% if request.path|slice:':11' == '/categorias/' %}active{% endif %}">Categorías</a>
+                    <a href="{% url 'marcas_lista' %}" class="{% if request.path|slice:':8' == '/marcas/' %}active{% endif %}">Marcas</a>
+                    <a href="{% url 'modelos_lista' %}" class="{% if request.path|slice:':9' == '/modelos/' %}active{% endif %}">Modelos</a>
+                    <a href="{% url 'combustibles_lista' %}" class="{% if request.path|slice:':13' == '/combustibles/' %}active{% endif %}">Combustibles</a>
+                </div>
+
+                <div class="module-group" aria-label="Navegacion de configuracion">
+                    <span class="module-group-title">Configuración</span>
+                    <a href="{% url 'usuarios_lista' %}" class="{% if request.path|slice:':10' == '/usuarios/' %}active{% endif %}">Usuarios</a>
+                    <a href="{% url 'roles_lista' %}" class="{% if request.path|slice:':7' == '/roles/' %}active{% endif %}">Roles</a>
+                </div>
             </nav>
         </aside>
 

@@ -1,10 +1,14 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from ...services.usuario_service import UsuarioService
 from ...services.rol_service import RolService
 
 def usuario_lista(request):
     usuarios = UsuarioService.get_all_usuarios()
+    paginator = Paginator(usuarios, 10)
+    page_number = request.GET.get('page')
+    usuarios = paginator.get_page(page_number)
 
     return render(request, 'usuarios/usuarios_lista.html', {'usuarios': usuarios})
 

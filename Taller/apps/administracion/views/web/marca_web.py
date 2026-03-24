@@ -1,10 +1,14 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from ...services.marca_service import MarcaService
 
 def marca_lista(request):
-    marcas = MarcaService.get_all_marcas()
-    return render(request, 'marcas/marcas_lista.html', {'marcas': marcas})
+    marcas = MarcaService.get_all_marcas().order_by('id')
+    paginator = Paginator(marcas, 10)
+    page_number = request.GET.get('page')
+    marcas_paginadas = paginator.get_page(page_number)
+    return render(request, 'marcas/marcas_lista.html', {'marcas': marcas_paginadas})
 
 def marca_create(request):
     if request.method == 'POST':

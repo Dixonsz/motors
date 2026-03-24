@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
+from django.core.paginator import Paginator
 from ...services.recepcion_service import RecepcionService
 from ...services.vehiculo_service import VehiculoService
 from ...services.usuario_service import UsuarioService
@@ -7,6 +8,9 @@ from ...services.evidencia_service import EvidenciaService
 
 def recepcion_lista(request):
     recepciones = RecepcionService.get_all_recepciones()
+    paginator = Paginator(recepciones, 10)
+    page_number = request.GET.get('page')
+    recepciones = paginator.get_page(page_number)
 
     return render(request, 'recepciones/recepciones_lista.html', {'recepciones': recepciones})
 

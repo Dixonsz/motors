@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from ...services.vehiculo_service import VehiculoService
 from ...services.cliente_service import ClienteService
@@ -9,6 +10,9 @@ from ...services.combustible_service import CombustibleService
 
 def vehiculo_lista(request):
     vehiculos = VehiculoService.get_all_vehiculos()
+    paginator = Paginator(vehiculos, 10)
+    page_number = request.GET.get('page')
+    vehiculos = paginator.get_page(page_number)
 
     return render(request, 'vehiculos/vehiculos_lista.html', {'vehiculos': vehiculos})
 

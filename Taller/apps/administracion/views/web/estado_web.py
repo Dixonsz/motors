@@ -1,10 +1,14 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from ...services.estado_service import EstadoService
 
 
 def estado_lista(request):
     estados = EstadoService.get_all_estados()
+    paginator = Paginator(estados, 10)
+    page_number = request.GET.get('page')
+    estados = paginator.get_page(page_number)
 
     return render(request, 'estados/estados_lista.html', {'estados': estados})
 

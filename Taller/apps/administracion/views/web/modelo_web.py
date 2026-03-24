@@ -1,9 +1,13 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from ...services.modelo_service import ModeloService
 
 def modelo_lista(request):
     modelo = ModeloService.get_all_modelos()
+    paginator = Paginator(modelo, 10)
+    page_number = request.GET.get('page')
+    modelo = paginator.get_page(page_number)
 
     return render(request, 'modelos/modelos_lista.html', {'modelos': modelo})
 

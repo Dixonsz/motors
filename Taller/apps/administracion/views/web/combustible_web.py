@@ -1,9 +1,13 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from ...services.combustible_service import CombustibleService
 
 def combustible_lista(request):
     combustibles = CombustibleService.get_all_combustibles()
+    paginator = Paginator(combustibles, 10)
+    page_number = request.GET.get('page')
+    combustibles = paginator.get_page(page_number)
 
     return render(request, 'combustibles/combustibles_lista.html', {'combustibles': combustibles})
 

@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from ...services.cita_service import CitaService
 from ...services.vehiculo_service import VehiculoService
@@ -6,6 +7,9 @@ from ...services.servicio_service import ServicioService
 
 def cita_lista(request):
     citas = CitaService.get_all_citas()
+    paginator = Paginator(citas, 10)
+    page_number = request.GET.get('page')
+    citas = paginator.get_page(page_number)
 
     return render(request, 'citas/citas_lista.html', {'citas': citas})
 
