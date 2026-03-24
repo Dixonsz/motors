@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar Herramienta{% endblock %}
+{% block page_title %}Eliminar Herramienta{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de herramientas">
+    <a href="{% url 'herramientas_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Eliminar Herramienta</h1>
+    <p>¿Está seguro de que desea eliminar la herramienta "{{ herramienta.nombre }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Sí, eliminar</button>
+        <a href="{% url 'herramientas_lista' %}">Cancelar</a>
+    </form>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Crear Herramienta{% endblock %}
+{% block page_title %}Crear Herramienta{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de herramientas">
+    <a href="{% url 'herramientas_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Crear Herramienta</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" id="nombre" name="nombre" required placeholder="Nombre">
+        <br>
+        <input type="text" id="descripcion" name="descripcion" required placeholder="Descripción">
+        <br>
+        <input type="text" id="marca" name="marca" required placeholder="Marca">
+        <br>
+        <input type="text" id="modelo" name="modelo" required placeholder="Modelo">
+        <br>
+        <br>
+        <input type="text" id="codigo_interno" name="codigo_interno" required placeholder="El código interno se asignará automáticamente" readonly>
+        <br>
+        <select id="categoria_id" name="categoria_id" required>
+            <option value="">Seleccione una categoría</option>
+            {% for categoria in categorias %}
+                <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+            {% endfor %}
+        </select>
+        <br>
+
+        
+        <button type="submit">Guardar</button>
+    </form>
+{% endblock %}

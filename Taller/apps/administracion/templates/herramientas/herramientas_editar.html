@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Editar Herramienta{% endblock %}
+{% block page_title %}Editar Herramienta{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de herramientas">
+    <a href="{% url 'herramientas_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Editar Herramienta</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" id="nombre" name="nombre" value="{{ herramienta.nombre }}" required placeholder="Nombre">
+        <br>
+        <input type="text" id="descripcion" name="descripcion" value="{{ herramienta.descripcion }}" required placeholder="Descripción">
+        <br>
+        <input type="text" id="marca" name="marca" value="{{ herramienta.marca }}" required placeholder="Marca">
+        <br>
+        <input type="text" id="modelo" name="modelo" value="{{ herramienta.modelo }}" required placeholder="Modelo">
+        <br>
+        <input type="text" id="codigo_interno" name="codigo_interno" value="{{ herramienta.codigo_interno }}" required readonly>
+        <select id="categoria_herramienta_id" name="categoria_herramienta_id" required>
+            <option value="">Seleccione una categoría</option>
+            {% for categoria in categorias %}
+                <option value="{{ categoria.id }}" {% if herramienta.categoria_id == categoria.id %}selected{% endif %}>{{ categoria.nombre }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <button type="submit">Guardar</button>
+    </form>
+
+    <script>
+
+
+
+    </script>
+{% endblock %}
