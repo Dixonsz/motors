@@ -17,3 +17,4 @@ from .servicio import Servicio
 from .usuario import Usuario
 from .vehiculo import Vehiculo
 from .evidencia import Evidencia
+from .estado_herramienta import EstadoHerramienta

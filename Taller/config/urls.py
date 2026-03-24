@@ -21,6 +21,7 @@ from apps.administracion.views.web.estado_web import estado_lista, estado_create
 from apps.administracion.views.web.agenda_horario_web import agenda_horario_lista, agenda_horario_create, agenda_horario_editar, agenda_horario_eliminar
 from apps.administracion.views.web.inicio_web import inicio
 from apps.administracion.views.web.categoria_herramienta_web import categoria_lista, categoria_create, categoria_editar, categoria_eliminar
+from apps.administracion.views.web.estado_herramienta_web import estado_herramienta_lista, estado_herramienta_create, estado_herramienta_editar, estado_herramienta_eliminar
 
 router = DefaultRouter()
 router.register(r'ordenes', OrdenView, basename='api-ordenes')
@@ -114,7 +115,12 @@ urlpatterns = [
     path('categoria_herramientas/', categoria_lista, name='categoria_herramientas_lista'),
     path('categoria_herramientas/crear/', categoria_create, name='categoria_herramientas_crear'),
     path('categoria_herramientas/editar/<int:categoria_id>/', categoria_editar, name='categoria_herramientas_editar'),
-    path('categoria_herramientas/eliminar/<int:categoria_id>/', categoria_eliminar, name='categoria_herramientas_eliminar'),    
+    path('categoria_herramientas/eliminar/<int:categoria_id>/', categoria_eliminar, name='categoria_herramientas_eliminar'),  
+
+    path('estado_herramientas/', estado_herramienta_lista, name='estado_herramientas_lista'),
+    path('estado_herramientas/crear/', estado_herramienta_create, name='estado_herramientas_crear'),
+    path('estado_herramientas/editar/<int:estado_id>/', estado_herramienta_editar, name='estado_herramientas_editar'),
+    path('estado_herramientas/eliminar/<int:estado_id>/', estado_herramienta_eliminar, name='estado_herramientas_eliminar'),  
     
 ]
     

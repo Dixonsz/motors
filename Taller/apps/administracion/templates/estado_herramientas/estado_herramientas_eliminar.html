@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Eliminando Estado para Herramientas{% endblock %}
+{% block page_title %}Eliminando Estado para Herramientas{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de estados">
+    <a href="{% url 'estado_herramientas_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Eliminando Estado para Herramientas</h1>
+    <p>¿Estás seguro de que deseas eliminar el estado con ID {{ estado.nombre }}?</p>
+    <form action="" method="post">
+        {% csrf_token %}
+        <button type="submit">Sí, eliminar</button>
+        <a href="{% url 'estado_herramientas_lista' %}">No, volver a la lista</a>
+    </form>
+{% endblock %}

@@ -581,7 +581,7 @@
                  <div class="module-group" aria-label="Navegacion de catalogos">
                     <span class="module-group-title">Inventario de Herramientas</span>
                     <a href="{% url 'categoria_herramientas_lista' %}" class="{% if request.path|slice:':11' == '/categorias_herramienta/' %}active{% endif %}">Categorías</a>
-
+                    <a href="{% url 'estado_herramientas_lista' %}" class="{% if request.path|slice:':11' == '/estados_herramientas/' %}active{% endif %}">Estados</a>
                 </div>
             </nav>
         </aside>
