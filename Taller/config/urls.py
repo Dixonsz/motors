@@ -19,6 +19,7 @@ from apps.administracion.views.web.cita_web import cita_lista, cita_create, cita
 from apps.administracion.views.web.orden_web import (orden_lista, orden_create, orden_editar, orden_eliminar, orden_detalle_agregar, orden_detalle_eliminar, orden_detalle_actualizar)
 from apps.administracion.views.web.estado_web import estado_lista, estado_create, estado_editar, estado_eliminar
 from apps.administracion.views.web.agenda_horario_web import agenda_horario_lista, agenda_horario_create, agenda_horario_editar, agenda_horario_eliminar
+from apps.administracion.views.web.inicio_web import inicio
 
 router = DefaultRouter()
 router.register(r'ordenes', OrdenView, basename='api-ordenes')
@@ -26,6 +27,7 @@ router.register(r'ordenes-detalle', OrdenServicioView, basename='api-ordenes-det
 router.register(r'citas', CitaView, basename='api-citas')
 
 urlpatterns = [
+    path('', inicio, name='inicio'),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     

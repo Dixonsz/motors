@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>M & M| MOTORS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&amp;family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-fixed-variant": "#454747",
+              "outline-variant": "#4a5563",
+              "surface-container-high": "#2a2a2a",
+              "on-primary-fixed": "#2f2116",
+              "on-tertiary-fixed": "#1a1c1c",
+              "tertiary-container": "#717272",
+              "outline": "#8fa1b3",
+              "on-tertiary-container": "#f8f8f8",
+              "surface-variant": "#353534",
+              "surface-tint": "#f2994a",
+              "surface-container": "#201f1f",
+              "secondary-fixed-dim": "#b9c8de",
+              "on-surface-variant": "#c4cfdb",
+              "primary-fixed": "#ffe4cb",
+              "on-primary": "#3f2b1a",
+              "on-error": "#690005",
+              "primary-container": "#f2994a",
+              "primary-fixed-dim": "#ffc089",
+              "background": "#131313",
+              "secondary-fixed": "#d4e4fa",
+              "error-container": "#93000a",
+              "tertiary": "#c6c6c7",
+              "on-secondary-container": "#a7b6cc",
+              "on-tertiary": "#2f3131",
+              "inverse-primary": "#ffb06b",
+              "on-surface": "#e5e2e1",
+              "inverse-surface": "#e5e2e1",
+              "surface": "#131313",
+              "on-primary-fixed-variant": "#6b3f1d",
+              "secondary": "#b9c8de",
+              "on-background": "#e5e2e1",
+              "on-secondary-fixed-variant": "#39485a",
+              "on-secondary": "#233143",
+              "error": "#ffb4ab",
+              "surface-dim": "#131313",
+              "secondary-container": "#39485a",
+              "inverse-on-surface": "#313030",
+              "on-secondary-fixed": "#0d1c2d",
+              "surface-container-lowest": "#0e0e0e",
+              "surface-container-highest": "#353534",
+              "tertiary-fixed-dim": "#c6c6c7",
+              "surface-container-low": "#1c1b1b",
+              "on-error-container": "#ffdad6",
+              "primary": "#ffd2a6",
+              "tertiary-fixed": "#e2e2e2",
+              "surface-bright": "#393939",
+              "on-primary-container": "#2f2116"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .carbon-texture {
+            background-image: radial-gradient(#201f1f 0.5px, transparent 0.5px);
+            background-size: 4px 4px;
+        }
+        .text-shadow-industrial {
+            text-shadow: 0 4px 12px rgba(0,0,0,0.8);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary-container selection:text-white">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#131313]/80 backdrop-blur-xl border-b border-[#4a5563]/20 shadow-2xl shadow-black/40">
+<div class="flex justify-between items-center px-8 py-4 max-w-none w-full">
+<div class="text-2xl font-black tracking-tighter text-white uppercase font-['Space_Grotesk']">
+                M & M| MOTOR'S
+            </div>
+<div class="hidden md:flex space-x-10 items-center">
+<a class="font-['Space_Grotesk'] font-bold tracking-tighter text-[#f2994a] border-b-2 border-[#f2994a] pb-1" href="#servicios">Servicios</a>
+<a class="font-['Space_Grotesk'] font-bold tracking-tighter text-white/70 hover:text-white transition-colors" href="#agendar">Agendar Cita</a>
+<a class="font-['Space_Grotesk'] font-bold tracking-tighter text-white/70 hover:text-white transition-colors" href="#nosotros">Sobre Nosotros</a>
+<a class="font-['Space_Grotesk'] font-bold tracking-tighter text-white/70 hover:text-white transition-colors" href="#contacto">Contacto</a>
+</div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary-fixed px-6 py-2 font-bold uppercase tracking-tight active:scale-95 duration-150 rounded-DEFAULT">
+                Agendar Cita
+            </button>
+</div>
+</nav>
+<main>
+<!-- Hero Section -->
+<section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-40 grayscale" data-alt="ultra-modern clean luxury car workshop with high-end diagnostic tools, polished dark floors, and cinematic moody industrial lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPWDpLdVUgXiXwS7mxyajdJeU3MfuwTdu94-Nv3qzl9QhlFiAD3cryh5zLGdASdk1i6WrA3RBkdIZi4lfembBAYFzIE1NIvcEVPUENKqvfN_WdkWhMiIEsO8aFGV0g84JDlIauGNBhicLFofGApG_vrivofnvHCDlIakCfzzAyrYY22NbMIxdJXJ94D4DJt3GhP7J2mP5SKlJTlQpKiQ8QbGJqG0saIslFYCyWzyYW2_wPO8n5IT_tUN-OM_brdSwNNfxkDaVKcZAu"/>
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent"></div>
+</div>
+<div class="container mx-auto px-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
+<div class="lg:col-span-8">
+<span class="inline-block bg-primary-container text-on-primary-container px-3 py-1 text-xs font-bold tracking-[0.2em] uppercase mb-6 rounded-DEFAULT">
+                        Mejora integral del desempeño automotriz
+                    </span>
+<h1 class="font-headline text-6xl md:text-8xl font-black tracking-tighter text-white leading-[0.9] mb-8 uppercase italic">
+                        Confianza <br/> Calidad <br/> <span class="text-primary-container">Experiencia</span>
+</h1>
+<p class="text-lg text-on-surface-variant max-w-xl mb-10 leading-relaxed font-light">
+Precisión extrema. Rendimiento superior. Llevamos tu vehículo más allá de una simple reparación.                    </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary-fixed px-10 py-4 font-black uppercase tracking-widest text-sm rounded-DEFAULT shadow-lg shadow-primary-container/20">
+                            
+                            reservar cita
+                        </button>
+<button class="border border-outline-variant/30 text-white px-10 py-4 font-black uppercase tracking-widest text-sm hover:bg-white/5 transition-all">
+                            Consultar Registro
+                        </button>
+</div>
+</div>
+</div>
+<!-- Floating Spec Detail -->
+<div class="absolute bottom-12 right-8 hidden xl:block bg-surface-container-high/40 backdrop-blur-md p-6 border-l-4 border-primary-container max-w-xs">
+<div class="flex items-center gap-4 mb-2">
+<span class="material-symbols-outlined text-primary-container">precision_manufacturing</span>
+<span class="font-headline font-bold text-white uppercase tracking-tighter">Diagnóstico por Scanner</span>
+</div>
+<p class="text-xs text-on-surface-variant font-mono">Analizamos el estado de tu vehículo para ofrecerte un diagnóstico claro y una solución efectiva.</p>
+</div>
+</section>
+<!-- Services Section - Bento Style -->
+<section id="servicios" class="py-32 bg-surface px-8">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-8">
+<div>
+<h2 class="font-headline text-5xl font-extrabold tracking-tighter text-white uppercase italic">
+              Servicios <span class="text-primary-container">Especializados</span>
+</h2>
+<div class="h-1 w-24 bg-primary-container mt-4"></div>
+</div>
+<p class="text-on-surface-variant max-w-md font-light italic border-l border-outline-variant/30 pl-6">
+            Consulta nuestros servicios disponibles en todo momento para mantener tu vehículo en su mejor estado.
+          </p>
+</div>
+
+<div class="mb-8">
+<div class="flex flex-wrap gap-3 items-center">
+<a class="px-4 py-2 text-xs font-bold uppercase tracking-widest border rounded-full transition-all {% if not categoria_id_activa %}bg-primary-container text-on-primary-container border-primary-container{% else %}bg-surface-container text-on-surface border-outline-variant/40 hover:border-primary-container hover:text-primary-container{% endif %}" href="{% url 'inicio' %}#servicios">Todas ({{ total_servicios }})</a>
+{% for categoria in categorias %}
+<a class="px-4 py-2 text-xs font-bold uppercase tracking-widest border rounded-full transition-all {% if categoria_id_activa == categoria.id|stringformat:'s' %}bg-primary-container text-on-primary-container border-primary-container{% else %}bg-surface-container text-on-surface border-outline-variant/40 hover:border-primary-container hover:text-primary-container{% endif %}" href="{% url 'inicio' %}?categoria={{ categoria.id }}#servicios">{{ categoria.nombre }} ({{ categoria.servicios_activos_count }})</a>
+{% endfor %}
+</div>
+<p class="text-on-surface-variant text-sm mt-3">
+{% if categoria_activa %}
+Mostrando servicios activos de {{ categoria_activa.nombre }}.
+{% else %}
+Mostrando todos los servicios activos.
+{% endif %}
+</p>
+</div>
+
+{% if servicios %}
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 h-auto">
+{% for servicio in servicios %}
+<article class="group relative overflow-hidden bg-surface-container-low border border-outline-variant/10">
+<div class="relative p-8 h-full flex flex-col justify-between">
+<div>
+<span class="inline-block text-[10px] tracking-[0.2em] uppercase font-bold text-primary-container mb-3">{{ servicio.categoria_servicio.nombre }}</span>
+<h3 class="font-headline text-2xl font-bold text-white uppercase tracking-tighter">{{ servicio.nombre }}</h3>
+<p class="text-on-surface-variant mt-2 text-sm">{{ servicio.descripcion|default:'Sin descripcion registrada.' }}</p>
+</div>
+<div class="mt-4 flex items-end justify-between gap-3">
+<span class="text-primary-container font-headline text-2xl font-black">₡ {{ servicio.precio_base }}</span>
+<span class="text-on-surface-variant text-xs uppercase tracking-wider">
+Duración:    
+{% if servicio.duracion_hhmm %}
+{{ servicio.duracion_hhmm }}
+{% else %}
+Sin duracion
+{% endif %}
+</span>
+</div>
+</div>
+</article>
+{% endfor %}
+</div>
+{% else %}
+<div class="bg-surface-container border border-outline-variant/30 px-6 py-6 text-on-surface-variant text-sm uppercase tracking-widest">
+No hay servicios activos para mostrar con el filtro actual.
+</div>
+{% endif %}
+</div>
+</section>
+<!-- Why Apex - Asymmetric Layout -->
+<section class="py-32 bg-surface-container-lowest carbon-texture">
+<div class="container mx-auto px-8">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="relative">
+<div class="absolute -top-12 -left-12 w-64 h-64 bg-primary-container/10 blur-[100px]"></div>
+<img class="relative z-10 w-full aspect-[4/5] object-cover grayscale rounded-DEFAULT border-l-8 border-primary-container" data-alt="industrial workshop portrait of an engineer using precision measurement tools on a mechanical part with high contrast lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiBB1_YcHj9LtwYrXspv4aK7rwqOiK69wO0gXl7xt1B7Ax0yDoAvo0JvvqI4p9d0FRJdPsqMQii6-SE31S7-kCNttGRxj4kY03I_BGnW3WiBpM81_q2unywodBrbDT54Dj7yGBP3QLrYY8j3eX2zma_DYElaE7pKPdkuUFEYI-LddqOWldtTpTiRrm0hgXfZhDiW1o6-zlhyGdpSPgZ6jdpJLei4wLXBbJHa4jTpwZhgBIgvEpx1-Bmr3Sy8U9baChq0NjgmmdYdwX"/>
+<div class="absolute bottom-10 -right-10 bg-surface-container-highest p-10 z-20 hidden md:block border border-outline-variant/20 shadow-2xl">
+<span class="text-primary-container font-headline text-6xl font-black italic">0.01mm</span>
+<p class="text-white text-xs uppercase tracking-[0.3em] font-bold mt-2">Precisión y ajuste exacto</p>
+</div>
+</div>
+<div>
+<h2 class="font-headline text-6xl font-black tracking-tighter text-white uppercase italic leading-tight mb-16">
+                            El estándar <span class="text-primary-container">M&M MOTORS</span>
+</h2>
+<div class="space-y-12">
+<div class="flex gap-6 items-start">
+<div class="bg-primary-container/10 p-3 flex-shrink-0">
+<span class="material-symbols-outlined text-primary-container text-4xl" data-weight="fill">verified</span>
+</div>
+<div>
+<h4 class="font-headline text-2xl font-bold text-white uppercase tracking-tight">Mecánica de Precisión</h4>
+<p class="text-on-surface-variant mt-2 leading-relaxed">Precisión en cada detalle. Trabajamos bajo estándares profesionales para garantizar resultados confiables en cada servicio.</p>
+</div>
+</div>
+<div class="flex gap-6 items-start">
+<div class="bg-primary-container/10 p-3 flex-shrink-0">
+<span class="material-symbols-outlined text-primary-container text-4xl" data-weight="fill">handshake</span>
+</div>
+<div>
+<h4 class="font-headline text-2xl font-bold text-white uppercase tracking-tight">Confianza Garantizada</h4>
+<p class="text-on-surface-variant mt-2 leading-relaxed">Transparencia total en cada proceso. Te mantenemos informado para que tengas confianza en todo momento.</p>
+</div>
+</div>
+<div class="flex gap-6 items-start">
+<div class="bg-primary-container/10 p-3 flex-shrink-0">
+<span class="material-symbols-outlined text-primary-container text-4xl" data-weight="fill">speed</span>
+</div>
+<div>
+<h4 class="font-headline text-2xl font-bold text-white uppercase tracking-tight">Máxima eficiencia</h4>
+<p class="text-on-surface-variant mt-2 leading-relaxed">Trabajo ágil y organizado para entregarte tu vehículo en el menor tiempo posible sin comprometer la calidad.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="py-32 bg-surface">
+<div class="container mx-auto px-8">
+<div class="text-center mb-20">
+<span class="text-primary-container font-headline font-bold text-sm tracking-widest uppercase mb-4 block">Proven Excellence</span>
+<h2 class="font-headline text-5xl font-black tracking-tighter text-white uppercase italic">Client Logbook</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="bg-surface-container p-10 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 text-white/5 group-hover:text-primary-container/10 transition-colors">
+<span class="material-symbols-outlined text-8xl">format_quote</span>
+</div>
+<div class="flex text-primary-container mb-6">
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+</div>
+<p class="text-white italic leading-relaxed mb-8">"The only workshop I trust with my 911. Their attention to engine harmonics and timing precision is unparalleled in the industry."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-highest rounded-full flex items-center justify-center font-bold text-primary-container">MS</div>
+<div>
+<h5 class="font-headline font-bold text-white uppercase tracking-tighter">Marcus Sterling</h5>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">Porsche Enthusiast</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container p-10 relative overflow-hidden group border-t-2 border-primary-container">
+<div class="absolute top-0 right-0 p-4 text-white/5">
+<span class="material-symbols-outlined text-8xl">format_quote</span>
+</div>
+<div class="flex text-primary-container mb-6">
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+</div>
+<p class="text-white italic leading-relaxed mb-8">"Apex Precision treated my SUV with the same care as a supercar. The diagnostic report was clear and the efficiency was impressive."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-highest rounded-full flex items-center justify-center font-bold text-primary-container">EL</div>
+<div>
+<h5 class="font-headline font-bold text-white uppercase tracking-tighter">Elena Lopez</h5>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">Fleet Manager</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container p-10 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 text-white/5">
+<span class="material-symbols-outlined text-8xl">format_quote</span>
+</div>
+<div class="flex text-primary-container mb-6">
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+</div>
+<p class="text-white italic leading-relaxed mb-8">"Finally, a shop that understands forced induction properly. Their custom mapping saved my track build."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-highest rounded-full flex items-center justify-center font-bold text-primary-container">JH</div>
+<div>
+<h5 class="font-headline font-bold text-white uppercase tracking-tighter">Julian Hayes</h5>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">Amateur Racing Pilot</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Contact/Map Section -->
+<section class="bg-surface-container-low">
+<div class="grid grid-cols-1 lg:grid-cols-2">
+<div class="p-16 lg:p-24">
+<h2 class="font-headline text-5xl font-black tracking-tighter text-white uppercase italic mb-12">Atención<span class="text-primary-container"> al cliente</span></h2>
+<div class="space-y-10">
+<div>
+<span class="text-[10px] uppercase tracking-[0.4em] font-bold text-primary-container mb-4 block">Nuestra Ubicación</span>
+<p class="text-xl text-white font-headline">57W3+QC2 Limón Suerre,<br/>Jimenez, Guápiles, 70202</p>
+</div>
+<div>
+<span class="text-[10px] uppercase tracking-[0.4em] font-bold text-primary-container mb-4 block">Horario de Operación</span>
+<ul class="text-on-surface-variant space-y-2 font-light">
+<li class="flex justify-between max-w-xs"><span>Lunes - Viernes</span> <span class="text-white font-bold">07:00 a.m - 17:00 p.m</span></li>
+<li class="flex justify-between max-w-xs"><span>Sábado</span> <span class="text-white font-bold">07:00 a.m - 12:00 p.m</span></li>
+<li class="flex justify-between max-w-xs text-error/50"><span>Domingo</span> <span>Cerrado</span></li>
+</ul>
+</div>
+<div>
+<span class="text-[10px] uppercase tracking-[0.4em] font-bold text-primary-container mb-4 block">Respuesta Rápida</span>
+<p class="text-3xl font-headline font-black text-white tracking-tighter underline decoration-primary-container decoration-4">+506 8543 2380 Fabián Campos Vega</p>
+</div>
+<a class="inline-flex items-center gap-3 text-white uppercase font-black tracking-widest text-sm group" href="https://www.google.com/maps/dir/?api=1&amp;destination=10.196722469576335,-83.74913818918036" target="_blank" rel="noopener noreferrer">
+                            Iniciar ruta <span class="material-symbols-outlined text-primary-container group-hover:translate-x-2 transition-transform">arrow_forward</span>
+</a>
+</div>
+</div>
+<div class="min-h-[400px] relative overflow-hidden group">
+<div class="absolute inset-0 bg-primary-container/10 group-hover:bg-transparent transition-colors z-10 pointer-events-none"></div>
+<iframe class="absolute inset-0 w-full h-full border-0" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3926.802077520284!2d-83.74913818918036!3d10.196722469576335!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa0c967a474f981%3A0xbf041accf3e301fa!2sM%26M%20motors!5e0!3m2!1ses!2scr!4v1774319474831!5m2!1ses!2scr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#131313] w-full border-t border-[#4a5563]/25">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-16 max-w-7xl mx-auto">
+<div class="md:col-span-1">
+<div class="text-xl font-bold text-white uppercase tracking-widest mb-6">
+                    Apex Precision
+                </div>
+<p class="font-['Manrope'] text-sm text-white/60 leading-relaxed italic">
+                    Pushing the boundaries of automotive engineering through relentless precision and technical mastery.
+                </p>
+</div>
+<div>
+<h6 class="text-xs font-bold uppercase tracking-[0.3em] text-[#f2994a] mb-6">Engineering</h6>
+<ul class="space-y-4">
+<li><a class="text-white/40 hover:text-white transition-colors text-sm" href="#">Performance Tuning</a></li>
+<li><a class="text-white/40 hover:text-white transition-colors text-sm" href="#">Engine Overhaul</a></li>
+<li><a class="text-white/40 hover:text-white transition-colors text-sm" href="#">Dynamic Diagnostics</a></li>
+<li><a class="text-white/40 hover:text-white transition-colors text-sm" href="#">Chassis Tech</a></li>
+</ul>
+</div>
+<div>
+<h6 class="text-xs font-bold uppercase tracking-[0.3em] text-[#f2994a] mb-6">Company</h6>
+<ul class="space-y-4">
+<li><a class="text-white/40 hover:text-white transition-colors text-sm" href="#">Privacy Policy</a></li>
+<li><a class="text-white/40 hover:text-white transition-colors text-sm" href="#">Terms of Service</a></li>
+<li><a class="text-white/40 hover:text-white transition-colors text-sm" href="#">Service Warranty</a></li>
+<li><a class="text-white/40 hover:text-white transition-colors text-sm" href="#">Sitemap</a></li>
+</ul>
+</div>
+<div>
+<h6 class="text-xs font-bold uppercase tracking-[0.3em] text-[#f2994a] mb-6">Conéctate con nosotros</h6>
+<div class="flex gap-4">
+<a class="w-10 h-10 border border-outline-variant/30 flex items-center justify-center text-white/40 hover:text-primary-container hover:border-primary-container transition-all" href="https://www.M&MMotors.com" target="_blank" rel="noopener noreferrer">
+<span class="material-symbols-outlined text-sm">rss_feed</span>
+</a>
+<a class="w-10 h-10 border border-outline-variant/30 flex items-center justify-center text-white/40 hover:text-primary-container hover:border-primary-container transition-all" href="#">
+<span class="material-symbols-outlined text-sm">share</span>
+</a>
+<a class="w-10 h-10 border border-outline-variant/30 flex items-center justify-center text-white/40 hover:text-primary-container hover:border-primary-container transition-all" href="mailto:dixonsanchezsoza@gmail.com?subject=Me interesa%20saber%20más%20sobre%20M%26M%20Motors%20y%20los%20servicios%20que%20ofrecen" target="_blank" rel="noopener noreferrer">
+<span class="material-symbols-outlined text-sm">mail</span>
+</a>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant/5 py-8 text-center">
+<p class="font-['Manrope'] text-sm text-white/60 uppercase tracking-widest text-[10px]">
+                © 2026 M&M MOTORS. Mecánica de excelencia.
+            </p>
+</div>
+</footer>
+</body></html>
