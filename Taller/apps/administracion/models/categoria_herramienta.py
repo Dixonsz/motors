@@ -5,4 +5,4 @@ class CategoriaHerramienta(models.Model):
     descripcion = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.nombre}"
+        return f"{self.nombre} - {self.descripcion}"

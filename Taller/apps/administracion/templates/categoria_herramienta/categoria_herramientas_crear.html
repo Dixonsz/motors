@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Nuevo Categoria{% endblock %}
+{% block page_title %}Nuevo Categoria{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de categorias">
+    <a href="{% url 'categoria_herramientas_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Crear Nuevo Categoria</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <input type="text" name="nombre" required placeholder="Nombre del Categoria">
+        <input type="text" name="descripcion" placeholder="Descripción del Categoria">
+
+        <br>
+        <button type="submit">Guardar</button>
+
+    </form>
+{% endblock %}
