@@ -4,16 +4,16 @@
 
 {% block page_actions %}
 <nav aria-label="Navegacion de modelos">
-    <a href="{% url 'modelos_lista' %}">Volver al listado</a>
+    <a href="{% url 'modelos_lista' %}">Regresar</a>
 </nav>
 {% endblock %}
 
 {% block content %}
 <h1>Eliminar modelo</h1>
-    <p>Â¿EstÃ¡s seguro de que deseas eliminar el modelo con ID {{ modelo_id }}?</p>
+    <p>¿Estás seguro de que deseas eliminar el modelo con ID {{ modelo_id }}?</p>
     <form method="post">
         {% csrf_token %}
-        <button type="submit">SÃ­, eliminar</button>
+        <button type="submit">Sí, eliminar</button>
                 <a href="{% url 'modelos_lista' %}">No, volver a la lista</a>
 
     </form>

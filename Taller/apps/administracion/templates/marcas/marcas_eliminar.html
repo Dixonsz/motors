@@ -4,16 +4,16 @@
 
 {% block page_actions %}
 <nav aria-label="Navegacion de marcas">
-    <a href="{% url 'marcas_lista' %}">Volver al listado</a>
+    <a href="{% url 'marcas_lista' %}">Regresar</a>
 </nav>
 {% endblock %}
 
 {% block content %}
 <h1>Eliminar Marca</h1>
-    <p>Â¿EstÃ¡s seguro de que quieres eliminar la marca "{{ marca.nombre }}"?</p>
+    <p>¿Estás seguro de que quieres eliminar la marca "{{ marca.nombre }}"?</p>
     <form method="post">
         {% csrf_token %}
-        <button type="submit">SÃ­, eliminar</button>
+        <button type="submit">Sí, eliminar</button>
         <a href="{% url 'marcas_lista' %}">Cancelar</a>
     </form>
 {% endblock %}

@@ -24,6 +24,7 @@ from apps.administracion.views.web.categoria_herramienta_web import categoria_li
 from apps.administracion.views.web.estado_herramienta_web import estado_herramienta_lista, estado_herramienta_create, estado_herramienta_editar, estado_herramienta_eliminar
 from apps.administracion.views.web.herramienta_web import herramienta_lista, herramienta_create, herramienta_editar, herramienta_eliminar
 from apps.administracion.views.web.inventario_herramienta_web import inventario_herramientas_lista, inventario_herramientas_create, inventario_herramientas_editar, inventario_herramientas_eliminar
+from apps.administracion.views.web.reportes_web import reporte_clientes
 
 router = DefaultRouter()
 router.register(r'ordenes', OrdenView, basename='api-ordenes')
@@ -134,6 +135,7 @@ urlpatterns = [
     path('inventario_herramientas/editar/<int:inventario_id>/', inventario_herramientas_editar, name='inventario_herramientas_editar'),
     path('inventario_herramientas/eliminar/<int:inventario_id>/', inventario_herramientas_eliminar, name='inventario_herramientas_eliminar'),
 
+    path('reportes/clientes/', reporte_clientes, name='reportes_clientes'),
     
 ]
     

@@ -4,7 +4,7 @@
 
 {% block page_actions %}
 <nav aria-label="Navegacion de estados">
-    <a href="{% url 'estados_lista' %}">Volver al listado</a>
+    <a href="{% url 'estados_lista' %}">Regresar</a>
 </nav>
 {% endblock %}
 
@@ -12,8 +12,13 @@
 <h1>Editar Estado</h1>
     <form action="" method="post">
         {% csrf_token %}
+        <br>
+        <label for="nombre">Nombre:</label>
         <input type="text" name="nombre" value="{{ estado.nombre }}" required placeholder="Nombre del Estado">
+        <br>
+        <label for="descripcion">Descripción:</label>
         <input type="text" name="descripcion" value="{{ estado.descripcion }}" placeholder="Descripción del Estado">
+        <br>
         <label> 
             <input type="checkbox" name="is_active" {% if estado.is_active %}checked{% endif %}> Activo
         </label>

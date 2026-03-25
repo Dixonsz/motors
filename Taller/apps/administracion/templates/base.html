@@ -576,6 +576,8 @@
                     <span class="module-group-title">Configuración</span>
                     <a href="{% url 'usuarios_lista' %}" class="{% if request.path|slice:':10' == '/usuarios/' %}active{% endif %}">Usuarios</a>
                     <a href="{% url 'roles_lista' %}" class="{% if request.path|slice:':7' == '/roles/' %}active{% endif %}">Roles</a>
+                    <a href="{% url 'reportes_clientes' %}" class="{% if request.path|slice:':19' == '/reportes/clientes/' %}active{% endif %}">Reporte clientes</a>
+                   
                 </div>
 
                  <div class="module-group" aria-label="Navegacion de catalogos">

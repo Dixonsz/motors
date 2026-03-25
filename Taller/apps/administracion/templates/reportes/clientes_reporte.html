@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block title %}Reporte de Clientes | Taller{% endblock %}
+{% block page_title %}Reporte de Clientes{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Acciones de reporte">
+    <a href="{% url 'reportes_clientes' %}?fecha_inicio={{ fecha_inicio|date:'Y-m-d' }}&fecha_fin={{ fecha_fin|date:'Y-m-d' }}&formato=csv">Descargar CSV</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="filtros-reporte-clientes">
+    <h2 id="filtros-reporte-clientes">Filtros</h2>
+    <form method="get">
+        <div>
+            <label for="fecha_inicio">Fecha inicio</label>
+            <input type="date" id="fecha_inicio" name="fecha_inicio" value="{{ fecha_inicio|date:'Y-m-d' }}">
+        </div>
+
+        <div>
+            <label for="fecha_fin">Fecha fin</label>
+            <input type="date" id="fecha_fin" name="fecha_fin" value="{{ fecha_fin|date:'Y-m-d' }}">
+        </div>
+
+        <input type="submit" value="Aplicar filtros">
+    </form>
+</section>
+
+<section aria-labelledby="resumen-reporte-clientes">
+    <h2 id="resumen-reporte-clientes">Resumen</h2>
+    <table>
+        <tbody>
+            <tr>
+                <th scope="row">Clientes totales</th>
+                <td>{{ resumen.clientes_totales }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Clientes con actividad</th>
+                <td>{{ resumen.clientes_con_actividad }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Total de vehiculos</th>
+                <td>{{ resumen.total_vehiculos }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Total de citas</th>
+                <td>{{ resumen.total_citas }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Total de recepciones</th>
+                <td>{{ resumen.total_recepciones }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Total de ordenes</th>
+                <td>{{ resumen.total_ordenes }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Total facturado</th>
+                <td>${{ resumen.total_facturado|floatformat:2 }}</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section aria-labelledby="detalle-reporte-clientes">
+    <h2 id="detalle-reporte-clientes">Detalle por cliente</h2>
+
+    {% if filas %}
+        <table>
+            <caption>Detalle de actividad por cliente en el rango seleccionado</caption>
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Cedula</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Telefono</th>
+                    <th scope="col">Vehiculos</th>
+                    <th scope="col">Citas</th>
+                    <th scope="col">Recepciones</th>
+                    <th scope="col">Ordenes</th>
+                    <th scope="col">Facturado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fila in filas %}
+                    <tr>
+                        <td>{{ fila.id }}</td>
+                        <td>{{ fila.nombre }}</td>
+                        <td>{{ fila.cedula }}</td>
+                        <td>{{ fila.correo }}</td>
+                        <td>{{ fila.telefono }}</td>
+                        <td>{{ fila.vehiculos }}</td>
+                        <td>{{ fila.citas }}</td>
+                        <td>{{ fila.recepciones }}</td>
+                        <td>{{ fila.ordenes }}</td>
+                        <td>${{ fila.facturado|floatformat:2 }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="empty-message">No hay clientes para el rango seleccionado.</p>
+    {% endif %}
+</section>
+{% endblock %}

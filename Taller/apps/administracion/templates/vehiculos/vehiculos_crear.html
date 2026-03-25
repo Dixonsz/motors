@@ -4,7 +4,7 @@
 
 {% block page_actions %}
 <nav aria-label="Navegacion de vehiculos">
-    <a href="{% url 'vehiculos_lista' %}">Volver al listado</a>
+    <a href="{% url 'vehiculos_lista' %}">Regresar</a>
 </nav>
 {% endblock %}
 
@@ -13,33 +13,44 @@
     <form method="post">
         {% csrf_token %}
 
+            <br>
+            <label for="Propietario">Propietario:</label>
           <select id="cliente_id" name="cliente_id" required>
             <option value="">Seleccione el propietario del vehiculo</option>
             {% for cliente in clientes %}
                 <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
             {% endfor %}
         </select>
-
+        <br>
+        <label for="placa">Placa:</label>
         <input type="text" id="placa" name="placa" required placeholder="Placa">
         <br>
+        <label for="anio">Año:</label>
         <input type="text" id="anio" name="anio" required placeholder="Año del Vehiculo">
         <br>
+        <label for="color">Color:</label>
         <input type="text" id="color" name="color" required placeholder="Color">
         <br>
+        <label for="vin">VIN:</label>
         <input type="text" id="vin" name="vin" required placeholder="VIN del Vehiculo">
         <br>
+        <label for="motor">Motor:</label>
         <select id="modelo_id" name="modelo_id" required>
             <option value="">Seleccione el modelo</option>
             {% for modelo in modelos %}
                 <option value="{{ modelo.id }}">{{ modelo.nombre }}</option>
             {% endfor %}
         </select>
+        <br>
+        <label for="marca">Marca:</label>
         <select id="marca_id" name="marca_id" required>
             <option value="">Seleccione la marca</option>
             {% for marca in marcas %}
                 <option value="{{ marca.id }}">{{ marca.nombre }}</option>
             {% endfor %}
         </select>
+        <br>
+        <label for="combustible">Combustible:</label>
         <select id="combustible_id" name="combustible_id" required>
             <option value="">Seleccione el tipo de combustible</option>
             {% for combustible in combustibles %}

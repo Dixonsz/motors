@@ -4,7 +4,7 @@
 
 {% block page_actions %}
 <nav aria-label="Navegacion de ordenes">
-  <a href="{% url 'ordenes_lista' %}">Volver al listado</a>
+  <a href="{% url 'ordenes_lista' %}">Regresar</a>
   {% if orden %}
     <a href="{% url 'ordenes_crear' %}">Nueva orden</a>
   {% endif %}

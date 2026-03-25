@@ -4,16 +4,16 @@
 
 {% block page_actions %}
 <nav aria-label="Navegacion de vehiculos">
-    <a href="{% url 'vehiculos_lista' %}">Volver al listado</a>
+    <a href="{% url 'vehiculos_lista' %}">Regresar</a>
 </nav>
 {% endblock %}
 
 {% block content %}
 <h1>Eliminar Vehiculo</h1>
-    <p>Â¿EstÃ¡ seguro de que desea eliminar el vehiculo "{{ vehiculo.placa }}"?</p>
+    <p>¿Estás seguro de que deseas eliminar el vehículo "{{ vehiculo.placa }}"?</p>
     <form method="post">
         {% csrf_token %}
-        <button type="submit">SÃ­, eliminar</button>
+        <button type="submit">Sí, eliminar</button>
         <a href="{% url 'vehiculos_lista' %}">Cancelar</a>
     </form>
 {% endblock %}
