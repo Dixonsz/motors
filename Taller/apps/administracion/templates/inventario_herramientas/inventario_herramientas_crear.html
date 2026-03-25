@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Inventario de Herramientas{% endblock %}
+{% block page_title %}Inventario de Herramientas{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de inventario">
+    <a href="{% url 'inventario_herramientas_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Crear Inventario de Herramientas</h1>
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="herramienta_id">Herramienta</label>
+        <select id="herramienta_id" name="herramienta_id" required>
+            <option value="">Seleccione una herramienta</option>
+            {% for herramienta in herramientas %}
+                <option value="{{ herramienta.id }}">{{ herramienta.nombre }}{% if herramienta.codigo_interno %} ({{ herramienta.codigo_interno }}){% endif %}</option>
+            {% endfor %}
+        </select>
+        <br>
+
+        <label for="estado_id">Estado</label>
+        <select id="estado_id" name="estado_id" required>
+            <option value="">Seleccione un estado</option>
+            {% for estado in estados %}
+                <option value="{{ estado.id }}">{{ estado.nombre }}</option>
+            {% endfor %}
+        </select>
+        <br>
+
+        <label for="cantidad">Cantidad</label>
+        <input type="number" id="cantidad" name="cantidad" min="1" step="1" required placeholder="Cantidad a agregar">
+        <br>
+
+        <button type="submit">Guardar</button>
+    </form>
+{% endblock %}

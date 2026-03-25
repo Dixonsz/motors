@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar Inventario{% endblock %}
+{% block page_title %}Eliminar Inventario{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de inventario">
+	<a href="{% url 'inventario_herramientas_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="eliminar-inventario-title">
+	<h1 id="eliminar-inventario-title">Confirmar eliminacion</h1>
+	<p>Esta accion eliminara el registro de inventario seleccionado.</p>
+
+	<ul>
+		<li><strong>Herramienta:</strong> {{ inventario.herramienta.nombre }}</li>
+		<li><strong>Estado:</strong> {{ inventario.estado.nombre }}</li>
+		<li><strong>Cantidad:</strong> {{ inventario.cantidad_total }}</li>
+	</ul>
+
+	<form method="post">
+		{% csrf_token %}
+		<button type="submit">Eliminar</button>
+	</form>
+</section>
+{% endblock %}

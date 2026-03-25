@@ -1,95 +1,39 @@
 ﻿{% extends 'base.html' %}
-{% block title %}Editar cliente | Taller{% endblock %}
-{% block page_title %}Editar cliente | Taller{% endblock %}
+{% block title %}Editar Usuario{% endblock %}
+{% block page_title %}Editar Usuario{% endblock %}
 
 {% block page_actions %}
-<nav aria-label="Navegacion de clientes">
-    <a href="{% url 'clientes_lista' %}">Volver al listado</a>
+<nav aria-label="Navegacion de usuarios">
+    <a href="{% url 'clientes_lista' %}">Regresar</a>
 </nav>
 {% endblock %}
 
 {% block content %}
-<section aria-labelledby="editar-cliente-title">
-    <h2 id="editar-cliente-title">Actualizar datos del cliente</h2>
-
-    <form method="post" novalidate>
+<h1>Actualizar los datos del cliente</h1>
+    <form method="post">
         {% csrf_token %}
-
-                <fieldset>
-                    <legend>Informacion del cliente</legend>
-
-                    <div>
-                        <label for="nombre">Nombre completo</label>
-                        <input
-                            type="text"
-                            id="nombre"
-                            name="nombre"
-                            maxlength="120"
-                            autocomplete="name"
-                            value="{{ cliente.nombre }}"
-                            required
-                        >
-                    </div>
-
-                    <div>
-                        <label for="correo">Correo electronico</label>
-                        <input
-                            type="email"
-                            id="correo"
-                            name="correo"
-                            maxlength="254"
-                            autocomplete="email"
-                            value="{{ cliente.correo }}"
-                            required
-                        >
-                    </div>
-
-                    <div>
-                        <label for="telefono">Telefono</label>
-                        <input
-                            type="tel"
-                            id="telefono"
-                            name="telefono"
-                            inputmode="numeric"
-                            pattern="[0-9]{7,15}"
-                            maxlength="15"
-                            autocomplete="tel"
-                            value="{{ cliente.telefono }}"
-                            required
-                        >
-                    </div>
-
-                    <div>
-                        <label for="cedula">Cedula</label>
-                        <input
-                            type="text"
-                            id="cedula"
-                            name="cedula"
-                            inputmode="numeric"
-                            pattern="[0-9]{6,20}"
-                            maxlength="20"
-                            value="{{ cliente.cedula }}"
-                            required
-                        >
-                    </div>
-
-                    <div>
-                        <label for="direccion">Direccion</label>
-                        <textarea
-                            id="direccion"
-                            name="direccion"
-                            rows="3"
-                            maxlength="255"
-                            autocomplete="street-address"
-                            required
-                        >{{ cliente.direccion }}</textarea>
-                    </div>
-        </fieldset>
-
-        <div>
-            <button type="submit">Guardar cambios</button>
-            <a href="{% url 'clientes_lista' %}">Cancelar</a>
-        </div>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" value="{{ cliente.nombre }}" required>
+        <br>
+    
+        <label for="telefono">Teléfono:</label>
+        <input type="text" id="telefono" name="telefono" value="{{ cliente.telefono }}" required>
+        <br>
+        <label for="correo">Correo:</label>
+        <input type="email" id="correo" name="correo" value="{{ cliente.correo }}" required>
+        <br>
+        <label for="cedula">Cédula:</label>
+        <input type="text" name="cedula" id="cedula" value="{{ cliente.cedula }}" required>
+        <br>
+        <label for="direccion">Dirección:</label>
+        <input type="text" name="direccion" id="direccion" value="{{ cliente.direccion }}" required>
+        <br>
+        <button type="submit">Guardar</button>
     </form>
-</section>
+
+    <script>
+
+
+
+    </script>
 {% endblock %}

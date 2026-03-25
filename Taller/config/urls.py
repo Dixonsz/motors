@@ -23,6 +23,7 @@ from apps.administracion.views.web.inicio_web import inicio
 from apps.administracion.views.web.categoria_herramienta_web import categoria_lista, categoria_create, categoria_editar, categoria_eliminar
 from apps.administracion.views.web.estado_herramienta_web import estado_herramienta_lista, estado_herramienta_create, estado_herramienta_editar, estado_herramienta_eliminar
 from apps.administracion.views.web.herramienta_web import herramienta_lista, herramienta_create, herramienta_editar, herramienta_eliminar
+from apps.administracion.views.web.inventario_herramienta_web import inventario_herramientas_lista, inventario_herramientas_create, inventario_herramientas_editar, inventario_herramientas_eliminar
 
 router = DefaultRouter()
 router.register(r'ordenes', OrdenView, basename='api-ordenes')
@@ -127,7 +128,12 @@ urlpatterns = [
     path('herramientas/crear/', herramienta_create, name='herramientas_crear'),
     path('herramientas/editar/<int:herramienta_id>/', herramienta_editar, name='herramientas_editar'),
     path('herramientas/eliminar/<int:herramienta_id>/', herramienta_eliminar, name='herramientas_eliminar'),
-    
+
+    path('inventario_herramientas/', inventario_herramientas_lista, name='inventario_herramientas_lista'),
+    path('inventario_herramientas/crear/', inventario_herramientas_create, name='inventario_herramientas_crear'),
+    path('inventario_herramientas/editar/<int:inventario_id>/', inventario_herramientas_editar, name='inventario_herramientas_editar'),
+    path('inventario_herramientas/eliminar/<int:inventario_id>/', inventario_herramientas_eliminar, name='inventario_herramientas_eliminar'),
+
     
 ]
     

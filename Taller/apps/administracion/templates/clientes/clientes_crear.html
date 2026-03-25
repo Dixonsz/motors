@@ -4,95 +4,33 @@
 
 {% block page_actions %}
 <nav aria-label="Navegacion de clientes">
-    <a href="{% url 'clientes_lista' %}">Volver al listado</a>
+    <a href="{% url 'clientes_lista' %}">Regresar</a>
 </nav>
 {% endblock %}
 
 {% block content %}
-<section aria-labelledby="form-title">
-    <h2 id="form-title">Datos del cliente</h2>
-    <p>Completa la informacion para registrar un nuevo cliente.</p>
-
-    <form method="post" action="{% url 'clientes_crear' %}" novalidate>
+<h1>Ingrese los datos del nuevo cliente</h1>
+    <form method="post">
         {% csrf_token %}
-
-        <fieldset>
-            <legend>Informacion personal</legend>
-
-                    <div>
-                        <label for="nombre">Nombre completo</label>
-                        <input
-                            type="text"
-                            id="nombre"
-                            name="nombre"
-                            maxlength="120"
-                            autocomplete="name"
-                            value="{{ request.POST.nombre|default:'' }}"
-                            required
-                        >
-                    </div>
-
-                    <div>
-                        <label for="correo">Correo electrÃ³nico</label>
-                        <input
-                            type="email"
-                            id="correo"
-                            name="correo"
-                            maxlength="254"
-                            autocomplete="email"
-                            value="{{ request.POST.correo|default:'' }}"
-                            required
-                        >
-                    </div>
-
-                    <div>
-                        <label for="telefono">Telefono</label>
-                        <input
-                            type="tel"
-                            id="telefono"
-                            name="telefono"
-                            inputmode="numeric"
-                            pattern="[0-9]{7,15}"
-                            maxlength="15"
-                            autocomplete="tel"
-                            value="{{ request.POST.telefono|default:'' }}"
-                            required
-                        >
-                        <small>Solo numeros, entre 7 y 15 digitos.</small>
-                    </div>
-
-                    <div>
-                        <label for="cedula">Cedula</label>
-                        <input
-                            type="text"
-                            id="cedula"
-                            name="cedula"
-                            inputmode="numeric"
-                            pattern="[0-9]{6,20}"
-                            maxlength="20"
-                            value="{{ request.POST.cedula|default:'' }}"
-                            required
-                        >
-                        <small>Solo numeros, entre 6 y 20 digitos.</small>
-                    </div>
-
-                    <div>
-                        <label for="direccion">Direccion</label>
-                        <textarea
-                            id="direccion"
-                            name="direccion"
-                            rows="3"
-                            maxlength="255"
-                            autocomplete="street-address"
-                            required
-                        >{{ request.POST.direccion|default:'' }}</textarea>
-                    </div>
-        </fieldset>
-
-        <div>
-            <button type="submit">Guardar cliente</button>
-            <a href="{% url 'clientes_lista' %}">Cancelar</a>
-        </div>
+        <br>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required placeholder="Nombre">
+        <br>
+        <label for="apellido">Apellido:</label>
+        <input type="email" id="apellido" name="apellido" required placeholder="Apellido">
+        <br>
+        <label for="telefono">Teléfono:</label>
+        <input type="number" id="telefono" name="telefono" required placeholder="Teléfono">
+        <br>
+        <label for="cedula">Cédula:</label>
+        <input type="number" name="cedula" id="cedula" required placeholder="Cédula">
+        <br>
+        <label for="correo">Correo:</label>
+        <input type="email" id="correo" name="correo" required placeholder="Correo">
+        <br>
+        <label for="direccion">Dirección:</label>
+        <input type="text" name="direccion" id="direccion" required placeholder="Dirección">
+        <br>
+        <button type="submit">Guardar</button>
     </form>
-</section>
 {% endblock %}

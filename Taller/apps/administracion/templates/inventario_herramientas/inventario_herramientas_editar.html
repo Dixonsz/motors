@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Editar Inventario de Herramientas{% endblock %}
+{% block page_title %}Editar Inventario de Herramientas{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de inventario">
+	<a href="{% url 'inventario_herramientas_lista' %}">Volver al listado</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Editar Inventario de Herramientas</h1>
+	<form method="post">
+		{% csrf_token %}
+
+		<p><strong>Herramienta:</strong> {{ inventario.herramienta.nombre }}</p>
+		<p><strong>Estado origen:</strong> {{ inventario.estado.nombre }}</p>
+		<p><strong>Stock en origen:</strong> {{ inventario.cantidad_total }}</p>
+
+		<label for="estado_destino_id">Estado destino</label>
+		<select id="estado_destino_id" name="estado_destino_id" required>
+			<option value="">Seleccione un estado destino</option>
+			{% for estado in estados %}
+				{% if estado.id != inventario.estado_id %}
+					<option value="{{ estado.id }}">{{ estado.nombre }}</option>
+				{% endif %}
+			{% endfor %}
+		</select>
+		<br>
+
+		<label for="cantidad">Cantidad a mover</label>
+		<input type="number" id="cantidad" name="cantidad" min="1" max="{{ inventario.cantidad_total }}" step="1" required>
+		<br>
+
+		<button type="submit">Guardar</button>
+	</form>
+{% endblock %}
