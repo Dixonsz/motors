@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "surface-tint": "#ffb693",
+                "surface-container-lowest": "#0c0e10",
+                "outline": "#a98a7d",
+                "tertiary": "#9ccaff",
+                "surface-bright": "#37393b",
+                "secondary-container": "#3e4b51",
+                "secondary-fixed": "#d7e5ec",
+                "error": "#ffb4ab",
+                "inverse-on-surface": "#2f3133",
+                "on-secondary-fixed-variant": "#3c494f",
+                "inverse-primary": "#a04100",
+                "background": "#121416",
+                "primary-container": "#ff6b00",
+                "on-secondary-fixed": "#101d23",
+                "inverse-surface": "#e2e2e5",
+                "on-tertiary": "#003257",
+                "surface-dim": "#121416",
+                "on-tertiary-fixed-variant": "#00497b",
+                "tertiary-fixed-dim": "#9ccaff",
+                "on-tertiary-fixed": "#001d35",
+                "on-surface": "#e2e2e5",
+                "on-primary-fixed-variant": "#7a3000",
+                "on-primary": "#561f00",
+                "surface-container-high": "#282a2c",
+                "secondary-fixed-dim": "#bbc9d0",
+                "on-primary-container": "#572000",
+                "on-error": "#690005",
+                "secondary": "#bbc9d0",
+                "surface-container-highest": "#333537",
+                "outline-variant": "#5a4136",
+                "surface": "#121416",
+                "primary-fixed": "#ffdbcc",
+                "surface-container": "#1e2022",
+                "tertiary-fixed": "#d0e4ff",
+                "on-surface-variant": "#e2bfb0",
+                "on-secondary": "#253238",
+                "on-error-container": "#ffdad6",
+                "error-container": "#93000a",
+                "on-background": "#e2e2e5",
+                "tertiary-container": "#059eff",
+                "surface-variant": "#333537",
+                "primary": "#ffb693",
+                "primary-fixed-dim": "#ffb693",
+                "on-tertiary-container": "#003357",
+                "on-primary-fixed": "#351000",
+                "surface-container-low": "#1a1c1e",
+                "on-secondary-container": "#adbbc2"
+              },
+              fontFamily: {
+                "headline": ["Space Grotesk"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-nav-border {
+            border-bottom: 2px solid #ff6b00;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #121416; }
+        ::-webkit-scrollbar-thumb { background: #333537; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ff6b00; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-container selection:text-white">
+<!-- TopNavBar -->
+<header class="bg-[#121416] docked full-width top-0 z-50 flex justify-between items-center w-full px-8 py-4 max-w-none sticky">
+<div class="text-2xl font-black italic tracking-tighter text-[#ff6b00]">GEARBOX</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-['Space_Grotesk'] uppercase tracking-wider text-sm font-bold text-[#ffb693] border-b-2 border-[#ff6b00] pb-1" href="#">Appointments</a>
+<a class="font-['Space_Grotesk'] uppercase tracking-wider text-sm font-bold text-gray-400 hover:text-white transition-colors" href="#">Inventory</a>
+<a class="font-['Space_Grotesk'] uppercase tracking-wider text-sm font-bold text-gray-400 hover:text-white transition-colors" href="#">Technicians</a>
+<a class="font-['Space_Grotesk'] uppercase tracking-wider text-sm font-bold text-gray-400 hover:text-white transition-colors" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-gray-400">
+<span class="material-symbols-outlined hover:text-[#ffb693] cursor-pointer">notifications</span>
+<span class="material-symbols-outlined hover:text-[#ffb693] cursor-pointer">account_circle</span>
+</div>
+<button class="bg-gradient-to-br from-[#ffb693] to-[#ff6b00] text-[#351000] px-5 py-2 rounded-lg font-bold uppercase tracking-tighter text-sm hover:scale-95 transition-all duration-100">
+                New Booking
+            </button>
+</div>
+</header>
+<main class="min-h-screen px-4 py-12 md:px-12 lg:px-24">
+<!-- Hero Section Asymmetry -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
+<div class="lg:col-span-7">
+<h1 class="font-headline text-5xl md:text-7xl font-bold tracking-tighter leading-none mb-6">
+                    PRECISION <br/><span class="text-primary-container">SCHEDULING</span>
+</h1>
+<p class="text-secondary max-w-md font-light text-lg opacity-80">
+                    Engineered for efficiency. Book your next performance maintenance session or diagnostic inspection with our expert technical crew.
+                </p>
+</div>
+<div class="lg:col-span-5 relative group">
+<div class="absolute inset-0 bg-primary-container/10 -rotate-3 rounded-xl transition-transform group-hover:rotate-0"></div>
+<img alt="Automotive Workshop" class="w-full h-64 object-cover rounded-xl relative z-10 grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Close-up of a high-performance car engine in a clean, professional workshop with dramatic orange and blue cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAI7gWYnP0ITD18f7N2QAd6RbkKxN-onnllYf7t91NjgRrSTN5gV15dHyCghB8hV7cYLUHsfUzzHX8iifZBw_Qovyrr2hgQGtwMIiu5gie-xxAT_dOTHBf7MTkCTQvkROsO9jPhUzifNk3QtTOEDLqmlhk2EvzqGEsC_VdiXD3BglLZqsU4SdACVPjC0E-HKFP-Di9jdO3UwZmV389fU2l0p_2p_czLA4ljHlGIuR7WkJlNV_kBsHOJIefDQRsXmgqYkbaG8KtXOiI8"/>
+</div>
+</div>
+<!-- Booking Interface -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+<!-- Left Column: Service & Vehicle -->
+<div class="lg:col-span-2 space-y-8">
+<!-- Section 1: Service Selection -->
+<section class="bg-surface-container-low p-8 rounded-xl">
+<div class="flex items-center gap-3 mb-8">
+<span class="text-xs font-bold tracking-[0.2em] uppercase bg-primary-container/20 text-primary-container px-2 py-1 rounded">Step 01</span>
+<h2 class="font-headline text-xl font-bold uppercase tracking-widest">Select Service</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="bg-surface-container-highest p-6 rounded-lg cursor-pointer border-l-4 border-primary-container transition-all hover:bg-surface-bright">
+<span class="material-symbols-outlined text-primary-container mb-4">oil_barrel</span>
+<h3 class="font-bold uppercase text-sm mb-2">Oil Change</h3>
+<p class="text-xs text-secondary opacity-60">High-performance synthetic lubrication &amp; filter.</p>
+</div>
+<div class="bg-surface-container p-6 rounded-lg cursor-pointer border-l-4 border-transparent hover:border-outline transition-all hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-tertiary mb-4">tire_repair</span>
+<h3 class="font-bold uppercase text-sm mb-2">Brake Inspection</h3>
+<p class="text-xs text-secondary opacity-60">Full safety check &amp; pad wear analysis.</p>
+</div>
+<div class="bg-surface-container p-6 rounded-lg cursor-pointer border-l-4 border-transparent hover:border-outline transition-all hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-tertiary mb-4">engineering</span>
+<h3 class="font-bold uppercase text-sm mb-2">Diagnostics</h3>
+<p class="text-xs text-secondary opacity-60">Full ECU scan and system health check.</p>
+</div>
+</div>
+</section>
+<!-- Section 2: Vehicle Identification -->
+<section class="bg-surface-container-low p-8 rounded-xl">
+<div class="flex items-center gap-3 mb-8">
+<span class="text-xs font-bold tracking-[0.2em] uppercase bg-primary-container/20 text-primary-container px-2 py-1 rounded">Step 02</span>
+<h2 class="font-headline text-xl font-bold uppercase tracking-widest">Vehicle Details</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-widest text-secondary opacity-70">License Plate / VIN</label>
+<input class="w-full bg-surface-container-highest border-none focus:ring-0 focus:border-b-2 border-primary-container p-4 text-on-surface font-mono placeholder:opacity-30 rounded" placeholder="e.g. 57-GT-882" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-widest text-secondary opacity-70">Vehicle Type</label>
+<select class="w-full bg-surface-container-highest border-none focus:ring-0 p-4 text-on-surface rounded">
+<option>Performance Sports</option>
+<option>Luxury Sedan</option>
+<option>SUV / Off-road</option>
+<option>Classic Restoration</option>
+</select>
+</div>
+</div>
+</section>
+<!-- Section 4: Notes -->
+<section class="bg-surface-container-low p-8 rounded-xl">
+<div class="flex items-center gap-3 mb-8">
+<span class="text-xs font-bold tracking-[0.2em] uppercase bg-primary-container/20 text-primary-container px-2 py-1 rounded">Step 04</span>
+<h2 class="font-headline text-xl font-bold uppercase tracking-widest">Additional Notes</h2>
+</div>
+<textarea class="w-full bg-surface-container-highest border-none focus:ring-0 p-4 text-on-surface placeholder:opacity-30 rounded" placeholder="Describe specific symptoms or requests (e.g., 'Slight rattle in front-left wheel at 60mph')..." rows="4"></textarea>
+</section>
+</div>
+<!-- Right Column: Schedule & Confirm -->
+<aside class="space-y-8 lg:sticky lg:top-24">
+<!-- Section 3: Calendar/Time -->
+<section class="bg-surface-container p-6 rounded-xl">
+<div class="flex items-center gap-3 mb-6">
+<span class="text-xs font-bold tracking-[0.2em] uppercase bg-primary-container/20 text-primary-container px-2 py-1 rounded">Step 03</span>
+<h2 class="font-headline text-lg font-bold uppercase tracking-widest">Availability</h2>
+</div>
+<div class="mb-6">
+<div class="flex justify-between items-center mb-4">
+<span class="font-bold text-sm">OCTOBER 2024</span>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-sm cursor-pointer hover:text-primary">chevron_left</span>
+<span class="material-symbols-outlined text-sm cursor-pointer hover:text-primary">chevron_right</span>
+</div>
+</div>
+<!-- Simplified Calendar Grid -->
+<div class="grid grid-cols-7 gap-1 text-center text-[10px] mb-2 font-bold opacity-40">
+<span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+</div>
+<div class="grid grid-cols-7 gap-1">
+<div class="p-2 opacity-20">28</div>
+<div class="p-2 opacity-20">29</div>
+<div class="p-2 opacity-20">30</div>
+<div class="p-2 bg-surface-container-highest rounded text-sm font-bold border-b-2 border-primary-container">01</div>
+<div class="p-2 hover:bg-surface-bright rounded text-sm cursor-pointer">02</div>
+<div class="p-2 hover:bg-surface-bright rounded text-sm cursor-pointer">03</div>
+<div class="p-2 hover:bg-surface-bright rounded text-sm cursor-pointer">04</div>
+<div class="p-2 hover:bg-surface-bright rounded text-sm cursor-pointer">05</div>
+<div class="p-2 hover:bg-surface-bright rounded text-sm cursor-pointer">06</div>
+<div class="p-2 hover:bg-surface-bright rounded text-sm cursor-pointer">07</div>
+<div class="p-2 hover:bg-surface-bright rounded text-sm cursor-pointer">08</div>
+<div class="p-2 hover:bg-surface-bright rounded text-sm cursor-pointer">09</div>
+<div class="p-2 hover:bg-surface-bright rounded text-sm cursor-pointer">10</div>
+<div class="p-2 hover:bg-surface-bright rounded text-sm cursor-pointer">11</div>
+</div>
+</div>
+<div class="space-y-3">
+<label class="text-[10px] font-bold uppercase tracking-widest text-secondary opacity-70">Available Time Slots</label>
+<div class="grid grid-cols-2 gap-2">
+<button class="bg-surface-container-highest py-2 px-3 rounded text-xs font-bold border border-primary-container/40 text-primary hover:bg-primary-container/10">08:30 AM</button>
+<button class="bg-surface-container-highest py-2 px-3 rounded text-xs font-bold hover:bg-surface-bright">10:00 AM</button>
+<button class="bg-surface-container-highest py-2 px-3 rounded text-xs font-bold hover:bg-surface-bright">01:30 PM</button>
+<button class="bg-surface-container-highest py-2 px-3 rounded text-xs font-bold hover:bg-surface-bright">03:00 PM</button>
+</div>
+</div>
+</section>
+<!-- Confirmation Box -->
+<section class="bg-surface-container-highest p-8 rounded-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-container/5 blur-3xl rounded-full -mr-16 -mt-16"></div>
+<div class="relative z-10">
+<h3 class="font-headline font-bold text-lg mb-4 uppercase">Summary</h3>
+<div class="space-y-4 mb-8">
+<div class="flex justify-between items-center text-xs">
+<span class="text-secondary uppercase">Service</span>
+<span class="font-bold">Oil Change</span>
+</div>
+<div class="flex justify-between items-center text-xs">
+<span class="text-secondary uppercase">Date</span>
+<span class="font-bold">Oct 01, 2024</span>
+</div>
+<div class="flex justify-between items-center text-xs">
+<span class="text-secondary uppercase">Time</span>
+<span class="font-bold">08:30 AM</span>
+</div>
+<div class="pt-4 border-t border-white/5 flex justify-between items-center">
+<span class="text-xs text-secondary uppercase">Est. Base Price</span>
+<span class="font-bold text-primary-container">$189.00</span>
+</div>
+</div>
+<button class="w-full bg-gradient-to-br from-[#ffb693] to-[#ff6b00] text-[#351000] py-4 rounded font-black uppercase tracking-widest hover:scale-[1.02] transition-transform shadow-2xl shadow-primary-container/20">
+                            CONFIRM APPOINTMENT
+                        </button>
+<p class="text-[10px] text-center mt-4 text-secondary opacity-50 uppercase tracking-tighter">
+                            By confirming, you agree to our service terms and conditions.
+                        </p>
+</div>
+</section>
+</aside>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#0c0e10] dark:bg-[#0c0e10] border-t border-[#1a1c1e] flex flex-col md:flex-row justify-between items-center w-full px-12 py-8 gap-4 mt-20">
+<div class="text-lg font-bold text-gray-300">GEARBOX</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="font-['Inter'] text-[10px] uppercase tracking-[0.05em] font-medium text-gray-500 hover:text-[#ffb693] transition-colors" href="#">Privacy Policy</a>
+<a class="font-['Inter'] text-[10px] uppercase tracking-[0.05em] font-medium text-gray-500 hover:text-[#ffb693] transition-colors" href="#">Terms of Service</a>
+<a class="font-['Inter'] text-[10px] uppercase tracking-[0.05em] font-medium text-gray-500 hover:text-[#ffb693] transition-colors" href="#">System Status</a>
+<a class="font-['Inter'] text-[10px] uppercase tracking-[0.05em] font-medium text-gray-500 hover:text-[#ffb693] transition-colors" href="#">Support</a>
+</div>
+<div class="font-['Inter'] text-[10px] uppercase tracking-[0.05em] font-medium text-gray-500">
+            © 2024 GEARBOX PRECISION ENGINEERING. ALL RIGHTS RESERVED.
+        </div>
+</footer>
+</body></html>
