@@ -94,8 +94,8 @@ MEDIA_URL = '/media/'
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dlbonrawd',
-    'API_KEY': '483587846989531',
-    'API_SECRET': 'XMTGHDDw-2RlBWnNPQ4zjmoircs',
+    'API_KEY': '539143291536575',
+    'API_SECRET': 'jY2s4dvO5f1VRYGnfWFjXtikxs4',
 }
 
 CLOUDINARY = {
