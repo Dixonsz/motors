@@ -1,10 +1,11 @@
-from rest_framework import viewsets, status
+﻿from rest_framework import viewsets, status
 from rest_framework.response import Response
 from ...services.marca_service import MarcaService
 from ...serializers.marca_serializers import MarcaSerializer
 from django.views.decorators.cache import never_cache
+from .base_secure_view import SecureApiViewSet
 
-class MarcaView(viewsets.ViewSet):
+class MarcaView(SecureApiViewSet):
 
     @never_cache
     def list(self, request):
@@ -62,3 +63,4 @@ class MarcaView(viewsets.ViewSet):
         except ValueError as e:
             return Response({'error': str(e)}, status=status.HTTP_404_NOT_FOUND)
         
+

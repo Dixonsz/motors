@@ -1,10 +1,11 @@
-from rest_framework import viewsets, status
+﻿from rest_framework import viewsets, status
 from rest_framework.response import Response
 from ...services.combustible_service import CombustibleService
 from ...serializers.combustible_serializers import CombustibleSerializer
 from django.views.decorators.cache import never_cache
+from .base_secure_view import SecureApiViewSet
 
-class CombustibleView(viewsets.ViewSet):
+class CombustibleView(SecureApiViewSet):
 
     @never_cache
     def list(self, request):

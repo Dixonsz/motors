@@ -1,15 +1,17 @@
-from ..models.usuario import Usuario
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth import authenticate
 
 class AuthService:
     
     @staticmethod
     def login(username, password):
-        try:
-            usuario = Usuario.objects.get(username=username)
+        if not username or not password:
+            raise ValueError("Debes ingresar usuario y contraseña.")
 
-            if not check_password(password, usuario.password):
-                raise ValueError("Contraseña incorrecta.")
-            return usuario
-        except Usuario.DoesNotExist:
-            raise ValueError("El nombre de usuario no existe.")
+        usuario = authenticate(username=username, password=password)
+        if not usuario:
+            raise ValueError("Credenciales inválidas.")
+
+        if not usuario.is_active:
+            raise ValueError("Tu usuario está inactivo. Contacta al administrador.")
+
+        return usuario

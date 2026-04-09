@@ -1,13 +1,14 @@
-from rest_framework import viewsets, status
+﻿from rest_framework import viewsets, status
 from rest_framework.response import Response
 from django.views.decorators.cache import never_cache
+from .base_secure_view import SecureApiViewSet
 
 from ...services.evidencia_service import EvidenciaService
 from ...serializers.evidencia_serializers import EvidenciaSerializer
 from ...models.evidencia import Evidencia
 
 
-class EvidenciaView(viewsets.ViewSet):
+class EvidenciaView(SecureApiViewSet):
 
     @never_cache
     def list(self, request):

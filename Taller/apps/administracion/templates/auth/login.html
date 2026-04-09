@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html class="dark" lang="en"><head>
+<html class="dark" lang="es"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>M&M Motors | Inicio</title>
@@ -121,12 +121,24 @@
 <h2 class="font-headline text-3xl font-bold text-on-surface mb-2">Bienvenido</h2>
 <p class="text-on-surface-variant font-label text-sm uppercase tracking-wider">Inicia sesión en tu cuenta</p>
 </div>
-<form class="space-y-6">
-<!-- Email Field -->
+{% if messages %}
+{% for message in messages %}
+<div class="mb-4 rounded border border-slate-700 bg-surface-container-high p-3 text-sm text-on-surface">{{ message }}</div>
+{% endfor %}
+{% endif %}
+<div class="mb-4 rounded border border-outline-variant/30 bg-surface-container-high p-3 text-xs text-on-surface-variant">
+<p class="font-bold uppercase tracking-wider mb-1">Credenciales de inicio (desarrollo)</p>
+<p>Usuario: <strong>{{ default_username }}</strong></p>
+<p>Contraseña: <strong>{{ default_password }}</strong></p>
+</div>
+<form class="space-y-6" method="post" action="{% url 'login' %}">
+{% csrf_token %}
+<input type="hidden" name="next" value="{{ next_url }}"/>
+<!-- Username Field -->
 <div class="space-y-2">
-<label class="text-[10px] uppercase tracking-[0.15em] font-bold text-outline" for="email">Correo Electrónico</label>
+<label class="text-[10px] uppercase tracking-[0.15em] font-bold text-outline" for="username">Usuario</label>
 <div class="relative group">
-<input class="w-full bg-surface-container-highest border-none focus:ring-0 focus:bg-surface-bright p-4 text-on-surface transition-all duration-200" id="email" name="email" placeholder="motors@gmail.com" required="" type="email"/>
+<input autocomplete="username" class="w-full bg-surface-container-highest border-none focus:ring-0 focus:bg-surface-bright p-4 text-on-surface transition-all duration-200" id="username" name="username" value="{{ default_username }}" placeholder="Usuario" required="" type="text"/>
 <div class="absolute bottom-0 left-0 h-[2px] w-0 bg-primary group-focus-within:w-full transition-all duration-300"></div>
 </div>
 </div>
@@ -137,7 +149,7 @@
 <a class="text-[10px] uppercase tracking-widest font-bold text-tertiary hover:text-primary transition-colors" href="#">¿Olvidaste tu contraseña?</a>
 </div>
 <div class="relative group">
-<input class="w-full bg-surface-container-highest border-none focus:ring-0 focus:bg-surface-bright p-4 text-on-surface transition-all duration-200" id="password" name="password" placeholder="••••••••••••" required="" type="password"/>
+<input autocomplete="current-password" class="w-full bg-surface-container-highest border-none focus:ring-0 focus:bg-surface-bright p-4 text-on-surface transition-all duration-200" id="password" name="password" value="{{ default_password }}" placeholder="••••••••••••" required="" type="password"/>
 <div class="absolute bottom-0 left-0 h-[2px] w-0 bg-primary group-focus-within:w-full transition-all duration-300"></div>
 </div>
 </div>

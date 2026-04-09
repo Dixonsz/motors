@@ -1,4 +1,5 @@
-from django.views.decorators.cache import never_cache
+﻿from django.views.decorators.cache import never_cache
+from .base_secure_view import SecureApiViewSet
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -6,7 +7,7 @@ from ...serializers.cita_serializers import CitaSerializer
 from ...services.cita_service import CitaService
 
 
-class CitaView(viewsets.ViewSet):
+class CitaView(SecureApiViewSet):
 
     @never_cache
     def list(self, request):
@@ -112,3 +113,4 @@ class CitaView(viewsets.ViewSet):
             return Response(disponibilidad)
         except ValueError as exc:
             return Response({'error': str(exc)}, status=status.HTTP_400_BAD_REQUEST)
+

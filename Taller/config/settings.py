@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'apps.administracion.middleware.LoginRequiredMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -88,6 +90,8 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
+
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MEDIA_URL = '/media/'
@@ -144,3 +148,35 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 AUTH_USER_MODEL = 'administracion.Usuario'
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login/'
+
+# Credenciales iniciales de acceso (desarrollo).
+# Puedes sobrescribirlas con variables de entorno en producción.
+DEFAULT_LOGIN_CREDENTIALS = {
+    'username': os.getenv('DEFAULT_LOGIN_USERNAME', 'admin'),
+    'password': os.getenv('DEFAULT_LOGIN_PASSWORD', 'Admin123*'),
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
+
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True

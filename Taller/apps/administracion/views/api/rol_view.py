@@ -1,11 +1,12 @@
-from rest_framework import viewsets, status
+﻿from rest_framework import viewsets, status
 from rest_framework.response import Response
 from ...services.rol_service import RolService
 from ...serializers.rol_serializers import RolSerializer
 from django.views.decorators.cache import never_cache
+from .base_secure_view import SecureApiViewSet
 
 
-class RolView(viewsets.ViewSet):
+class RolView(SecureApiViewSet):
 
     @never_cache
     def list(self, request):

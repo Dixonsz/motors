@@ -1,10 +1,11 @@
-from rest_framework import viewsets, status
+﻿from rest_framework import viewsets, status
 from rest_framework.response import Response
 from ...services.usuario_service import UsuarioService
 from ...serializers.usuario_serializers import UsuarioSerializer
 from django.views.decorators.cache import never_cache
+from .base_secure_view import SecureApiViewSet
 
-class UsuarioView(viewsets.ViewSet):
+class UsuarioView(SecureApiViewSet):
 
     @never_cache
     def list(self, request):

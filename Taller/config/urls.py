@@ -25,7 +25,8 @@ from apps.administracion.views.web.estado_herramienta_web import estado_herramie
 from apps.administracion.views.web.herramienta_web import herramienta_lista, herramienta_create, herramienta_editar, herramienta_eliminar
 from apps.administracion.views.web.inventario_herramienta_web import inventario_herramientas_lista, inventario_herramientas_create, inventario_herramientas_editar, inventario_herramientas_eliminar
 from apps.administracion.views.web.reportes_web import reporte_clientes
-from apps.administracion.views.web.auth_web import login
+from apps.administracion.views.web.auth_web import login, logout
+from apps.administracion.views.api.auth_view import AuthView
 
 router = DefaultRouter()
 router.register(r'ordenes', OrdenView, basename='api-ordenes')
@@ -36,6 +37,7 @@ urlpatterns = [
     path('', inicio, name='inicio'),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/auth/login/', AuthView.as_view({'post': 'login'}), name='api_auth_login'),
     
     path('roles/', rol_lista, name='roles_lista'),
     path('roles/crear/', rol_create, name='roles_crear'),
@@ -139,6 +141,7 @@ urlpatterns = [
     path('reportes/clientes/', reporte_clientes, name='reportes_clientes'),
 
     path('login/', login, name='login'),
+    path('logout/', logout, name='logout'),
     
 ]
     

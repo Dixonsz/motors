@@ -1,10 +1,11 @@
-from rest_framework import viewsets, status
+﻿from rest_framework import viewsets, status
 from rest_framework.response import Response
 from ...services.orden_service import OrdenService
 from ...serializers.orden_serializers import OrdenSerializer
 from django.views.decorators.cache import never_cache
+from .base_secure_view import SecureApiViewSet
 
-class OrdenView(viewsets.ViewSet):
+class OrdenView(SecureApiViewSet):
 
     @never_cache
     def list(self, request):

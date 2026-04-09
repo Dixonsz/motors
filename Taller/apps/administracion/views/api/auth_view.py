@@ -1,4 +1,6 @@
 from rest_framework import viewsets, status
+from django.contrib.auth import login as django_login
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from ...services.auth_service import AuthService
 from ...serializers.usuario_serializers import UsuarioSerializer
@@ -6,6 +8,7 @@ from django.views.decorators.cache import never_cache
 
 
 class AuthView(viewsets.ViewSet):
+    permission_classes = [AllowAny]
 
 
     @never_cache
@@ -18,6 +21,7 @@ class AuthView(viewsets.ViewSet):
                 password=data['password']
             )
 
+            django_login(request, usuario)
             request.session['usuario_id'] = usuario.id
             serializer = UsuarioSerializer(usuario)
 

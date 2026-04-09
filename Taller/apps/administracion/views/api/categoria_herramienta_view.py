@@ -1,11 +1,12 @@
-from rest_framework import viewsets, status
+﻿from rest_framework import viewsets, status
 from rest_framework.response import Response
 from ...services.categoria_herramienta_service import CategoriaHerramientaService
 from ...serializers.categoria_herramienta_serializers import CategoriaHerramientaSerializer
 from django.views.decorators.cache import never_cache
+from .base_secure_view import SecureApiViewSet
 
 
-class CategoriaHerramientaView(viewsets.ViewSet):
+class CategoriaHerramientaView(SecureApiViewSet):
 
     @never_cache
     def list(self, request):

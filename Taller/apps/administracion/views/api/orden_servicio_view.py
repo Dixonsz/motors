@@ -1,12 +1,13 @@
-from rest_framework import status, viewsets
+﻿from rest_framework import status, viewsets
 from rest_framework.response import Response
 from django.views.decorators.cache import never_cache
+from .base_secure_view import SecureApiViewSet
 
 from ...serializers.orden_serializers import OrdenServicioSerializer
 from ...services.orden_servicio_service import OrdenServicioService
 
 
-class OrdenServicioView(viewsets.ViewSet):
+class OrdenServicioView(SecureApiViewSet):
 
     @never_cache
     def list(self, request):
@@ -69,3 +70,4 @@ class OrdenServicioView(viewsets.ViewSet):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except ValueError as e:
             return Response({'error': str(e)}, status=status.HTTP_404_NOT_FOUND)
+

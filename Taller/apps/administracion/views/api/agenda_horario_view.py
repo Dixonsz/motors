@@ -1,11 +1,12 @@
-from rest_framework import viewsets, status
+﻿from rest_framework import viewsets, status
 from rest_framework.response import Response
 from ...services.agenda_horario_service import AgendaHorarioService
 from ...serializers.agenda_horario_serializers import AgendaHorarioSerializer
 from django.views.decorators.cache import never_cache
+from .base_secure_view import SecureApiViewSet
 
 
-class AgendaHorarioView(viewsets.ViewSet):
+class AgendaHorarioView(SecureApiViewSet):
 
     @never_cache
     def list(self, request):
