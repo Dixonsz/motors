@@ -16,6 +16,16 @@
         <input type="text" name="nombre" required placeholder="Nombre del Rol">
         <input type="text" name="descripcion" placeholder="Descripción del Rol">
 
+        <fieldset>
+            <legend>Permisos por rol</legend>
+            {% for item in permission_options %}
+                <label style="display:block; margin-bottom:0.45rem;">
+                    <input type="checkbox" name="perm_{{ item.key }}"> {{ item.label }}
+                    <small style="display:block; color:#5c6670; margin-left:1.4rem;">{{ item.description }}</small>
+                </label>
+            {% endfor %}
+        </fieldset>
+
         <br>
         <button type="submit">Guardar</button>
 

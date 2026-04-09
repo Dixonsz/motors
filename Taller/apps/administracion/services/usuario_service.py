@@ -1,5 +1,6 @@
 from ..models import Usuario, Rol
 from .utils import get_required_instance
+from .access_control_service import AccessControlService
 
 class UsuarioService:
 
@@ -15,7 +16,7 @@ class UsuarioService:
             return None
         
     @staticmethod
-    def create_usuario(nombre,apellido, telefono,correo, rol_id, password):
+    def create_usuario(nombre,apellido, telefono,correo, rol_id, password, extra_permissions=None):
         if Usuario.objects.filter(email=correo).exists():
             raise ValueError("El correo ya está registrado.")
 
@@ -26,13 +27,14 @@ class UsuarioService:
                           email=correo,
                           telefono=telefono,
                           rol = rol,
-                          username=correo)
+                          username=correo,
+                          extra_permissions=AccessControlService.normalize_permissions(extra_permissions))
         usuario.set_password(password)
         usuario.save()
         return usuario
     
     @staticmethod
-    def update_usuario(usuario_id, nombre=None, apellido=None, telefono=None, correo=None, rol_id=None, password=None):
+    def update_usuario(usuario_id, nombre=None, apellido=None, telefono=None, correo=None, rol_id=None, password=None, extra_permissions=None):
         usuario = UsuarioService.get_usuario_by_id(usuario_id)
         if not usuario:
             raise ValueError("El usuario no existe.")
@@ -52,6 +54,9 @@ class UsuarioService:
             usuario.rol = rol
         if password:
             usuario.set_password(password)
+
+        if extra_permissions is not None:
+            usuario.extra_permissions = AccessControlService.normalize_permissions(extra_permissions)
         
         usuario.save()
         return usuario

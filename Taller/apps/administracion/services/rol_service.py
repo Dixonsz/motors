@@ -1,4 +1,5 @@
 from ..models.rol import Rol
+from .access_control_service import AccessControlService
 
 class RolService:
 
@@ -15,15 +16,20 @@ class RolService:
        
         
     @staticmethod
-    def create_rol(nombre, descripcion):
+    def create_rol(nombre, descripcion, permissions=None):
         if Rol.objects.filter(nombre=nombre).exists():
             raise ValueError("El nombre del rol ya existe.")
-        rol = Rol(nombre=nombre, descripcion=descripcion)
+
+        rol = Rol(
+            nombre=nombre,
+            descripcion=descripcion,
+            permissions=AccessControlService.normalize_permissions(permissions),
+        )
         rol.save()
         return rol
     
     @staticmethod
-    def update_rol(rol_id, nombre=None, descripcion=None):
+    def update_rol(rol_id, nombre=None, descripcion=None, permissions=None):
         rol = RolService.get_rol_by_id(rol_id)
         if not rol:
             raise ValueError("El rol no existe.")
@@ -35,6 +41,9 @@ class RolService:
         
         if descripcion is not None:
             rol.descripcion = descripcion
+
+        if permissions is not None:
+            rol.permissions = AccessControlService.normalize_permissions(permissions)
         
         rol.save()
         return rol  

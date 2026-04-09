@@ -33,6 +33,17 @@
         <br>
         <label for="password_confirm">Confirmar Contraseña:</label>
         <input type="password" id="password_confirm" name="password_confirm" required>
+
+        <fieldset>
+            <legend>Permisos adicionales por usuario (opcionales)</legend>
+            {% for item in permission_options %}
+                <label style="display:block; margin-bottom:0.45rem;">
+                    <input type="checkbox" name="extra_perm_{{ item.key }}" {% if item.key in selected_extra_permission_keys %}checked{% endif %}> {{ item.label }}
+                    <small style="display:block; color:#5c6670; margin-left:1.4rem;">{{ item.description }}</small>
+                </label>
+            {% endfor %}
+        </fieldset>
+
         <br><br>
         <span id="password-error" class="error" style="color: red;"></span>
         <button type="submit">Guardar</button>
