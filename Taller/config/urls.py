@@ -6,7 +6,7 @@ from apps.administracion.views.api.orden_servicio_view import OrdenServicioView
 from apps.administracion.views.api.cita_view import CitaView
 from apps.administracion.views.web.rol_web import rol_lista, rol_create, rol_editar, rol_eliminar
 from apps.administracion.views.web.usuario_web import usuario_lista, usuario_create, usuario_editar, usuario_eliminar
-from apps.administracion.views.web.cliente_web import cliente_lista, cliente_create, cliente_editar, cliente_eliminar
+from apps.administracion.views.web.cliente_web import cliente_lista, cliente_create, cliente_editar, cliente_eliminar, cliente_detalle_json
 from apps.administracion.views.web.marca_web import marca_lista, marca_create, marca_editar, marca_eliminar
 from apps.administracion.views.web.combustible_web import combustible_lista, combustible_create, combustible_editar, combustible_eliminar
 from apps.administracion.views.web.modelo_web import modelo_lista, modelo_create, modelo_editar, modelo_eliminar
@@ -53,6 +53,7 @@ urlpatterns = [
     path('clientes/crear/', cliente_create, name='clientes_crear'),
     path('clientes/editar/<int:cliente_id>/', cliente_editar, name='clientes_editar'),
     path('clientes/eliminar/<int:cliente_id>/', cliente_eliminar, name='clientes_eliminar'),
+    path('clientes/<int:cliente_id>/detalle/', cliente_detalle_json, name='clientes_detalle_json'),
     
     path('marcas/', marca_lista, name='marcas_lista'),
     path('marcas/crear/', marca_create, name='marcas_crear'),

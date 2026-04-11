@@ -1,4 +1,5 @@
 ﻿{% extends 'base.html' %}
+{% load static %}
 {% block title %}Vehiculos{% endblock %}
 {% block page_title %}Vehiculos{% endblock %}
 
@@ -9,6 +10,7 @@
 {% endblock %}
 
 {% block content %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet">
 <h1>Crear Vehiculos</h1>
     <form method="post">
         {% csrf_token %}
@@ -18,9 +20,22 @@
           <select id="cliente_id" name="cliente_id" required>
             <option value="">Seleccione el propietario del vehiculo</option>
             {% for cliente in clientes %}
-                <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+                                        <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
             {% endfor %}
         </select>
+            <br>
+            <label for="cliente_cedula">Cedula:</label>
+            <input type="text" id="cliente_cedula" readonly placeholder="Se completa al seleccionar cliente">
+            <br>
+            <label for="cliente_telefono">Telefono:</label>
+            <input type="text" id="cliente_telefono" readonly placeholder="Se completa al seleccionar cliente">
+            <br>
+            <label for="cliente_correo">Correo:</label>
+            <input type="text" id="cliente_correo" readonly placeholder="Se completa al seleccionar cliente">
+            <br>
+            <label for="cliente_direccion">Direccion:</label>
+            <input type="text" id="cliente_direccion" readonly placeholder="Se completa al seleccionar cliente">
+
         <br>
         <label for="placa">Placa:</label>
         <input type="text" id="placa" name="placa" required placeholder="Placa">
@@ -59,4 +74,12 @@
         </select>
         <button type="submit">Guardar</button>
     </form>
+
+    
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+    <script
+        src="{% static 'js/vehiculos.js' %}"
+        data-cliente-detalle-url="{% url 'clientes_detalle_json' 0 %}"
+    ></script>
 {% endblock %}

@@ -4,6 +4,8 @@ class AuthService:
     
     @staticmethod
     def login(username, password):
+        username = (username or '').strip()
+
         if not username or not password:
             raise ValueError("Debes ingresar usuario y contraseña.")
 

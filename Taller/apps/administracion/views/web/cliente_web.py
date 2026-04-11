@@ -1,10 +1,11 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from ...services.cliente_service import ClienteService
 
 def cliente_lista(request):
-    clientes = ClienteService.get_all_clientes()
+    clientes = ClienteService.get_all_clientes().order_by('id')
     paginator = Paginator(clientes, 10)
     page_number = request.GET.get('page')
     clientes = paginator.get_page(page_number)
@@ -65,3 +66,17 @@ def cliente_eliminar(request, cliente_id):
             messages.error(request, str(exc))
 
     return render(request, 'clientes/clientes_eliminar.html', {'cliente_id': cliente_id})
+
+
+def cliente_detalle_json(request, cliente_id):
+    cliente = ClienteService.get_cliente_by_id(cliente_id)
+    if not cliente:
+        return JsonResponse({'detalle': 'El cliente no existe.'}, status=404)
+
+    return JsonResponse({
+        'id': cliente.id,
+        'cedula': cliente.cedula,
+        'telefono': cliente.telefono,
+        'correo': cliente.correo,
+        'direccion': cliente.direccion,
+    })
