@@ -1,12 +1,18 @@
 <template>
-  <h1>Mi Proyecto</h1>
+  <main>
+    <nav>
+      <RouterLink to="/marcas">Ver marcas</RouterLink>
+    </nav>
+    <RouterView />
+  </main>
 </template>
 
-<script>
-export default {
-  name: "App"
+<style scoped>
+main {
+  padding: 1rem;
 }
-</script>
 
-<style>
+nav {
+  margin-bottom: 1rem;
+}
 </style>

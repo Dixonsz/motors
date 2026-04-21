@@ -4,6 +4,7 @@ from rest_framework.routers import DefaultRouter
 from apps.administracion.views.api.orden_view import OrdenView
 from apps.administracion.views.api.orden_servicio_view import OrdenServicioView
 from apps.administracion.views.api.cita_view import CitaView
+from apps.administracion.views.api.marca_view import MarcaView
 from apps.administracion.views.web.rol_web import rol_lista, rol_create, rol_editar, rol_eliminar
 from apps.administracion.views.web.usuario_web import usuario_lista, usuario_create, usuario_editar, usuario_eliminar
 from apps.administracion.views.web.cliente_web import cliente_lista, cliente_create, cliente_editar, cliente_eliminar, cliente_detalle_json
@@ -32,6 +33,7 @@ router = DefaultRouter()
 router.register(r'ordenes', OrdenView, basename='api-ordenes')
 router.register(r'ordenes-detalle', OrdenServicioView, basename='api-ordenes-detalle')
 router.register(r'citas', CitaView, basename='api-citas')
+router.register(r'marcas', MarcaView, basename='api-marcas')
 
 urlpatterns = [
     path('', inicio, name='inicio'),

@@ -1,8 +1,10 @@
-﻿from rest_framework import viewsets, status
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from ...services.inventario_herramienta_service import InventarioHerramientaService
 from ...serializers.inventario_herramienta_serializers import InventarioHerramientaSerializer
-from django.views.decorators.cache import never_cache
+from django.views.decorators.cache import never_cache as django_never_cache
+from django.utils.decorators import method_decorator
+never_cache = method_decorator(django_never_cache)
 from .base_secure_view import SecureApiViewSet
 
 class InventarioHerramientaView(SecureApiViewSet):

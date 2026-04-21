@@ -5,7 +5,9 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from ...services.auth_service import AuthService
 from ...serializers.usuario_serializers import UsuarioSerializer
-from django.views.decorators.cache import never_cache
+from django.views.decorators.cache import never_cache as django_never_cache
+from django.utils.decorators import method_decorator
+never_cache = method_decorator(django_never_cache)
 from django.utils.http import url_has_allowed_host_and_scheme
 
 

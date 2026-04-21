@@ -1,6 +1,8 @@
-﻿from rest_framework import status, viewsets
+from rest_framework import status, viewsets
 from rest_framework.response import Response
-from django.views.decorators.cache import never_cache
+from django.views.decorators.cache import never_cache as django_never_cache
+from django.utils.decorators import method_decorator
+never_cache = method_decorator(django_never_cache)
 from .base_secure_view import SecureApiViewSet
 
 from ...serializers.orden_serializers import OrdenServicioSerializer
