@@ -1,5 +1,4 @@
 from ..models.rol import Rol
-from .access_control_service import AccessControlService
 
 class RolService:
 
@@ -23,7 +22,6 @@ class RolService:
         rol = Rol(
             nombre=nombre,
             descripcion=descripcion,
-            permissions=AccessControlService.normalize_permissions(permissions),
         )
         rol.save()
         return rol
@@ -42,8 +40,7 @@ class RolService:
         if descripcion is not None:
             rol.descripcion = descripcion
 
-        if permissions is not None:
-            rol.permissions = AccessControlService.normalize_permissions(permissions)
+       
         
         rol.save()
         return rol  

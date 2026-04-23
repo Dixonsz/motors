@@ -4,10 +4,9 @@ class Cita(models.Model):
     vehiculo = models.ForeignKey('Vehiculo', on_delete=models.CASCADE, related_name='citas', null=True, blank=True)
     cliente = models.ForeignKey('Cliente', on_delete=models.PROTECT, related_name='citas', null=True, blank=True)
     servicio = models.ForeignKey('Servicio', on_delete=models.CASCADE, related_name='citas', null=True, blank=True)
-    usuario = models.ForeignKey('Usuario', on_delete=models.PROTECT, related_name='citas_asignadas', null=True, blank=True)
+    usuario = models.ForeignKey('Usuario', on_delete=models.PROTECT, related_name='citas_asignadas')
     fecha = models.DateField()
     hora_inicio = models.TimeField()
-    hora_fin = models.TimeField()
     estado = models.ForeignKey('Estado', on_delete=models.PROTECT, related_name='citas')
     anotaciones = models.TextField(blank=True, null=True)
 
