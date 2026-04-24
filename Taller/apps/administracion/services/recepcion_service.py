@@ -19,8 +19,8 @@ class RecepcionService:
         
 
     @staticmethod
-    def _rules_kilomatraje(vehiculo_id, kilometraje):
-        ultimo_registro = Recepcion.objects.filter(vehiculo_id=vehiculo_id).order_by('-fecha_ingreso').first()
+    def _rules_kilomatraje(vehiculo, kilometraje):
+        ultimo_registro = Recepcion.objects.filter(vehiculo=vehiculo).order_by('-fecha_ingreso').first()
         if ultimo_registro:
             if kilometraje < ultimo_registro.kilometraje:
                 raise ValueError(f"El kilometraje ingresado ({kilometraje}) es menor que el último registro para este vehículo. Por favor, inspeccione el vehículo."
@@ -36,7 +36,7 @@ class RecepcionService:
        
 
     @staticmethod
-    def create_recepcion(vehiculo_id, usuario_id, fecha_ingreso, observaciones, kilometraje, nivel_combustible):
+    def create_recepcion(vehiculo_id, usuario_id, observaciones, kilometraje, nivel_combustible):
         vehiculo = get_required_instance(Vehiculo, vehiculo_id, "El vehiculo no existe.")
         usuario = get_required_instance(Usuario, usuario_id, "El usuario no existe.")
 
@@ -44,14 +44,13 @@ class RecepcionService:
        
             
 
-        RecepcionService._rules_kilomatraje(vehiculo_id, kilometraje)
+        RecepcionService._rules_kilomatraje(vehiculo, kilometraje)
         RecepcionService._nivel_combustible_valido(nivel_combustible)
 
         recepcion = Recepcion.objects.create(
             vehiculo=vehiculo,
             usuario=usuario,
             cita=cita,
-            fecha_ingreso=fecha_ingreso,
             observaciones=observaciones,
             kilometraje=kilometraje,
             nivel_combustible=nivel_combustible

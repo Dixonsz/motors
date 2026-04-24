@@ -2,3 +2,4 @@ from .rol_service import RolService
 from .usuario_service import UsuarioService
 from .categoria_servicio_service import CategoriaServicioService
 from .servicio_service import ServicioService
+from .orden_servicio_service import OrdenServicioService

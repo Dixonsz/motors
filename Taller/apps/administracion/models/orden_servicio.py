@@ -1,11 +1,17 @@
 from django.db import models
 
 class OrdenServicio(models.Model):
-    orden = models.ForeignKey('Orden', on_delete=models.CASCADE, related_name='ordenes_servicio')
-    servicio = models.ForeignKey('Servicio', on_delete=models.CASCADE, related_name='ordenes_servicio')
-    precio = models.DecimalField(max_digits=10, decimal_places=2)
-    cantidad = models.PositiveIntegerField()
+    recepcion = models.ForeignKey('Recepcion', on_delete=models.PROTECT, related_name='ordenes_servicio')
+    usuario = models.ForeignKey('Usuario', on_delete=models.PROTECT, related_name='ordenes_servicio')
+    diagnostico = models.TextField(blank=True, null=True)
+    estado = models.ForeignKey('Estado', on_delete=models.PROTECT, related_name='ordenes_servicio')
     observaciones = models.TextField(blank=True, null=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_entrega = models.DateTimeField(blank=True, null=True)
+
+    def total(self):
+        return sum(detalle.precio * detalle.cantidad for detalle in self.ordenes_detalle.all())
 
     def __str__(self):
-        return f"Orden #{self.orden_id} - Servicio: {self.servicio.nombre}"
+        estado_nombre = self.estado.nombre if self.estado_id else 'Sin estado'
+        return f"Recepcion: {self.recepcion} - Usuario: {self.usuario} - Diagnostico: {self.diagnostico} - Estado: {estado_nombre}"

@@ -10,7 +10,7 @@ from .inventario_herramienta import InventarioHerramienta
 from .marca import Marca
 from .modelo import Modelo
 from .orden_servicio import OrdenServicio
-from .orden import Orden
+from .orden_servicio_detalle import Orden
 from .recepcion import Recepcion
 from .rol import Rol
 from .servicio import Servicio
@@ -18,3 +18,4 @@ from .usuario import Usuario
 from .vehiculo import Vehiculo
 from .evidencia import Evidencia
 from .estado_herramienta import EstadoHerramienta
+from .orden_servicio_detalle import OrdenServicioDetalle

@@ -1,104 +1,102 @@
-from decimal import Decimal, InvalidOperation
 
-from ..models.orden import Orden
+
 from ..models.orden_servicio import OrdenServicio
-from ..models.servicio import Servicio
+from ..models.recepcion import Recepcion
+from ..models.usuario import Usuario
+from ..models.estado import Estado
+
 from .utils import get_required_instance
+from datetime import date
 
 
 class OrdenServicioService:
 
     @staticmethod
-    def _parse_cantidad(cantidad):
+    def get_orden_servicio_by_id(orden_servicio_id):
         try:
-            cantidad_valor = int(cantidad)
-        except (TypeError, ValueError):
-            raise ValueError('La cantidad debe ser un numero entero valido.')
-
-        if cantidad_valor <= 0:
-            raise ValueError('La cantidad debe ser mayor a cero.')
-
-        return cantidad_valor
-
-    @staticmethod
-    def _parse_precio(precio, precio_base):
-        if precio in (None, ''):
-            return precio_base
-
-        try:
-            precio_valor = Decimal(str(precio))
-        except (InvalidOperation, ValueError):
-            raise ValueError('El precio debe ser un numero valido.')
-
-        if precio_valor < 0:
-            raise ValueError('El precio no puede ser negativo.')
-
-        return precio_valor
-
-    @staticmethod
-    def get_detalles_by_orden(orden_id):
-        return OrdenServicio.objects.select_related('servicio').filter(orden_id=orden_id).order_by('-id')
-
-    @staticmethod
-    def get_detalle_by_id(detalle_id):
-        try:
-            return OrdenServicio.objects.select_related('servicio', 'orden').get(id=detalle_id)
+            return OrdenServicio.objects.get(id=orden_servicio_id)
         except OrdenServicio.DoesNotExist:
             return None
+        
+    @staticmethod
+    def get_all_ordenes_servicio():
+       return OrdenServicio.objects.all()
+    
 
     @staticmethod
-    def get_total_by_orden(orden_id):
-        detalles = OrdenServicioService.get_detalles_by_orden(orden_id)
-        total = Decimal('0.00')
-        for detalle in detalles:
-            total += detalle.precio * detalle.cantidad
-        return total
+    def cerrar_orden_servicio(orden_servicio_id):
+
+        orden = OrdenServicioService.get_orden_servicio_by_id(orden_servicio_id)
+        if not orden:
+            raise ValueError("Orden de servicio no encontrada.")
+        
+        if not orden.ordenes_detalle.exists():
+            raise ValueError("No se puede cerrar la orden de servicio sin detalles.")
+        
+        if orden.estado.nombre.lower() == "Completado":
+            raise ValueError("La orden de servicio ya está cerrada.")
+
+        estado_completado = Estado.objects.filter(nombre__iexact="Completado").first()
+        if not estado_completado:
+            raise ValueError("Estado 'Completado' no encontrado.")
+        
+        orden.estado = estado_completado
+        orden.fecha_entrega = date.today()
+        orden.save()
+        return orden
+    
+
 
     @staticmethod
-    def create_detalle(orden_id, servicio_id, cantidad, precio=None, observaciones=''):
-        orden = get_required_instance(Orden, orden_id, 'La orden no existe.')
-        servicio = get_required_instance(Servicio, servicio_id, 'El servicio no existe.')
+    def create_orden_servicio(recepcion_id, usuario_id, estado_id, diagnostico=None, observaciones=None):
 
-        detalle = OrdenServicio(
-            orden=orden,
-            servicio=servicio,
-            cantidad=OrdenServicioService._parse_cantidad(cantidad),
-            precio=OrdenServicioService._parse_precio(precio, servicio.precio_base),
-            observaciones=(observaciones or '').strip() or None,
+        recepcion = get_required_instance(Recepcion, recepcion_id, "Recepción no encontrada.")
+        usuario = get_required_instance(Usuario, usuario_id, "Usuario no encontrado.")
+        estado = get_required_instance(Estado, estado_id, "Estado no encontrado.")
+
+        if OrdenServicio.objects.filter(recepcion=recepcion).exists():
+            raise ValueError("Ya existe una orden de servicio para esta recepción.") 
+
+
+        orden_servicio = OrdenServicio(
+            recepcion=recepcion,
+            usuario=usuario,
+            diagnostico=diagnostico,
+            estado=estado,
+            observaciones=observaciones
         )
-        detalle.save()
-        return detalle
+        orden_servicio.save()
+
+        return orden_servicio
 
     @staticmethod
-    def update_detalle(detalle_id, cantidad=None, precio=None, observaciones=None):
-        detalle = OrdenServicioService.get_detalle_by_id(detalle_id)
-        if not detalle:
-            raise ValueError('El detalle de servicio no existe.')
+    def update_orden_servicio(orden_servicio_id, recepcion_id=None, usuario_id=None, estado_id=None, diagnostico=None, observaciones=None):
 
-        if cantidad is not None:
-            detalle.cantidad = OrdenServicioService._parse_cantidad(cantidad)
-
-        if precio is not None:
-            detalle.precio = OrdenServicioService._parse_precio(precio, detalle.servicio.precio_base)
-
+        orden_servicio = OrdenServicioService.get_orden_servicio_by_id(orden_servicio_id)
+        if not orden_servicio:
+            raise ValueError("Orden de servicio no encontrada.")
+        
+        if recepcion_id:
+            orden_servicio.recepcion = get_required_instance(Recepcion, recepcion_id, "Recepción no encontrada.")
+        if usuario_id:
+            orden_servicio.usuario = get_required_instance(Usuario, usuario_id, "Usuario no encontrado.")
+        if estado_id:
+            orden_servicio.estado = get_required_instance(Estado, estado_id, "Estado no encontrado.")
+        if diagnostico is not None:
+            orden_servicio.diagnostico = diagnostico
         if observaciones is not None:
-            detalle.observaciones = (observaciones or '').strip() or None
+            orden_servicio.observaciones = observaciones
 
-        detalle.save()
-        return detalle
+        orden_servicio.save()
 
+        return orden_servicio
+    
+
+    
     @staticmethod
-    def delete_detalle(detalle_id, orden_id=None):
-        detalle = get_required_instance(OrdenServicio, detalle_id, 'El detalle de servicio no existe.')
-
-        if orden_id:
-            try:
-                orden_id_value = int(orden_id)
-            except (TypeError, ValueError):
-                raise ValueError('El id de la orden no es valido.')
-
-            if detalle.orden_id != orden_id_value:
-                raise ValueError('El detalle no pertenece a la orden seleccionada.')
-
-        detalle.delete()
-
+    def delete_orden_servicio(orden_servicio_id):
+        orden_servicio = OrdenServicioService.get_orden_servicio_by_id(orden_servicio_id)
+        if not orden_servicio:
+            raise ValueError("Orden de servicio no encontrada.")
+        orden_servicio.delete()
+       
