@@ -5,3 +5,6 @@ class AdministracionConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'apps.administracion'
     verbose_name = 'Administración'
+
+    def ready(self):
+        import apps.administracion.signals

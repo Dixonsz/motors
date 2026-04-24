@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from ...services.categoria_herramienta_service import CategoriaHerramientaService
 
+
 def categoria_lista(request):
     categorias = CategoriaHerramientaService.get_all_categorias().order_by('id')
     paginator = Paginator(categorias, 10)

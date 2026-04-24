@@ -17,3 +17,6 @@ from .vehiculo import Vehiculo
 from .evidencia import Evidencia
 from .estado_herramienta import EstadoHerramienta
 from .orden_servicio_detalle import OrdenServicioDetalle
+from .modulo import Modulo
+from .permiso import Permiso
+from .rol_permiso import RolPermiso

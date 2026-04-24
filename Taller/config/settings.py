@@ -29,6 +29,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SECURITY_ACTIVE = False
+
 
 # Application definition
 

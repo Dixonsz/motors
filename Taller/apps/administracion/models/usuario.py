@@ -5,13 +5,14 @@ from django.contrib.auth.models import AbstractUser
 class Usuario(AbstractUser):
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
+    cedula = models.CharField(max_length=20, unique=True)
     telefono = models.CharField(max_length=20)
-    
+    estado = models.BooleanField(default=True)
+    direccion = models.CharField(max_length=255)
+    fecha_ingreso = models.DateField(auto_now_add=True)
+    especialidad = models.CharField(max_length=100, blank=True, null=True)
     rol = models.ForeignKey(Rol, on_delete=models.PROTECT, related_name='usuarios')
-    extra_permissions = models.JSONField(default=dict, blank=True)
    
-
+   
     def __str__(self):
-        correo = self.email or "sin-correo"
-        rol_nombre = self.rol.nombre if self.rol else "sin-rol"
-        return f"Nombre: {self.nombre} Apellido: {self.apellido} - Correo: {correo} - Rol: {rol_nombre}"
+        return f"{self.nombre} {self.apellido} ({self.rol.nombre})"
