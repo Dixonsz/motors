@@ -1,4 +1,3 @@
-from .agenda_horario import AgendaHorario
 from .categoria_herramienta import CategoriaHerramienta
 from .categoria_servicio import CategoriaServicio
 from .cita import Cita
@@ -10,7 +9,6 @@ from .inventario_herramienta import InventarioHerramienta
 from .marca import Marca
 from .modelo import Modelo
 from .orden_servicio import OrdenServicio
-from .orden_servicio_detalle import Orden
 from .recepcion import Recepcion
 from .rol import Rol
 from .servicio import Servicio

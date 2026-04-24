@@ -5,9 +5,8 @@ from ...serializers.servicio_serializers import ServicioSerializer
 from django.views.decorators.cache import never_cache as django_never_cache
 from django.utils.decorators import method_decorator
 never_cache = method_decorator(django_never_cache)
-from .base_secure_view import SecureApiViewSet
 
-class ServicioView(SecureApiViewSet):
+class ServicioView():
 
     @never_cache
     def list(self, request):

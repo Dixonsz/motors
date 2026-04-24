@@ -554,23 +554,9 @@
             <nav class="module-nav" aria-label="Menu de modulos">
                 <div class="module-group" aria-label="Navegacion operativa">
                     <span class="module-group-title">Operación</span>
-                    {% if acceso.acceso_citas %}
-                    <a href="{% url 'citas_calendario' %}" class="{% if request.path|slice:':17' == '/citas/calendario/' %}active{% endif %}">Calendario</a>
-                    <a href="{% url 'citas_lista' %}" class="{% if request.path|slice:':7' == '/citas/' %}active{% endif %}">Citas</a>
-                    {% endif %}
-                    {% if acceso.acceso_recepciones %}
-                    <a href="{% url 'recepcion_lista' %}" class="{% if request.path|slice:':12' == '/recepciones/' %}active{% endif %}">Recepciones</a>
-                    {% endif %}
-                    {% if acceso.acceso_ordenes %}
-                    <a href="{% url 'ordenes_lista' %}" class="{% if request.path|slice:':9' == '/ordenes/' %}active{% endif %}">Ordenes</a>
-                    {% endif %}
-                    {% if acceso.acceso_catalogo %}
                     <a href="{% url 'estados_lista' %}" class="{% if request.path|slice:':9' == '/estados/' %}active{% endif %}">Estados</a>
-                    <a href="{% url 'agenda_horarios_lista' %}" class="{% if request.path|slice:':18' == '/agenda-horarios/' %}active{% endif %}">Horarios</a>
-                    {% endif %}
                 </div>
 
-                {% if acceso.acceso_catalogo %}
                 <div class="module-group" aria-label="Navegacion de catalogos">
                     <span class="module-group-title">Catálogo</span>
                     <a href="{% url 'clientes_lista' %}" class="{% if request.path|slice:':10' == '/clientes/' %}active{% endif %}">Clientes</a>
@@ -581,23 +567,12 @@
                     <a href="{% url 'modelos_lista' %}" class="{% if request.path|slice:':9' == '/modelos/' %}active{% endif %}">Modelos</a>
                     <a href="{% url 'combustibles_lista' %}" class="{% if request.path|slice:':13' == '/combustibles/' %}active{% endif %}">Combustibles</a>
                 </div>
-                {% endif %}
 
                 <div class="module-group" aria-label="Navegacion de configuracion">
                     <span class="module-group-title">Configuración</span>
-                    {% if acceso.acceso_usuarios %}
-                    <a href="{% url 'usuarios_lista' %}" class="{% if request.path|slice:':10' == '/usuarios/' %}active{% endif %}">Usuarios</a>
-                    {% endif %}
-                    {% if acceso.acceso_roles %}
-                    <a href="{% url 'roles_lista' %}" class="{% if request.path|slice:':7' == '/roles/' %}active{% endif %}">Roles</a>
-                    {% endif %}
-                    {% if acceso.acceso_reportes %}
-                    <a href="{% url 'reportes_clientes' %}" class="{% if request.path|slice:':19' == '/reportes/clientes/' %}active{% endif %}">Reporte clientes</a>
-                    {% endif %}
                    
                 </div>
 
-                {% if acceso.acceso_inventario %}
                  <div class="module-group" aria-label="Navegacion de catalogos">
                     <span class="module-group-title">Inventario de Herramientas</span>
                     <a href="{% url 'categoria_herramientas_lista' %}" class="{% if request.path|slice:':11' == '/categorias_herramienta/' %}active{% endif %}">Categorías</a>
@@ -605,7 +580,6 @@
                     <a href="{% url 'herramientas_lista' %}" class="{% if request.path|slice:':13' == '/herramientas/' %}active{% endif %}">Herramientas</a>
                     <a href="{% url 'inventario_herramientas_lista' %}" class="{% if request.path|slice:':20' == '/inventario_herramientas/' %}active{% endif %}">Inventario</a>
                 </div>
-                {% endif %}
             </nav>
         </aside>
 

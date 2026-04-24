@@ -5,9 +5,8 @@ from ...serializers.marca_serializers import MarcaSerializer
 from django.views.decorators.cache import never_cache as django_never_cache
 from django.utils.decorators import method_decorator
 never_cache = method_decorator(django_never_cache)
-from .base_secure_view import SecureApiViewSet
 
-class MarcaView(SecureApiViewSet):
+class MarcaView():
 
     @never_cache
     def list(self, request):
