@@ -100,10 +100,9 @@ class CitaService:
 
         if servicios_id:
             servicios = Servicio.objects.filter(id__in=servicios_id)
-        if len(servicios) != len(servicios_id):
+            if len(servicios) != len(servicios_id):
                 raise ValueError("Uno o más servicios no fueron encontrados.")
-        cita.servicios.set(servicios)
-
+            cita.servicios.set(servicios)
         return cita
 
     @staticmethod

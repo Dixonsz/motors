@@ -19,6 +19,10 @@ from apps.administracion.views.web.modulo_web import modulo_lista, modulo_create
 from apps.administracion.views.web.permiso_web import permiso_lista, permiso_create, permiso_eliminar
 from apps.administracion.views.web.rol_web import rol_lista, rol_create, rol_editar, rol_eliminar
 from apps.administracion.views.web.rol_permiso_web import rol_permiso_lista, rol_permiso_asignar, rol_permiso_asignar_modulo, rol_permiso_revocar, rol_permiso_revocar_modulo
+from apps.administracion.views.web.cita_web import cita_lista, cita_create, cita_editar, cita_eliminar
+from apps.administracion.views.web.recepcion_web import recepcion_lista, recepcion_create, recepcion_detalle, recepcion_eliminar
+from apps.administracion.views.web.orden_servicio_web import orden_lista, orden_create, orden_detalle, orden_editar, orden_cerrar, orden_eliminar
+from apps.administracion.views.web.orden_servicio_detalle_web import detalle_create, detalle_editar, detalle_eliminar
 
 router = DefaultRouter()
 
@@ -112,7 +116,28 @@ urlpatterns = [
     path('roles/<int:rol_id>/permisos/asignar-modulo/', rol_permiso_asignar_modulo, name='rol_permiso_asignar_modulo'),
     path('roles/<int:rol_id>/permisos/<int:permiso_id>/revocar/', rol_permiso_revocar, name='rol_permiso_revocar'),
     path('roles/<int:rol_id>/permisos/revocar-modulo/', rol_permiso_revocar_modulo, name='rol_permiso_revocar_modulo'),
-    
+
+    path('citas/', cita_lista, name='citas_lista'),
+    path('citas/crear/', cita_create, name='citas_crear'),
+    path('citas/<int:cita_id>/editar/', cita_editar, name='citas_editar'),
+    path('citas/<int:cita_id>/eliminar/', cita_eliminar, name='citas_eliminar'),
+
+    path('recepciones/', recepcion_lista, name='recepciones_lista'),
+    path('recepciones/crear/', recepcion_create, name='recepciones_crear'),
+    path('recepciones/<int:recepcion_id>/', recepcion_detalle, name='recepciones_detalle'),
+    path('recepciones/<int:recepcion_id>/eliminar/', recepcion_eliminar, name='recepciones_eliminar'),
+
+    path('ordenes/', orden_lista, name='ordenes_lista'),
+    path('ordenes/crear/', orden_create, name='ordenes_crear'),
+    path('ordenes/<int:orden_id>/', orden_detalle, name='orden_detalle'),
+    path('ordenes/<int:orden_id>/editar/', orden_editar, name='ordenes_editar'),
+    path('ordenes/<int:orden_id>/cerrar/', orden_cerrar, name='ordenes_cerrar'),
+    path('ordenes/<int:orden_id>/eliminar/', orden_eliminar, name='ordenes_eliminar'),
+
+    path('ordenes/<int:orden_id>/servicios/agregar/', detalle_create, name='detalle_crear'),
+    path('ordenes/servicios/<int:detalle_id>/editar/', detalle_editar, name='detalle_editar'),
+    path('ordenes/servicios/<int:detalle_id>/eliminar/', detalle_eliminar, name='detalle_eliminar'),
+        
 
 
     
