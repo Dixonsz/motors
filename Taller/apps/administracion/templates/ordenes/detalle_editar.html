@@ -1,0 +1,30 @@
+<!-- detalle_editar.html -->
+{% extends 'base.html' %}
+{% block title %}Editar Servicio{% endblock %}
+{% block page_title %}Editar Servicio{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de ordenes">
+    <a href="{% url 'orden_detalle' detalle.orden.id %}">Regresar</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<p><strong>Servicio:</strong> {{ detalle.servicio.nombre }}</p>
+
+<form action="" method="post">
+    {% csrf_token %}
+    <input type="number" name="precio" value="{{ detalle.precio }}" required placeholder="Precio" min="0">
+    <input type="number" name="cantidad" value="{{ detalle.cantidad }}" required placeholder="Cantidad" min="1">
+    <textarea name="observaciones" placeholder="Observaciones">{{ detalle.observaciones }}</textarea>
+
+    <br>
+    <button type="submit">Guardar</button>
+</form>
+{% endblock %}

@@ -1,0 +1,26 @@
+﻿<!-- roles_crear.html -->
+{% extends 'base.html' %}
+{% block title %}Nuevo Rol{% endblock %}
+{% block page_title %}Nuevo Rol{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de roles">
+    <a href="{% url 'roles_lista' %}">Regresar</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    <input type="text" name="nombre" required placeholder="Nombre del Rol">
+    <input type="text" name="descripcion" placeholder="Descripción del Rol">
+    <br>
+    <button type="submit">Guardar</button>
+</form>
+{% endblock %}

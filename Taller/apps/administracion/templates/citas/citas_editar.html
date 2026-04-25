@@ -1,48 +1,78 @@
+<!-- citas_editar.html -->
 {% extends 'base.html' %}
 {% block title %}Editar Cita{% endblock %}
 {% block page_title %}Editar Cita{% endblock %}
 
 {% block page_actions %}
 <nav aria-label="Navegacion de citas">
-	<a href="{% url 'citas_lista' %}">Regresar</a>
+    <a href="{% url 'citas_lista' %}">Regresar</a>
 </nav>
 {% endblock %}
 
 {% block content %}
-<section aria-labelledby="editar-cita-title">
-	<p>Actualiza los datos de la cita; la asignacion de mecanico la mantiene automaticamente el sistema.</p>
-	<hr>
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
 
-	<form method="post">
-		{% csrf_token %}
+<form action="" method="post">
+    {% csrf_token %}
 
-		<label for="vehiculo_id">Vehiculo</label>
-		<select id="vehiculo_id" name="vehiculo_id" required>
-			{% for vehiculo in vehiculos %}
-				<option value="{{ vehiculo.id }}" {% if cita.vehiculo_id == vehiculo.id %}selected{% endif %}>{{ vehiculo.placa }}</option>
-			{% endfor %}
-		</select>
+    <select name="cliente_id">
+        <option value="">Sin cliente</option>
+        {% for cliente in clientes %}
+            <option value="{{ cliente.id }}" {% if cita.cliente and cita.cliente.id == cliente.id %}selected{% endif %}>
+                {{ cliente.nombre }}
+            </option>
+        {% endfor %}
+    </select>
 
-		<label for="servicio_id">Servicio</label>
-		<select id="servicio_id" name="servicio_id" required>
-			{% for servicio in servicios %}
-				<option value="{{ servicio.id }}" {% if cita.servicio_id == servicio.id %}selected{% endif %}>{{ servicio.nombre }}</option>
-			{% endfor %}
-		</select>
+    <select name="vehiculo_id">
+        <option value="">Sin vehículo</option>
+        {% for vehiculo in vehiculos %}
+            <option value="{{ vehiculo.id }}" {% if cita.vehiculo and cita.vehiculo.id == vehiculo.id %}selected{% endif %}>
+                {{ vehiculo.placa }} - {{ vehiculo.cliente.nombre }}
+            </option>
+        {% endfor %}
+    </select>
 
-		<label for="fecha">Fecha</label>
-		<input type="date" id="fecha" name="fecha" value="{{ cita.fecha|date:'Y-m-d' }}" required>
+    <fieldset>
+        <legend>Servicios</legend>
+        {% for servicio in servicios %}
+            <label style="display:block; margin-bottom:0.45rem;">
+                <input type="checkbox" name="servicios_id" value="{{ servicio.id }}"
+                    {% if servicio in cita.servicio.all %}checked{% endif %}>
+                {{ servicio.nombre }}
+                <small style="display:block; color:#5c6670; margin-left:1.4rem;">₡{{ servicio.precio_base }}</small>
+            </label>
+        {% endfor %}
+    </fieldset>
 
-		<label for="hora_inicio">Hora de inicio</label>
-		<input type="time" id="hora_inicio" name="hora_inicio" value="{{ cita.hora_inicio|time:'H:i' }}" required>
+    <select name="usuario_id" required>
+        <option value="">Seleccione un usuario</option>
+        {% for usuario in usuarios %}
+            <option value="{{ usuario.id }}" {% if cita.usuario.id == usuario.id %}selected{% endif %}>
+                {{ usuario.nombre }} {{ usuario.apellido }}
+            </option>
+        {% endfor %}
+    </select>
 
-		<label for="hora_fin">Hora fin</label>
-		<input type="time" id="hora_fin" name="hora_fin" value="{{ cita.hora_fin|time:'H:i' }}">
+    <input type="date" name="fecha" value="{{ cita.fecha|date:'Y-m-d' }}" required>
+    <input type="time" name="hora_inicio" value="{{ cita.hora_inicio|time:'H:i' }}" required>
 
-		<label for="anotaciones">Anotaciones</label>
-		<textarea id="anotaciones" name="anotaciones" rows="3">{{ cita.anotaciones|default:'' }}</textarea>
+    <select name="estado_id" required>
+        <option value="">Seleccione un estado</option>
+        {% for estado in estados %}
+            <option value="{{ estado.id }}" {% if cita.estado.id == estado.id %}selected{% endif %}>
+                {{ estado.nombre }}
+            </option>
+        {% endfor %}
+    </select>
 
-		<button type="submit">Guardar cambios</button>
-	</form>
-</section>
+    <textarea name="anotaciones" placeholder="Anotaciones">{{ cita.anotaciones }}</textarea>
+
+    <br>
+    <button type="submit">Guardar</button>
+</form>
 {% endblock %}

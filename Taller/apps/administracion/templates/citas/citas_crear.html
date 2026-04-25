@@ -1,50 +1,69 @@
+<!-- citas_crear.html -->
 {% extends 'base.html' %}
-{% block title %}Crear Cita{% endblock %}
-{% block page_title %}Crear Cita{% endblock %}
+{% block title %}Nueva Cita{% endblock %}
+{% block page_title %}Nueva Cita{% endblock %}
 
 {% block page_actions %}
 <nav aria-label="Navegacion de citas">
-	<a href="{% url 'citas_lista' %}">Regresar</a>
+    <a href="{% url 'citas_lista' %}">Regresar</a>
 </nav>
 {% endblock %}
 
 {% block content %}
-<section aria-labelledby="crear-cita-title">
-	<p>Programa una o varias citas segun los servicios seleccionados; el sistema valida cada servicio, lo aplica automaticamente y asigna mecanico activo con estado Reservado.</p>
-	<hr>
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
 
-	<form method="post">
-		{% csrf_token %}
+<form action="" method="post">
+    {% csrf_token %}
 
-		<label for="vehiculo_id">Vehiculo</label>
-		<select id="vehiculo_id" name="vehiculo_id" required>
-			<option value="">Seleccione un vehiculo</option>
-			{% for vehiculo in vehiculos %}
-				<option value="{{ vehiculo.id }}">{{ vehiculo.placa }}</option>
-			{% endfor %}
-		</select>
+    <select name="cliente_id">
+        <option value="">Sin cliente</option>
+        {% for cliente in clientes %}
+            <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+        {% endfor %}
+    </select>
 
-		<label for="servicio_ids">Servicios</label>
-		<select id="servicio_ids" name="servicio_ids" multiple size="6" required>
-			{% for servicio in servicios %}
-				<option value="{{ servicio.id }}">{{ servicio.nombre }}</option>
-			{% endfor %}
-		</select>
-		<small>Manten presionada la tecla Ctrl para seleccionar multiples servicios y crear citas consecutivas.</small>
+    <select name="vehiculo_id">
+        <option value="">Sin vehículo</option>
+        {% for vehiculo in vehiculos %}
+            <option value="{{ vehiculo.id %}">{{ vehiculo.placa }} - {{ vehiculo.cliente.nombre }}</option>
+        {% endfor %}
+    </select>
 
-		<label for="fecha">Fecha</label>
-		<input type="date" id="fecha" name="fecha" required>
+    <fieldset>
+        <legend>Servicios</legend>
+        {% for servicio in servicios %}
+            <label style="display:block; margin-bottom:0.45rem;">
+                <input type="checkbox" name="servicios_id" value="{{ servicio.id }}">
+                {{ servicio.nombre }}
+                <small style="display:block; color:#5c6670; margin-left:1.4rem;">₡{{ servicio.precio_base }}</small>
+            </label>
+        {% endfor %}
+    </fieldset>
 
-		<label for="hora_inicio">Hora de inicio</label>
-		<input type="time" id="hora_inicio" name="hora_inicio" required>
+    <select name="usuario_id" required>
+        <option value="">Seleccione un usuario</option>
+        {% for usuario in usuarios %}
+            <option value="{{ usuario.id }}">{{ usuario.nombre }} {{ usuario.apellido }}</option>
+        {% endfor %}
+    </select>
 
-		<label for="hora_fin">Hora fin (opcional si el servicio tiene duracion)</label>
-		<input type="time" id="hora_fin" name="hora_fin">
+    <input type="date" name="fecha" required>
+    <input type="time" name="hora_inicio" required>
 
-		<label for="anotaciones">Anotaciones</label>
-		<textarea id="anotaciones" name="anotaciones" rows="3" placeholder="Detalles adicionales"></textarea>
+    <select name="estado_id" required>
+        <option value="">Seleccione un estado</option>
+        {% for estado in estados %}
+            <option value="{{ estado.id }}">{{ estado.nombre }}</option>
+        {% endfor %}
+    </select>
 
-		<button type="submit">Guardar cita</button>
-	</form>
-</section>
+    <textarea name="anotaciones" placeholder="Anotaciones"></textarea>
+
+    <br>
+    <button type="submit">Guardar</button>
+</form>
 {% endblock %}

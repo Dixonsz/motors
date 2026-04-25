@@ -1,0 +1,42 @@
+<!-- ordenes_cerrar.html -->
+{% extends 'base.html' %}
+{% block title %}Cerrar Orden{% endblock %}
+{% block page_title %}Cerrar Orden #{{ orden.id }}{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de ordenes">
+    <a href="{% url 'orden_detalle' orden.id %}">Regresar</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<p>¿Está seguro que desea cerrar la orden del vehículo
+    <strong>{{ orden.recepcion.vehiculo.placa }}</strong>?
+</p>
+<p>Se registrará la fecha de entrega como hoy y no podrá agregar ni modificar servicios.</p>
+
+<table>
+    <tbody>
+        <tr>
+            <th>Total servicios</th>
+            <td>₡{{ orden.total }}</td>
+        </tr>
+        <tr>
+            <th>Cantidad de servicios</th>
+            <td>{{ orden.ordenes_detalle.count }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<form action="" method="post">
+    {% csrf_token %}
+    <button type="submit">Confirmar cierre</button>
+    <a href="{% url 'orden_detalle' orden.id %}">Cancelar</a>
+</form>
+{% endblock %}

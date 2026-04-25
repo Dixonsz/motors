@@ -1,0 +1,36 @@
+<!-- detalle_crear.html -->
+{% extends 'base.html' %}
+{% block title %}Agregar Servicio{% endblock %}
+{% block page_title %}Agregar Servicio a Orden #{{ orden.id }}{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de ordenes">
+    <a href="{% url 'orden_detalle' orden.id %}">Regresar</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<form action="" method="post">
+    {% csrf_token %}
+
+    <select name="servicio_id" required>
+        <option value="">Seleccione un servicio</option>
+        {% for servicio in servicios %}
+            <option value="{{ servicio.id }}">{{ servicio.nombre }} - ₡{{ servicio.precio_base }}</option>
+        {% endfor %}
+    </select>
+
+    <input type="number" name="precio" required placeholder="Precio" min="0">
+    <input type="number" name="cantidad" required placeholder="Cantidad" min="1" value="1">
+    <textarea name="observaciones" placeholder="Observaciones"></textarea>
+
+    <br>
+    <button type="submit">Agregar Servicio</button>
+</form>
+{% endblock %}

@@ -1,60 +1,52 @@
+<!-- ordenes_crear.html -->
 {% extends 'base.html' %}
-{% block title %}Crear Orden de Trabajo{% endblock %}
-{% block page_title %}Crear Orden de Trabajo{% endblock %}
+{% block title %}Nueva Orden{% endblock %}
+{% block page_title %}Nueva Orden de Servicio{% endblock %}
 
 {% block page_actions %}
 <nav aria-label="Navegacion de ordenes">
-	<a href="{% url 'ordenes_lista' %}">Regresar</a>
+    <a href="{% url 'ordenes_lista' %}">Regresar</a>
 </nav>
 {% endblock %}
 
 {% block content %}
-<section aria-labelledby="orden-crear-title">
-	<h2 id="orden-crear-title">Nueva orden</h2>
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
 
-	<form method="post">
-		{% csrf_token %}
+<form action="" method="post">
+    {% csrf_token %}
 
-		<div>
-			<label for="recepcion_id">Recepcion</label>
-			<select id="recepcion_id" name="recepcion_id" required>
-				<option value="">Seleccione una recepcion</option>
-				{% for recepcion in recepciones %}
-					<option value="{{ recepcion.id }}">{{ recepcion }}</option>
-				{% endfor %}
-			</select>
-		</div>
+    <select name="recepcion_id" required>
+        <option value="">Seleccione una recepción</option>
+        {% for recepcion in recepciones %}
+            <option value="{{ recepcion.id }}"
+                {% if recepcion_id_preseleccionado == recepcion.id|stringformat:"s" %}selected{% endif %}>
+                {{ recepcion.vehiculo.placa }} - {{ recepcion.fecha_ingreso|date:"d/m/Y H:i" }}
+            </option>
+        {% endfor %}
+    </select>
 
-		<div>
-			<label for="usuario_id">Usuario</label>
-			<select id="usuario_id" name="usuario_id" required>
-				<option value="">Seleccione un usuario</option>
-				{% for usuario in usuarios %}
-					<option value="{{ usuario.id }}">{{ usuario.nombre }} {{ usuario.apellido }}</option>
-				{% endfor %}
-			</select>
-		</div>
+    <select name="usuario_id" required>
+        <option value="">Seleccione un usuario</option>
+        {% for usuario in usuarios %}
+            <option value="{{ usuario.id }}">{{ usuario.nombre }} {{ usuario.apellido }}</option>
+        {% endfor %}
+    </select>
 
-		<div>
-			<label for="diagnostico">Diagnostico</label>
-			<textarea id="diagnostico" name="diagnostico" rows="4" placeholder="Describe el diagnostico inicial"></textarea>
-		</div>
+    <select name="estado_id" required>
+        <option value="">Seleccione un estado</option>
+        {% for estado in estados %}
+            <option value="{{ estado.id }}">{{ estado.nombre }}</option>
+        {% endfor %}
+    </select>
 
-		<div>
-			<label for="estado_id">Estado</label>
-			<select id="estado_id" name="estado_id" required>
-				{% if estados %}
-					<option value="">Seleccione un estado</option>
-					{% for estado in estados %}
-						<option value="{{ estado.id }}" {% if estado.nombre == 'Pendiente' %}selected{% endif %}>{{ estado.nombre }}</option>
-					{% endfor %}
-				{% else %}
-					<option value="">No hay estados disponibles</option>
-				{% endif %}
-			</select>
-		</div>
+    <textarea name="diagnostico" placeholder="Diagnóstico"></textarea>
+    <textarea name="observaciones" placeholder="Observaciones"></textarea>
 
-		<button type="submit">Guardar</button>
-	</form>
-</section>
+    <br>
+    <button type="submit">Crear Orden</button>
+</form>
 {% endblock %}

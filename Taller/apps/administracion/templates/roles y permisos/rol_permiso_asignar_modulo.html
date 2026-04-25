@@ -1,0 +1,30 @@
+<!-- rol_permiso_asignar_modulo.html -->
+{% extends 'base.html' %}
+{% block title %}Asignar Módulo - {{ rol.nombre }}{% endblock %}
+{% block page_title %}Asignar Módulo Completo a {{ rol.nombre }}{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de roles">
+    <a href="{% url 'rol_permiso_lista' rol.id %}">Regresar</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    <select name="modulo_id" required>
+        <option value="">Seleccione un módulo</option>
+        {% for modulo in modulos %}
+            <option value="{{ modulo.id }}">{{ modulo.nombre }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <button type="submit">Asignar módulo completo</button>
+</form>
+{% endblock %}

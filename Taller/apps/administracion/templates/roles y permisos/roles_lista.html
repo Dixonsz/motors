@@ -1,0 +1,51 @@
+﻿<!-- roles_lista.html -->
+{% extends 'base.html' %}
+{% block title %}Roles{% endblock %}
+{% block page_title %}Roles{% endblock %}
+
+{% block page_actions %}
+<a href="{% url 'roles_crear' %}">Nuevo Rol</a>
+{% endblock %}
+
+{% block content %}
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Usuarios</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for rol in roles %}
+        <tr>
+            <td>{{ rol.nombre }}</td>
+            <td>{{ rol.descripcion }}</td>
+            <td>{{ rol.usuarios.count }}</td>
+            <td>
+                <a href="{% url 'roles_editar' rol.id %}">Editar</a>
+                <a href="{% url 'rol_permiso_lista' rol.id %}">Permisos</a>
+                <a href="{% url 'roles_eliminar' rol.id %}">Eliminar</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No hay roles registrados.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if roles.has_other_pages %}
+<nav>
+    {% if roles.has_previous %}
+        <a href="?page={{ roles.previous_page_number }}">Anterior</a>
+    {% endif %}
+    <span>Página {{ roles.number }} de {{ roles.paginator.num_pages }}</span>
+    {% if roles.has_next %}
+        <a href="?page={{ roles.next_page_number }}">Siguiente</a>
+    {% endif %}
+</nav>
+{% endif %}
+{% endblock %}

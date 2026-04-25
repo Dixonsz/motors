@@ -1,0 +1,30 @@
+<!-- rol_permiso_asignar.html -->
+{% extends 'base.html' %}
+{% block title %}Asignar Permiso - {{ rol.nombre }}{% endblock %}
+{% block page_title %}Asignar Permiso a {{ rol.nombre }}{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de roles">
+    <a href="{% url 'rol_permiso_lista' rol.id %}">Regresar</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    <select name="permiso_id" required>
+        <option value="">Seleccione un permiso</option>
+        {% for permiso in permisos_disponibles %}
+            <option value="{{ permiso.id }}">{{ permiso.modulo.nombre }} - {{ permiso.accion }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <button type="submit">Asignar</button>
+</form>
+{% endblock %}

@@ -1,0 +1,60 @@
+<!-- rol_permiso_lista.html -->
+{% extends 'base.html' %}
+{% block title %}Permisos - {{ rol.nombre }}{% endblock %}
+{% block page_title %}Permisos de {{ rol.nombre }}{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de roles">
+    <a href="{% url 'roles_lista' %}">Regresar</a>
+    <a href="{% url 'rol_permiso_asignar' rol.id %}">Asignar Permiso</a>
+    <a href="{% url 'rol_permiso_asignar_modulo' rol.id %}">Asignar Módulo Completo</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<table>
+    <thead>
+        <tr>
+            <th>Módulo</th>
+            <th>Acción</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for rp in permisos %}
+        <tr>
+            <td>{{ rp.permiso.modulo.nombre }}</td>
+            <td>{{ rp.permiso.accion }}</td>
+            <td>
+                <form action="{% url 'rol_permiso_revocar' rol.id rp.permiso.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Revocar</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">Este rol no tiene permisos asignados.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if permisos.has_other_pages %}
+<nav>
+    {% if permisos.has_previous %}
+        <a href="?page={{ permisos.previous_page_number }}">Anterior</a>
+    {% endif %}
+    <span>Página {{ permisos.number }} de {{ permisos.paginator.num_pages }}</span>
+    {% if permisos.has_next %}
+        <a href="?page={{ permisos.next_page_number }}">Siguiente</a>
+    {% endif %}
+</nav>
+{% endif %}
+{% endblock %}

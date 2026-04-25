@@ -1,0 +1,29 @@
+<!-- detalle_eliminar.html -->
+{% extends 'base.html' %}
+{% block title %}Eliminar Servicio{% endblock %}
+{% block page_title %}Eliminar Servicio{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de ordenes">
+    <a href="{% url 'orden_detalle' detalle.orden.id %}">Regresar</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<p>¿Está seguro que desea eliminar el servicio
+    <strong>{{ detalle.servicio.nombre }}</strong>
+    de la orden <strong>#{{ detalle.orden.id }}</strong>?
+</p>
+
+<form action="" method="post">
+    {% csrf_token %}
+    <button type="submit">Confirmar eliminación</button>
+    <a href="{% url 'orden_detalle' detalle.orden.id %}">Cancelar</a>
+</form>
+{% endblock %}

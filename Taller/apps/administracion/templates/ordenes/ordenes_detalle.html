@@ -1,0 +1,103 @@
+<!-- ordenes_detalle.html -->
+{% extends 'base.html' %}
+{% block title %}Detalle Orden{% endblock %}
+{% block page_title %}Orden de Servicio #{{ orden.id }}{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de ordenes">
+    <a href="{% url 'ordenes_lista' %}">Regresar</a>
+    {% if orden.estado.nombre|lower != "completado" %}
+        <a href="{% url 'detalle_crear' orden.id %}">Agregar Servicio</a>
+        <a href="{% url 'ordenes_cerrar' orden.id %}">Cerrar Orden</a>
+    {% endif %}
+</nav>
+{% endblock %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<table>
+    <tbody>
+        <tr>
+            <th>Vehículo</th>
+            <td>{{ orden.recepcion.vehiculo.placa }}</td>
+        </tr>
+        <tr>
+            <th>Cliente</th>
+            <td>{% if orden.recepcion.vehiculo.cliente %}{{ orden.recepcion.vehiculo.cliente.nombre }}{% else %}Sin cliente{% endif %}</td>
+        </tr>
+        <tr>
+            <th>Usuario</th>
+            <td>{{ orden.usuario.nombre }} {{ orden.usuario.apellido }}</td>
+        </tr>
+        <tr>
+            <th>Estado</th>
+            <td>{{ orden.estado.nombre }}</td>
+        </tr>
+        <tr>
+            <th>Diagnóstico</th>
+            <td>{{ orden.diagnostico|default:"Sin diagnóstico" }}</td>
+        </tr>
+        <tr>
+            <th>Observaciones</th>
+            <td>{{ orden.observaciones|default:"Sin observaciones" }}</td>
+        </tr>
+        <tr>
+            <th>Fecha creación</th>
+            <td>{{ orden.fecha_creacion|date:"d/m/Y H:i" }}</td>
+        </tr>
+        <tr>
+            <th>Fecha entrega</th>
+            <td>{% if orden.fecha_entrega %}{{ orden.fecha_entrega|date:"d/m/Y" }}{% else %}Pendiente{% endif %}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Servicios</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Servicio</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+            <th>Observaciones</th>
+            {% if orden.estado.nombre|lower != "completado" %}
+            <th>Acciones</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for detalle in detalles %}
+        <tr>
+            <td>{{ detalle.servicio.nombre }}</td>
+            <td>₡{{ detalle.precio }}</td>
+            <td>{{ detalle.cantidad }}</td>
+            <td>₡{{ detalle.subtotal }}</td>
+            <td>{{ detalle.observaciones|default:"-" }}</td>
+            {% if orden.estado.nombre|lower != "completado" %}
+            <td>
+                <a href="{% url 'detalle_editar' detalle.id %}">Editar</a>
+                <a href="{% url 'detalle_eliminar' detalle.id %}">Eliminar</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No hay servicios agregados.</td>
+        </tr>
+        {% endfor %}
+        {% if detalles %}
+        <tr>
+            <td colspan="3"><strong>Total</strong></td>
+            <td><strong>₡{{ orden.total }}</strong></td>
+            <td colspan="2"></td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+{% endblock %}

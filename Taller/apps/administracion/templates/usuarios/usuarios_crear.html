@@ -1,6 +1,7 @@
-﻿{% extends 'base.html' %}
-{% block title %}Crear Usuario{% endblock %}
-{% block page_title %}Crear Usuario{% endblock %}
+﻿<!-- usuarios_crear.html -->
+{% extends 'base.html' %}
+{% block title %}Nuevo Usuario{% endblock %}
+{% block page_title %}Nuevo Usuario{% endblock %}
 
 {% block page_actions %}
 <nav aria-label="Navegacion de usuarios">
@@ -9,67 +10,31 @@
 {% endblock %}
 
 {% block content %}
-<h1>Crear Usuario</h1>
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" id="nombre" name="nombre" required placeholder="Nombre">
-        <br>
-        <input type="text" id="apellido" name="apellido" required placeholder="Apellido">
-        <br>
-        <input type="text" id="telefono" name="telefono" required placeholder="Teléfono">
-        <br>
-        <input type="email" id="correo" name="correo" required placeholder="Correo">
-        <br>
-        <select id="rol_id" name="rol_id" required>
-            <option value="">Seleccione un rol</option>
-            {% for rol in roles %}
-                <option value="{{ rol.id }}">{{ rol.nombre }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <label for="password">Contraseña:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <br>
-        <label for="password_confirm">Confirmar Contraseña:</label>
-        <input type="password" id="password_confirm" name="password_confirm" required>
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
 
-        <fieldset>
-            <legend>Permisos adicionales por usuario (opcionales)</legend>
-            {% for item in permission_options %}
-                <label style="display:block; margin-bottom:0.45rem;">
-                    <input type="checkbox" name="extra_perm_{{ item.key }}" {% if item.key in selected_extra_permission_keys %}checked{% endif %}> {{ item.label }}
-                    <small style="display:block; color:#5c6670; margin-left:1.4rem;">{{ item.description }}</small>
-                </label>
-            {% endfor %}
-        </fieldset>
+<form action="" method="post">
+    {% csrf_token %}
+    <input type="text" name="nombre" required placeholder="Nombre">
+    <input type="text" name="apellido" required placeholder="Apellido">
+    <input type="text" name="username" required placeholder="Username">
+    <input type="password" name="password" required placeholder="Contraseña">
+    <input type="text" name="cedula" required placeholder="Cédula">
+    <input type="text" name="telefono" required placeholder="Teléfono">
+    <input type="text" name="direccion" required placeholder="Dirección">
+    <input type="text" name="especialidad" placeholder="Especialidad">
 
-        <br><br>
-        <span id="password-error" class="error" style="color: red;"></span>
-        <button type="submit">Guardar</button>
-    </form>
+    <select name="rol_id" required>
+        <option value="">Seleccione un rol</option>
+        {% for rol in roles %}
+            <option value="{{ rol.id }}">{{ rol.nombre }}</option>
+        {% endfor %}
+    </select>
 
-    <script>
-        const passwordInput = document.getElementById('password');
-        const passwordConfirmInput = document.getElementById('password_confirm');
-        const error = document.getElementById('password-error');
-        
-
-        function validate() {
-           if (passwordConfirmInput.value === "" || passwordInput.value === "") {
-                error.textContent = 'Ambos campos de contraseña son obligatorios.';
-                return false;
-            } 
-            if (passwordInput.value !== passwordConfirmInput.value) {
-                error.textContent = 'Las contraseñas no coinciden.';
-                return false;
-            }
-            error.textContent = '';
-            error.style.color = 'green';
-        }
-
-        passwordInput.addEventListener('input', validate);
-        passwordConfirmInput.addEventListener('input', validate);
-
-    </script>
+    <br>
+    <button type="submit">Guardar</button>
+</form>
 {% endblock %}

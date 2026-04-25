@@ -1,0 +1,26 @@
+﻿<!-- roles_editar.html -->
+{% extends 'base.html' %}
+{% block title %}Editar Rol{% endblock %}
+{% block page_title %}Editar Rol{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de roles">
+    <a href="{% url 'roles_lista' %}">Regresar</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    <input type="text" name="nombre" value="{{ rol.nombre }}" required placeholder="Nombre del Rol">
+    <input type="text" name="descripcion" value="{{ rol.descripcion }}" placeholder="Descripción del Rol">
+    <br>
+    <button type="submit">Guardar</button>
+</form>
+{% endblock %}
