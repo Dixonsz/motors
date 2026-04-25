@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar Permiso{% endblock %}
+{% block page_title %}Eliminar Permiso{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de permisos">
+    <a href="{% url 'permisos_lista' %}">Regresar</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Eliminar Permiso</h1>
+    <p>¿Estás seguro de que quieres eliminar el permiso "{{ permiso.nombre }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Sí, eliminar</button>
+        <a href="{% url 'permisos_lista' %}">Cancelar</a>
+    </form>
+{% endblock %}

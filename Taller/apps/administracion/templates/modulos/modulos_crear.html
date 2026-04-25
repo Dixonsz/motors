@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Crear Módulo{% endblock %}
+{% block page_title %}Crear Módulo{% endblock %}
+
+{% block page_actions %}
+<nav aria-label="Navegacion de módulos">
+    <a href="{% url 'modulos_lista' %}">Regresar</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Nuevo Módulo</h1>
+    <form method="post">
+        {% csrf_token %}
+    <input type="text" name="nombre" id="nombre" required placeholder="Nombre del Módulo">
+    <input type="text" name="descripcion" id="descripcion"  placeholder="Descripción del Módulo">
+    <button type="submit">Guardar</button>
+    </form>
+{% endblock %}

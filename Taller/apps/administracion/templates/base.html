@@ -570,6 +570,8 @@
 
                 <div class="module-group" aria-label="Navegacion de configuracion">
                     <span class="module-group-title">Configuración</span>
+                    <a href="{% url 'modulos_lista' %}" class="{% if request.path|slice:':10' == '/modulos/' %}active{% endif %}">Módulos</a>
+                    <a href="{% url 'permisos_lista' %}" class="{% if request.path|slice:':10' == '/permisos/' %}active{% endif %}">Permisos</a>
                    
                 </div>
 

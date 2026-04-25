@@ -1,66 +1,68 @@
-from rest_framework import  status
+from rest_framework import status
 from rest_framework.response import Response
-from ...services.marca_service import MarcaService
-from ...serializers.marca_serializers import MarcaSerializer
+from ...services.rol_service import RolService
+from ...serializers.rol_serializers import RolSerializer
 from django.views.decorators.cache import never_cache 
 
 
-class MarcaView():
+class RolView():
 
     @never_cache
     def list(self, request):
-        marcas = MarcaService.get_all_marcas()
-        serializer = MarcaSerializer(marcas, many=True)
+        roles = RolService.get_all_roles()
+        serializer = RolSerializer(roles, many=True)
         return Response(serializer.data)
-    
+
     @never_cache
     def retrieve(self, request, pk=None):
-        marca = MarcaService.get_marca_by_id(pk)
+        rol = RolService.get_rol_by_id(pk)
 
-        if not marca:
-            return Response({'error': 'Marca no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+        if not rol:
+            return Response({'error': 'Rol no encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = MarcaSerializer(marca)
+        serializer = RolSerializer(rol)
         return Response(serializer.data)
-    
+
     @never_cache
     def create(self, request):
         data = request.data
 
         try:
-            marca = MarcaService.create_marca(
-                nombre=data['nombre']
+            rol = RolService.create_rol(
+                nombre=data['nombre'],
+                descripcion=data['descripcion'],
             )
 
-            serializer = MarcaSerializer(marca)
+            serializer = RolSerializer(rol)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         except ValueError as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    
+        except KeyError as e:
+            return Response({'error': f'Campo requerido faltante: {e.args[0]}'}, status=status.HTTP_400_BAD_REQUEST)
+
     @never_cache
     def update(self, request, pk=None):
         data = request.data
 
         try:
-            marca = MarcaService.update_marca(
+            rol = RolService.update_rol(
                 pk,
-                nombre=data.get('nombre')
+                nombre=data.get('nombre'),
+                descripcion=data.get('descripcion')
             )
 
-            serializer = MarcaSerializer(marca)
+            serializer = RolSerializer(rol)
             return Response(serializer.data)
 
         except ValueError as e:
             return Response({'error': str(e)}, status=status.HTTP_404_NOT_FOUND)
-        
+
     @never_cache
     def destroy(self, request, pk=None):
         try:
-            marca_nombre = MarcaService.delete_marca(pk)
-            return Response({'message': f'Marca "{marca_nombre}" eliminada exitosamente.'})
+            RolService.delete_rol(pk)
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
         except ValueError as e:
             return Response({'error': str(e)}, status=status.HTTP_404_NOT_FOUND)
-        
-

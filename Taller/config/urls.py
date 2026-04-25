@@ -15,6 +15,10 @@ from apps.administracion.views.web.categoria_herramienta_web import categoria_li
 from apps.administracion.views.web.estado_herramienta_web import estado_herramienta_lista, estado_herramienta_create, estado_herramienta_editar, estado_herramienta_eliminar
 from apps.administracion.views.web.herramienta_web import herramienta_lista, herramienta_create, herramienta_editar, herramienta_eliminar
 from apps.administracion.views.web.inventario_herramienta_web import inventario_herramientas_lista, inventario_herramientas_create, inventario_herramientas_editar, inventario_herramientas_eliminar
+from apps.administracion.views.web.modulo_web import modulo_lista, modulo_create, modulo_editar, modulo_eliminar
+from apps.administracion.views.web.permiso_web import permiso_lista, permiso_create, permiso_eliminar
+from apps.administracion.views.web.rol_web import rol_lista, rol_create, rol_editar, rol_eliminar
+from apps.administracion.views.web.rol_permiso_web import rol_permiso_lista, rol_permiso_asignar, rol_permiso_asignar_modulo, rol_permiso_revocar, rol_permiso_revocar_modulo
 
 router = DefaultRouter()
 
@@ -64,15 +68,10 @@ urlpatterns = [
     path('servicios/editar/<int:servicio_id>/', servicio_editar, name='servicios_editar'),
     path('servicios/eliminar/<int:servicio_id>/', servicio_eliminar,  name='servicios_eliminar'),
 
-    
-
-
     path('estados/', estado_lista, name='estados_lista'),
     path('estados/crear/', estado_create, name='estados_crear'),
     path('estados/editar/<int:estado_id>/', estado_editar, name='estados_editar'),
     path('estados/eliminar/<int:estado_id>/', estado_eliminar, name='estados_eliminar'),
-
-
 
     path('categoria_herramientas/', categoria_lista, name='categoria_herramientas_lista'),
     path('categoria_herramientas/crear/', categoria_create, name='categoria_herramientas_crear'),
@@ -93,6 +92,27 @@ urlpatterns = [
     path('inventario_herramientas/crear/', inventario_herramientas_create, name='inventario_herramientas_crear'),
     path('inventario_herramientas/editar/<int:inventario_id>/', inventario_herramientas_editar, name='inventario_herramientas_editar'),
     path('inventario_herramientas/eliminar/<int:inventario_id>/', inventario_herramientas_eliminar, name='inventario_herramientas_eliminar'),
+
+    path('modulos/', modulo_lista, name='modulos_lista'),
+    path('modulos/crear/', modulo_create, name='modulos_crear'),
+    path('modulos/editar/<int:modulo_id>/', modulo_editar, name='modulos_editar'),
+    path('modulos/eliminar/<int:modulo_id>/', modulo_eliminar, name='modulos_eliminar'),
+
+    path('permisos/', permiso_lista, name='permisos_lista'),
+    path('permisos/crear/', permiso_create, name='permisos_crear'),
+    path('permisos/eliminar/<int:permiso_id>/', permiso_eliminar, name='permisos_eliminar'),
+
+    path('roles/', rol_lista, name='roles_lista'),
+    path('roles/crear/', rol_create, name='roles_crear'),
+    path('roles/editar/<int:rol_id>/', rol_editar, name='roles_editar'),
+    path('roles/eliminar/<int:rol_id>/', rol_eliminar, name='roles_eliminar'),
+
+    path('roles/<int:rol_id>/permisos/', rol_permiso_lista, name='rol_permiso_lista'),
+    path('roles/<int:rol_id>/permisos/asignar/', rol_permiso_asignar, name='rol_permiso_asignar'),
+    path('roles/<int:rol_id>/permisos/asignar-modulo/', rol_permiso_asignar_modulo, name='rol_permiso_asignar_modulo'),
+    path('roles/<int:rol_id>/permisos/<int:permiso_id>/revocar/', rol_permiso_revocar, name='rol_permiso_revocar'),
+    path('roles/<int:rol_id>/permisos/revocar-modulo/', rol_permiso_revocar_modulo, name='rol_permiso_revocar_modulo'),
+    
 
 
     
