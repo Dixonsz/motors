@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+   <div class="delete-confirm">
+        <h2>Confirmar Eliminación</h2>
+
+        <p>
+            ¿Estás seguro de que deseas eliminar
+            <strong>{{ object_name }}</strong>?
+            Esta acción no se puede deshacer.
+        </p>
+
+        <form action="{{confirm_url}}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+            <a href="{{cancel_url}}" class="btn btn-secondary">Cancelar</a>
+        </form>
+
+   </div>
+{% endblock %}

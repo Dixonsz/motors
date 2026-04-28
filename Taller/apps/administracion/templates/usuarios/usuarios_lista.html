@@ -38,11 +38,11 @@
             <td>
                 <a href="{% url 'usuarios_editar' usuario.id %}">Editar</a>
                 <a href="{% url 'usuarios_cambiar_password' usuario.id %}">Contraseña</a>
+                <a href="{% url 'usuario_activar_desactivar'%}"></a>
                 <form action="{% url 'usuarios_activar_desactivar' usuario.id %}" method="post" style="display:inline">
                     {% csrf_token %}
                     <button type="submit">{% if usuario.estado %}Desactivar{% else %}Activar{% endif %}</button>
                 </form>
-                <a href="{% url 'usuarios_eliminar' usuario.id %}">Eliminar</a>
             </td>
         </tr>
         {% empty %}

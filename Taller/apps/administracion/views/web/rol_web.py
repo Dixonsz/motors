@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from ...services.rol_service import RolService
 
 def rol_lista(request):
@@ -56,4 +57,4 @@ def rol_eliminar(request, rol_id):
         except ValueError as exc:
             messages.error(request, str(exc))
     
-    return render(request, 'roles/roles_eliminar.html',{'rol_id': rol_id})
+    return render(request, 'confirmar_eliminacion.html', {'object': rol, 'cancel_url': reverse('roles_lista')})

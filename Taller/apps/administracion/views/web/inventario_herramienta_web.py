@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from ...services.inventario_herramienta_service import InventarioHerramientaService
 from ...services.estado_herramienta_service import EstadoHerramientaService
 from ...services.herramienta_service import HerramientaService
@@ -96,4 +97,4 @@ def inventario_herramientas_eliminar(request, inventario_id):
         except ValueError as exc:
             messages.error(request, str(exc))
 
-    return render(request, 'inventario_herramientas/inventario_herramientas_eliminar.html', {'inventario': inventario})
+    return render(request, 'confirmar_eliminacion.html', {'object': inventario, 'cancel_url': reverse('inventario_herramientas_lista')})

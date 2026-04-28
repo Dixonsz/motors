@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from ...services.orden_servicio_detalle_service import OrdenServicioDetalleService
 from ...services.orden_servicio_service import OrdenServicioService
 from ...services.servicio_service import ServicioService
@@ -70,4 +71,4 @@ def detalle_eliminar(request, detalle_id):
         except ValueError as exc:
             messages.error(request, str(exc))
 
-    return render(request, 'ordenes/detalle_eliminar.html', {'detalle': detalle})
+    return render(request, 'confirmar_eliminacion.html', {'object': detalle, 'cancel_url': reverse('orden_detalle', kwargs={'orden_id': orden_id})})

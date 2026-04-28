@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from ...services.herramienta_service import HerramientaService
 from ...services.estado_herramienta_service import EstadoHerramientaService
 from ...services.categoria_herramienta_service import CategoriaHerramientaService
@@ -69,4 +70,4 @@ def herramienta_eliminar(request, herramienta_id):
         except ValueError as exc:
             messages.error(request, str(exc))
 
-    return render(request, 'herramientas/herramientas_eliminar.html', {'herramienta': herramienta})
+    return render(request, 'confirmar_eliminacion.html', {'object': herramienta, 'cancel_url': reverse('herramientas_lista')})

@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from ...services.orden_servicio_service import OrdenServicioService
 from ...services.recepcion_service import RecepcionService
 from ...services.usuario_service import UsuarioService
@@ -115,4 +116,4 @@ def orden_eliminar(request, orden_id):
         except ValueError as exc:
             messages.error(request, str(exc))
 
-    return render(request, 'ordenes/ordenes_eliminar.html', {'orden': orden})
+    return render(request, 'confirmar_eliminacion.html', {'object': orden, 'cancel_url': reverse('ordenes_lista')})

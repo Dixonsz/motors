@@ -23,7 +23,7 @@ from apps.administracion.views.web.cita_web import cita_lista, cita_create, cita
 from apps.administracion.views.web.recepcion_web import recepcion_lista, recepcion_create, recepcion_detalle, recepcion_eliminar
 from apps.administracion.views.web.orden_servicio_web import orden_lista, orden_create, orden_detalle, orden_editar, orden_cerrar, orden_eliminar
 from apps.administracion.views.web.orden_servicio_detalle_web import detalle_create, detalle_editar, detalle_eliminar
-from apps.administracion.views.web.usuario_web import usuario_lista, usuario_create, usuario_editar,usuario_cambiar_password, usuario_eliminar, usuario_activar_desactivar
+from apps.administracion.views.web.usuario_web import usuario_lista, usuario_create, usuario_editar,usuario_cambiar_password,usuario_activar_desactivar
 from apps.administracion.views.web.calendario_web import citas_calendario, calendario_view
 
 router = DefaultRouter()
@@ -146,7 +146,6 @@ urlpatterns = [
     path('usuarios/crear/', usuario_create, name='usuarios_crear'),
     path('usuarios/editar/<int:usuario_id>/', usuario_editar, name='usuarios_editar'),
     path('usuarios/<int:usuario_id>/cambiar-password/', usuario_cambiar_password, name='usuarios_cambiar_password'),
-    path('usuarios/eliminar/<int:usuario_id>/', usuario_eliminar, name='usuarios_eliminar'),
     path('usuarios/<int:usuario_id>/activar-desactivar/', usuario_activar_desactivar, name='usuarios_activar_desactivar'),
 
 

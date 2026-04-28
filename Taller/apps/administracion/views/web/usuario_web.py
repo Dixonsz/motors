@@ -97,18 +97,3 @@ def usuario_activar_desactivar(request, usuario_id):
     return redirect('usuarios_lista')
 
 
-def usuario_eliminar(request, usuario_id):
-    usuario = UsuarioService.get_usuario_by_id(usuario_id)
-    if not usuario:
-        messages.error(request, 'El usuario no existe.')
-        return redirect('usuarios_lista')
-
-    if request.method == 'POST':
-        try:
-            UsuarioService.delete_usuario(usuario_id)
-            messages.success(request, 'Usuario eliminado correctamente.')
-            return redirect('usuarios_lista')
-        except ValueError as exc:
-            messages.error(request, str(exc))
-
-    return render(request, 'usuarios/usuarios_eliminar.html', {'usuario': usuario})

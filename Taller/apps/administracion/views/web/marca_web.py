@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from ...services.marca_service import MarcaService
 
 def marca_lista(request):
@@ -53,4 +54,4 @@ def marca_eliminar(request, marca_id):
         except ValueError as exc:
             messages.error(request, str(exc))
 
-    return render(request, 'marcas/marcas_eliminar.html', {'marca_id': marca_id})
+    return render(request, 'confirmar_eliminacion.html', {'object': marca, 'cancel_url': reverse('marcas_lista')})

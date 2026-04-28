@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from ...services.permiso_service import PermisoService
 from ...services.modulo_service import ModuloService
 from ...services.rol_service import RolService
@@ -58,5 +59,5 @@ def permiso_eliminar(request, permiso_id):
             return redirect('permisos_lista')
         except ValueError as exc:
             messages.error(request, str(exc))
-    
-    return render(request, 'permisos/permisos_eliminar.html',{'permiso_id': permiso_id})
+
+    return render(request, 'confirmar_eliminacion.html', {'object': permiso, 'cancel_url': reverse('permisos_lista')})

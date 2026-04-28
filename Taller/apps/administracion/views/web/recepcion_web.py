@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from ...services.recepcion_service import RecepcionService
 from ...services.vehiculo_service import VehiculoService
 from ...services.usuario_service import UsuarioService
@@ -61,4 +62,4 @@ def recepcion_eliminar(request, recepcion_id):
         except ValueError as exc:
             messages.error(request, str(exc))
 
-    return render(request, 'recepciones/recepciones_eliminar.html', {'recepcion': recepcion})
+    return render(request, 'confirmar_eliminacion.html', {'object': recepcion, 'cancel_url': reverse('recepciones_lista')})

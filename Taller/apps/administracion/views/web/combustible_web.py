@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from ...services.combustible_service import CombustibleService
 
 def combustible_lista(request):
@@ -54,4 +55,4 @@ def combustible_eliminar(request, combustible_id):
         except ValueError as exc:
             messages.error(request, str(exc))
 
-    return render(request, 'combustibles/combustibles_eliminar.html', {'combustible_id': combustible_id})
+    return render(request, 'confirmar_eliminacion.html', {'object': combustible, 'cancel_url': reverse('combustibles_lista')})

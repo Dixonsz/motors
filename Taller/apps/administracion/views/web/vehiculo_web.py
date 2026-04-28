@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from ...services.vehiculo_service import VehiculoService
 from ...services.cliente_service import ClienteService
 from ...services.modelo_service import ModeloService
@@ -85,5 +86,5 @@ def vehiculo_eliminar(request, vehiculo_id):
         except ValueError as exc:
             messages.error(request, str(exc))
 
-    return render(request, 'vehiculos/vehiculos_eliminar.html', {'vehiculo_id': vehiculo_id})
+    return render(request, 'confirmar_eliminacion.html', {'object': vehiculo, 'cancel_url': reverse('vehiculos_lista'),})
 
