@@ -12,7 +12,7 @@ def modulo_lista(request):
 
     return render(request, 'modulos/modulos_lista.html', {'modulos': modulos})
 
-def modulo_create(request):
+def modulo_crear(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
         descripcion = request.POST.get('descripcion', '')

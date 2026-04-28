@@ -21,14 +21,14 @@ class PermisoService:
 
     @staticmethod
     def create_permiso(modulo_id, accion):
-       modulo = get_required_instance(Modulo, modulo_id, "Módulo no encontrado")
+        modulo = get_required_instance(Modulo, modulo_id, "Módulo no encontrado")
 
-       if Permiso.objects.filter(modulo=modulo, accion=accion).exists():
-              raise ValueError("El permiso ya existe para este módulo y acción")
-       
-       permiso = Permiso(modulo=modulo, accion=accion)
-       permiso.save()
-       return permiso
+        if Permiso.objects.filter(modulo=modulo, accion=accion).exists():
+            raise ValueError("El permiso ya existe para este módulo y acción")
+        
+        permiso = Permiso(modulo=modulo, accion=accion)
+        permiso.save()
+        return permiso
     
     @staticmethod
     def delete_permiso(permiso_id):

@@ -3,15 +3,32 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from ...services.permiso_service import PermisoService
 from ...services.modulo_service import ModuloService
+from ...services.rol_service import RolService
 
 
 def permiso_lista(request):
     permisos = PermisoService.get_all_permisos()
+
     paginator = Paginator(permisos, 10)
     page_number = request.GET.get('page')
     permisos = paginator.get_page(page_number)
 
-    return render(request, 'permisos/permisos_lista.html', {'permisos': permisos})
+    return render(request, 'roles/permisos_lista.html', {
+        'permisos': permisos,
+    })
+
+def rol_permiso_lista(request, rol_id):
+    rol = RolService.get_rol_by_id(rol_id)
+    permisos = PermisoService.get_all_permisos()
+
+    paginator = Paginator(permisos, 10)
+    page_number = request.GET.get('page')
+    permisos = paginator.get_page(page_number)
+
+    return render(request, 'roles/rol_permiso_lista.html', {
+        'permisos': permisos,
+        'rol': rol,
+    })
 
 def permiso_create(request):
     if request.method == 'POST':
@@ -25,7 +42,7 @@ def permiso_create(request):
             messages.error(request, str(exc))
 
     modulos = ModuloService.get_all_modulos()
-    return render(request, 'permisos/permisos_crear.html', {'modulos': modulos})
+    return render(request, 'roles/permisos_crear.html', {'modulos': modulos})
 
 
 def permiso_eliminar(request, permiso_id):

@@ -2,7 +2,7 @@ from django.db import models
 
 class Permiso(models.Model):
  
-    PERMISOS = [
+    ACCIONES = [
         ('crear', 'Crear'),
         ('editar', 'Editar'),
         ('eliminar', 'Eliminar'),
@@ -10,10 +10,10 @@ class Permiso(models.Model):
     ]
 
     modulo = models.ForeignKey('Modulo', on_delete=models.CASCADE)
-    permiso = models.CharField(max_length=20, choices=PERMISOS)
+    accion = models.CharField(max_length=20, choices=ACCIONES)
 
     class Meta:
-        unique_together = ('modulo', 'permiso')
+        unique_together = ('modulo', 'accion')
 
     def __str__(self):
-        return f"{self.modulo.nombre} - {self.permiso}"
+        return f"{self.modulo.nombre} - {self.accion}"

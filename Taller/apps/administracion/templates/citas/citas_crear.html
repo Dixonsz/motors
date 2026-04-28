@@ -29,7 +29,7 @@
     <select name="vehiculo_id">
         <option value="">Sin vehículo</option>
         {% for vehiculo in vehiculos %}
-            <option value="{{ vehiculo.id %}">{{ vehiculo.placa }} - {{ vehiculo.cliente.nombre }}</option>
+            <option value="{{ vehiculo.id }}">{{ vehiculo.placa }} - {{ vehiculo.cliente.nombre }}</option>
         {% endfor %}
     </select>
 

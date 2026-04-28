@@ -15,14 +15,15 @@ from apps.administracion.views.web.categoria_herramienta_web import categoria_li
 from apps.administracion.views.web.estado_herramienta_web import estado_herramienta_lista, estado_herramienta_create, estado_herramienta_editar, estado_herramienta_eliminar
 from apps.administracion.views.web.herramienta_web import herramienta_lista, herramienta_create, herramienta_editar, herramienta_eliminar
 from apps.administracion.views.web.inventario_herramienta_web import inventario_herramientas_lista, inventario_herramientas_create, inventario_herramientas_editar, inventario_herramientas_eliminar
-from apps.administracion.views.web.modulo_web import modulo_lista, modulo_create, modulo_editar, modulo_eliminar
-from apps.administracion.views.web.permiso_web import permiso_lista, permiso_create, permiso_eliminar
+from apps.administracion.views.web.modulo_web import modulo_lista, modulo_crear, modulo_editar, modulo_eliminar
+from apps.administracion.views.web.permiso_web import permiso_lista, permiso_create, permiso_eliminar, rol_permiso_lista
 from apps.administracion.views.web.rol_web import rol_lista, rol_create, rol_editar, rol_eliminar
-from apps.administracion.views.web.rol_permiso_web import rol_permiso_lista, rol_permiso_asignar, rol_permiso_asignar_modulo, rol_permiso_revocar, rol_permiso_revocar_modulo
+from apps.administracion.views.web.rol_permiso_web import rol_permiso_lista, rol_permiso_asignar, rol_permiso_asignar_modulo, rol_permiso_revocar
 from apps.administracion.views.web.cita_web import cita_lista, cita_create, cita_editar, cita_eliminar
 from apps.administracion.views.web.recepcion_web import recepcion_lista, recepcion_create, recepcion_detalle, recepcion_eliminar
 from apps.administracion.views.web.orden_servicio_web import orden_lista, orden_create, orden_detalle, orden_editar, orden_cerrar, orden_eliminar
 from apps.administracion.views.web.orden_servicio_detalle_web import detalle_create, detalle_editar, detalle_eliminar
+from apps.administracion.views.web.usuario_web import usuario_lista, usuario_create, usuario_editar,usuario_cambiar_password, usuario_eliminar, usuario_activar_desactivar
 
 router = DefaultRouter()
 
@@ -98,25 +99,25 @@ urlpatterns = [
     path('inventario_herramientas/eliminar/<int:inventario_id>/', inventario_herramientas_eliminar, name='inventario_herramientas_eliminar'),
 
     path('modulos/', modulo_lista, name='modulos_lista'),
-    path('modulos/crear/', modulo_create, name='modulos_crear'),
-    path('modulos/editar/<int:modulo_id>/', modulo_editar, name='modulos_editar'),
-    path('modulos/eliminar/<int:modulo_id>/', modulo_eliminar, name='modulos_eliminar'),
+    path('modulos/crear/', modulo_crear, name='modulos_crear'),
+    path('modulos/editar/<int:modulo_id>/', modulo_editar, name='modulo_editar'),
+    path('modulos/eliminar/<int:modulo_id>/', modulo_eliminar, name='modulo_eliminar'),
 
-    path('permisos/', permiso_lista, name='permisos_lista'),
-    path('permisos/crear/', permiso_create, name='permisos_crear'),
-    path('permisos/eliminar/<int:permiso_id>/', permiso_eliminar, name='permisos_eliminar'),
+    
 
     path('roles/', rol_lista, name='roles_lista'),
     path('roles/crear/', rol_create, name='roles_crear'),
     path('roles/editar/<int:rol_id>/', rol_editar, name='roles_editar'),
     path('roles/eliminar/<int:rol_id>/', rol_eliminar, name='roles_eliminar'),
+    path('roles/', permiso_lista, name='permisos_lista'),
+    path('roles/crear/', permiso_create, name='permisos_crear'),
+    path('roles/eliminar/<int:permiso_id>/', permiso_eliminar, name='permisos_eliminar'),
+    path('roles/<int:rol_id>/', rol_permiso_lista, name='rol_permiso_lista'),
+    path('roles/<int:rol_id>/asignar/', rol_permiso_asignar, name='rol_permiso_asignar'),
+    path('roles/<int:rol_id>/asignar_modulo/', rol_permiso_asignar_modulo, name='rol_permiso_asignar_modulo'),
+    path('roles/<int:rol_id>/<int:permiso_id>/revocar/', rol_permiso_revocar, name='rol_permiso_revocar'),
 
-    path('roles/<int:rol_id>/permisos/', rol_permiso_lista, name='rol_permiso_lista'),
-    path('roles/<int:rol_id>/permisos/asignar/', rol_permiso_asignar, name='rol_permiso_asignar'),
-    path('roles/<int:rol_id>/permisos/asignar-modulo/', rol_permiso_asignar_modulo, name='rol_permiso_asignar_modulo'),
-    path('roles/<int:rol_id>/permisos/<int:permiso_id>/revocar/', rol_permiso_revocar, name='rol_permiso_revocar'),
-    path('roles/<int:rol_id>/permisos/revocar-modulo/', rol_permiso_revocar_modulo, name='rol_permiso_revocar_modulo'),
-
+    
     path('citas/', cita_lista, name='citas_lista'),
     path('citas/crear/', cita_create, name='citas_crear'),
     path('citas/<int:cita_id>/editar/', cita_editar, name='citas_editar'),
@@ -137,6 +138,13 @@ urlpatterns = [
     path('ordenes/<int:orden_id>/servicios/agregar/', detalle_create, name='detalle_crear'),
     path('ordenes/servicios/<int:detalle_id>/editar/', detalle_editar, name='detalle_editar'),
     path('ordenes/servicios/<int:detalle_id>/eliminar/', detalle_eliminar, name='detalle_eliminar'),
+
+    path('usuarios/', usuario_lista, name='usuarios_lista'),
+    path('usuarios/crear/', usuario_create, name='usuarios_crear'),
+    path('usuarios/editar/<int:usuario_id>/', usuario_editar, name='usuarios_editar'),
+    path('usuarios/<int:usuario_id>/cambiar-password/', usuario_cambiar_password, name='usuarios_cambiar_password'),
+    path('usuarios/eliminar/<int:usuario_id>/', usuario_eliminar, name='usuarios_eliminar'),
+    path('usuarios/<int:usuario_id>/activar-desactivar/', usuario_activar_desactivar, name='usuarios_activar_desactivar'),
         
 
 

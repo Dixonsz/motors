@@ -17,7 +17,7 @@ def rol_permiso_lista(request, rol_id):
     page_number = request.GET.get('page')
     permisos = paginator.get_page(page_number)
 
-    return render(request, 'rol_permisos/rol_permiso_lista.html', {
+    return render(request, 'roles/rol_permiso_lista.html', {
         'rol': rol,
         'permisos': permisos
     })
@@ -42,7 +42,7 @@ def rol_permiso_asignar(request, rol_id):
     permisos_asignados = RolPermisoService.get_permisos_by_rol(rol_id).values_list('permiso_id', flat=True)
     permisos_disponibles = PermisoService.get_all_permisos().exclude(id__in=permisos_asignados)
 
-    return render(request, 'rol_permisos/rol_permiso_asignar.html', {
+    return render(request, 'roles/rol_permiso_asignar.html', {
         'rol': rol,
         'permisos_disponibles': permisos_disponibles
     })
@@ -66,7 +66,7 @@ def rol_permiso_asignar_modulo(request, rol_id):
     from ...services.modulo_service import ModuloService
     modulos = ModuloService.get_all_modulos()
 
-    return render(request, 'rol_permisos/rol_permiso_asignar_modulo.html', {
+    return render(request, 'roles/rol_permiso_asignar_modulo.html', {
         'rol': rol,
         'modulos': modulos
     })
@@ -86,7 +86,7 @@ def rol_permiso_revocar(request, rol_id, permiso_id):
         except ValueError as exc:
             messages.error(request, str(exc))
 
-    return render(request, 'rol_permisos/rol_permiso_revocar.html', {
+    return render(request, 'roles/rol_permiso_revocar.html', {
         'rol': rol,
         'permiso_id': permiso_id
     })
@@ -110,7 +110,7 @@ def rol_permiso_revocar_modulo(request, rol_id):
     from ...services.modulo_service import ModuloService
     modulos = ModuloService.get_all_modulos()
 
-    return render(request, 'rol_permisos/rol_permiso_revocar_modulo.html', {
+    return render(request, 'roles/rol_permiso_revocar_modulo.html', {
         'rol': rol,
         'modulos': modulos
     })
