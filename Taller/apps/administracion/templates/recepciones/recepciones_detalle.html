@@ -79,10 +79,8 @@
             </tr>
         </tbody>
     </table>
-    <a href="{% url 'orden_detalle' orden.id %}">Ver orden completa</a>
+   
     {% endfor %}
 {% endif %}
 
-<br>
-<a href="{% url 'recepciones_eliminar' recepcion.id %}">Eliminar recepción</a>
 {% endblock %}
