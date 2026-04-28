@@ -50,10 +50,11 @@ class CitaService:
             raise ValueError("Estado no encontrado.")
         if not vehiculo and not cliente:
             raise ValueError("Debe asignar al menos un cliente o un vehículo a la cita.")
-
+        
+            
         servicios = []
         if servicios_id:
-            servicios = Servicio.objects.filter(id__in=servicios_id)
+            servicios = list(Servicio.objects.filter(id__in=servicios_id))
             if len(servicios) != len(servicios_id):
                 raise ValueError("Uno o más servicios no fueron encontrados.")
 
@@ -69,7 +70,7 @@ class CitaService:
         cita.save()
 
         if servicios:
-            cita.servicios.set(servicios)
+            cita.servicio.set(servicios)
 
         return cita
 
@@ -102,7 +103,7 @@ class CitaService:
             servicios = Servicio.objects.filter(id__in=servicios_id)
             if len(servicios) != len(servicios_id):
                 raise ValueError("Uno o más servicios no fueron encontrados.")
-            cita.servicios.set(servicios)
+            cita.servicio.set(servicios)
         return cita
 
     @staticmethod

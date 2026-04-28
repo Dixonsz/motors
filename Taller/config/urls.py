@@ -24,6 +24,7 @@ from apps.administracion.views.web.recepcion_web import recepcion_lista, recepci
 from apps.administracion.views.web.orden_servicio_web import orden_lista, orden_create, orden_detalle, orden_editar, orden_cerrar, orden_eliminar
 from apps.administracion.views.web.orden_servicio_detalle_web import detalle_create, detalle_editar, detalle_eliminar
 from apps.administracion.views.web.usuario_web import usuario_lista, usuario_create, usuario_editar,usuario_cambiar_password, usuario_eliminar, usuario_activar_desactivar
+from apps.administracion.views.web.calendario_web import citas_calendario, calendario_view
 
 router = DefaultRouter()
 
@@ -117,7 +118,9 @@ urlpatterns = [
     path('roles/<int:rol_id>/asignar_modulo/', rol_permiso_asignar_modulo, name='rol_permiso_asignar_modulo'),
     path('roles/<int:rol_id>/<int:permiso_id>/revocar/', rol_permiso_revocar, name='rol_permiso_revocar'),
 
-    
+    path('citas/calendario/', calendario_view, name='citas_calendario'),
+    path('citas/calendario/json/', citas_calendario, name='citas_calendario_json'),
+
     path('citas/', cita_lista, name='citas_lista'),
     path('citas/crear/', cita_create, name='citas_crear'),
     path('citas/<int:cita_id>/editar/', cita_editar, name='citas_editar'),
@@ -145,7 +148,9 @@ urlpatterns = [
     path('usuarios/<int:usuario_id>/cambiar-password/', usuario_cambiar_password, name='usuarios_cambiar_password'),
     path('usuarios/eliminar/<int:usuario_id>/', usuario_eliminar, name='usuarios_eliminar'),
     path('usuarios/<int:usuario_id>/activar-desactivar/', usuario_activar_desactivar, name='usuarios_activar_desactivar'),
-        
+
+
+   
 
 
     

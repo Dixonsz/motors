@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
+    {% block extra_head %} {% endblock %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -552,6 +553,11 @@
       <aside class="sidebar" aria-label="Navegacion principal">
     <h2>Modulos</h2>
     <nav class="module-nav" aria-label="Menu de modulos">
+
+           <div class="module-group" aria-label="Navegacion del taller">
+            <span class="module-group-title">Agenda</span>
+            <a href="{% url 'citas_calendario' %}" class="{% if request.path|slice:':7' == '/citas/calendario' %}active{% endif %}">Agenda</a>
+        </div>
 
         <div class="module-group" aria-label="Navegacion del taller">
             <span class="module-group-title">Taller</span>
