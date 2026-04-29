@@ -24,7 +24,15 @@ from apps.administracion.views.web.recepcion_web import recepcion_lista, recepci
 from apps.administracion.views.web.orden_servicio_web import orden_lista, orden_create, orden_detalle, orden_editar, orden_cerrar, orden_eliminar
 from apps.administracion.views.web.orden_servicio_detalle_web import detalle_create, detalle_editar, detalle_eliminar
 from apps.administracion.views.web.usuario_web import usuario_lista, usuario_create, usuario_editar,usuario_cambiar_password,usuario_activar_desactivar
-from apps.administracion.views.web.calendario_web import citas_calendario, calendario_view
+from apps.administracion.views.web.calendario_web import (
+    calendario_view,
+    citas_calendario,
+    calendario_form_data,
+    calendario_vehiculos_por_cliente,
+)
+from apps.administracion.views.api.calendario_view import CalendarioApiView
+
+calendario_api = CalendarioApiView()
 
 router = DefaultRouter()
 
@@ -118,8 +126,11 @@ urlpatterns = [
     path('roles/<int:rol_id>/asignar_modulo/', rol_permiso_asignar_modulo, name='rol_permiso_asignar_modulo'),
     path('roles/<int:rol_id>/<int:permiso_id>/revocar/', rol_permiso_revocar, name='rol_permiso_revocar'),
 
-    path('citas/calendario/', calendario_view, name='citas_calendario'),
-    path('citas/calendario/json/', citas_calendario, name='citas_calendario_json'),
+    path('citas/calendario/',calendario_view,name='citas_calendario'),
+    path('citas/calendario/json/',citas_calendario,name='citas_calendario_json'),
+    path('citas/calendario/form-data/',calendario_form_data,name='calendario_form_data'),
+    path('citas/calendario/vehiculos/<int:cliente_id>/',calendario_vehiculos_por_cliente,   name='calendario_vehiculos'),
+    path('citas/calendario/crear/',calendario_api.crear_cita, name='calendario_crear_cita'),  
 
     path('citas/', cita_lista, name='citas_lista'),
     path('citas/crear/', cita_create, name='citas_crear'),

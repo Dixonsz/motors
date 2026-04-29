@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from ..models.cita import Cita
-from ..models.servicio import Servicio
 
 
 class CitaSerializer(serializers.ModelSerializer):
@@ -22,4 +21,4 @@ class CitaSerializer(serializers.ModelSerializer):
         return f"{obj.usuario.nombre} {obj.usuario.apellido}"
 
     def get_servicios(self, obj):
-        return obj.servicio.values('id', 'nombre', 'precio_base')
+        return list(obj.servicio.values('id', 'nombre', 'precio_base'))
