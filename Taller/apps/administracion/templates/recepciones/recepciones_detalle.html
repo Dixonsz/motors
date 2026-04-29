@@ -1,86 +1,84 @@
 <!-- recepciones_detalle.html -->
-{% extends 'base.html' %}
-{% block title %}Detalle Recepción{% endblock %}
-{% block page_title %}Detalle de Recepción{% endblock %}
-
-{% block page_actions %}
+{% extends 'base.html' %} {% block title %}Detalle Recepción{% endblock %} {%
+block page_title %}Detalle de Recepción{% endblock %} {% block page_actions %}
 <nav aria-label="Navegacion de recepciones">
-    <a href="{% url 'recepciones_lista' %}">Regresar</a>
-    {% if not recepcion.ordenes_servicio.exists %}
-        <a href="{% url 'ordenes_crear' %}?recepcion_id={{ recepcion.id }}">Crear Orden</a>
-    {% endif %}
+  <a href="{% url 'recepciones_lista' %}">Regresar</a>
+  {% if not recepcion.ordenes_servicio.exists %}
+  <a href="{% url 'ordenes_crear' %}?recepcion_id={{ recepcion.id }}"
+    >Crear Orden</a
+  >
+  {% endif %}
 </nav>
-{% endblock %}
-
-{% block content %}
-{% if messages %}
-    {% for message in messages %}
-        <p>{{ message }}</p>
-    {% endfor %}
-{% endif %}
+{% endblock %} {% block content %} {% if messages %} {% for message in messages
+%}
+<p>{{ message }}</p>
+{% endfor %} {% endif %}
 
 <table>
-    <tbody>
-        <tr>
-            <th>Vehículo</th>
-            <td>{{ recepcion.vehiculo.placa }}</td>
-        </tr>
-        <tr>
-            <th>Cliente</th>
-            <td>{% if recepcion.vehiculo.cliente %}{{ recepcion.vehiculo.cliente.nombre }}{% else %}Sin cliente{% endif %}</td>
-        </tr>
-        <tr>
-            <th>Usuario</th>
-            <td>{{ recepcion.usuario.nombre }} {{ recepcion.usuario.apellido }}</td>
-        </tr>
-        <tr>
-            <th>Fecha de ingreso</th>
-            <td>{{ recepcion.fecha_ingreso|date:"d/m/Y H:i" }}</td>
-        </tr>
-        <tr>
-            <th>Kilometraje</th>
-            <td>{{ recepcion.kilometraje }} km</td>
-        </tr>
-        <tr>
-            <th>Nivel de combustible</th>
-            <td>{{ recepcion.nivel_combustible }}%</td>
-        </tr>
-        <tr>
-            <th>Observaciones</th>
-            <td>{{ recepcion.observaciones|default:"Sin observaciones" }}</td>
-        </tr>
-        <tr>
-            <th>Cita asociada</th>
-            <td>{% if recepcion.cita %}{{ recepcion.cita.fecha }} {{ recepcion.cita.hora_inicio }}{% else %}Sin cita{% endif %}</td>
-        </tr>
-    </tbody>
+  <tbody>
+    <tr>
+      <th>Vehículo</th>
+      <td>{{ recepcion.vehiculo.placa }}</td>
+    </tr>
+    <tr>
+      <th>Cliente</th>
+      <td>
+        {% if recepcion.vehiculo.cliente %}{{ recepcion.vehiculo.cliente.nombre
+        }}{% else %}Sin cliente{% endif %}
+      </td>
+    </tr>
+    <tr>
+      <th>Usuario</th>
+      <td>{{ recepcion.usuario.nombre }} {{ recepcion.usuario.apellido }}</td>
+    </tr>
+    <tr>
+      <th>Fecha de ingreso</th>
+      <td>{{ recepcion.fecha_ingreso|date:"d/m/Y H:i" }}</td>
+    </tr>
+    <tr>
+      <th>Kilometraje</th>
+      <td>{{ recepcion.kilometraje }} km</td>
+    </tr>
+    <tr>
+      <th>Nivel de combustible</th>
+      <td>{{ recepcion.nivel_combustible }}%</td>
+    </tr>
+    <tr>
+      <th>Observaciones</th>
+      <td>{{ recepcion.observaciones|default:"Sin observaciones" }}</td>
+    </tr>
+    <tr>
+      <th>Cita asociada</th>
+      <td>
+        {% if recepcion.cita %}{{ recepcion.cita.fecha }} {{
+        recepcion.cita.hora_inicio }}{% else %}Sin cita{% endif %}
+      </td>
+    </tr>
+  </tbody>
 </table>
 
 {% if recepcion.ordenes_servicio.exists %}
-    <h3>Orden de Servicio</h3>
-    {% for orden in recepcion.ordenes_servicio.all %}
-    <table>
-        <tbody>
-            <tr>
-                <th>Estado</th>
-                <td>{{ orden.estado.nombre }}</td>
-            </tr>
-            <tr>
-                <th>Diagnóstico</th>
-                <td>{{ orden.diagnostico|default:"Sin diagnóstico" }}</td>
-            </tr>
-            <tr>
-                <th>Fecha creación</th>
-                <td>{{ orden.fecha_creacion|date:"d/m/Y H:i" }}</td>
-            </tr>
-            <tr>
-                <th>Total</th>
-                <td>₡{{ orden.total }}</td>
-            </tr>
-        </tbody>
-    </table>
-   
-    {% endfor %}
-{% endif %}
+<h3>Orden de Servicio</h3>
+{% for orden in recepcion.ordenes_servicio.all %}
+<table>
+  <tbody>
+    <tr>
+      <th>Estado</th>
+      <td>{{ orden.estado.nombre }}</td>
+    </tr>
+    <tr>
+      <th>Diagnóstico</th>
+      <td>{{ orden.diagnostico|default:"Sin diagnóstico" }}</td>
+    </tr>
+    <tr>
+      <th>Fecha creación</th>
+      <td>{{ orden.fecha_creacion|date:"d/m/Y H:i" }}</td>
+    </tr>
+    <tr>
+      <th>Total</th>
+      <td>₡{{ orden.total }}</td>
+    </tr>
+  </tbody>
+</table>
 
-{% endblock %}
+{% endfor %} {% endif %} {% endblock %}

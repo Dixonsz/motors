@@ -1,308 +1,28 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% load static %} {% block extra_head %}
+<link
+  href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="{% static 'css/calendario.css' %}" />
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 
-{% block extra_head %}
-<link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css' rel='stylesheet' />
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
-<style>
-  #vista-calendario {
-    display: flex;
-    position: relative;
-    overflow: hidden;
-  }
-
-  #calendar-wrapper {
-    flex: 1;
-    min-width: 0;
-    transition: margin-right 0.35s cubic-bezier(.4,0,.2,1);
-  }
-
-  #calendar-wrapper.encogido {
-    margin-right: 400px;
-  }
-
-  /* ── Drawer ── */
-  #drawer-cita {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 400px;
-    height: 100%;
-    background: var(--color-background-primary, #fff);
-    border-left: 1px solid #e5e7eb;
-    transform: translateX(100%);
-    transition: transform 0.35s cubic-bezier(.4,0,.2,1);
-    overflow-y: auto;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-  }
-
-  #drawer-cita.open {
-    transform: translateX(0);
-  }
-
-  .drawer-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 24px 14px;
-    border-bottom: 1px solid #e5e7eb;
-    position: sticky;
-    top: 0;
-    background: inherit;
-    z-index: 1;
-  }
-
-  .drawer-header h3 {
-    margin: 0;
-    font-size: 15px;
-    font-weight: 600;
-    color: #111827;
-  }
-
-  .drawer-header span {
-    font-size: 12px;
-    font-weight: 400;
-    color: #6b7280;
-    margin-left: 8px;
-  }
-
-  .btn-cerrar-drawer {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #9ca3af;
-    font-size: 18px;
-    line-height: 1;
-    padding: 4px 6px;
-    border-radius: 6px;
-  }
-
-  .btn-cerrar-drawer:hover {
-    background: #f3f4f6;
-    color: #374151;
-  }
-
-  .drawer-body {
-    padding: 20px 24px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .drawer-seccion {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .drawer-seccion-titulo {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: #9ca3af;
-    padding-bottom: 6px;
-    border-bottom: 1px solid #f3f4f6;
-  }
-
-  .campo {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .campo label {
-    font-size: 13px;
-    font-weight: 500;
-    color: #374151;
-  }
-
-  .campo label .opcional {
-    font-weight: 400;
-    color: #9ca3af;
-    font-size: 12px;
-    margin-left: 4px;
-  }
-
-  .campo input,
-  .campo select,
-  .campo textarea {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 8px 11px;
-    border: 1px solid #d1d5db;
-    border-radius: 7px;
-    background: #fff;
-    color: #111827;
-    font-size: 14px;
-    transition: border-color 0.15s, box-shadow 0.15s;
-  }
-
-  .campo input:focus,
-  .campo select:focus,
-  .campo textarea:focus {
-    outline: none;
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
-  }
-
-  .campo select[multiple] {
-    height: 90px;
-    padding: 4px;
-  }
-
-  .campo textarea {
-    resize: vertical;
-    min-height: 72px;
-    line-height: 1.5;
-  }
-
-  .fila-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  /* ── Error ── */
-  .drawer-error {
-    display: none;
-    font-size: 13px;
-    color: #dc2626;
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-    border-radius: 7px;
-    padding: 10px 14px;
-  }
-
-  .drawer-error.visible {
-    display: block;
-  }
-
-  /* ── Footer ── */
-  .drawer-footer {
-    padding: 14px 24px;
-    border-top: 1px solid #e5e7eb;
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    position: sticky;
-    bottom: 0;
-    background: inherit;
-  }
-
-  .btn-primario {
-    background: #4f46e5;
-    color: #fff;
-    border: none;
-    padding: 8px 22px;
-    border-radius: 7px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
-  .btn-primario:hover { background: #4338ca; }
-  .btn-primario:disabled { background: #a5b4fc; cursor: not-allowed; }
-
-  .btn-secundario {
-    background: #f9fafb;
-    color: #374151;
-    border: 1px solid #e5e7eb;
-    padding: 8px 16px;
-    border-radius: 7px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
-  .btn-secundario:hover { background: #f3f4f6; }
-
-  /* ── Modal detalle ── */
-  .overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.35);
-    z-index: 999;
-  }
-
-  .overlay.active { display: block; }
-
-  .modal-detalle {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 24px 28px;
-    z-index: 1000;
-    width: 360px;
-    max-width: 92vw;
-  }
-
-  .modal-detalle.active { display: block; }
-
-  .modal-detalle h3 {
-    margin: 0 0 16px;
-    font-size: 15px;
-    font-weight: 600;
-    color: #111827;
-  }
-
-  .modal-detalle .detalle-fila {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 7px 0;
-    border-bottom: 1px solid #f3f4f6;
-    font-size: 14px;
-  }
-
-  .modal-detalle .detalle-fila:last-of-type { border-bottom: none; }
-  .modal-detalle .detalle-label { color: #6b7280; font-weight: 500; }
-  .modal-detalle .detalle-valor { color: #111827; }
-
-  .modal-detalle .modal-footer {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    margin-top: 18px;
-  }
-
-  .badge-estado {
-    display: inline-block;
-    padding: 2px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-  }
-</style>
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 
 <div id="vista-calendario">
-
   <div id="calendar-wrapper">
     <div id="calendar"></div>
   </div>
 
   <!-- ── Drawer nueva cita ── -->
   <div id="drawer-cita">
-
     <div class="drawer-header">
       <h3>Nueva cita <span id="drawer-fecha-label"></span></h3>
-      <button class="btn-cerrar-drawer" onclick="cerrarDrawer()" title="Cerrar">&#x2715;</button>
+      <button class="btn-cerrar-drawer" onclick="cerrarDrawer()" title="Cerrar">
+        &#x2715;
+      </button>
     </div>
 
     <div class="drawer-body">
-
       <!-- Fecha y hora -->
       <div class="drawer-seccion">
         <p class="drawer-seccion-titulo">Horario</p>
@@ -367,19 +87,22 @@
 
         <div class="campo">
           <label>Anotaciones</label>
-          <textarea id="nc-anotaciones" placeholder="Notas adicionales..."></textarea>
+          <textarea
+            id="nc-anotaciones"
+            placeholder="Notas adicionales..."
+          ></textarea>
         </div>
       </div>
 
       <div id="nc-error" class="drawer-error"></div>
-
     </div>
 
     <div class="drawer-footer">
       <button class="btn-secundario" onclick="cerrarDrawer()">Cancelar</button>
-      <button class="btn-primario" id="btn-guardar" onclick="guardarCita()">Guardar cita</button>
+      <button class="btn-primario" id="btn-guardar" onclick="guardarCita()">
+        Guardar cita
+      </button>
     </div>
-
   </div>
 </div>
 
@@ -400,251 +123,28 @@
     <span id="modal-vehiculo" class="detalle-valor"></span>
   </div>
   <div class="modal-footer">
-    <button class="btn-secundario" onclick="cerrarModalDetalle()">Cerrar</button>
-    <a id="modal-link" href="#" class="btn-primario" style="text-decoration:none;">
+    <button class="btn-secundario" onclick="cerrarModalDetalle()">
+      Cerrar
+    </button>
+    <a
+      id="modal-link"
+      href="#"
+      class="btn-primario"
+      style="text-decoration: none"
+    >
       Ver detalle
     </a>
   </div>
 </div>
 
 <script>
- const URL_EVENTOS   = "{% url 'citas_calendario_json' %}";
-const URL_FORM_DATA = "{% url 'calendario_form_data' %}";
-const URL_VEHICULOS = "{% url 'calendario_vehiculos' cliente_id=0 %}".replace('/0/', '/');
-const URL_CREAR     = "{% url 'calendario_crear_cita' %}";
-  const CSRF_TOKEN    = "{{ csrf_token }}";
-
-  const COLORES_BADGE = {
-    'Pendiente':  { bg: '#fff7ed', color: '#c2410c' },
-    'Confirmada': { bg: '#eff6ff', color: '#1d4ed8' },
-    'Cancelada':  { bg: '#fef2f2', color: '#dc2626' },
-    'Completada': { bg: '#f0fdf4', color: '#15803d' },
-  };
-
-  let calendarInstance = null;
-
-  // ── Poblar selects ────────────────────────────────────────────────────────
-  async function cargarFormData() {
-    try {
-      const res  = await fetch(URL_FORM_DATA);
-      const data = await res.json();
-
-      poblarSelect('nc-cliente',   data.clientes,  'nombre', 'Sin cliente');
-      poblarSelect('nc-estado',    data.estados,   'nombre', null);
-      poblarSelect('nc-servicios', data.servicios, 'nombre', null, true);
-      poblarSelect('nc-usuario',   data.usuarios,  'nombre', null);
-
-      document.getElementById('nc-cliente')
-              .addEventListener('change', cargarVehiculos);
-    } catch {
-      console.error('Error cargando datos del formulario.');
-    }
-  }
-
-  function poblarSelect(id, items, labelKey, opcionVacia = null, multiple = false) {
-    const sel = document.getElementById(id);
-    sel.innerHTML = '';
-    if (opcionVacia !== null) {
-      const opt = document.createElement('option');
-      opt.value = '';
-      opt.textContent = opcionVacia;
-      sel.appendChild(opt);
-    }
-    items.forEach(item => {
-      const opt = document.createElement('option');
-      opt.value = item.id;
-      opt.textContent = item[labelKey];
-      sel.appendChild(opt);
-    });
-  }
-
-  async function cargarVehiculos() {
-    const clienteId = document.getElementById('nc-cliente').value;
-    const sel = document.getElementById('nc-vehiculo');
-    sel.innerHTML = '<option value="">Sin vehículo</option>';
-
-    if (!clienteId) return;
-
-    try {
-      const res  = await fetch(`${URL_VEHICULOS}${clienteId}/`);
-      const data = await res.json();
-      data.vehiculos.forEach(v => {
-        const opt = document.createElement('option');
-        opt.value = v.id;
-        opt.textContent = v.placa;
-        sel.appendChild(opt);
-      });
-    } catch {
-      console.error('Error cargando vehículos.');
-    }
-  }
-
-  // ── Drawer ────────────────────────────────────────────────────────────────
-  function abrirDrawer(fecha = '', hora = '') {
-    // Limpiar formulario
-    document.getElementById('nc-fecha').value       = fecha;
-    document.getElementById('nc-hora').value        = hora;
-    document.getElementById('nc-anotaciones').value = '';
-    document.getElementById('nc-cliente').value     = '';
-    document.getElementById('nc-vehiculo').innerHTML = '<option value="">Sin vehículo</option>';
-    Array.from(document.getElementById('nc-servicios').options)
-         .forEach(o => o.selected = false);
-    ocultarError();
-
-    // Etiqueta de fecha en el header
-    if (fecha) {
-      const [y, m, d] = fecha.split('-');
-      document.getElementById('drawer-fecha-label').textContent =
-        `— ${d}/${m}/${y}${hora ? ' ' + hora : ''}`;
-    } else {
-      document.getElementById('drawer-fecha-label').textContent = '';
-    }
-
-    document.getElementById('drawer-cita').classList.add('open');
-    document.getElementById('calendar-wrapper').classList.add('encogido');
-    setTimeout(() => calendarInstance?.updateSize(), 360);
-  }
-
-  function cerrarDrawer() {
-    document.getElementById('drawer-cita').classList.remove('open');
-    document.getElementById('calendar-wrapper').classList.remove('encogido');
-    setTimeout(() => calendarInstance?.updateSize(), 360);
-  }
-
-  // ── Guardar ───────────────────────────────────────────────────────────────
-  async function guardarCita() {
-    ocultarError();
-
-    const fecha     = document.getElementById('nc-fecha').value;
-    const hora      = document.getElementById('nc-hora').value;
-    const estadoId  = document.getElementById('nc-estado').value;
-    const usuarioId = document.getElementById('nc-usuario').value;
-
-    if (!fecha || !hora) { mostrarError('La fecha y la hora son obligatorias.');  return; }
-    if (!estadoId)        { mostrarError('Debe seleccionar un estado.');           return; }
-    if (!usuarioId)       { mostrarError('Debe asignar un usuario.');              return; }
-
-    const serviciosId = Array.from(
-      document.getElementById('nc-servicios').selectedOptions
-    ).map(o => parseInt(o.value));
-
-    const payload = {
-      fecha,
-      hora_inicio:  hora,
-      estado_id:    parseInt(estadoId),
-      usuario_id:   parseInt(usuarioId),
-      cliente_id:   parseInt(document.getElementById('nc-cliente').value)  || null,
-      vehiculo_id:  parseInt(document.getElementById('nc-vehiculo').value) || null,
-      anotaciones:  document.getElementById('nc-anotaciones').value,
-      servicios_id: serviciosId,
-    };
-
-    const btn = document.getElementById('btn-guardar');
-    btn.disabled    = true;
-    btn.textContent = 'Guardando...';
-
-    try {
-      const res  = await fetch(URL_CREAR, {
-        method:  'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken':  CSRF_TOKEN,
-        },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-
-      if (!res.ok) {
-        mostrarError(data.error || 'Error al guardar la cita.');
-      } else {
-        cerrarDrawer();
-        calendarInstance.refetchEvents();
-      }
-    } catch {
-      mostrarError('Error de red. Intente de nuevo.');
-    } finally {
-      btn.disabled    = false;
-      btn.textContent = 'Guardar cita';
-    }
-  }
-
-  function mostrarError(msg) {
-    const el = document.getElementById('nc-error');
-    el.textContent = msg;
-    el.classList.add('visible');
-  }
-
-  function ocultarError() {
-    document.getElementById('nc-error').classList.remove('visible');
-  }
-
-  // ── Modal detalle ─────────────────────────────────────────────────────────
-  function abrirModalDetalle(event) {
-    const props  = event.extendedProps;
-    const estado = props.estado;
-    const colores = COLORES_BADGE[estado] || { bg: '#f3f4f6', color: '#374151' };
-
-    document.getElementById('modal-title').textContent    = event.title;
-    document.getElementById('modal-cliente').textContent  = props.cliente   || 'Sin cliente';
-    document.getElementById('modal-vehiculo').textContent = props.vehiculo  || 'Sin vehículo';
-    document.getElementById('modal-link').href            = `/citas/${event.id}/`;
-
-    const badgeEl = document.getElementById('modal-estado');
-    badgeEl.textContent       = estado;
-    badgeEl.style.background  = colores.bg;
-    badgeEl.style.color       = colores.color;
-
-    document.getElementById('modal-detalle').classList.add('active');
-    document.getElementById('overlay-detalle').classList.add('active');
-  }
-
-  function cerrarModalDetalle() {
-    document.getElementById('modal-detalle').classList.remove('active');
-    document.getElementById('overlay-detalle').classList.remove('active');
-  }
-
-  // ── FullCalendar ──────────────────────────────────────────────────────────
-  document.addEventListener('DOMContentLoaded', function () {
-    cargarFormData();
-
-    calendarInstance = new FullCalendar.Calendar(
-      document.getElementById('calendar'), {
-        initialView: 'timeGridWeek',
-        locale: 'es',
-        headerToolbar: {
-          left:   'prev,next today',
-          center: 'title',
-          right:  'dayGridMonth,timeGridWeek,timeGridDay',
-        },
-        selectable:   true,
-        selectMirror: true,
-        height:       'auto',
-
-        // Clic en celda vacía
-        dateClick: function (info) {
-          const fecha = info.dateStr.slice(0, 10);
-          const hora  = info.dateStr.length > 10 ? info.dateStr.slice(11, 16) : '';
-          abrirDrawer(fecha, hora);
-        },
-
-        // Arrastrar rango
-        select: function (info) {
-          const fecha = info.startStr.slice(0, 10);
-          const hora  = info.startStr.length > 10 ? info.startStr.slice(11, 16) : '';
-          abrirDrawer(fecha, hora);
-        },
-
-        events: URL_EVENTOS,
-
-        // Clic en evento existente
-        eventClick: function (info) {
-          abrirModalDetalle(info.event);
-        },
-      }
-    );
-
-    calendarInstance.render();
-  });
+  const URL_EVENTOS = "{% url 'citas_calendario_json' %}";
+  const URL_FORM_DATA = "{% url 'calendario_form_data' %}";
+  const URL_VEHICULOS = "{% url 'calendario_vehiculos' cliente_id=0 %}".replace("/0/","/",);
+  const URL_CREAR = "{% url 'calendario_crear_cita' %}";
+  const CSRF_TOKEN = "{{ csrf_token }}";
 </script>
+
+<script src="{% static 'js/calendario.js' %}"></script>
 
 {% endblock %}
