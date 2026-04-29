@@ -591,6 +591,7 @@
         <div class="module-group" aria-label="Navegacion de configuracion">
             <span class="module-group-title">Configuración</span>
             <a href="{% url 'modulos_lista' %}" class="{% if request.path|slice:':9' == '/modulos/' %}active{% endif %}">Módulos</a>
+            <a href="{% url 'bloqueos_lista'  %}" class="{% if request.path|slice:':11' == '/bloqueos/' %}active{% endif %}">Configuraciones</a>
         </div>
 
         <div class="module-group" aria-label="Navegacion de inventario">

@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h4>{{ accion }} bloqueo</h4>
+  </div>
+  <div class="card-body">
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label class="form-label">Tipo de bloqueo</label>
+        <select name="tipo" id="tipo" class="form-select" required onchange="toggleCampos()">
+          <option value="">-- Seleccionar --</option>
+          <option value="dia_completo" {% if bloqueo.tipo == 'dia_completo' %}selected{% endif %}>
+            Día completo
+          </option>
+          <option value="franja" {% if bloqueo.tipo == 'franja' %}selected{% endif %}>
+            Franja horaria
+          </option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Fecha inicio</label>
+          <input type="date" name="fecha_inicio" class="form-control" required
+                 value="{{ bloqueo.fecha_inicio|default:'' }}">
+        </div>
+        <div class="col-md-6 mb-3" id="campo-fecha-fin">
+          <label class="form-label">Fecha fin <small class="text-muted">(para rangos)</small></label>
+          <input type="date" name="fecha_fin" class="form-control"
+                 value="{{ bloqueo.fecha_fin|default:'' }}">
+        </div>
+      </div>
+
+      <div id="campos-franja">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Hora inicio</label>
+            <input type="time" name="hora_inicio" class="form-control"
+                   value="{{ bloqueo.hora_inicio|default:'' }}">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Hora fin</label>
+            <input type="time" name="hora_fin" class="form-control"
+                   value="{{ bloqueo.hora_fin|default:'' }}">
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">
+            Capacidad máxima
+            <small class="text-muted">(dejar vacío para bloqueo total)</small>
+          </label>
+          <input type="number" name="capacidad_maxima" class="form-control"
+                 min="1" value="{{ bloqueo.capacidad_maxima|default:'' }}">
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Recurrencia</label>
+        <select name="recurrencia" class="form-select">
+          <option value="ninguna"  {% if bloqueo.recurrencia == 'ninguna'  %}selected{% endif %}>Sin recurrencia</option>
+          <option value="diaria"   {% if bloqueo.recurrencia == 'diaria'   %}selected{% endif %}>Diaria</option>
+          <option value="semanal"  {% if bloqueo.recurrencia == 'semanal'  %}selected{% endif %}>Semanal</option>
+          <option value="mensual"  {% if bloqueo.recurrencia == 'mensual'  %}selected{% endif %}>Mensual</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Motivo</label>
+        <input type="text" name="motivo" class="form-control"
+               placeholder="Ej: Feriado nacional, Almuerzo, Mantenimiento..."
+               value="{{ bloqueo.motivo|default:'' }}">
+      </div>
+
+      {% if bloqueo %}
+      <div class="mb-3 form-check">
+        <input type="checkbox" name="activo" class="form-check-input" id="activo"
+               {% if bloqueo.activo %}checked{% endif %}>
+        <label class="form-check-label" for="activo">Activo</label>
+      </div>
+      {% endif %}
+
+      <div class="d-flex gap-2 justify-content-end">
+        <a href="{% url 'bloqueos_lista' %}" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">{{ accion }}</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<script>
+  function toggleCampos() {
+    const tipo   = document.getElementById('tipo').value;
+    const franja = document.getElementById('campos-franja');
+    franja.style.display = tipo === 'franja' ? 'block' : 'none';
+  }
+
+  // Ejecutar al cargar si hay valor previo
+  document.addEventListener('DOMContentLoaded', toggleCampos);
+</script>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4>Bloqueos del calendario</h4>
+  <div class="d-flex gap-2">
+    <a href="{% url 'citas_calendario' %}" class="btn btn-outline-secondary">Ver calendario</a>
+    <a href="{% url 'bloqueos_crear' %}" class="btn btn-primary">Nuevo bloqueo</a>
+  </div>
+</div>
+
+{% if messages %}
+  {% for msg in messages %}
+    <div class="alert alert-{{ msg.tags }}">{{ msg }}</div>
+  {% endfor %}
+{% endif %}
+
+<div class="card">
+  <div class="card-body p-0">
+    <table class="table table-hover mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Tipo</th>
+          <th>Fecha inicio</th>
+          <th>Fecha fin</th>
+          <th>Horario</th>
+          <th>Recurrencia</th>
+          <th>Capacidad máx.</th>
+          <th>Motivo</th>
+          <th>Estado</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for b in bloqueos %}
+        <tr>
+          <td>{{ b.get_tipo_display }}</td>
+          <td>{{ b.fecha_inicio }}</td>
+          <td>{{ b.fecha_fin|default:"—" }}</td>
+          <td>
+            {% if b.hora_inicio %}
+              {{ b.hora_inicio }} – {{ b.hora_fin }}
+            {% else %}
+              Todo el día
+            {% endif %}
+          </td>
+          <td>{{ b.get_recurrencia_display }}</td>
+          <td>{{ b.capacidad_maxima|default:"Bloqueado" }}</td>
+          <td>{{ b.motivo|default:"—" }}</td>
+          <td>
+            {% if b.activo %}
+              <span class="badge bg-success">Activo</span>
+            {% else %}
+              <span class="badge bg-secondary">Inactivo</span>
+            {% endif %}
+          </td>
+          <td class="text-end">
+            <a href="{% url 'bloqueos_editar' b.id %}" class="btn btn-sm btn-outline-primary">Editar</a>
+            <a href="{% url 'bloqueos_eliminar' b.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="9" class="text-center text-muted py-4">No hay bloqueos registrados.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

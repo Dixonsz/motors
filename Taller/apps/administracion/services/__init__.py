@@ -3,3 +3,4 @@ from .categoria_servicio_service import CategoriaServicioService
 from .servicio_service import ServicioService
 from .orden_servicio_service import OrdenServicioService
 from .calendario_cita_service import CalendarioService
+from .configuracion_calendario_service import ConfiguracionCalendarioService

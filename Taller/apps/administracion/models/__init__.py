@@ -20,3 +20,4 @@ from .orden_servicio_detalle import OrdenServicioDetalle
 from .modulo import Modulo
 from .permiso import Permiso
 from .rol_permiso import RolPermiso
+from .configuracion_calendario import ConfiguracionCalendario
