@@ -1,175 +1,126 @@
 <!DOCTYPE html>
 
-<html class="dark" lang="es"><head>
+<html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>M&M Motors | Inicio</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>.material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24
+    }
+.bg-luxury-blur {
+    background-image: linear-gradient(rgba(247, 249, 251, 0.92), rgba(247, 249, 251, 0.92)), url(https://lh3.googleusercontent.com/aida-public/AB6AXuCmVNRW5GdZW2NVKZaC8PRJQRgLDhKPKdw_m9K5HvyMiJrsZnYnHVExUzpdh01vIT8b9kMs6frElbHsPQsakPItPDw7dtpkbBjq1L--NE6yV2lNZ7kilPZCn232TI9uOvprx2QaYfBAVI7C5Iiyg7rHAYKb5FADHdV9AYKaw_tDzYJVNXu2D4Qv6wC_4EQ_KemtMFDFXeQ0GYcyEgBPynTb6SgQQdNc18xobMpvq7faU98iGAHvZBsvlg8RVJy7AjGRq412ptnzCgFk);
+    background-size: cover;
+    background-position: center
+    }</style>
 <script id="tailwind-config">
         tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "surface": "#121416",
-                        "tertiary-fixed": "#d0e4ff",
-                        "primary": "#ffb693",
-                        "on-surface-variant": "#e2bfb0",
-                        "secondary-fixed-dim": "#bbc9d0",
-                        "surface-tint": "#ffb693",
-                        "tertiary": "#9ccaff",
-                        "secondary-fixed": "#d7e5ec",
-                        "surface-bright": "#37393b",
-                        "on-tertiary-fixed": "#001d35",
-                        "surface-container-low": "#1a1c1e",
-                        "error": "#ffb4ab",
-                        "surface-variant": "#333537",
-                        "secondary": "#bbc9d0",
-                        "outline-variant": "#5a4136",
-                        "outline": "#a98a7d",
-                        "on-background": "#e2e2e5",
-                        "primary-fixed": "#ffdbcc",
-                        "on-error-container": "#ffdad6",
-                        "on-tertiary-fixed-variant": "#00497b",
-                        "on-primary": "#561f00",
-                        "on-secondary": "#253238",
-                        "on-error": "#690005",
-                        "on-primary-fixed-variant": "#7a3000",
-                        "primary-fixed-dim": "#ffb693",
-                        "background": "#121416",
-                        "on-primary-fixed": "#351000",
-                        "surface-container": "#1e2022",
-                        "primary-container": "#ff6b00",
-                        "on-tertiary": "#003257",
-                        "inverse-primary": "#a04100",
-                        "on-primary-container": "#572000",
-                        "on-surface": "#e2e2e5",
-                        "tertiary-container": "#059eff",
-                        "secondary-container": "#3e4b51",
-                        "on-secondary-fixed-variant": "#3c494f",
-                        "on-secondary-container": "#adbbc2",
-                        "surface-container-high": "#282a2c",
-                        "surface-container-highest": "#333537",
-                        "surface-container-lowest": "#0c0e10",
-                        "tertiary-fixed-dim": "#9ccaff",
-                        "surface-dim": "#121416",
-                        "inverse-surface": "#e2e2e5",
-                        "error-container": "#93000a",
-                        "inverse-on-surface": "#2f3133",
-                        "on-tertiary-container": "#003357",
-                        "on-secondary-fixed": "#101d23"
-                    },
-                    fontFamily: {
-                        "headline": ["Space Grotesk"],
-                        "body": ["Inter"],
-                        "label": ["Inter"]
-                    },
-                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
-                },
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary": "#2563EB",
+                      "tertiary-container": "#1E293B",
+                      "on-primary": "#ffffff",
+                      "on-background": "#1E293B",
+                      "on-surface": "#1E293B",
+                      "on-surface-variant": "#64748B",
+                      "outline": "#CBD5E1",
+                      "outline-variant": "#E2E8F0",
+                      "background": "#EFF6FF",
+                      "surface": "#F8FAFC",
+                      "surface-container-low": "#F1F5F9",
+                      "surface-container-lowest": "#FFFFFF",
+                      "surface-variant": "#E2E8F0",
+                      "inverse-surface": "#0F172A",
+                      "inverse-on-surface": "#F8FAFC",
+                      "primary-container": "#DBEAFE",
+                      "on-primary-container": "#1E40AF"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "section-margin": "48px",
+                      "gutter": "24px",
+                      "container-padding": "32px",
+                      "unit": "4px",
+                      "form-row-gap": "24px",
+                      "element-gap": "16px"
+              },
+              "fontFamily": {
+                      "body-lg": ["Inter"],
+                      "h1": ["Inter"],
+                      "data-mono": ["monospace"],
+                      "h2": ["Inter"],
+                      "label-caps": ["Inter"],
+                      "h3": ["Inter"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "body-lg": ["16px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
+                      "h1": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "data-mono": ["13px", {"lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400"}],
+                      "h2": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "h3": ["18px", {"lineHeight": "1.4", "letterSpacing": "0em", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400"}]
+              }
             },
+          },
         }
     </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        body {
-            background-color: #121416;
-            color: #e2e2e5;
-            font-family: 'Inter', sans-serif;
-        }
-        .kinetic-asymmetry-mask {
-            clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
-        }
-    </style>
 </head>
-<body class="min-h-screen flex flex-col">
-<main class="flex-grow flex flex-col md:flex-row">
-<!-- Visual Side (Precision Image) -->
-<section class="hidden md:flex md:w-1/2 relative overflow-hidden bg-surface-container-lowest">
-<div class="absolute inset-0 z-0">
-<img alt="Automotive Engineering" class="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-700 ease-in-out" data-alt="Close-up of a high-performance twin-turbocharged engine bay with carbon fiber accents and metallic components in soft dramatic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASGeSdfmQWIGYze9EcQ-OVEKTEleKVYm_CA1r72qo5l6VLzbI9iRSyQNK-L1uG10d_Y86nW9_J4QdxNTYON_lRO1CIbKshXJS6mzG_Vl8iUkKuJWlKKHlD5GQM8rrighfWeaDv1E-F4-DHqLQqolbwOrMi4b6f9b_L4XIRDdSj7T0dbbFQi3d8QqV9i7ld5I8uXjPxLprDXzmbb4syrGeRru-v4o7c9D6ts9PWxs9GxXekk0O0diSKY5UBGB2q7z2A2bfsO2C2wSXm"/>
+<body class="bg-background font-body-md text-on-background selection:bg-primary-fixed selection:text-primary">
+<main class="min-h-screen flex flex-col items-center justify-center p-gutter bg-luxury-blur" data-alt="A blurred, high-end luxury automotive workshop at dusk, featuring pristine white floors and architectural steel elements. The lighting is sophisticated, with soft overhead glows reflecting off the polished surfaces of high-performance vehicles. The atmosphere is quiet, professional, and meticulously clean, emphasizing engineering excellence and an elite corporate identity. Cool gray and deep navy tones dominate the palette to maintain a sober, premium aesthetic.">
+<div class="w-full max-w-[440px] flex flex-col gap-element-gap">
+<!-- Brand Identity -->
+<div class="flex flex-col items-center gap-unit mb-unit">
+<span class="font-h1 text-h1 text-primary tracking-tighter uppercase mb-unit">M&M Motors</span>
 </div>
-<!-- Overlay Gradient -->
-<div class="absolute inset-0 bg-gradient-to-tr from-surface via-transparent to-transparent opacity-90 z-10"></div>
-<!-- Brand Identity Floating -->
-<div class="relative z-20 p-16 flex flex-col justify-between h-full w-full">
-<div>
-<div class="text-4xl font-black italic tracking-tighter text-slate-100 font-headline mb-4">M&M MOTORS</div>
-<div class="h-1 w-12 bg-primary-container"></div>
+<!-- Login Card -->
+<section class="bg-surface-container-lowest border border-outline-variant p-container-padding shadow-[0_4px_6px_-1px_rgba(15,23,42,0.05),0_2px_4px_-2px_rgba(15,23,42,0.03)] flex flex-col gap-form-row-gap">
+<div class="flex flex-col gap-unit">
+<h2 class="font-h2 text-h2 text-primary">Iniciar Sesión</h2>
 </div>
-<div class="max-w-md">
-<h1 class="font-headline text-5xl font-bold tracking-tight text-white mb-6 leading-none">Control total de tu <br/><span class="text-primary">taller automotriz</span></h1>
-<p class="text-secondary font-body text-lg leading-relaxed opacity-80">Administra clientes, vehículos y servicios de forma rápida y eficiente.</p>
-</div>
-<div class="flex gap-4">
-<div class="px-4 py-2 bg-surface-container-highest/40 backdrop-blur-md rounded border border-outline-variant/10">
-<span class="text-[10px] uppercase tracking-widest font-label block text-primary-fixed mb-1"></span>
-<span class="text-xs font-mono font-medium text-on-surface"></span>
-</div>
-</div>
-</div>
-</section>
-<!-- Login Form Side -->
-<section class="w-full md:w-1/2 flex items-center justify-center p-8 md:p-24 bg-surface">
-<div class="w-full max-w-md">
-<div class="mb-12">
-<div class="md:hidden text-2xl font-black italic tracking-tighter text-slate-100 font-headline mb-8">GEARBOX</div>
-<h2 class="font-headline text-3xl font-bold text-on-surface mb-2">Bienvenido</h2>
-<p class="text-on-surface-variant font-label text-sm uppercase tracking-wider">Inicia sesión en tu cuenta</p>
-</div>
-{% if messages %}
-{% for message in messages %}
-<div class="mb-4 rounded border border-slate-700 bg-surface-container-high p-3 text-sm text-on-surface">{{ message }}</div>
-{% endfor %}
-{% endif %}
-<div class="mb-4 rounded border border-outline-variant/30 bg-surface-container-high p-3 text-xs text-on-surface-variant">
-<p class="font-bold uppercase tracking-wider mb-1">Credenciales de inicio (desarrollo)</p>
-<p>Usuario: <strong>{{ default_username }}</strong></p>
-<p>Contraseña: <strong>{{ default_password }}</strong></p>
-</div>
-<form class="space-y-6" method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<input type="hidden" name="next" value="{{ next_url }}"/>
-<!-- Username Field -->
-<div class="space-y-2">
-<label class="text-[10px] uppercase tracking-[0.15em] font-bold text-outline" for="username">Usuario</label>
-<div class="relative group">
-<input autocomplete="username" class="w-full bg-surface-container-highest border-none focus:ring-0 focus:bg-surface-bright p-4 text-on-surface transition-all duration-200" id="username" name="username" value="{{ default_username }}" placeholder="Usuario" required="" type="text"/>
-<div class="absolute bottom-0 left-0 h-[2px] w-0 bg-primary group-focus-within:w-full transition-all duration-300"></div>
+<form class="flex flex-col gap-form-row-gap" onsubmit="return false;">
+<!-- Email Field -->
+<div class="flex flex-col gap-unit">
+<label class="font-label-caps text-label-caps text-on-surface-variant" for="email">Usuario</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline text-[20px]">
+account_circle
+</span><input class="w-full pl-10 pr-4 py-3 bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 transition-colors font-body-md text-on-surface placeholder:text-outline/50 outline-none" id="email" name="email" placeholder="Ingrese su usuario" type="text"/>
 </div>
 </div>
 <!-- Password Field -->
-<div class="space-y-2">
+<div class="flex flex-col gap-unit">
 <div class="flex justify-between items-center">
-<label class="text-[10px] uppercase tracking-[0.15em] font-bold text-outline" for="password">Contraseña</label>
-<a class="text-[10px] uppercase tracking-widest font-bold text-tertiary hover:text-primary transition-colors" href="#">¿Olvidaste tu contraseña?</a>
+<label class="font-label-caps text-label-caps text-on-surface-variant" for="password">Contraseña</label>
+<a class="font-label-caps text-label-caps text-primary hover:underline underline-offset-4 transition-all" href="{% url 'recover_account' %}">¿Olvidaste tu contraseña?</a>
 </div>
-<div class="relative group">
-<input autocomplete="current-password" class="w-full bg-surface-container-highest border-none focus:ring-0 focus:bg-surface-bright p-4 text-on-surface transition-all duration-200" id="password" name="password" value="{{ default_password }}" placeholder="••••••••••••" required="" type="password"/>
-<div class="absolute bottom-0 left-0 h-[2px] w-0 bg-primary group-focus-within:w-full transition-all duration-300"></div>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline text-[20px]" data-icon="lock">lock</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 transition-colors font-body-md text-on-surface placeholder:text-outline/50 outline-none" id="password" name="password" placeholder="Ingrese su contraseña" type="password"/>
 </div>
 </div>
-<!-- Options -->
-<div class="flex items-center space-x-3">
-<input class="w-4 h-4 rounded-none bg-surface-container-highest border-none text-primary-container focus:ring-0 focus:ring-offset-0" id="remember" name="remember" type="checkbox"/>
-<label class="text-xs text-on-surface-variant font-label" for="remember">Recordar sesión</label>
-</div>
-<!-- Login Button -->
-<button class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-on-primary-fixed font-bold font-headline uppercase tracking-widest text-sm hover:scale-[0.98] active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 group shadow-xl shadow-primary-container/10" type="submit">
-<span>Iniciar Sesión</span>
-<span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">bolt</span>
-</button>
+<!-- Action Button -->
+<button class="w-full bg-primary text-on-primary py-4 px-container-padding font-label-caps text-label-caps uppercase tracking-widest hover:bg-tertiary-container active:scale-[0.98] transition-all duration-200" type="submit">
+                        Iniciar Sesión para continuar
+                    </button>
 </form>
 </section>
-</main>
-<!-- Footer Component (As specified in JSON) -->
-<footer class="fixed bottom-0 w-full flex justify-between items-center px-12 py-4 w-full bg-slate-950 dark:bg-[#0c0e10] border-t border-slate-800/15 z-50">
-<div class="text-[10px] uppercase tracking-widest font-inter text-slate-500">
-            © 2026 Operaciones Automotrices. Todos los Derechos Reservados.
-        </div>
+<!-- Footer Note -->
+<footer class="flex flex-col items-center gap-unit mt-unit">
+<p class="font-label-caps text-label-caps text-outline text-center">
+                    © 2026 M&M Motors. Derechos reservados.
+                </p>
 </footer>
+</div>
+</main>
 </body></html>
