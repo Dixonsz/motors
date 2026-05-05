@@ -5,38 +5,51 @@
 
 {% block page_actions %}
 <nav aria-label="Navegacion de ordenes">
-    <a href="{% url 'orden_detalle' orden.id %}">Regresar</a>
+    <a
+        class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400"
+        href="{% url 'orden_detalle' orden.id %}"
+    >
+        Regresar
+    </a>
 </nav>
 {% endblock %}
 
 {% block content %}
-{% if messages %}
-    {% for message in messages %}
-        <p>{{ message }}</p>
-    {% endfor %}
-{% endif %}
+<div class="border border-amber-200 bg-amber-50 p-6 shadow-sm">
+    <h3 class="text-base font-semibold text-amber-900">Confirmar cierre</h3>
+    <p class="mt-2 text-sm text-amber-800">
+        ¿Esta seguro que desea cerrar la orden del vehiculo
+        <span class="font-semibold">{{ orden.recepcion.vehiculo.placa }}</span>?
+    </p>
+    <p class="mt-1 text-sm text-amber-700">
+        Se registrara la fecha de entrega como hoy y no podra agregar ni modificar servicios.
+    </p>
 
-<p>¿Está seguro que desea cerrar la orden del vehículo
-    <strong>{{ orden.recepcion.vehiculo.placa }}</strong>?
-</p>
-<p>Se registrará la fecha de entrega como hoy y no podrá agregar ni modificar servicios.</p>
+    <div class="mt-4 grid gap-3 rounded-md border border-amber-200 bg-white px-4 py-3 text-sm text-amber-900">
+        <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase tracking-widest text-amber-600">Total servicios</span>
+            <span class="font-semibold">₡{{ orden.total }}</span>
+        </div>
+        <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase tracking-widest text-amber-600">Cantidad de servicios</span>
+            <span class="font-semibold">{{ orden.ordenes_detalle.count }}</span>
+        </div>
+    </div>
 
-<table>
-    <tbody>
-        <tr>
-            <th>Total servicios</th>
-            <td>₡{{ orden.total }}</td>
-        </tr>
-        <tr>
-            <th>Cantidad de servicios</th>
-            <td>{{ orden.ordenes_detalle.count }}</td>
-        </tr>
-    </tbody>
-</table>
-
-<form action="" method="post">
-    {% csrf_token %}
-    <button type="submit">Confirmar cierre</button>
-    <a href="{% url 'orden_detalle' orden.id %}">Cancelar</a>
-</form>
+    <form action="" method="post" class="mt-6 flex flex-wrap items-center gap-3">
+        {% csrf_token %}
+        <button
+            class="rounded-md bg-amber-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-amber-700"
+            type="submit"
+        >
+            Confirmar cierre
+        </button>
+        <a
+            class="rounded-md border border-amber-200 bg-white px-4 py-2 text-sm font-semibold text-amber-700 transition-colors hover:border-amber-300"
+            href="{% url 'orden_detalle' orden.id %}"
+        >
+            Cancelar
+        </a>
+    </form>
+</div>
 {% endblock %}

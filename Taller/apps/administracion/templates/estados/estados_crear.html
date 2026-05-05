@@ -4,24 +4,31 @@
 
 {% block page_actions %}
 <nav aria-label="Navegacion de estados">
-    <a href="{% url 'estados_lista' %}">Regresar</a>
+    <a class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400" href="{% url 'estados_lista' %}">Regresar</a>
 </nav>
 {% endblock %}
 
 {% block content %}
-<h1>Crear Nuevo Estado</h1>
-    <form action="" method="post">
+<div class="border border-slate-200 bg-white p-6 shadow-sm">
+    <h3 class="text-base font-semibold text-slate-900">Crear nuevo estado</h3>
+    <form action="" method="post" class="mt-4 grid gap-6">
         {% csrf_token %}
-        <br>
-        <label for="nombre">Nombre:</label>
-        <input type="text" name="nombre" required placeholder="Nombre del Estado">
-        <br>
-        <label for="descripcion">Descripción:</label>
-        <input type="text" name="descripcion" placeholder="Descripción del Estado">
-        <br>
-        <label><input type="checkbox" name="is_active" checked> Activo </label>
-        <br>
-        <button type="submit">Guardar</button>
-
+        <div class="grid gap-2">
+            <label class="text-sm font-semibold text-slate-600" for="nombre">Nombre</label>
+            <input class="rounded-md border-slate-200 text-sm" type="text" name="nombre" id="nombre" required placeholder="Nombre del estado">
+        </div>
+        <div class="grid gap-2">
+            <label class="text-sm font-semibold text-slate-600" for="descripcion">Descripcion</label>
+            <input class="rounded-md border-slate-200 text-sm" type="text" name="descripcion" id="descripcion" placeholder="Descripcion del estado">
+        </div>
+        <label class="flex items-center gap-2 text-sm font-semibold text-slate-600" for="is_active">
+            <input class="rounded border-slate-300" type="checkbox" name="is_active" id="is_active" checked>
+            Activo
+        </label>
+        <div class="flex flex-wrap items-center justify-end gap-3">
+            <a class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400" href="{% url 'estados_lista' %}">Cancelar</a>
+            <button class="rounded-md bg-primary px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-slate-800" type="submit">Guardar</button>
+        </div>
     </form>
+</div>
 {% endblock %}

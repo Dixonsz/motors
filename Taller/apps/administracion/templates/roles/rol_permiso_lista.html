@@ -5,56 +5,82 @@
 
 {% block page_actions %}
 <nav aria-label="Navegacion de roles">
-    <a href="{% url 'roles_lista' %}">Regresar</a>
-    <a href="{% url 'rol_permiso_asignar' rol.id %}">Asignar Permiso</a>
-    <a href="{% url 'rol_permiso_asignar_modulo' rol.id %}">Asignar Módulo Completo</a>
+    <div class="flex flex-wrap items-center gap-3">
+        <a class="flex items-center gap-2 border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-600 transition-all hover:border-slate-400" href="{% url 'roles_lista' %}">
+            <span class="material-symbols-outlined text-base" data-icon="arrow_back">arrow_back</span>
+            Regresar
+        </a>
+        <a class="flex items-center gap-2 bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition-all hover:bg-slate-700" href="{% url 'rol_permiso_asignar' rol.id %}">
+            <span class="material-symbols-outlined text-base" data-icon="add">add</span>
+            Asignar permiso
+        </a>
+        <a class="flex items-center gap-2 border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-600 transition-all hover:border-slate-400" href="{% url 'rol_permiso_asignar_modulo' rol.id %}">
+            <span class="material-symbols-outlined text-base" data-icon="apps">apps</span>
+            Asignar modulo
+        </a>
+    </div>
 </nav>
 {% endblock %}
 
 {% block content %}
-{% if messages %}
-    {% for message in messages %}
-        <p>{{ message }}</p>
-    {% endfor %}
-{% endif %}
+<p class="mb-6 text-sm text-slate-500">Permisos asignados al rol seleccionado.</p>
 
-<table>
-    <thead>
-        <tr>
-            <th>Módulo</th>
-            <th>Acción</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for rp in permisos %}
-        <tr>
-            <td>{{ rp.permiso.modulo.nombre }}</td>
-            <td>{{ rp.permiso.accion }}</td>
-            <td>
-                <form action="{% url 'rol_permiso_revocar' rol.id rp.permiso.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Revocar</button>
-                </form>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="3">Este rol no tiene permisos asignados.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="overflow-hidden border border-slate-200 bg-white shadow-sm">
+    <div class="flex items-center justify-between border-b border-slate-100 bg-slate-50/50 p-4 text-sm">
+        <span class="text-slate-500">
+            Total
+            <span class="font-semibold text-slate-900">
+                {% if permisos.paginator %}
+                    {{ permisos.paginator.count }}
+                {% else %}
+                    {{ permisos|length }}
+                {% endif %}
+            </span>
+            permisos
+        </span>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+            <thead class="bg-slate-900 text-xs uppercase tracking-widest text-white">
+                <tr>
+                    <th class="px-4 py-3 text-left">Modulo</th>
+                    <th class="px-4 py-3 text-left">Accion</th>
+                    <th class="px-4 py-3 text-left">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for rp in permisos %}
+                <tr class="hover:bg-slate-50">
+                    <td class="px-4 py-3">{{ rp.permiso.modulo.nombre }}</td>
+                    <td class="px-4 py-3">{{ rp.permiso.accion }}</td>
+                    <td class="px-4 py-3">
+                        <form action="{% url 'rol_permiso_revocar' rol.id rp.permiso.id %}" method="post">
+                            {% csrf_token %}
+                            <button class="rounded-md border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 transition-colors hover:border-rose-300" type="submit">Revocar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td class="px-4 py-6 text-center text-sm text-slate-500" colspan="3">Este rol no tiene permisos asignados.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
 {% if permisos.has_other_pages %}
-<nav>
-    {% if permisos.has_previous %}
-        <a href="?page={{ permisos.previous_page_number }}">Anterior</a>
-    {% endif %}
-    <span>Página {{ permisos.number }} de {{ permisos.paginator.num_pages }}</span>
-    {% if permisos.has_next %}
-        <a href="?page={{ permisos.next_page_number }}">Siguiente</a>
-    {% endif %}
+<nav class="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm">
+    <div class="text-slate-500">Pagina {{ permisos.number }} de {{ permisos.paginator.num_pages }}</div>
+    <div class="flex items-center gap-2">
+        {% if permisos.has_previous %}
+        <a class="rounded-md border border-slate-200 px-3 py-1.5 font-semibold text-slate-700 transition-colors hover:border-slate-400" href="?page={{ permisos.previous_page_number }}">Anterior</a>
+        {% endif %}
+        {% if permisos.has_next %}
+        <a class="rounded-md border border-slate-200 px-3 py-1.5 font-semibold text-slate-700 transition-colors hover:border-slate-400" href="?page={{ permisos.next_page_number }}">Siguiente</a>
+        {% endif %}
+    </div>
 </nav>
 {% endif %}
 {% endblock %}

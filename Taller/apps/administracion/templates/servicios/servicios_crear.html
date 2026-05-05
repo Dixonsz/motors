@@ -3,34 +3,56 @@
 {% block page_title %}Crear Servicio{% endblock %}
 
 {% block page_actions %}
-<nav aria-label="Navegacion de usuarios">
-    <a href="{% url 'servicios_lista' %}">Regresar</a>
+<nav aria-label="Navegacion de servicios">
+    <a
+        class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400"
+        href="{% url 'servicios_lista' %}"
+    >
+        Regresar
+    </a>
 </nav>
 {% endblock %}
 
 {% block content %}
-<h1>Crear Servicio</h1>
-    <form method="post">
+<div class="border border-slate-200 bg-white p-6 shadow-sm">
+    <h3 class="text-base font-semibold text-slate-900">Crear servicio</h3>
+    <form method="post" class="mt-4 grid gap-6">
         {% csrf_token %}
-        <input type="text" id="nombre" name="nombre" required placeholder="Nombre">
-        <br>
-        <input type="text" id="descripcion" name="descripcion" required placeholder="Descripción">
-        <br>
-        <select name="categoria_id" id="categoria_id" required>
-            <option value="">Seleccione una categoría</option>
-            {% for categoria in categorias %}
-                <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <input type="number" id="precio_base" name="precio_base" step="0.01" required placeholder="Precio Base">
-        <br>
-        <label for="duracion_estimada">Duración estimada (HH:MM):</label>
-        <input type="time" id="duracion_estimada" name="duracion_estimada" step="60" required>
-        <br>
-        <label for="is_active">Activo:</label>
-        <input type="checkbox" id="is_active" name="is_active" checked>
-        <br>
-        <button type="submit">Guardar</button>
+        <div class="grid gap-4 md:grid-cols-2">
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="nombre">Nombre</label>
+                <input class="rounded-md border-slate-200 text-sm" type="text" id="nombre" name="nombre" required placeholder="Nombre">
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="categoria_id">Categoria</label>
+                <select class="rounded-md border-slate-200 text-sm" name="categoria_id" id="categoria_id" required>
+                    <option value="">Seleccione una categoria</option>
+                    {% for categoria in categorias %}
+                        <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="grid gap-2 md:col-span-2">
+                <label class="text-sm font-semibold text-slate-600" for="descripcion">Descripcion</label>
+                <input class="rounded-md border-slate-200 text-sm" type="text" id="descripcion" name="descripcion" required placeholder="Descripcion">
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="precio_base">Precio base</label>
+                <input class="rounded-md border-slate-200 text-sm" type="number" id="precio_base" name="precio_base" step="0.01" required placeholder="Precio base">
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="duracion_estimada">Duracion estimada</label>
+                <input class="rounded-md border-slate-200 text-sm" type="time" id="duracion_estimada" name="duracion_estimada" step="60" required>
+            </div>
+        </div>
+        <label class="flex items-center gap-2 text-sm font-semibold text-slate-600" for="is_active">
+            <input class="rounded border-slate-300" type="checkbox" id="is_active" name="is_active" checked>
+            Activo
+        </label>
+        <div class="flex flex-wrap items-center justify-end gap-3">
+            <a class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400" href="{% url 'servicios_lista' %}">Cancelar</a>
+            <button class="rounded-md bg-primary px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-slate-800" type="submit">Guardar</button>
+        </div>
     </form>
+</div>
 {% endblock %}

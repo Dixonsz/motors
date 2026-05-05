@@ -5,42 +5,67 @@
 
 {% block page_actions %}
 <nav aria-label="Navegacion de ordenes">
-    <a href="{% url 'orden_detalle' orden.id %}">Regresar</a>
+    <a
+        class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400"
+        href="{% url 'orden_detalle' orden.id %}"
+    >
+        Regresar
+    </a>
 </nav>
 {% endblock %}
 
 {% block content %}
-{% if messages %}
-    {% for message in messages %}
-        <p>{{ message }}</p>
-    {% endfor %}
-{% endif %}
+<div class="border border-slate-200 bg-white p-6 shadow-sm">
+    <form action="" class="grid gap-6" method="post">
+        {% csrf_token %}
 
-<form action="" method="post">
-    {% csrf_token %}
+        <div class="grid gap-2">
+            <label class="text-sm font-semibold text-slate-600" for="usuario_id">Usuario</label>
+            <select class="rounded-md border-slate-200 text-sm" name="usuario_id" id="usuario_id" required>
+                <option value="">Seleccione un usuario</option>
+                {% for usuario in usuarios %}
+                    <option value="{{ usuario.id }}" {% if orden.usuario.id == usuario.id %}selected{% endif %}>
+                        {{ usuario.nombre }} {{ usuario.apellido }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
 
-    <select name="usuario_id" required>
-        <option value="">Seleccione un usuario</option>
-        {% for usuario in usuarios %}
-            <option value="{{ usuario.id }}" {% if orden.usuario.id == usuario.id %}selected{% endif %}>
-                {{ usuario.nombre }} {{ usuario.apellido }}
-            </option>
-        {% endfor %}
-    </select>
+        <div class="grid gap-2">
+            <label class="text-sm font-semibold text-slate-600" for="estado_id">Estado</label>
+            <select class="rounded-md border-slate-200 text-sm" name="estado_id" id="estado_id" required>
+                <option value="">Seleccione un estado</option>
+                {% for estado in estados %}
+                    <option value="{{ estado.id }}" {% if orden.estado.id == estado.id %}selected{% endif %}>
+                        {{ estado.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
 
-    <select name="estado_id" required>
-        <option value="">Seleccione un estado</option>
-        {% for estado in estados %}
-            <option value="{{ estado.id }}" {% if orden.estado.id == estado.id %}selected{% endif %}>
-                {{ estado.nombre }}
-            </option>
-        {% endfor %}
-    </select>
+        <div class="grid gap-2">
+            <label class="text-sm font-semibold text-slate-600" for="diagnostico">Diagnostico</label>
+            <textarea class="min-h-[120px] rounded-md border-slate-200 text-sm" name="diagnostico" id="diagnostico" placeholder="Diagnostico">{{ orden.diagnostico }}</textarea>
+        </div>
+        <div class="grid gap-2">
+            <label class="text-sm font-semibold text-slate-600" for="observaciones">Observaciones</label>
+            <textarea class="min-h-[120px] rounded-md border-slate-200 text-sm" name="observaciones" id="observaciones" placeholder="Observaciones">{{ orden.observaciones }}</textarea>
+        </div>
 
-    <textarea name="diagnostico" placeholder="Diagnóstico">{{ orden.diagnostico }}</textarea>
-    <textarea name="observaciones" placeholder="Observaciones">{{ orden.observaciones }}</textarea>
-
-    <br>
-    <button type="submit">Guardar</button>
-</form>
+        <div class="flex flex-wrap items-center justify-end gap-3">
+            <a
+                class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400"
+                href="{% url 'orden_detalle' orden.id %}"
+            >
+                Cancelar
+            </a>
+            <button
+                class="rounded-md bg-primary px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-slate-800"
+                type="submit"
+            >
+                Guardar
+            </button>
+        </div>
+    </form>
+</div>
 {% endblock %}

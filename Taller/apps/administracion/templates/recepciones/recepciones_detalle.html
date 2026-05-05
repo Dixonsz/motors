@@ -1,84 +1,103 @@
 <!-- recepciones_detalle.html -->
-{% extends 'base.html' %} {% block title %}Detalle Recepción{% endblock %} {%
-block page_title %}Detalle de Recepción{% endblock %} {% block page_actions %}
-<nav aria-label="Navegacion de recepciones">
-  <a href="{% url 'recepciones_lista' %}">Regresar</a>
-  {% if not recepcion.ordenes_servicio.exists %}
-  <a href="{% url 'ordenes_crear' %}?recepcion_id={{ recepcion.id }}"
-    >Crear Orden</a
+{% extends 'base.html' %}
+{% block title %}Detalle Recepcion{% endblock %}
+{% block page_title %}Detalle de recepcion{% endblock %}
+{% block page_actions %}
+<nav aria-label="Navegacion de recepciones" class="flex flex-wrap items-center gap-3">
+  <a
+    class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400"
+    href="{% url 'recepciones_lista' %}"
   >
+    Regresar
+  </a>
+  {% if not recepcion.ordenes_servicio.exists %}
+  <a
+    class="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-slate-800"
+    href="{% url 'ordenes_crear' %}?recepcion_id={{ recepcion.id }}"
+  >
+    Crear orden
+  </a>
   {% endif %}
 </nav>
-{% endblock %} {% block content %} {% if messages %} {% for message in messages
-%}
-<p>{{ message }}</p>
-{% endfor %} {% endif %}
+{% endblock %}
 
-<table>
-  <tbody>
-    <tr>
-      <th>Vehículo</th>
-      <td>{{ recepcion.vehiculo.placa }}</td>
-    </tr>
-    <tr>
-      <th>Cliente</th>
-      <td>
-        {% if recepcion.vehiculo.cliente %}{{ recepcion.vehiculo.cliente.nombre
-        }}{% else %}Sin cliente{% endif %}
-      </td>
-    </tr>
-    <tr>
-      <th>Usuario</th>
-      <td>{{ recepcion.usuario.nombre }} {{ recepcion.usuario.apellido }}</td>
-    </tr>
-    <tr>
-      <th>Fecha de ingreso</th>
-      <td>{{ recepcion.fecha_ingreso|date:"d/m/Y H:i" }}</td>
-    </tr>
-    <tr>
-      <th>Kilometraje</th>
-      <td>{{ recepcion.kilometraje }} km</td>
-    </tr>
-    <tr>
-      <th>Nivel de combustible</th>
-      <td>{{ recepcion.nivel_combustible }}%</td>
-    </tr>
-    <tr>
-      <th>Observaciones</th>
-      <td>{{ recepcion.observaciones|default:"Sin observaciones" }}</td>
-    </tr>
-    <tr>
-      <th>Cita asociada</th>
-      <td>
-        {% if recepcion.cita %}{{ recepcion.cita.fecha }} {{
-        recepcion.cita.hora_inicio }}{% else %}Sin cita{% endif %}
-      </td>
-    </tr>
-  </tbody>
-</table>
+{% block content %}
+<div class="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+  <div class="space-y-6">
+    <div class="border border-slate-200 bg-white p-6 shadow-sm">
+      <h3 class="text-base font-semibold text-slate-900">Resumen de la recepcion</h3>
+      <div class="mt-4 grid gap-4 md:grid-cols-2">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Vehiculo</p>
+          <p class="mt-1 text-sm font-semibold text-slate-800">{{ recepcion.vehiculo.placa }}</p>
+        </div>
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Cliente</p>
+          <p class="mt-1 text-sm text-slate-700">
+            {% if recepcion.vehiculo.cliente %}{{ recepcion.vehiculo.cliente.nombre }}{% else %}Sin cliente{% endif %}
+          </p>
+        </div>
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Usuario</p>
+          <p class="mt-1 text-sm text-slate-700">{{ recepcion.usuario.nombre }} {{ recepcion.usuario.apellido }}</p>
+        </div>
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Fecha de ingreso</p>
+          <p class="mt-1 text-sm text-slate-700">{{ recepcion.fecha_ingreso|date:"d/m/Y H:i" }}</p>
+        </div>
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Kilometraje</p>
+          <p class="mt-1 text-sm text-slate-700">{{ recepcion.kilometraje }} km</p>
+        </div>
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Nivel de combustible</p>
+          <p class="mt-1 text-sm text-slate-700">{{ recepcion.nivel_combustible }}%</p>
+        </div>
+      </div>
+      <div class="mt-4">
+        <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Observaciones</p>
+        <p class="mt-1 text-sm text-slate-700">{{ recepcion.observaciones|default:"Sin observaciones" }}</p>
+      </div>
+    </div>
 
-{% if recepcion.ordenes_servicio.exists %}
-<h3>Orden de Servicio</h3>
-{% for orden in recepcion.ordenes_servicio.all %}
-<table>
-  <tbody>
-    <tr>
-      <th>Estado</th>
-      <td>{{ orden.estado.nombre }}</td>
-    </tr>
-    <tr>
-      <th>Diagnóstico</th>
-      <td>{{ orden.diagnostico|default:"Sin diagnóstico" }}</td>
-    </tr>
-    <tr>
-      <th>Fecha creación</th>
-      <td>{{ orden.fecha_creacion|date:"d/m/Y H:i" }}</td>
-    </tr>
-    <tr>
-      <th>Total</th>
-      <td>₡{{ orden.total }}</td>
-    </tr>
-  </tbody>
-</table>
+    {% if recepcion.ordenes_servicio.exists %}
+    <div class="border border-slate-200 bg-white p-6 shadow-sm">
+      <h3 class="text-base font-semibold text-slate-900">Orden de servicio</h3>
+      <div class="mt-4 grid gap-4">
+        {% for orden in recepcion.ordenes_servicio.all %}
+        <div class="rounded-lg border border-slate-100 bg-slate-50 p-4">
+          <div class="grid gap-3 md:grid-cols-2">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Estado</p>
+              <p class="mt-1 text-sm text-slate-700">{{ orden.estado.nombre }}</p>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Fecha creacion</p>
+              <p class="mt-1 text-sm text-slate-700">{{ orden.fecha_creacion|date:"d/m/Y H:i" }}</p>
+            </div>
+            <div class="md:col-span-2">
+              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Diagnostico</p>
+              <p class="mt-1 text-sm text-slate-700">{{ orden.diagnostico|default:"Sin diagnostico" }}</p>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Total</p>
+              <p class="mt-1 text-sm font-semibold text-slate-800">₡{{ orden.total }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
 
-{% endfor %} {% endif %} {% endblock %}
+  <aside class="space-y-4">
+    <div class="border border-slate-200 bg-white p-5 shadow-sm">
+      <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Cita asociada</p>
+      <p class="mt-2 text-sm text-slate-700">
+        {% if recepcion.cita %}{{ recepcion.cita.fecha }} {{ recepcion.cita.hora_inicio }}{% else %}Sin cita{% endif %}
+      </p>
+    </div>
+  </aside>
+</div>
+{% endblock %}

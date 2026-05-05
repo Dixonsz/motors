@@ -4,16 +4,18 @@
 
 {% block page_actions %}
 <nav aria-label="Navegacion de categorias">
-    <a href="{% url 'categorias_lista' %}">Regresar</a>
+    <a class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400" href="{% url 'categorias_lista' %}">Regresar</a>
 </nav>
 {% endblock %}
 
 {% block content %}
-<h1>Eliminando Categoria</h1>
-    <p>¿Estás seguro de que deseas eliminar el categoria con ID {{ categoria_id }}?</p>
-    <form action="" method="post">
+<div class="border border-rose-200 bg-rose-50 p-6 shadow-sm">
+    <h3 class="text-base font-semibold text-rose-900">Eliminar categoria</h3>
+    <p class="mt-2 text-sm text-rose-800">¿Estas seguro de que deseas eliminar la categoria con ID {{ categoria_id }}?</p>
+    <form action="" method="post" class="mt-6 flex flex-wrap items-center gap-3">
         {% csrf_token %}
-        <button type="submit">Sí, eliminar</button>
-        <a href="{% url 'categorias_lista' %}">No, volver a la lista</a>
+        <button class="rounded-md bg-rose-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-rose-700" type="submit">Si, eliminar</button>
+        <a class="rounded-md border border-rose-200 bg-white px-4 py-2 text-sm font-semibold text-rose-700 transition-colors hover:border-rose-300" href="{% url 'categorias_lista' %}">Cancelar</a>
     </form>
+</div>
 {% endblock %}

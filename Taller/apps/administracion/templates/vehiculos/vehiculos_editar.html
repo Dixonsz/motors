@@ -3,80 +3,114 @@
 {% block title %}Vehiculos{% endblock %}
 {% block page_title %}Vehiculos{% endblock %}
 
+{% block extra_head %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet">
+{% endblock %}
+
 {% block page_actions %}
 <nav aria-label="Navegacion de vehiculos">
-    <a href="{% url 'vehiculos_lista' %}">Regresar</a>
+    <a
+        class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400"
+        href="{% url 'vehiculos_lista' %}"
+    >
+        Regresar
+    </a>
 </nav>
 {% endblock %}
 
 {% block content %}
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet">
-<h1>Editar Vehiculo</h1>
-    <form method="post">
+<div class="border border-slate-200 bg-white p-6 shadow-sm">
+    <h3 class="text-base font-semibold text-slate-900">Editar vehiculo</h3>
+    <form method="post" class="mt-4 grid gap-6">
         {% csrf_token %}
-        <label for="cliente_id">Cliente:</label>
-        <select id="cliente_id" name="cliente_id" required>
-            <option value="">Seleccione un cliente</option>
-            {% for cliente in clientes %}
-                <option value="{{ cliente.id }}" {% if vehiculo.cliente_id == cliente.id %}selected{% endif %}>{{ cliente.nombre }}</option>
-            {% endfor %}
-        </select>
-           <br>
-            <label for="cliente_cedula">Cedula:</label>
-            <input type="text" id="cliente_cedula" readonly placeholder="Se completa al seleccionar cliente">
-            <br>
-            <label for="cliente_telefono">Telefono:</label>
-            <input type="text" id="cliente_telefono" readonly placeholder="Se completa al seleccionar cliente">
-            <br>
-            <label for="cliente_correo">Correo:</label>
-            <input type="text" id="cliente_correo" readonly placeholder="Se completa al seleccionar cliente">
-            <br>
-            <label for="cliente_direccion">Direccion:</label>
-            <input type="text" id="cliente_direccion" readonly placeholder="Se completa al seleccionar cliente">
-        <br>
-        <label for="placa">Placa:</label>
-        <input type="text" id="placa" name="placa" value="{{ vehiculo.placa }}" required>
-        <br>
-        <label for="anio">Año:</label>
-        <input type="text" id="anio" name="anio" value="{{ vehiculo.anio }}" required>
-        <br>
-        <label for="color">Color:</label>
-        <input type="text" id="color" name="color" value="{{ vehiculo.color }}" required>
-        <br>
-        <label for="vin">VIN:</label>
-        <input type="text" id="vin" name="vin" value="{{ vehiculo.vin }}" required>
-        <br>
-        <label for="modelo_id">Modelo:</label>
-        <select id="modelo_id" name="modelo_id" required>
-            <option value="">Seleccione el modelo</option>
-            {% for modelo in modelos %}
-                <option value="{{ modelo.id }}" {% if vehiculo.modelo_id == modelo.id %}selected{% endif %}>{{ modelo.nombre }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <label for="marca_id">Marca:</label>
-        <select id="marca_id" name="marca_id" required>
-            <option value="">Seleccione la marca</option>
-            {% for marca in marcas %}
-                <option value="{{ marca.id }}" {% if vehiculo.marca_id == marca.id %}selected{% endif %}>{{ marca.nombre }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <label for="combustible_id">Combustible:</label>
-        <select id="combustible_id" name="combustible_id" required>
-            <option value="">Seleccione el tipo de combustible</option>
-            {% for combustible in combustibles %}
-                <option value="{{ combustible.id }}" {% if vehiculo.combustible_id == combustible.id %}selected{% endif %}>{{ combustible.nombre }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <button type="submit">Guardar</button>
-    </form>
+        <div class="grid gap-4 lg:grid-cols-2">
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="cliente_id">Cliente</label>
+                <select class="rounded-md border-slate-200 text-sm" id="cliente_id" name="cliente_id" required>
+                    <option value="">Seleccione un cliente</option>
+                    {% for cliente in clientes %}
+                        <option value="{{ cliente.id }}" {% if vehiculo.cliente_id == cliente.id %}selected{% endif %}>{{ cliente.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="cliente_cedula">Cedula</label>
+                <input class="rounded-md border-slate-200 text-sm bg-slate-50" type="text" id="cliente_cedula" readonly placeholder="Se completa al seleccionar cliente">
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="cliente_telefono">Telefono</label>
+                <input class="rounded-md border-slate-200 text-sm bg-slate-50" type="text" id="cliente_telefono" readonly placeholder="Se completa al seleccionar cliente">
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="cliente_correo">Correo</label>
+                <input class="rounded-md border-slate-200 text-sm bg-slate-50" type="text" id="cliente_correo" readonly placeholder="Se completa al seleccionar cliente">
+            </div>
+            <div class="grid gap-2 lg:col-span-2">
+                <label class="text-sm font-semibold text-slate-600" for="cliente_direccion">Direccion</label>
+                <input class="rounded-md border-slate-200 text-sm bg-slate-50" type="text" id="cliente_direccion" readonly placeholder="Se completa al seleccionar cliente">
+            </div>
+        </div>
 
-      <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
-    <script
-        src="{% static 'js/vehiculos.js' %}"
-        data-cliente-detalle-url="{% url 'clientes_detalle_json' 0 %}"
-    ></script>
+        <div class="grid gap-4 md:grid-cols-2">
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="placa">Placa</label>
+                <input class="rounded-md border-slate-200 text-sm" type="text" id="placa" name="placa" value="{{ vehiculo.placa }}" required>
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="anio">Ano</label>
+                <input class="rounded-md border-slate-200 text-sm" type="text" id="anio" name="anio" value="{{ vehiculo.anio }}" required>
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="color">Color</label>
+                <input class="rounded-md border-slate-200 text-sm" type="text" id="color" name="color" value="{{ vehiculo.color }}" required>
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="vin">VIN</label>
+                <input class="rounded-md border-slate-200 text-sm" type="text" id="vin" name="vin" value="{{ vehiculo.vin }}" required>
+            </div>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-3">
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="modelo_id">Modelo</label>
+                <select class="rounded-md border-slate-200 text-sm" id="modelo_id" name="modelo_id" required>
+                    <option value="">Seleccione el modelo</option>
+                    {% for modelo in modelos %}
+                        <option value="{{ modelo.id }}" {% if vehiculo.modelo_id == modelo.id %}selected{% endif %}>{{ modelo.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="marca_id">Marca</label>
+                <select class="rounded-md border-slate-200 text-sm" id="marca_id" name="marca_id" required>
+                    <option value="">Seleccione la marca</option>
+                    {% for marca in marcas %}
+                        <option value="{{ marca.id }}" {% if vehiculo.marca_id == marca.id %}selected{% endif %}>{{ marca.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="combustible_id">Combustible</label>
+                <select class="rounded-md border-slate-200 text-sm" id="combustible_id" name="combustible_id" required>
+                    <option value="">Seleccione el tipo de combustible</option>
+                    {% for combustible in combustibles %}
+                        <option value="{{ combustible.id }}" {% if vehiculo.combustible_id == combustible.id %}selected{% endif %}>{{ combustible.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-end gap-3">
+            <a class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400" href="{% url 'vehiculos_lista' %}">Cancelar</a>
+            <button class="rounded-md bg-primary px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-slate-800" type="submit">Guardar</button>
+        </div>
+    </form>
+</div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+  <script
+      src="{% static 'js/vehiculos.js' %}"
+      data-cliente-detalle-url="{% url 'clientes_detalle_json' 0 %}"
+  ></script>
 {% endblock %}

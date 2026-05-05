@@ -1,202 +1,88 @@
-{% extends 'base.html' %} {% block content %}
-<div class="card">
-  <div class="card-header">
-    <h4>{{ accion }} bloqueo</h4>
-  </div>
-  <div class="card-body">
-    <form method="POST">
+{% extends 'base.html' %}
+{%load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/configuracion_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="max-w-3xl">
+  <div class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+    <h3 class="text-lg font-semibold text-slate-900">{{ accion }} bloqueo</h3>
+    <p class="mt-2 text-sm text-slate-500">Configura las reglas de bloqueo del calendario.</p>
+
+    <form class="mt-6 space-y-6" method="POST">
       {% csrf_token %}
 
-      <div class="mb-3">
-        <label class="form-label">Tipo de bloqueo</label>
-        <select
-          name="tipo"
-          id="tipo"
-          class="form-select"
-          required
-          onchange="toggleCampos()"
-        >
+      <label class="block text-sm font-semibold text-slate-700" for="tipo">
+        Tipo de bloqueo
+        <select class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" name="tipo" id="tipo" required onchange="toggleCampos()">
           <option value="">-- Seleccionar --</option>
-          <option
-            value="dia_completo"
-            {%
-            if
-            bloqueo.tipo=""
-            ="dia_completo"
-            %}selected{%
-            endif
-            %}
-          >
-            Día completo
-          </option>
-          <option
-            value="franja"
-            {%
-            if
-            bloqueo.tipo=""
-            ="franja"
-            %}selected{%
-            endif
-            %}
-          >
-            Franja horaria
-          </option>
+          <option value="dia_completo" {% if bloqueo.tipo == "dia_completo" %}selected{% endif %}>Dia completo</option>
+          <option value="franja" {% if bloqueo.tipo == "franja" %}selected{% endif %}>Franja horaria</option>
         </select>
+      </label>
+
+      <div class="grid gap-5 md:grid-cols-2">
+        <label class="block text-sm font-semibold text-slate-700" for="fecha_inicio">
+          Fecha inicio
+          <input class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" type="date" id="fecha_inicio" name="fecha_inicio" required value="{{ bloqueo.fecha_inicio|default:'' }}">
+        </label>
+        <label class="block text-sm font-semibold text-slate-700" for="fecha_fin" id="campo-fecha-fin">
+          Fecha fin
+          <span class="block text-xs font-normal text-slate-500">Para rangos</span>
+          <input class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" type="date" id="fecha_fin" name="fecha_fin" value="{{ bloqueo.fecha_fin|default:'' }}">
+        </label>
       </div>
 
-      <div class="row">
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Fecha inicio</label>
-          <input
-            type="date"
-            name="fecha_inicio"
-            class="form-control"
-            required
-            value="{{ bloqueo.fecha_inicio|default:'' }}"
-          />
-        </div>
-        <div class="col-md-6 mb-3" id="campo-fecha-fin">
-          <label class="form-label"
-            >Fecha fin <small class="text-muted">(para rangos)</small></label
-          >
-          <input
-            type="date"
-            name="fecha_fin"
-            class="form-control"
-            value="{{ bloqueo.fecha_fin|default:'' }}"
-          />
-        </div>
-      </div>
-
-      <div id="campos-franja">
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Hora inicio</label>
-            <input
-              type="time"
-              name="hora_inicio"
-              class="form-control"
-              value="{{ bloqueo.hora_inicio|default:'' }}"
-            />
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Hora fin</label>
-            <input
-              type="time"
-              name="hora_fin"
-              class="form-control"
-              value="{{ bloqueo.hora_fin|default:'' }}"
-            />
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">
-            Capacidad máxima
-            <small class="text-muted">(dejar vacío para bloqueo total)</small>
+      <div id="campos-franja" class="space-y-5">
+        <div class="grid gap-5 md:grid-cols-2">
+          <label class="block text-sm font-semibold text-slate-700" for="hora_inicio">
+            Hora inicio
+            <input class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" type="time" id="hora_inicio" name="hora_inicio" value="{{ bloqueo.hora_inicio|default:'' }}">
           </label>
-          <input
-            type="number"
-            name="capacidad_maxima"
-            class="form-control"
-            min="1"
-            value="{{ bloqueo.capacidad_maxima|default:'' }}"
-          />
+          <label class="block text-sm font-semibold text-slate-700" for="hora_fin">
+            Hora fin
+            <input class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" type="time" id="hora_fin" name="hora_fin" value="{{ bloqueo.hora_fin|default:'' }}">
+          </label>
         </div>
+
+        <label class="block text-sm font-semibold text-slate-700" for="capacidad_maxima">
+          Capacidad maxima
+          <span class="block text-xs font-normal text-slate-500">Dejar vacio para bloqueo total</span>
+          <input class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" type="number" id="capacidad_maxima" name="capacidad_maxima" min="1" value="{{ bloqueo.capacidad_maxima|default:'' }}">
+        </label>
       </div>
 
-      <div class="mb-3">
-        <label class="form-label">Recurrencia</label>
-        <select name="recurrencia" class="form-select">
-          <option
-            value="ninguna"
-            {%
-            if
-            bloqueo.recurrencia=""
-            ="ninguna"
-            %}selected{%
-            endif
-            %}
-          >
-            Sin recurrencia
-          </option>
-          <option
-            value="diaria"
-            {%
-            if
-            bloqueo.recurrencia=""
-            ="diaria"
-            %}selected{%
-            endif
-            %}
-          >
-            Diaria
-          </option>
-          <option
-            value="semanal"
-            {%
-            if
-            bloqueo.recurrencia=""
-            ="semanal"
-            %}selected{%
-            endif
-            %}
-          >
-            Semanal
-          </option>
-          <option
-            value="mensual"
-            {%
-            if
-            bloqueo.recurrencia=""
-            ="mensual"
-            %}selected{%
-            endif
-            %}
-          >
-            Mensual
-          </option>
+      <label class="block text-sm font-semibold text-slate-700" for="recurrencia">
+        Recurrencia
+        <select class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" name="recurrencia" id="recurrencia">
+          <option value="ninguna" {% if bloqueo.recurrencia == "ninguna" %}selected{% endif %}>Sin recurrencia</option>
+          <option value="diaria" {% if bloqueo.recurrencia == "diaria" %}selected{% endif %}>Diaria</option>
+          <option value="semanal" {% if bloqueo.recurrencia == "semanal" %}selected{% endif %}>Semanal</option>
+          <option value="mensual" {% if bloqueo.recurrencia == "mensual" %}selected{% endif %}>Mensual</option>
         </select>
-      </div>
+      </label>
 
-      <div class="mb-3">
-        <label class="form-label">Motivo</label>
-        <input
-          type="text"
-          name="motivo"
-          class="form-control"
-          placeholder="Ej: Feriado nacional, Almuerzo, Mantenimiento..."
-          value="{{ bloqueo.motivo|default:'' }}"
-        />
-      </div>
+      <label class="block text-sm font-semibold text-slate-700" for="motivo">
+        Motivo
+        <input class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" type="text" id="motivo" name="motivo" placeholder="Ej: Feriado nacional, Almuerzo, Mantenimiento..." value="{{ bloqueo.motivo|default:'' }}">
+      </label>
 
       {% if bloqueo %}
-      <div class="mb-3 form-check">
-        <input
-          type="checkbox"
-          name="activo"
-          class="form-check-input"
-          id="activo"
-          {%
-          if
-          bloqueo.activo
-          %}checked{%
-          endif
-          %}
-        />
-        <label class="form-check-label" for="activo">Activo</label>
-      </div>
+      <label class="flex items-center gap-2 text-sm text-slate-700" for="activo">
+        <input class="h-4 w-4 rounded border-slate-300 text-slate-900" type="checkbox" name="activo" id="activo" {% if bloqueo.activo %}checked{% endif %}>
+        Activo
+      </label>
       {% endif %}
 
-      <div class="d-flex gap-2 justify-content-end">
-        <a href="{% url 'bloqueos_lista' %}" class="btn btn-secondary"
-          >Cancelar</a
-        >
-        <button type="submit" class="btn btn-primary">{{ accion }}</button>
+      <div class="flex flex-wrap items-center gap-3 pt-2">
+        <a class="px-4 py-2 text-sm font-semibold text-slate-500 transition-colors hover:text-slate-700" href="{% url 'configuracion_lista' %}">Cancelar</a>
+        <button class="bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-slate-700" type="submit">{{ accion }}</button>
       </div>
     </form>
   </div>
-</div>
+</section>
 
 <script src="{% static 'js/configuracion_form.js' %}"></script>
 {% endblock %}

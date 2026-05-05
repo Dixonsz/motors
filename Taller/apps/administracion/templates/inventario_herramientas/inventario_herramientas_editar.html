@@ -4,34 +4,50 @@
 
 {% block page_actions %}
 <nav aria-label="Navegacion de inventario">
-	<a href="{% url 'inventario_herramientas_lista' %}">Regresar</a>
+	<a class="flex items-center gap-2 border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-600 transition-all hover:border-slate-400" href="{% url 'inventario_herramientas_lista' %}">
+		<span class="material-symbols-outlined text-base" data-icon="arrow_back">arrow_back</span>
+		Regresar
+	</a>
 </nav>
 {% endblock %}
 
 {% block content %}
-<h1>Editar Inventario de Herramientas</h1>
-	<form method="post">
-		{% csrf_token %}
+<section class="max-w-2xl">
+	<div class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+		<h3 class="text-lg font-semibold text-slate-900">Mover stock</h3>
+		<p class="mt-2 text-sm text-slate-500">Selecciona el estado destino y la cantidad a mover.</p>
 
-		<p><strong>Herramienta:</strong> {{ inventario.herramienta.nombre }}</p>
-		<p><strong>Estado origen:</strong> {{ inventario.estado.nombre }}</p>
-		<p><strong>Stock en origen:</strong> {{ inventario.cantidad_total }}</p>
+		<div class="mt-5 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
+			<p><span class="font-semibold text-slate-800">Herramienta:</span> {{ inventario.herramienta.nombre }}</p>
+			<p><span class="font-semibold text-slate-800">Estado origen:</span> {{ inventario.estado.nombre }}</p>
+			<p><span class="font-semibold text-slate-800">Stock en origen:</span> {{ inventario.cantidad_total }}</p>
+		</div>
 
-		<label for="estado_destino_id">Estado destino</label>
-		<select id="estado_destino_id" name="estado_destino_id" required>
-			<option value="">Seleccione un estado destino</option>
-			{% for estado in estados %}
-				{% if estado.id != inventario.estado_id %}
-					<option value="{{ estado.id }}">{{ estado.nombre }}</option>
-				{% endif %}
-			{% endfor %}
-		</select>
-		<br>
+		<form class="mt-6 space-y-5" method="post">
+			{% csrf_token %}
 
-		<label for="cantidad">Cantidad a mover</label>
-		<input type="number" id="cantidad" name="cantidad" min="1" max="{{ inventario.cantidad_total }}" step="1" required>
-		<br>
+			<label class="block text-sm font-semibold text-slate-700" for="estado_destino_id">
+				Estado destino
+				<select class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" id="estado_destino_id" name="estado_destino_id" required>
+					<option value="">Seleccione un estado destino</option>
+					{% for estado in estados %}
+						{% if estado.id != inventario.estado_id %}
+							<option value="{{ estado.id }}">{{ estado.nombre }}</option>
+						{% endif %}
+					{% endfor %}
+				</select>
+			</label>
 
-		<button type="submit">Guardar</button>
-	</form>
+			<label class="block text-sm font-semibold text-slate-700" for="cantidad">
+				Cantidad a mover
+				<input class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" id="cantidad" name="cantidad" min="1" max="{{ inventario.cantidad_total }}" step="1" required type="number">
+			</label>
+
+			<div class="flex flex-wrap items-center gap-3 pt-2">
+				<button class="bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-slate-700" type="submit">Guardar</button>
+				<a class="px-4 py-2 text-sm font-semibold text-slate-500 transition-colors hover:text-slate-700" href="{% url 'inventario_herramientas_lista' %}">Cancelar</a>
+			</div>
+		</form>
+	</div>
+</section>
 {% endblock %}

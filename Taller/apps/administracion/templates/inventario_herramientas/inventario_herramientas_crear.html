@@ -4,37 +4,52 @@
 
 {% block page_actions %}
 <nav aria-label="Navegacion de inventario">
-    <a href="{% url 'inventario_herramientas_lista' %}">Regresar</a>
+    <a class="flex items-center gap-2 border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-600 transition-all hover:border-slate-400" href="{% url 'inventario_herramientas_lista' %}">
+        <span class="material-symbols-outlined text-base" data-icon="arrow_back">arrow_back</span>
+        Regresar
+    </a>
 </nav>
 {% endblock %}
 
 {% block content %}
-<h1>Crear Inventario de Herramientas</h1>
-    <form method="post">
-        {% csrf_token %}
+<section class="max-w-2xl">
+    <div class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold text-slate-900">Agregar stock</h3>
+        <p class="mt-2 text-sm text-slate-500">Selecciona la herramienta, el estado y la cantidad.</p>
 
-        <label for="herramienta_id">Herramienta</label>
-        <select id="herramienta_id" name="herramienta_id" required>
-            <option value="">Seleccione una herramienta</option>
-            {% for herramienta in herramientas %}
-                <option value="{{ herramienta.id }}">{{ herramienta.nombre }}{% if herramienta.codigo_interno %} ({{ herramienta.codigo_interno }}){% endif %}</option>
-            {% endfor %}
-        </select>
-        <br>
+        <form class="mt-6 space-y-5" method="post">
+            {% csrf_token %}
 
-        <label for="estado_id">Estado</label>
-        <select id="estado_id" name="estado_id" required>
-            <option value="">Seleccione un estado</option>
-            {% for estado in estados %}
-                <option value="{{ estado.id }}">{{ estado.nombre }}</option>
-            {% endfor %}
-        </select>
-        <br>
+            <label class="block text-sm font-semibold text-slate-700" for="herramienta_id">
+                Herramienta
+                <select class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" id="herramienta_id" name="herramienta_id" required>
+                    <option value="">Seleccione una herramienta</option>
+                    {% for herramienta in herramientas %}
+                        <option value="{{ herramienta.id }}">{{ herramienta.nombre }}{% if herramienta.codigo_interno %} ({{ herramienta.codigo_interno }}){% endif %}</option>
+                    {% endfor %}
+                </select>
+            </label>
 
-        <label for="cantidad">Cantidad</label>
-        <input type="number" id="cantidad" name="cantidad" min="1" step="1" required placeholder="Cantidad a agregar">
-        <br>
+            <label class="block text-sm font-semibold text-slate-700" for="estado_id">
+                Estado
+                <select class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" id="estado_id" name="estado_id" required>
+                    <option value="">Seleccione un estado</option>
+                    {% for estado in estados %}
+                        <option value="{{ estado.id }}">{{ estado.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </label>
 
-        <button type="submit">Guardar</button>
-    </form>
+            <label class="block text-sm font-semibold text-slate-700" for="cantidad">
+                Cantidad
+                <input class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" id="cantidad" name="cantidad" min="1" step="1" required type="number" placeholder="Cantidad a agregar">
+            </label>
+
+            <div class="flex flex-wrap items-center gap-3 pt-2">
+                <button class="bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-slate-700" type="submit">Guardar</button>
+                <a class="px-4 py-2 text-sm font-semibold text-slate-500 transition-colors hover:text-slate-700" href="{% url 'inventario_herramientas_lista' %}">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</section>
 {% endblock %}

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#ffdad7",
+                        "on-surface": "#191c1e",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#f2f4f6",
+                        "outline-variant": "#c5c6cd",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-container-highest": "#e0e3e5",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#852221",
+                        "inverse-primary": "#bcc7de",
+                        "tertiary-fixed-dim": "#b9c7df",
+                        "surface-container-high": "#e6e8ea",
+                        "on-background": "#191c1e",
+                        "primary-fixed-dim": "#bcc7de",
+                        "outline": "#75777d",
+                        "primary-fixed": "#d8e3fb",
+                        "surface-container": "#eceef0",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed": "#111c2d",
+                        "secondary-fixed-dim": "#ffb3ad",
+                        "on-secondary-fixed": "#410004",
+                        "secondary-container": "#fe7c74",
+                        "secondary": "#a53936",
+                        "on-tertiary-fixed": "#0d1c2e",
+                        "on-tertiary-container": "#8290a6",
+                        "on-primary-container": "#8590a6",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "surface-bright": "#f7f9fb",
+                        "tertiary": "#051426",
+                        "on-tertiary-fixed-variant": "#3a485b",
+                        "tertiary-fixed": "#d5e3fc",
+                        "surface-dim": "#d8dadc",
+                        "on-surface-variant": "#45474c",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e0e3e5",
+                        "tertiary-container": "#1b293b",
+                        "surface-tint": "#545f73",
+                        "surface": "#f7f9fb",
+                        "background": "#f7f9fb",
+                        "primary": "#091426",
+                        "on-secondary-container": "#721315",
+                        "on-primary-fixed-variant": "#3c475a",
+                        "error": "#ba1a1a",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#1e293b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "section-margin": "48px",
+                        "gutter": "24px",
+                        "element-gap": "16px",
+                        "unit": "4px",
+                        "form-row-gap": "24px",
+                        "container-padding": "32px"
+                    },
+                    "fontFamily": {
+                        "h2": ["Inter"],
+                        "h1": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "h3": ["Inter"],
+                        "data-mono": ["monospace"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h2": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "h1": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
+                        "h3": ["18px", {"lineHeight": "1.4", "letterSpacing": "0em", "fontWeight": "600"}],
+                        "data-mono": ["13px", {"lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400"}],
+                        "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] border-r border-slate-200 bg-slate-50 flex flex-col z-50">
+<div class="p-8 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded">
+<span class="material-symbols-outlined text-white text-2xl" data-icon="minor_crash">minor_crash</span>
+</div>
+<div>
+<h1 class="text-xl font-black text-slate-900 tracking-tighter leading-none">Elite Motors</h1>
+<p class="text-[10px] font-semibold uppercase tracking-widest text-slate-500 mt-1">Admin Console</p>
+</div>
+</div>
+<nav class="flex-1 mt-4">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-4 px-6 py-4 text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-all duration-150 font-sans text-xs font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 bg-white text-slate-900 border-l-4 border-slate-900 px-6 py-4 transition-all duration-150 font-sans text-xs font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span>Service Schedule</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 px-6 py-4 text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-all duration-150 font-sans text-xs font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>Inventory</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 px-6 py-4 text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-all duration-150 font-sans text-xs font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Client Database</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 px-6 py-4 text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-all duration-150 font-sans text-xs font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span>Staff Management</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 px-6 py-4 text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-all duration-150 font-sans text-xs font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span>Financial Reports</span>
+</a>
+</li>
+</ul>
+</nav>
+<div class="p-6 mt-auto border-t border-slate-200">
+<a class="flex items-center gap-4 text-slate-500 hover:text-error transition-all duration-150 font-sans text-xs font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Log Out</span>
+</a>
+</div>
+</aside>
+<!-- TopAppBar -->
+<header class="fixed top-0 left-[260px] right-0 h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 z-40 shadow-sm">
+<div class="flex items-center flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-slate-50 border-none focus:ring-2 focus:ring-primary rounded-lg text-sm text-slate-900 placeholder-slate-400 transition-all" placeholder="Search orders, clients or vehicles..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-slate-500">
+<button class="p-2 hover:bg-slate-50 rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full border-2 border-white"></span>
+</button>
+<button class="p-2 hover:bg-slate-50 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-slate-200"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-sm font-bold text-slate-900 leading-none">Admin User</p>
+<p class="text-xs text-slate-500 mt-1">Service Director</p>
+</div>
+<img alt="Administrator Profile" class="w-10 h-10 rounded-full object-cover border-2 border-slate-100" data-alt="A professional headshot of a corporate executive in a sharp navy suit, looking confident and approachable. The lighting is soft and directional, typical of a high-end studio portrait. The background is a clean, minimalist office setting with muted grey and blue tones, reflecting a sophisticated administrative environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7bxQQINrrjHHh9yFcL7Spq-G-x_JhN1xr0-ZI-53YyAO2B6ZVJPdTZjOG1n3-s51wpRAxYlOD9a-5deyiNsjDbNj-PniqNNC3MfRNikRepnGVW5_q4JpRNCzqdbMlmoVkTxbHs9M-ugQHYsR_dPSvgp4zT30y6J6kBHfUbqAZybaud8S218RnJON7YQ6RUvGf-WPFxp1O6ucBKMzcWbnkiv4wIU7Rjri3366KKAE_yHuHFiP818wTaQQx6OXiv3TSBdNmpprMxuJ7"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-[260px] pt-16 p-8 min-h-screen">
+<!-- Header Actions -->
+<div class="flex items-center justify-between mb-8">
+<div>
+<h2 class="font-h1 text-h1 text-slate-900">Service Orders</h2>
+<p class="text-body-md text-slate-500 mt-1">Manage and track ongoing maintenance requests and repairs.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 text-slate-900 font-semibold text-sm hover:border-slate-900 transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="ios_share">ios_share</span>
+                    Export
+                </button>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-primary text-white font-semibold text-sm hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="add">add</span>
+                    New Order
+                </button>
+</div>
+</div>
+<!-- Filters & Table Container -->
+<div class="bg-white border border-slate-200 shadow-sm overflow-hidden">
+<!-- Table Controls -->
+<div class="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="text-label-caps text-slate-400">STATUS:</span>
+<select class="text-sm font-semibold border-none bg-transparent focus:ring-0 text-slate-900 p-0 pr-8">
+<option>All Orders</option>
+<option>In Progress</option>
+<option>Pending</option>
+<option>Completed</option>
+</select>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-label-caps text-slate-400">TIME:</span>
+<select class="text-sm font-semibold border-none bg-transparent focus:ring-0 text-slate-900 p-0 pr-8">
+<option>Last 30 Days</option>
+<option>This Quarter</option>
+<option>Last Year</option>
+</select>
+</div>
+</div>
+<div class="text-body-md text-slate-500">
+                    Showing <span class="font-bold text-slate-900">24</span> of 152 results
+                </div>
+</div>
+<!-- Data Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 border-b border-slate-200">
+<th class="px-8 py-4 text-label-caps text-slate-500 font-bold uppercase tracking-widest">ID de Orden</th>
+<th class="px-8 py-4 text-label-caps text-slate-500 font-bold uppercase tracking-widest">Cliente</th>
+<th class="px-8 py-4 text-label-caps text-slate-500 font-bold uppercase tracking-widest">Vehículo</th>
+<th class="px-8 py-4 text-label-caps text-slate-500 font-bold uppercase tracking-widest">Fecha de Entrada</th>
+<th class="px-8 py-4 text-label-caps text-slate-500 font-bold uppercase tracking-widest">Estado</th>
+<th class="px-8 py-4 text-label-caps text-slate-500 font-bold uppercase tracking-widest text-right">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-8 py-5 font-data-mono text-slate-900">#EM-8902</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold text-xs">JA</div>
+<span class="text-body-md font-semibold text-slate-900">Julian Alvarez</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="text-body-md font-semibold text-slate-900">Porsche 911 Carrera</div>
+<div class="text-xs text-slate-500">AB-123-CD</div>
+</td>
+<td class="px-8 py-5 text-body-md text-slate-600">Oct 12, 2023</td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-blue-700">
+                                    In Progress
+                                </span>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="text-slate-400 hover:text-slate-900 p-2 rounded transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-8 py-5 font-data-mono text-slate-900">#EM-8895</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold text-xs">SM</div>
+<span class="text-body-md font-semibold text-slate-900">Sofia Martinez</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="text-body-md font-semibold text-slate-900">Mercedes-Benz G-Class</div>
+<div class="text-xs text-slate-500">XY-999-ZZ</div>
+</td>
+<td class="px-8 py-5 text-body-md text-slate-600">Oct 11, 2023</td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-50 text-amber-700">
+                                    Pending Parts
+                                </span>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="text-slate-400 hover:text-slate-900 p-2 rounded transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-8 py-5 font-data-mono text-slate-900">#EM-8891</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold text-xs">RC</div>
+<span class="text-body-md font-semibold text-slate-900">Ricardo Casal</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="text-body-md font-semibold text-slate-900">Audi RS7 Performance</div>
+<div class="text-xs text-slate-500">MN-556-QR</div>
+</td>
+<td class="px-8 py-5 text-body-md text-slate-600">Oct 10, 2023</td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">
+                                    Completed
+                                </span>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="text-slate-400 hover:text-slate-900 p-2 rounded transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-8 py-5 font-data-mono text-slate-900">#EM-8888</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold text-xs">ML</div>
+<span class="text-body-md font-semibold text-slate-900">Maria Lopez</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="text-body-md font-semibold text-slate-900">BMW M5 Competition</div>
+<div class="text-xs text-slate-500">JK-882-PL</div>
+</td>
+<td class="px-8 py-5 text-body-md text-slate-600">Oct 09, 2023</td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-blue-700">
+                                    In Progress
+                                </span>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="text-slate-400 hover:text-slate-900 p-2 rounded transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-8 py-5 font-data-mono text-slate-900">#EM-8882</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold text-xs">EP</div>
+<span class="text-body-md font-semibold text-slate-900">Esteban Perez</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="text-body-md font-semibold text-slate-900">Bentley Continental GT</div>
+<div class="text-xs text-slate-500">LX-001-BT</div>
+</td>
+<td class="px-8 py-5 text-body-md text-slate-600">Oct 08, 2023</td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">
+                                    Canceled
+                                </span>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="text-slate-400 hover:text-slate-900 p-2 rounded transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="p-6 border-t border-slate-100 flex items-center justify-between bg-white">
+<div class="flex items-center gap-2">
+<span class="text-body-md text-slate-500">Rows per page:</span>
+<select class="text-sm font-semibold border border-slate-200 rounded px-2 py-1 focus:ring-primary">
+<option>10</option>
+<option selected="">20</option>
+<option>50</option>
+</select>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-body-md text-slate-500">Page <span class="font-bold text-slate-900">1</span> of 8</span>
+<div class="flex items-center border border-slate-200 rounded divide-x divide-slate-200">
+<button class="p-2 hover:bg-slate-50 text-slate-400 hover:text-slate-900 transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined text-lg" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="p-2 hover:bg-slate-50 text-slate-900 transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- System Stats Cards (Subtle Bento Pattern) -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-12">
+<div class="bg-white p-6 border border-slate-200 shadow-sm flex items-center justify-between">
+<div>
+<p class="text-label-caps text-slate-400">TOTAL ORDERS</p>
+<h3 class="text-h2 mt-1">1,284</h3>
+</div>
+<div class="w-10 h-10 bg-slate-50 flex items-center justify-center rounded-full text-slate-900">
+<span class="material-symbols-outlined" data-icon="list_alt">list_alt</span>
+</div>
+</div>
+<div class="bg-white p-6 border border-slate-200 shadow-sm flex items-center justify-between">
+<div>
+<p class="text-label-caps text-slate-400">AVG. SERVICE TIME</p>
+<h3 class="text-h2 mt-1">4.2 Days</h3>
+</div>
+<div class="w-10 h-10 bg-slate-50 flex items-center justify-center rounded-full text-slate-900">
+<span class="material-symbols-outlined" data-icon="timer">timer</span>
+</div>
+</div>
+<div class="bg-white p-6 border border-slate-200 shadow-sm flex items-center justify-between">
+<div>
+<p class="text-label-caps text-slate-400">ACTIVE BAYS</p>
+<h3 class="text-h2 mt-1">14 / 16</h3>
+</div>
+<div class="w-10 h-10 bg-slate-50 flex items-center justify-center rounded-full text-slate-900">
+<span class="material-symbols-outlined" data-icon="precision_manufacturing">precision_manufacturing</span>
+</div>
+</div>
+<div class="bg-white p-6 border border-slate-200 shadow-sm flex items-center justify-between">
+<div>
+<p class="text-label-caps text-slate-400">EFFICIENCY RATE</p>
+<h3 class="text-h2 mt-1">94.8%</h3>
+</div>
+<div class="w-10 h-10 bg-slate-50 flex items-center justify-center rounded-full text-slate-900">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+</div>
+</div>
+</div>
+</main>
+</body></html>

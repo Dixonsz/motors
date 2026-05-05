@@ -5,39 +5,93 @@
 
 {% block page_actions %}
 <nav aria-label="Navegacion de recepciones">
-    <a href="{% url 'recepciones_lista' %}">Regresar</a>
+    <a
+        class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400"
+        href="{% url 'recepciones_lista' %}"
+    >
+        Regresar
+    </a>
 </nav>
 {% endblock %}
 
 {% block content %}
-{% if messages %}
-    {% for message in messages %}
-        <p>{{ message }}</p>
-    {% endfor %}
-{% endif %}
+<div class="border border-slate-200 bg-white p-6 shadow-sm">
+    <form action="" class="grid gap-6" method="post">
+        {% csrf_token %}
 
-<form action="" method="post">
-    {% csrf_token %}
+        <div class="grid gap-2">
+            <label class="text-sm font-semibold text-slate-600" for="vehiculo_id">Vehiculo</label>
+            <select class="rounded-md border-slate-200 text-sm" name="vehiculo_id" id="vehiculo_id" required>
+                <option value="">Seleccione un vehiculo</option>
+                {% for vehiculo in vehiculos %}
+                    <option value="{{ vehiculo.id }}">
+                        {{ vehiculo.placa }} - {% if vehiculo.cliente %}{{ vehiculo.cliente.nombre }}{% else %}Sin cliente{% endif %}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
 
-    <select name="vehiculo_id" required>
-        <option value="">Seleccione un vehículo</option>
-        {% for vehiculo in vehiculos %}
-            <option value="{{ vehiculo.id }}">{{ vehiculo.placa }} - {% if vehiculo.cliente %}{{ vehiculo.cliente.nombre }}{% else %}Sin cliente{% endif %}</option>
-        {% endfor %}
-    </select>
+        <div class="grid gap-2">
+            <label class="text-sm font-semibold text-slate-600" for="usuario_id">Usuario</label>
+            <select class="rounded-md border-slate-200 text-sm" name="usuario_id" id="usuario_id" required>
+                <option value="">Seleccione un usuario</option>
+                {% for usuario in usuarios %}
+                    <option value="{{ usuario.id }}">{{ usuario.nombre }} {{ usuario.apellido }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-    <select name="usuario_id" required>
-        <option value="">Seleccione un usuario</option>
-        {% for usuario in usuarios %}
-            <option value="{{ usuario.id }}">{{ usuario.nombre }} {{ usuario.apellido }}</option>
-        {% endfor %}
-    </select>
+        <div class="grid gap-4 md:grid-cols-2">
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="kilometraje">Kilometraje</label>
+                <input
+                    class="rounded-md border-slate-200 text-sm"
+                    type="number"
+                    name="kilometraje"
+                    id="kilometraje"
+                    min="0"
+                    required
+                >
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="nivel_combustible">Nivel de combustible</label>
+                <input
+                    class="rounded-md border-slate-200 text-sm"
+                    type="number"
+                    name="nivel_combustible"
+                    id="nivel_combustible"
+                    min="0"
+                    max="100"
+                    required
+                >
+                <p class="text-xs text-slate-400">Porcentaje 0-100</p>
+            </div>
+        </div>
 
-    <input type="number" name="kilometraje" required placeholder="Kilometraje" min="0">
-    <input type="number" name="nivel_combustible" required placeholder="Nivel de combustible (0-100)" min="0" max="100">
-    <textarea name="observaciones" placeholder="Observaciones"></textarea>
+        <div class="grid gap-2">
+            <label class="text-sm font-semibold text-slate-600" for="observaciones">Observaciones</label>
+            <textarea
+                class="min-h-[120px] rounded-md border-slate-200 text-sm"
+                name="observaciones"
+                id="observaciones"
+                placeholder="Observaciones"
+            ></textarea>
+        </div>
 
-    <br>
-    <button type="submit">Registrar Recepción</button>
-</form>
+        <div class="flex flex-wrap items-center justify-end gap-3">
+            <a
+                class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400"
+                href="{% url 'recepciones_lista' %}"
+            >
+                Cancelar
+            </a>
+            <button
+                class="rounded-md bg-primary px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-slate-800"
+                type="submit"
+            >
+                Registrar recepcion
+            </button>
+        </div>
+    </form>
+</div>
 {% endblock %}

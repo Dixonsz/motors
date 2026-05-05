@@ -1,39 +1,49 @@
 ﻿{% extends 'base.html' %}
-{% block title %}Editar Usuario{% endblock %}
-{% block page_title %}Editar Usuario{% endblock %}
+{% block title %}Editar Cliente{% endblock %}
+{% block page_title %}Editar Cliente{% endblock %}
 
 {% block page_actions %}
-<nav aria-label="Navegacion de usuarios">
-    <a href="{% url 'clientes_lista' %}">Regresar</a>
+<nav aria-label="Navegacion de clientes">
+    <a
+        class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400"
+        href="{% url 'clientes_lista' %}"
+    >
+        Regresar
+    </a>
 </nav>
 {% endblock %}
 
 {% block content %}
-<h1>Actualizar los datos del cliente</h1>
-    <form method="post">
+<div class="border border-slate-200 bg-white p-6 shadow-sm">
+    <h3 class="text-base font-semibold text-slate-900">Actualizar los datos del cliente</h3>
+    <form method="post" class="mt-4 grid gap-6">
         {% csrf_token %}
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" value="{{ cliente.nombre }}" required>
-        <br>
-    
-        <label for="telefono">Teléfono:</label>
-        <input type="text" id="telefono" name="telefono" value="{{ cliente.telefono }}" required>
-        <br>
-        <label for="correo">Correo:</label>
-        <input type="email" id="correo" name="correo" value="{{ cliente.correo }}" required>
-        <br>
-        <label for="cedula">Cédula:</label>
-        <input type="text" name="cedula" id="cedula" value="{{ cliente.cedula }}" required>
-        <br>
-        <label for="direccion">Dirección:</label>
-        <input type="text" name="direccion" id="direccion" value="{{ cliente.direccion }}" required>
-        <br>
-        <button type="submit">Guardar</button>
+        <div class="grid gap-4 md:grid-cols-2">
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="nombre">Nombre</label>
+                <input class="rounded-md border-slate-200 text-sm" type="text" id="nombre" name="nombre" value="{{ cliente.nombre }}" required>
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="telefono">Telefono</label>
+                <input class="rounded-md border-slate-200 text-sm" type="text" id="telefono" name="telefono" value="{{ cliente.telefono }}" required>
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="correo">Correo</label>
+                <input class="rounded-md border-slate-200 text-sm" type="email" id="correo" name="correo" value="{{ cliente.correo }}" required>
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="cedula">Cedula</label>
+                <input class="rounded-md border-slate-200 text-sm" type="text" name="cedula" id="cedula" value="{{ cliente.cedula }}" required>
+            </div>
+        </div>
+        <div class="grid gap-2">
+            <label class="text-sm font-semibold text-slate-600" for="direccion">Direccion</label>
+            <input class="rounded-md border-slate-200 text-sm" type="text" name="direccion" id="direccion" value="{{ cliente.direccion }}" required>
+        </div>
+        <div class="flex flex-wrap items-center justify-end gap-3">
+            <a class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400" href="{% url 'clientes_lista' %}">Cancelar</a>
+            <button class="rounded-md bg-primary px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-slate-800" type="submit">Guardar</button>
+        </div>
     </form>
-
-    <script>
-
-
-
-    </script>
+</div>
 {% endblock %}

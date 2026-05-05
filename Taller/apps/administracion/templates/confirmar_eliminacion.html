@@ -2,20 +2,25 @@
 
 
 {% block content %}
-   <div class="delete-confirm">
-        <h2>Confirmar Eliminación</h2>
+   <section class="max-w-xl">
+        <div class="rounded-lg border border-rose-200 bg-white p-6 shadow-sm">
+            <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-rose-500" data-icon="warning">warning</span>
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-900">Confirmar eliminacion</h3>
+                    <p class="mt-2 text-sm text-slate-500">
+                        ¿Estas seguro de que deseas eliminar
+                        <span class="font-semibold text-slate-700">{{ object_name }}</span>?
+                        Esta accion no se puede deshacer.
+                    </p>
+                </div>
+            </div>
 
-        <p>
-            ¿Estás seguro de que deseas eliminar
-            <strong>{{ object_name }}</strong>?
-            Esta acción no se puede deshacer.
-        </p>
-
-        <form action="{{confirm_url}}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
-            <a href="{{cancel_url}}" class="btn btn-secondary">Cancelar</a>
-        </form>
-
-   </div>
+            <form class="mt-6 flex flex-wrap items-center gap-3" action="{{ confirm_url }}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="bg-rose-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-rose-500">Si, eliminar</button>
+                <a href="{{ cancel_url }}" class="px-4 py-2 text-sm font-semibold text-slate-500 transition-colors hover:text-slate-700">Cancelar</a>
+            </form>
+        </div>
+   </section>
 {% endblock %}

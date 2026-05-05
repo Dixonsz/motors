@@ -5,25 +5,37 @@
 
 {% block page_actions %}
 <nav aria-label="Navegacion de ordenes">
-    <a href="{% url 'orden_detalle' detalle.orden.id %}">Regresar</a>
+    <a
+        class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400"
+        href="{% url 'orden_detalle' detalle.orden.id %}"
+    >
+        Regresar
+    </a>
 </nav>
 {% endblock %}
 
 {% block content %}
-{% if messages %}
-    {% for message in messages %}
-        <p>{{ message }}</p>
-    {% endfor %}
-{% endif %}
+<div class="border border-rose-200 bg-rose-50 p-6 shadow-sm">
+    <h3 class="text-base font-semibold text-rose-900">Confirmar eliminacion</h3>
+    <p class="mt-2 text-sm text-rose-800">
+        Esta accion eliminara el servicio <span class="font-semibold">{{ detalle.servicio.nombre }}</span>
+        de la orden <span class="font-semibold">#{{ detalle.orden.id }}</span>.
+    </p>
 
-<p>¿Está seguro que desea eliminar el servicio
-    <strong>{{ detalle.servicio.nombre }}</strong>
-    de la orden <strong>#{{ detalle.orden.id }}</strong>?
-</p>
-
-<form action="" method="post">
-    {% csrf_token %}
-    <button type="submit">Confirmar eliminación</button>
-    <a href="{% url 'orden_detalle' detalle.orden.id %}">Cancelar</a>
-</form>
+    <form action="" method="post" class="mt-6 flex flex-wrap items-center gap-3">
+        {% csrf_token %}
+        <button
+            class="rounded-md bg-rose-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-rose-700"
+            type="submit"
+        >
+            Confirmar eliminacion
+        </button>
+        <a
+            class="rounded-md border border-rose-200 bg-white px-4 py-2 text-sm font-semibold text-rose-700 transition-colors hover:border-rose-300"
+            href="{% url 'orden_detalle' detalle.orden.id %}"
+        >
+            Cancelar
+        </a>
+    </form>
+</div>
 {% endblock %}

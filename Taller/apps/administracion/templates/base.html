@@ -1,739 +1,401 @@
-﻿<!DOCTYPE html>
-<html lang="es">
-    {% block extra_head %} {% endblock %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html class="light" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>{% block title %}Taller{% endblock %}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        /* Base tokens */
-        :root {
-            --bg-0: #0b1b2b;
-            --bg-1: #102335;
-            --bg-2: #172b3f;
-            --surface: #f7f9fb;
-            --surface-muted: #eef2f6;
-            --ink: #1b2631;
-            --ink-soft: #4a5a69;
-            --line: #c7d2de;
-            --accent: #2f6fa3;
-            --accent-strong: #20557e;
-            --accent-soft: #cfe0ee;
-            --steel: #2f3a46;
-            --ok: #2e7d5b;
-            --warning: #b7771a;
-            --danger: #b3363c;
-            --radius: 12px;
-            --shadow: 0 18px 40px rgba(8, 14, 22, 0.18);
-            --shadow-soft: 0 10px 22px rgba(15, 23, 34, 0.1);
-            --font-sans: "Inter", "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
-            --font-display: "Roboto", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-        }
-
-        /* Reset and base */
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: var(--font-sans);
-            color: var(--ink);
-            background:
-                radial-gradient(circle at 12% 18%, rgba(47, 111, 163, 0.18), transparent 36%),
-                radial-gradient(circle at 88% 8%, rgba(255, 255, 255, 0.07), transparent 28%),
-                linear-gradient(155deg, var(--bg-0), var(--bg-1) 55%, var(--bg-2));
-            padding: 0;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            background-image:
-                linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-            background-size: 26px 26px;
-            opacity: 0.3;
-        }
-
-        /* Layout shell */
-        .app-shell {
-            width: 100%;
-            margin: 0;
-            display: grid;
-            grid-template-columns: 260px minmax(0, 1fr);
-            gap: 0;
-            position: relative;
-            z-index: 1;
-            min-height: 100vh;
-        }
-
-        .content-shell {
-            min-width: 0;
-        }
-
-        header,
-        main {
-            position: relative;
-            z-index: 1;
-        }
-
-        header {
-            color: #f2f5f8;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 0;
-            animation: slideDown 0.45s ease-out;
-            padding: 1.2rem 1.4rem;
-            background: linear-gradient(180deg, #203247, #1a2a3c);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5 {
-            font-family: var(--font-display);
-            letter-spacing: 0.2px;
-            margin: 0;
-        }
-
-        h1 {
-            font-size: clamp(1.8rem, 3vw, 2.45rem);
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        h2 {
-            font-size: clamp(1.3rem, 2.1vw, 1.8rem);
-            margin-bottom: 0.55rem;
-        }
-
-        .sidebar {
-            background: linear-gradient(180deg, rgba(14, 26, 40, 0.98), rgba(20, 34, 49, 0.98));
-            border-right: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 0;
-            box-shadow: 0 10px 30px rgba(10, 16, 26, 0.35);
-            padding: 1rem 0.85rem;
-            color: #f6f8fa;
-            height: 100vh;
-            overflow-y: auto;
-            position: sticky;
-            top: 0;
-        }
-
-        .sidebar h2 {
-            font-size: 1.1rem;
-            margin-bottom: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #e6edf5;
-        }
-
-        .module-nav {
-            display: grid;
-            gap: 0.45rem;
-        }
-
-        .module-group {
-            display: grid;
-            gap: 0.45rem;
-            padding-top: 0.25rem;
-            margin-top: 0.25rem;
-        }
-
-        .module-group + .module-group {
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
-            padding-top: 0.65rem;
-            margin-top: 0.45rem;
-        }
-
-        .module-group-title {
-            font-family: var(--font-display);
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            color: #9fb7cc;
-            padding: 0 0.2rem;
-        }
-
-        .module-nav a {
-            display: block;
-            padding: 0.55rem 0.65rem;
-            border-radius: 10px;
-            color: #d9e3ec;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid transparent;
-            font-family: var(--font-display);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.35px;
-            box-shadow: none;
-            transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
-        }
-
-        .module-nav a:hover {
-            color: #fff;
-            border-color: rgba(47, 111, 163, 0.55);
-            background: rgba(47, 111, 163, 0.18);
-            transform: none;
-        }
-
-        .module-nav a.active {
-            color: #0f1c2a;
-            border-color: rgba(47, 111, 163, 0.6);
-            background: linear-gradient(180deg, #d7e7f5, #9fc0dc);
-        }
-
-        /* Content surface */
-        main {
-            background: linear-gradient(160deg, #ffffff, #eef2f7);
-            border: 1px solid rgba(14, 34, 51, 0.08);
-            border-radius: 0;
-            box-shadow: var(--shadow-soft);
-            padding: clamp(1rem, 2.2vw, 1.8rem);
-            animation: fadeUp 0.55s ease-out;
-            min-height: calc(100vh - 88px);
-        }
-
-        section {
-            margin-bottom: 1.15rem;
-        }
-
-        nav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.55rem;
-        }
-
-        a {
-            color: var(--accent-strong);
-            font-weight: 600;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        a:hover {
-            color: #183a56;
-        }
-
-        /* Buttons */
-        nav a,
-        button,
-        input[type="submit"] {
-            border: 1px solid rgba(47, 111, 163, 0.45);
-            background: linear-gradient(180deg, #3c7db3, #2f6fa3);
-            color: #f4f8fb;
-            padding: 0.6rem 0.95rem;
-            border-radius: 10px;
-            font-family: var(--font-display);
-            font-weight: 700;
-            letter-spacing: 0.2px;
-            text-transform: uppercase;
-            box-shadow: 0 10px 20px rgba(20, 42, 62, 0.22);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-            cursor: pointer;
-        }
-
-        nav a:hover,
-        button:hover,
-        input[type="submit"]:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 12px 24px rgba(20, 42, 62, 0.28);
-        }
-
-        button:focus-visible,
-        input[type="submit"]:focus-visible,
-        nav a:focus-visible {
-            outline: 2px solid rgba(47, 111, 163, 0.4);
-            outline-offset: 2px;
-        }
-
-        .btn-secondary {
-            border: 1px solid #b8c6d4;
-            background: #f4f7fa;
-            color: #223548;
-            box-shadow: none;
-        }
-
-        .btn-secondary:hover {
-            background: #e8eef4;
-        }
-
-        /* Forms */
-        form {
-            display: grid;
-            gap: 0.85rem;
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-            color: var(--ink-soft);
-        }
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-            border: 1px solid var(--line);
-            border-radius: 10px;
-            padding: 0.62rem 0.75rem;
-            font: inherit;
-            background: #fff;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(47, 111, 163, 0.2);
-            background: #f9fbfd;
-        }
-
-        fieldset {
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            padding: 0.9rem;
-            background: rgba(255, 255, 255, 0.92);
-        }
-
-        legend {
-            font-family: var(--font-display);
-            font-weight: 700;
-            padding: 0 0.35rem;
-        }
-
-        /* Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border-radius: 12px;
-            overflow: hidden;
-            background: #fff;
-            border: 1px solid var(--line);
-            box-shadow: var(--shadow-soft);
-        }
-
-        caption {
-            text-align: left;
-            padding: 0.65rem 0;
-            color: var(--ink-soft);
-            font-weight: 600;
-        }
-
-        thead {
-            background: linear-gradient(180deg, #1f3144, #1a2a3b);
-            color: #f2f5f8;
-        }
-
-        th,
-        td {
-            padding: 0.65rem 0.75rem;
-            border-bottom: 1px solid #e6ebf0;
-            text-align: left;
-            vertical-align: top;
-        }
-
-        tbody tr {
-            transition: background-color 0.2s ease;
-        }
-
-        tbody tr:hover {
-            background-color: #eef3f7;
-        }
-
-        /* Action links and badges */
-        .action-links {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            flex-wrap: wrap;
-        }
-
-        .action-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            padding: 0.28rem 0.48rem;
-            border: 1px solid #d4dce4;
-            border-radius: 8px;
-            background: #f8fafc;
-            color: #25303a;
-            font-weight: 600;
-            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-        }
-
-        .action-link:hover {
-            background: #eef4fa;
-            border-color: #9cb8d1;
-            color: #1d232a;
-        }
-
-        .action-link svg {
-            width: 14px;
-            height: 14px;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            flex: 0 0 auto;
-        }
-
-        .action-link.delete {
-            border-color: #e7c4c5;
-            color: #8c1e22;
-            background: #fff7f7;
-        }
-
-        .action-link.delete:hover {
-            border-color: #d9686c;
-            background: #ffe9ea;
-            color: #6e1619;
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            padding: 0.2rem 0.55rem;
-            border-radius: 999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            background: var(--accent-soft);
-            color: #1e3b56;
-        }
-
-        .badge--success { background: #d9efe6; color: #1f5b44; }
-        .badge--warning { background: #f7ecd6; color: #7b4b0a; }
-        .badge--danger { background: #f6d9db; color: #7a1d22; }
-        .badge--info { background: #d9e7f2; color: #1c3a54; }
-
-        .fuel-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            min-width: 190px;
-        }
-
-        .fuel-gauge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.45rem;
-            min-width: 190px;
-        }
-
-        .fuel-mark {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: #55616d;
-            letter-spacing: 0.3px;
-        }
-
-        .fuel-tank {
-            position: relative;
-            width: 96px;
-            height: 18px;
-            border-radius: 10px;
-            border: 1px solid #bcc7d2;
-            background: linear-gradient(180deg, #eef2f6, #dfe6ed);
-            overflow: hidden;
-            box-shadow: inset 0 1px 3px rgba(14, 20, 28, 0.16);
-        }
-
-        .fuel-tank::after {
-            content: "";
-            position: absolute;
-            right: -5px;
-            top: 4px;
-            width: 4px;
-            height: 8px;
-            border-radius: 0 2px 2px 0;
-            border: 1px solid #bcc7d2;
-            border-left: none;
-            background: #d3dce5;
-        }
-
-        .fuel-tank::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background-image: repeating-linear-gradient(90deg, transparent 0 10px, rgba(255, 255, 255, 0.18) 10px 12px);
-            pointer-events: none;
-        }
-
-        .fuel-fill {
-            display: block;
-            height: 100%;
-            width: 1%;
-            background: linear-gradient(90deg, #d96a6f, #f0b54f, #3ea57a);
-            transition: width 0.2s ease;
-        }
-
-        .fuel-gauge.low .fuel-fill {
-            background: linear-gradient(90deg, #d63f43, #ef6a6d);
-        }
-
-        .fuel-gauge.medium .fuel-fill {
-            background: linear-gradient(90deg, #d9891e, #f2b740);
-        }
-
-        .fuel-gauge.high .fuel-fill {
-            background: linear-gradient(90deg, #2f9448, #43ba62);
-        }
-
-        .fuel-value {
-            font-weight: 700;
-            color: #2a333c;
-            min-width: 46px;
-            text-align: right;
-        }
-
-        ul {
-            margin: 0;
-            padding-left: 1.15rem;
-        }
-
-        li {
-            margin-bottom: 0.5rem;
-        }
-
-        /* Cards */
-        article,
-        .card {
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            padding: 0.9rem;
-            background: #fff;
-            margin-bottom: 0.8rem;
-            box-shadow: var(--shadow-soft);
-        }
-
-        img,
-        video {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            border: 1px solid var(--line);
-            margin: 0.45rem 0;
-        }
-
-        /* Hero / banner */
-        .hero {
-            background: linear-gradient(120deg, #1d3248, #25445f);
-            color: #f2f5f8;
-            border-radius: var(--radius);
-            padding: clamp(1.2rem, 4vw, 2.2rem);
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.18), transparent 45%);
-            pointer-events: none;
-        }
-
-        .hero-title {
-            font-size: clamp(1.6rem, 3vw, 2.4rem);
-            font-weight: 700;
-            margin-bottom: 0.6rem;
-        }
-
-        .hero-subtitle {
-            color: rgba(242, 245, 248, 0.78);
-            max-width: 52ch;
-        }
-
-        /* Footer */
-        footer {
-            padding: 1rem 1.4rem;
-            color: rgba(240, 245, 250, 0.75);
-            background: linear-gradient(180deg, #1a2b3d, #162434);
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        /* Icons */
-        .icon {
-            width: 18px;
-            height: 18px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent-strong);
-        }
-
-        section[aria-label="Mensajes del sistema"] ul {
-            list-style: none;
-            padding-left: 0;
-            margin: 0 0 1rem;
-        }
-
-        section[aria-label="Mensajes del sistema"] li {
-            border-left: 4px solid var(--ok);
-            background: #e9f3ee;
-            padding: 0.58rem 0.7rem;
-            border-radius: 0 8px 8px 0;
-            margin-bottom: 0.5rem;
-            box-shadow: var(--shadow-soft);
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-12px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 780px) {
-            body {
-                padding: 0;
-            }
-
-            .app-shell {
-                grid-template-columns: 1fr;
-                min-height: auto;
-            }
-
-            .sidebar {
-                position: static;
-                min-height: auto;
-            }
-
-            .module-nav {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            nav {
-                width: 100%;
-            }
-
-            nav a {
-                flex: 1 1 auto;
-                text-align: center;
-            }
-
-            table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
-        }
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+        vertical-align: middle;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f8fafc;
+      }
     </style>
-</head>
-<body>
-    <div class="app-shell">
-      <aside class="sidebar" aria-label="Navegacion principal">
-    <h2>Modulos</h2>
-    <nav class="module-nav" aria-label="Menu de modulos">
-
-           <div class="module-group" aria-label="Navegacion del taller">
-            <span class="module-group-title">Agenda</span>
-            <a href="{% url 'citas_calendario' %}" class="{% if request.path|slice:':7' == '/citas/calendario' %}active{% endif %}">Agenda</a>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed": "#ffdad7",
+              "on-surface": "#191c1e",
+              "on-error-container": "#93000a",
+              "surface-container-low": "#f2f4f6",
+              "outline-variant": "#c5c6cd",
+              "inverse-on-surface": "#eff1f3",
+              "surface-container-highest": "#e0e3e5",
+              "error-container": "#ffdad6",
+              "on-tertiary": "#ffffff",
+              "on-secondary-fixed-variant": "#852221",
+              "inverse-primary": "#bcc7de",
+              "tertiary-fixed-dim": "#b9c7df",
+              "surface-container-high": "#e6e8ea",
+              "on-background": "#191c1e",
+              "primary-fixed-dim": "#bcc7de",
+              outline: "#75777d",
+              "primary-fixed": "#d8e3fb",
+              "surface-container": "#eceef0",
+              "on-error": "#ffffff",
+              "on-primary-fixed": "#111c2d",
+              "secondary-fixed-dim": "#ffb3ad",
+              "on-secondary-fixed": "#410004",
+              "secondary-container": "#fe7c74",
+              secondary: "#a53936",
+              "on-tertiary-fixed": "#0d1c2e",
+              "on-tertiary-container": "#8290a6",
+              "on-primary-container": "#8590a6",
+              "surface-container-lowest": "#ffffff",
+              "inverse-surface": "#2d3133",
+              "surface-bright": "#f7f9fb",
+              tertiary: "#051426",
+              "on-tertiary-fixed-variant": "#3a485b",
+              "tertiary-fixed": "#d5e3fc",
+              "surface-dim": "#d8dadc",
+              "on-surface-variant": "#45474c",
+              "on-secondary": "#ffffff",
+              "surface-variant": "#e0e3e5",
+              "tertiary-container": "#1b293b",
+              "surface-tint": "#545f73",
+              surface: "#f7f9fb",
+              background: "#f7f9fb",
+              primary: "#091426",
+              "on-secondary-container": "#721315",
+              "on-primary-fixed-variant": "#3c475a",
+              error: "#ba1a1a",
+              "on-primary": "#ffffff",
+              "primary-container": "#1e293b",
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
+            },
+            spacing: {
+              "section-margin": "48px",
+              gutter: "24px",
+              "element-gap": "16px",
+              unit: "4px",
+              "form-row-gap": "24px",
+              "container-padding": "32px",
+            },
+            fontFamily: {
+              h2: ["Inter"],
+              h1: ["Inter"],
+              "label-caps": ["Inter"],
+              "body-lg": ["Inter"],
+              h3: ["Inter"],
+              "data-mono": ["monospace"],
+              "body-md": ["Inter"],
+            },
+            fontSize: {
+              h2: ["24px", { lineHeight: "1.3", letterSpacing: "-0.01em", fontWeight: "600" }],
+              h1: ["32px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "600" }],
+              "label-caps": ["12px", { lineHeight: "1.2", letterSpacing: "0.05em", fontWeight: "700" }],
+              "body-lg": ["16px", { lineHeight: "1.6", letterSpacing: "0em", fontWeight: "400" }],
+              h3: ["18px", { lineHeight: "1.4", letterSpacing: "0em", fontWeight: "600" }],
+              "data-mono": ["13px", { lineHeight: "1.5", letterSpacing: "0em", fontWeight: "400" }],
+              "body-md": ["14px", { lineHeight: "1.5", letterSpacing: "0em", fontWeight: "400" }],
+            },
+          },
+        },
+      };
+    </script>
+    {% block extra_head %}{% endblock %}
+  </head>
+  <body class="bg-background text-on-background min-h-screen">
+    <aside class="fixed left-0 top-0 z-50 flex h-full min-h-0 w-[260px] flex-col border-r border-slate-200 bg-slate-50">
+      <div class="flex items-center gap-3 p-8">
+        <div class="flex h-10 w-10 items-center justify-center rounded bg-primary">
+          <span class="material-symbols-outlined text-2xl text-white" data-icon="minor_crash">minor_crash</span>
         </div>
-
-        <div class="module-group" aria-label="Navegacion del taller">
-            <span class="module-group-title">Taller</span>
-            <a href="{% url 'citas_lista' %}" class="{% if request.path|slice:':7' == '/citas/' %}active{% endif %}">Citas</a>
-            <a href="{% url 'recepciones_lista' %}" class="{% if request.path|slice:':14' == '/recepciones/' %}active{% endif %}">Recepciones</a>
-            <a href="{% url 'ordenes_lista' %}" class="{% if request.path|slice:':9' == '/ordenes/' %}active{% endif %}">Órdenes</a>
+        <div>
+          <h1 class="text-xl font-black leading-none tracking-tighter text-slate-900">M&M Motors</h1>
+          <p class="mt-1 text-[10px] font-semibold uppercase tracking-widest text-slate-500">Dashboard</p>
         </div>
+      </div>
+      <nav class="mt-4 flex-1 min-h-0 overflow-y-auto pb-6">
+        <ul class="space-y-1">
+          <li class="px-6 pt-3 text-[10px] font-semibold uppercase tracking-widest text-slate-400">Agenda</li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':7' == '/citas/calendario' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'citas_calendario' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+              <span>Agenda</span>
+            </a>
+          </li>
 
-        <div class="module-group" aria-label="Navegacion operativa">
-            <span class="module-group-title">Operación</span>
-            <a href="{% url 'estados_lista' %}" class="{% if request.path|slice:':9' == '/estados/' %}active{% endif %}">Estados</a>
+          <li class="px-6 pt-4 text-[10px] font-semibold uppercase tracking-widest text-slate-400">Taller</li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':7' == '/citas/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'citas_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="event">event</span>
+              <span>Citas</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':14' == '/recepciones/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'recepciones_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+              <span>Recepciones</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':9' == '/ordenes/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'ordenes_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+              <span>Órdenes</span>
+            </a>
+          </li>
+
+          <li class="px-6 pt-4 text-[10px] font-semibold uppercase tracking-widest text-slate-400">Operación</li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':9' == '/estados/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'estados_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="flag">flag</span>
+              <span>Estados</span>
+            </a>
+          </li>
+
+          <li class="px-6 pt-4 text-[10px] font-semibold uppercase tracking-widest text-slate-400">Catálogo</li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':10' == '/clientes/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'clientes_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="group">group</span>
+              <span>Clientes</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':10' == '/vehiculos/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'vehiculos_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="directions_car">directions_car</span>
+              <span>Vehículos</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':10' == '/servicios/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'servicios_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="build">build</span>
+              <span>Servicios</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':11' == '/categorias/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'categorias_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="category">category</span>
+              <span>Categorías</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':8' == '/marcas/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'marcas_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="label">label</span>
+              <span>Marcas</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':9' == '/modelos/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'modelos_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="precision_manufacturing">precision_manufacturing</span>
+              <span>Modelos</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':13' == '/combustibles/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'combustibles_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="local_gas_station">local_gas_station</span>
+              <span>Combustibles</span>
+            </a>
+          </li>
+
+          <li class="px-6 pt-4 text-[10px] font-semibold uppercase tracking-widest text-slate-400">Administración</li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':7' == '/roles/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'roles_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="badge">badge</span>
+              <span>Roles</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':10' == '/usuarios/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'usuarios_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="person">person</span>
+              <span>Usuarios</span>
+            </a>
+          </li>
+
+          <li class="px-6 pt-4 text-[10px] font-semibold uppercase tracking-widest text-slate-400">Configuración</li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':9' == '/modulos/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'modulos_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="settings">settings</span>
+              <span>Módulos</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':11' == '/bloqueos/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'configuracion_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="tune">tune</span>
+              <span>Configuraciones</span>
+            </a>
+          </li>
+
+          <li class="px-6 pt-4 text-[10px] font-semibold uppercase tracking-widest text-slate-400">Inventario</li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':24' == '/categoria_herramientas/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'categoria_herramientas_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="category">category</span>
+              <span>Categorías</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':22' == '/estado_herramientas/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'estado_herramientas_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+              <span>Estados</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':14' == '/herramientas/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'herramientas_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="handyman">handyman</span>
+              <span>Herramientas</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':25' == '/inventario_herramientas/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'inventario_herramientas_lista' %}"
+            >
+              <span class="material-symbols-outlined" data-icon="inventory">inventory</span>
+              <span>Inventario</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="mt-auto border-t border-slate-200 p-6">
+        <a
+          class="flex items-center gap-4 text-xs font-semibold uppercase tracking-widest text-slate-500 transition-all duration-150 hover:text-error"
+          href="#"
+        >
+          <span class="material-symbols-outlined" data-icon="logout">logout</span>
+          <span>Salir</span>
+        </a>
+      </div>
+    </aside>
+
+    <header class="fixed left-[260px] right-0 top-0 z-40 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-8 shadow-sm">
+      <div class="flex flex-1 items-center">
+        <div class="relative w-full max-w-md">
+          <span
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-lg text-slate-400"
+            data-icon="search"
+            >search</span
+          >
+          <input
+            class="w-full rounded-lg border-none bg-slate-50 py-2 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-400 transition-all focus:ring-2 focus:ring-primary"
+            placeholder="Buscar ordenes, clientes o vehiculos..."
+            type="text"
+          />
         </div>
-
-        <div class="module-group" aria-label="Navegacion de catalogos">
-            <span class="module-group-title">Catálogo</span>
-            <a href="{% url 'clientes_lista' %}" class="{% if request.path|slice:':10' == '/clientes/' %}active{% endif %}">Clientes</a>
-            <a href="{% url 'vehiculos_lista' %}" class="{% if request.path|slice:':10' == '/vehiculos/' %}active{% endif %}">Vehiculos</a>
-            <a href="{% url 'servicios_lista' %}" class="{% if request.path|slice:':10' == '/servicios/' %}active{% endif %}">Servicios</a>
-            <a href="{% url 'categorias_lista' %}" class="{% if request.path|slice:':11' == '/categorias/' %}active{% endif %}">Categorías</a>
-            <a href="{% url 'marcas_lista' %}" class="{% if request.path|slice:':8' == '/marcas/' %}active{% endif %}">Marcas</a>
-            <a href="{% url 'modelos_lista' %}" class="{% if request.path|slice:':9' == '/modelos/' %}active{% endif %}">Modelos</a>
-            <a href="{% url 'combustibles_lista' %}" class="{% if request.path|slice:':13' == '/combustibles/' %}active{% endif %}">Combustibles</a>
+      </div>
+      <div class="flex items-center gap-6">
+        <div class="flex items-center gap-4 text-slate-500">
+          <button class="relative rounded-full p-2 transition-colors hover:bg-slate-50" type="button">
+            <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+            <span class="absolute right-2 top-2 h-2 w-2 rounded-full border-2 border-white bg-secondary"></span>
+          </button>
+          <button class="rounded-full p-2 transition-colors hover:bg-slate-50" type="button">
+            <span class="material-symbols-outlined" data-icon="settings">settings</span>
+          </button>
         </div>
-
-        <div class="module-group" aria-label="Navegacion de administracion">
-            <span class="module-group-title">Administración</span>
-            <a href="{% url 'roles_lista' %}" class="{% if request.path|slice:':7' == '/roles/' %}active{% endif %}">Roles</a>
-            <a href="{% url 'usuarios_lista' %}" class="{% if request.path|slice:':10' == '/usuarios/' %}active{% endif %}">Usuarios</a>
+        <div class="h-8 w-px bg-slate-200"></div>
+        <div class="flex items-center gap-3">
+          <div class="text-right">
+            {% if request.user.is_authenticated %}
+              <p class="text-sm font-bold leading-none text-slate-900">
+                {{ request.user.get_full_name|default:request.user.username }}
+              </p>
+              <p class="mt-1 text-xs text-slate-500">Cuenta activa</p>
+            {% else %}
+              <p class="text-sm font-bold leading-none text-slate-900">Administrador</p>
+              <p class="mt-1 text-xs text-slate-500">Panel</p>
+            {% endif %}
+          </div>
+          <div class="flex h-10 w-10 items-center justify-center rounded-full border-2 border-slate-100 bg-slate-200 text-slate-600">
+            <span class="material-symbols-outlined" data-icon="person">person</span>
+          </div>
         </div>
+      </div>
+    </header>
 
-        <div class="module-group" aria-label="Navegacion de configuracion">
-            <span class="module-group-title">Configuración</span>
-            <a href="{% url 'modulos_lista' %}" class="{% if request.path|slice:':9' == '/modulos/' %}active{% endif %}">Módulos</a>
-            <a href="{% url 'bloqueos_lista'  %}" class="{% if request.path|slice:':11' == '/bloqueos/' %}active{% endif %}">Configuraciones</a>
+    <main class="ml-[260px] min-h-screen p-8 pt-16">
+      <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h2 class="font-h1 text-h1 text-slate-900">{% block page_title %}Taller{% endblock %}</h2>
+          {% block page_subtitle %}{% endblock %}
         </div>
+        <div class="flex items-center gap-3">{% block page_actions %}{% endblock %}</div>
+      </div>
 
-        <div class="module-group" aria-label="Navegacion de inventario">
-            <span class="module-group-title">Inventario de Herramientas</span>
-            <a href="{% url 'categoria_herramientas_lista' %}" class="{% if request.path|slice:':11' == '/categorias_herramienta/' %}active{% endif %}">Categorías</a>
-            <a href="{% url 'estado_herramientas_lista' %}" class="{% if request.path|slice:':11' == '/estados_herramientas/' %}active{% endif %}">Estados</a>
-            <a href="{% url 'herramientas_lista' %}" class="{% if request.path|slice:':13' == '/herramientas/' %}active{% endif %}">Herramientas</a>
-            <a href="{% url 'inventario_herramientas_lista' %}" class="{% if request.path|slice:':20' == '/inventario_herramientas/' %}active{% endif %}">Inventario</a>
+      {% if messages %}
+        <div class="mb-6 space-y-2">
+          {% for message in messages %}
+            <div class="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
+              {{ message }}
+            </div>
+          {% endfor %}
         </div>
+      {% endif %}
 
-    </nav>
-</aside>
-
-        <div class="content-shell">
-            <header>
-                <h1>{% block page_title %}Taller{% endblock %}</h1>
-                {% block page_actions %}{% endblock %}
-            </header>
-
-            <main>
-                {% if messages %}
-                    <section aria-label="Mensajes del sistema">
-                        <ul>
-                            {% for message in messages %}
-                                <li>{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                    </section>
-                {% endif %}
-
-                {% block content %}{% endblock %}
-            </main>
-        </div>
-    </div>
-</body>
+      {% block content %}{% endblock %}
+    </main>
+  </body>
 </html>

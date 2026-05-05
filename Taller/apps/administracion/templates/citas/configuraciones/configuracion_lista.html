@@ -1,67 +1,72 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h4>Bloqueos del calendario</h4>
-  <div class="d-flex gap-2">
-    <a href="{% url 'citas_calendario' %}" class="btn btn-outline-secondary">Ver calendario</a>
-    <a href="{% url 'bloqueos_crear' %}" class="btn btn-primary">Nuevo bloqueo</a>
+<div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+  <div>
+    <h3 class="text-lg font-semibold text-slate-900">Bloqueos del calendario</h3>
+    <p class="mt-1 text-sm text-slate-500">Controla las reglas y bloqueos del calendario.</p>
+  </div>
+  <div class="flex flex-wrap items-center gap-3">
+    <a class="flex items-center gap-2 border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-600 transition-all hover:border-slate-400" href="{% url 'citas_calendario' %}">
+      <span class="material-symbols-outlined text-base" data-icon="calendar_month">calendar_month</span>
+      Ver calendario
+    </a>
+    <a class="flex items-center gap-2 bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition-all hover:bg-slate-700" href="{% url 'configuracion_crear' %}">
+      <span class="material-symbols-outlined text-base" data-icon="add">add</span>
+      Nueva configuración 
+    </a>
   </div>
 </div>
 
-{% if messages %}
-  {% for msg in messages %}
-    <div class="alert alert-{{ msg.tags }}">{{ msg }}</div>
-  {% endfor %}
-{% endif %}
-
-<div class="card">
-  <div class="card-body p-0">
-    <table class="table table-hover mb-0">
-      <thead class="table-light">
+<div class="overflow-hidden border border-slate-200 bg-white shadow-sm">
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead class="bg-slate-900 text-xs uppercase tracking-widest text-white">
         <tr>
-          <th>Tipo</th>
-          <th>Fecha inicio</th>
-          <th>Fecha fin</th>
-          <th>Horario</th>
-          <th>Recurrencia</th>
-          <th>Capacidad máx.</th>
-          <th>Motivo</th>
-          <th>Estado</th>
-          <th></th>
+          <th class="px-4 py-3 text-left">Tipo</th>
+          <th class="px-4 py-3 text-left">Fecha inicio</th>
+          <th class="px-4 py-3 text-left">Fecha fin</th>
+          <th class="px-4 py-3 text-left">Horario</th>
+          <th class="px-4 py-3 text-left">Recurrencia</th>
+          <th class="px-4 py-3 text-left">Capacidad max.</th>
+          <th class="px-4 py-3 text-left">Motivo</th>
+          <th class="px-4 py-3 text-left">Estado</th>
+          <th class="px-4 py-3 text-left">Acciones</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="divide-y divide-slate-100">
         {% for b in bloqueos %}
-        <tr>
-          <td>{{ b.get_tipo_display }}</td>
-          <td>{{ b.fecha_inicio }}</td>
-          <td>{{ b.fecha_fin|default:"—" }}</td>
-          <td>
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">{{ b.get_tipo_display }}</td>
+          <td class="px-4 py-3">{{ b.fecha_inicio }}</td>
+          <td class="px-4 py-3">{{ b.fecha_fin|default:"-" }}</td>
+          <td class="px-4 py-3">
             {% if b.hora_inicio %}
-              {{ b.hora_inicio }} – {{ b.hora_fin }}
+              {{ b.hora_inicio }} - {{ b.hora_fin }}
             {% else %}
-              Todo el día
+              Todo el dia
             {% endif %}
           </td>
-          <td>{{ b.get_recurrencia_display }}</td>
-          <td>{{ b.capacidad_maxima|default:"Bloqueado" }}</td>
-          <td>{{ b.motivo|default:"—" }}</td>
-          <td>
+          <td class="px-4 py-3">{{ b.get_recurrencia_display }}</td>
+          <td class="px-4 py-3">{{ b.capacidad_maxima|default:"Bloqueado" }}</td>
+          <td class="px-4 py-3">{{ b.motivo|default:"-" }}</td>
+          <td class="px-4 py-3">
             {% if b.activo %}
-              <span class="badge bg-success">Activo</span>
+              <span class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">Activo</span>
             {% else %}
-              <span class="badge bg-secondary">Inactivo</span>
+              <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">Inactivo</span>
             {% endif %}
           </td>
-          <td class="text-end">
-            <a href="{% url 'bloqueos_editar' b.id %}" class="btn btn-sm btn-outline-primary">Editar</a>
-            <a href="{% url 'bloqueos_eliminar' b.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+          <td class="px-4 py-3">
+            <div class="flex flex-wrap items-center gap-2">
+              <a class="rounded-md border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:border-slate-400" href="{% url 'configuracion_editar' b.id %}">Editar</a>
+              <a class="rounded-md border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 transition-colors hover:border-rose-300" href="{% url 'configuracion_eliminar' b.id %}">Eliminar</a>
+            </div>
           </td>
         </tr>
         {% empty %}
         <tr>
-          <td colspan="9" class="text-center text-muted py-4">No hay bloqueos registrados.</td>
+          <td class="px-4 py-6 text-center text-sm text-slate-500" colspan="9">No hay configuraciones registradas.</td>
         </tr>
         {% endfor %}
       </tbody>

@@ -3,35 +3,52 @@
 {% block page_title %}Editar Servicio{% endblock %}
 
 {% block page_actions %}
-<nav aria-label="Navegacion de usuarios">
-    <a href="{% url 'servicios_lista' %}">Regresar</a>
+<nav aria-label="Navegacion de servicios">
+    <a
+        class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400"
+        href="{% url 'servicios_lista' %}"
+    >
+        Regresar
+    </a>
 </nav>
 {% endblock %}
 
 {% block content %}
-<h1>Editar Servicio</h1>
-    <form method="post">
+<div class="border border-slate-200 bg-white p-6 shadow-sm">
+    <h3 class="text-base font-semibold text-slate-900">Editar servicio</h3>
+    <form method="post" class="mt-4 grid gap-6">
         {% csrf_token %}
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" value="{{ servicio.nombre }}" required>
-        <br>
-        <label for="descripcion">Descripción:</label>
-        <input type="text" id="descripcion" name="descripcion" value="{{ servicio.descripcion }}" required>
-        <br>
-        <label for="categoria_id">Categoría:</label>
-        <select id="categoria_id" name="categoria_id" required>
-            <option value="">Seleccione una categoría</option>
-            {% for categoria in categorias %}
-                <option value="{{ categoria.id }}" {% if servicio.categoria_servicio_id == categoria.id %}selected{% endif %}>{{ categoria.nombre }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <label for="precio_base">Precio Base:</label>
-        <input type="number" id="precio_base" name="precio_base" value="{{ servicio.precio_base }}" step="0.01" required>
-        <br>
-        <label for="duracion_estimada">Duración estimada (HH:MM):</label>
-        <input type="time" id="duracion_estimada" name="duracion_estimada" value="{{ servicio.duracion_hhmm }}" step="60" required>
-        <br>
-        <button type="submit">Guardar</button>
+        <div class="grid gap-4 md:grid-cols-2">
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="nombre">Nombre</label>
+                <input class="rounded-md border-slate-200 text-sm" type="text" id="nombre" name="nombre" value="{{ servicio.nombre }}" required>
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="categoria_id">Categoria</label>
+                <select class="rounded-md border-slate-200 text-sm" id="categoria_id" name="categoria_id" required>
+                    <option value="">Seleccione una categoria</option>
+                    {% for categoria in categorias %}
+                        <option value="{{ categoria.id }}" {% if servicio.categoria_servicio_id == categoria.id %}selected{% endif %}>{{ categoria.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="grid gap-2 md:col-span-2">
+                <label class="text-sm font-semibold text-slate-600" for="descripcion">Descripcion</label>
+                <input class="rounded-md border-slate-200 text-sm" type="text" id="descripcion" name="descripcion" value="{{ servicio.descripcion }}" required>
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="precio_base">Precio base</label>
+                <input class="rounded-md border-slate-200 text-sm" type="number" id="precio_base" name="precio_base" value="{{ servicio.precio_base }}" step="0.01" required>
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-semibold text-slate-600" for="duracion_estimada">Duracion estimada</label>
+                <input class="rounded-md border-slate-200 text-sm" type="time" id="duracion_estimada" name="duracion_estimada" value="{{ servicio.duracion_hhmm }}" step="60" required>
+            </div>
+        </div>
+        <div class="flex flex-wrap items-center justify-end gap-3">
+            <a class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400" href="{% url 'servicios_lista' %}">Cancelar</a>
+            <button class="rounded-md bg-primary px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-slate-800" type="submit">Guardar</button>
+        </div>
     </form>
+</div>
 {% endblock %}
