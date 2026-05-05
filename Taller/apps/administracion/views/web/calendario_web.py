@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from ...services.calendario_cita_service import CalendarioService
+from ...services.configuracion_calendario_service import ConfiguracionCalendarioService
 from django.http import JsonResponse
 
 
@@ -8,8 +9,9 @@ def calendario_view(request):
 
 
 def citas_calendario(request):
-    eventos = CalendarioService.get_eventos_calendario()
-    return JsonResponse(eventos, safe=False)
+    eventos  = CalendarioService.get_eventos_calendario()
+    bloqueos = ConfiguracionCalendarioService.get_bloqueos_para_calendario()
+    return JsonResponse(eventos + bloqueos, safe=False)
 
 
 def calendario_form_data(request):
