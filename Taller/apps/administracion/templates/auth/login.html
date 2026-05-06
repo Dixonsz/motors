@@ -1,126 +1,230 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<style>.material-symbols-outlined {
-    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24
-    }
-.bg-luxury-blur {
-    background-image: linear-gradient(rgba(247, 249, 251, 0.92), rgba(247, 249, 251, 0.92)), url(https://lh3.googleusercontent.com/aida-public/AB6AXuCmVNRW5GdZW2NVKZaC8PRJQRgLDhKPKdw_m9K5HvyMiJrsZnYnHVExUzpdh01vIT8b9kMs6frElbHsPQsakPItPDw7dtpkbBjq1L--NE6yV2lNZ7kilPZCn232TI9uOvprx2QaYfBAVI7C5Iiyg7rHAYKb5FADHdV9AYKaw_tDzYJVNXu2D4Qv6wC_4EQ_KemtMFDFXeQ0GYcyEgBPynTb6SgQQdNc18xobMpvq7faU98iGAHvZBsvlg8RVJy7AjGRq412ptnzCgFk);
-    background-size: cover;
-    background-position: center
-    }</style>
-<script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "primary": "#2563EB",
-                      "tertiary-container": "#1E293B",
-                      "on-primary": "#ffffff",
-                      "on-background": "#1E293B",
-                      "on-surface": "#1E293B",
-                      "on-surface-variant": "#64748B",
-                      "outline": "#CBD5E1",
-                      "outline-variant": "#E2E8F0",
-                      "background": "#EFF6FF",
-                      "surface": "#F8FAFC",
-                      "surface-container-low": "#F1F5F9",
-                      "surface-container-lowest": "#FFFFFF",
-                      "surface-variant": "#E2E8F0",
-                      "inverse-surface": "#0F172A",
-                      "inverse-on-surface": "#F8FAFC",
-                      "primary-container": "#DBEAFE",
-                      "on-primary-container": "#1E40AF"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.125rem",
-                      "lg": "0.25rem",
-                      "xl": "0.5rem",
-                      "full": "0.75rem"
-              },
-              "spacing": {
-                      "section-margin": "48px",
-                      "gutter": "24px",
-                      "container-padding": "32px",
-                      "unit": "4px",
-                      "form-row-gap": "24px",
-                      "element-gap": "16px"
-              },
-              "fontFamily": {
-                      "body-lg": ["Inter"],
-                      "h1": ["Inter"],
-                      "data-mono": ["monospace"],
-                      "h2": ["Inter"],
-                      "label-caps": ["Inter"],
-                      "h3": ["Inter"],
-                      "body-md": ["Inter"]
-              },
-              "fontSize": {
-                      "body-lg": ["16px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
-                      "h1": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
-                      "data-mono": ["13px", {"lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400"}],
-                      "h2": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
-                      "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
-                      "h3": ["18px", {"lineHeight": "1.4", "letterSpacing": "0em", "fontWeight": "600"}],
-                      "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400"}]
-              }
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .bg-luxury-blur {
+        background-image:
+          linear-gradient(rgba(247, 249, 251, 0.92), rgba(247, 249, 251, 0.92)),
+          url(https://lh3.googleusercontent.com/aida-public/AB6AXuCmVNRW5GdZW2NVKZaC8PRJQRgLDhKPKdw_m9K5HvyMiJrsZnYnHVExUzpdh01vIT8b9kMs6frElbHsPQsakPItPDw7dtpkbBjq1L--NE6yV2lNZ7kilPZCn232TI9uOvprx2QaYfBAVI7C5Iiyg7rHAYKb5FADHdV9AYKaw_tDzYJVNXu2D4Qv6wC_4EQ_KemtMFDFXeQ0GYcyEgBPynTb6SgQQdNc18xobMpvq7faU98iGAHvZBsvlg8RVJy7AjGRq412ptnzCgFk);
+        background-size: cover;
+        background-position: center;
+      }
+    </style>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#2563EB",
+              "tertiary-container": "#1E293B",
+              "on-primary": "#ffffff",
+              "on-background": "#1E293B",
+              "on-surface": "#1E293B",
+              "on-surface-variant": "#64748B",
+              outline: "#CBD5E1",
+              "outline-variant": "#E2E8F0",
+              background: "#EFF6FF",
+              surface: "#F8FAFC",
+              "surface-container-low": "#F1F5F9",
+              "surface-container-lowest": "#FFFFFF",
+              "surface-variant": "#E2E8F0",
+              "inverse-surface": "#0F172A",
+              "inverse-on-surface": "#F8FAFC",
+              "primary-container": "#DBEAFE",
+              "on-primary-container": "#1E40AF",
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
+            },
+            spacing: {
+              "section-margin": "48px",
+              gutter: "24px",
+              "container-padding": "32px",
+              unit: "4px",
+              "form-row-gap": "24px",
+              "element-gap": "16px",
+            },
+            fontFamily: {
+              "body-lg": ["Inter"],
+              h1: ["Inter"],
+              "data-mono": ["monospace"],
+              h2: ["Inter"],
+              "label-caps": ["Inter"],
+              h3: ["Inter"],
+              "body-md": ["Inter"],
+            },
+            fontSize: {
+              "body-lg": [
+                "16px",
+                { lineHeight: "1.6", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              h1: [
+                "32px",
+                {
+                  lineHeight: "1.2",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "data-mono": [
+                "13px",
+                { lineHeight: "1.5", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              h2: [
+                "24px",
+                {
+                  lineHeight: "1.3",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "label-caps": [
+                "12px",
+                {
+                  lineHeight: "1.2",
+                  letterSpacing: "0.05em",
+                  fontWeight: "700",
+                },
+              ],
+              h3: [
+                "18px",
+                { lineHeight: "1.4", letterSpacing: "0em", fontWeight: "600" },
+              ],
+              "body-md": [
+                "14px",
+                { lineHeight: "1.5", letterSpacing: "0em", fontWeight: "400" },
+              ],
             },
           },
-        }
+        },
+      };
     </script>
-</head>
-<body class="bg-background font-body-md text-on-background selection:bg-primary-fixed selection:text-primary">
-<main class="min-h-screen flex flex-col items-center justify-center p-gutter bg-luxury-blur" data-alt="A blurred, high-end luxury automotive workshop at dusk, featuring pristine white floors and architectural steel elements. The lighting is sophisticated, with soft overhead glows reflecting off the polished surfaces of high-performance vehicles. The atmosphere is quiet, professional, and meticulously clean, emphasizing engineering excellence and an elite corporate identity. Cool gray and deep navy tones dominate the palette to maintain a sober, premium aesthetic.">
-<div class="w-full max-w-[440px] flex flex-col gap-element-gap">
-<!-- Brand Identity -->
-<div class="flex flex-col items-center gap-unit mb-unit">
-<span class="font-h1 text-h1 text-primary tracking-tighter uppercase mb-unit">M&M Motors</span>
-</div>
-<!-- Login Card -->
-<section class="bg-surface-container-lowest border border-outline-variant p-container-padding shadow-[0_4px_6px_-1px_rgba(15,23,42,0.05),0_2px_4px_-2px_rgba(15,23,42,0.03)] flex flex-col gap-form-row-gap">
-<div class="flex flex-col gap-unit">
-<h2 class="font-h2 text-h2 text-primary">Iniciar Sesión</h2>
-</div>
-<form class="flex flex-col gap-form-row-gap" onsubmit="return false;">
-<!-- Email Field -->
-<div class="flex flex-col gap-unit">
-<label class="font-label-caps text-label-caps text-on-surface-variant" for="email">Usuario</label>
-<div class="relative flex items-center">
-<span class="material-symbols-outlined absolute left-3 text-outline text-[20px]">
-account_circle
-</span><input class="w-full pl-10 pr-4 py-3 bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 transition-colors font-body-md text-on-surface placeholder:text-outline/50 outline-none" id="email" name="email" placeholder="Ingrese su usuario" type="text"/>
-</div>
-</div>
-<!-- Password Field -->
-<div class="flex flex-col gap-unit">
-<div class="flex justify-between items-center">
-<label class="font-label-caps text-label-caps text-on-surface-variant" for="password">Contraseña</label>
-<a class="font-label-caps text-label-caps text-primary hover:underline underline-offset-4 transition-all" href="{% url 'recover_account' %}">¿Olvidaste tu contraseña?</a>
-</div>
-<div class="relative flex items-center">
-<span class="material-symbols-outlined absolute left-3 text-outline text-[20px]" data-icon="lock">lock</span>
-<input class="w-full pl-10 pr-4 py-3 bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 transition-colors font-body-md text-on-surface placeholder:text-outline/50 outline-none" id="password" name="password" placeholder="Ingrese su contraseña" type="password"/>
-</div>
-</div>
-<!-- Action Button -->
-<button class="w-full bg-primary text-on-primary py-4 px-container-padding font-label-caps text-label-caps uppercase tracking-widest hover:bg-tertiary-container active:scale-[0.98] transition-all duration-200" type="submit">
-                        Iniciar Sesión para continuar
-                    </button>
-</form>
-</section>
-<!-- Footer Note -->
-<footer class="flex flex-col items-center gap-unit mt-unit">
-<p class="font-label-caps text-label-caps text-outline text-center">
-                    © 2026 M&M Motors. Derechos reservados.
-                </p>
-</footer>
-</div>
-</main>
-</body></html>
+  </head>
+  <body
+    class="bg-background font-body-md text-on-background selection:bg-primary-fixed selection:text-primary"
+  >
+    <main
+      class="min-h-screen flex flex-col items-center justify-center p-gutter bg-luxury-blur"
+      data-alt="A blurred, high-end luxury automotive workshop at dusk, featuring pristine white floors and architectural steel elements. The lighting is sophisticated, with soft overhead glows reflecting off the polished surfaces of high-performance vehicles. The atmosphere is quiet, professional, and meticulously clean, emphasizing engineering excellence and an elite corporate identity. Cool gray and deep navy tones dominate the palette to maintain a sober, premium aesthetic."
+    >
+      <div class="w-full max-w-[440px] flex flex-col gap-element-gap">
+        <!-- Brand Identity -->
+        <div class="flex flex-col items-center gap-unit mb-unit">
+          <span
+            class="font-h1 text-h1 text-primary tracking-tighter uppercase mb-unit"
+            >M&M Motors</span
+          >
+        </div>
+        <!-- Login Card -->
+        <section
+          class="bg-surface-container-lowest border border-outline-variant p-container-padding shadow-[0_4px_6px_-1px_rgba(15,23,42,0.05),0_2px_4px_-2px_rgba(15,23,42,0.03)] flex flex-col gap-form-row-gap"
+        >
+          <div class="flex flex-col gap-unit">
+            <h2 class="font-h2 text-h2 text-primary">Iniciar Sesión</h2>
+          </div>
+          <form
+            class="flex flex-col gap-form-row-gap"
+            method="post"
+            action="{% url 'login' %}"
+          >
+            {% csrf_token %}
+            <!-- Username Field -->
+            <div class="flex flex-col gap-unit">
+              <label
+                class="font-label-caps text-label-caps text-on-surface-variant"
+                for="username"
+                >Usuario</label
+              >
+              <div class="relative flex items-center">
+                <span
+                  class="material-symbols-outlined absolute left-3 text-outline text-[20px]"
+                >
+                  account_circle </span
+                ><input
+                  class="w-full pl-10 pr-4 py-3 bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 transition-colors font-body-md text-on-surface placeholder:text-outline/50 outline-none"
+                  id="username"
+                  name="username"
+                  placeholder="Ingrese su usuario"
+                  type="text"
+                />
+              </div>
+            </div>
+            <!-- Password Field -->
+            <div class="flex flex-col gap-unit">
+              <div class="flex justify-between items-center">
+                <label
+                  class="font-label-caps text-label-caps text-on-surface-variant"
+                  for="password"
+                  >Contraseña</label
+                >
+                <a
+                  class="font-label-caps text-label-caps text-primary hover:underline underline-offset-4 transition-all"
+                  href="{% url 'recover_account' %}"
+                  >¿Olvidaste tu contraseña?</a
+                >
+              </div>
+              <div class="relative flex items-center">
+                <span
+                  class="material-symbols-outlined absolute left-3 text-outline text-[20px]"
+                  data-icon="lock"
+                  >lock</span
+                >
+                <input
+                  class="w-full pl-10 pr-4 py-3 bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 transition-colors font-body-md text-on-surface placeholder:text-outline/50 outline-none"
+                  id="password"
+                  name="password"
+                  placeholder="Ingrese su contraseña"
+                  type="password"
+                />
+              </div>
+            </div>
+            <!-- Action Button -->
+            <button
+              class="w-full bg-primary text-on-primary py-4 px-container-padding font-label-caps text-label-caps uppercase tracking-widest hover:bg-tertiary-container active:scale-[0.98] transition-all duration-200"
+              type="submit"
+            >
+              Iniciar Sesión para continuar
+            </button>
+
+            {% if form.non_field_errors %} 
+            <p class="text-error font-label-caps text-label-caps text-center">{{ form.non_field_errors.0 }}</p>
+            {% endif %}
+          </form>
+        </section>
+        <!-- Footer Note -->
+        <footer class="flex flex-col items-center gap-unit mt-unit">
+          <p class="font-label-caps text-label-caps text-outline text-center">
+            © 2026 M&M Motors. Derechos reservados.
+          </p>
+        </footer>
+      </div>
+    </main>
+  </body>
+</html>

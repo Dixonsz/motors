@@ -27,7 +27,9 @@ from apps.administracion.views.web.usuario_web import usuario_lista, usuario_cre
 from apps.administracion.views.web.calendario_web import calendario_view, citas_calendario, calendario_form_data, calendario_vehiculos_por_cliente
 from apps.administracion.views.web.configuracion_calendario_web import configuracion_lista, configuracion_create, configuracion_editar, configuracion_eliminar
 from apps.administracion.views.web.auth_web import login_view, recover_account_view, reset_password_view
+
 from apps.administracion.views.api.calendario_view import CalendarioApiView
+from apps.administracion.views.api.auth_view import login_api
 
 calendario_api = CalendarioApiView()
 
@@ -36,6 +38,7 @@ router = DefaultRouter()
 urlpatterns = [
     path('', inicio, name='inicio'),    
     path('login/', login_view, name='login'),
+    path('api/login/', login_api, name='api_login'),
     path('recover_account/', recover_account_view, name='recover_account'),
     path('reset_password/', reset_password_view, name='reset_password'),
     
