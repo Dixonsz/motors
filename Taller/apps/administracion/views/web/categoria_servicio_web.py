@@ -2,8 +2,10 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from ...services.categoria_servicio_service import CategoriaServicioService
+from ...security import access_required
 
 
+@access_required("Servicios", "ver")
 def categoria_lista(request):
     categorias = CategoriaServicioService.get_all_categorias()
     paginator = Paginator(categorias, 10)
@@ -12,6 +14,7 @@ def categoria_lista(request):
 
     return render(request, 'categoria_servicios/categoria_servicios_lista.html', {'categorias': categorias})
 
+@access_required("Servicios", "crear")
 def categoria_create(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -27,6 +30,7 @@ def categoria_create(request):
 
     return render(request, 'categoria_servicios/categoria_servicios_crear.html')
 
+@access_required("Servicios", "editar")
 def categoria_editar(request, categoria_id):
     categoria = CategoriaServicioService.get_categoria_by_id(categoria_id)
     if not categoria:
@@ -47,6 +51,7 @@ def categoria_editar(request, categoria_id):
 
     return render(request, 'categoria_servicios/categoria_servicios_editar.html', {'categoria': categoria})
 
+@access_required("Servicios", "eliminar")
 def categoria_eliminar(request, categoria_id):
     categoria = CategoriaServicioService.get_categoria_by_id(categoria_id)
     if not categoria:

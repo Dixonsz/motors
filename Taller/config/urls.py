@@ -26,7 +26,7 @@ from apps.administracion.views.web.orden_servicio_detalle_web import detalle_cre
 from apps.administracion.views.web.usuario_web import usuario_lista, usuario_create, usuario_editar,usuario_cambiar_password,usuario_activar_desactivar
 from apps.administracion.views.web.calendario_web import calendario_view, citas_calendario, calendario_form_data, calendario_vehiculos_por_cliente
 from apps.administracion.views.web.configuracion_calendario_web import configuracion_lista, configuracion_create, configuracion_editar, configuracion_eliminar
-from apps.administracion.views.web.auth_web import login_view, recover_account_view, reset_password_view
+from apps.administracion.views.web.auth_web import login_view, recover_account_view, reset_password_view, logout_view
 
 from apps.administracion.views.api.calendario_view import CalendarioApiView
 from apps.administracion.views.api.auth_view import login_api
@@ -41,6 +41,7 @@ urlpatterns = [
     path('api/login/', login_api, name='api_login'),
     path('recover_account/', recover_account_view, name='recover_account'),
     path('reset_password/', reset_password_view, name='reset_password'),
+    path('logout/', logout_view, name='logout'),
     
     path('clientes/', cliente_lista, name='clientes_lista'),
     path('clientes/crear/', cliente_create, name='clientes_crear'),

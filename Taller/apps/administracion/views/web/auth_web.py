@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from ...forms import LoginForm
 from ...services.auth_service import AuthService
+from ...security import access_required
 
 
 def login_view(request):
@@ -18,6 +19,11 @@ def login_view(request):
         else:
             form.add_error(None, service["message"])
     return render(request, 'auth/login.html', {'form': form})
+
+@access_required()
+def logout_view(request):
+    AuthService.logout_user(request)
+    return redirect('login')
 
 
 def recover_account_view(request):

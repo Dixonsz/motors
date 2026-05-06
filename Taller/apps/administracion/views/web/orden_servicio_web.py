@@ -6,8 +6,10 @@ from ...services.orden_servicio_service import OrdenServicioService
 from ...services.recepcion_service import RecepcionService
 from ...services.usuario_service import UsuarioService
 from ...services.estado_service import EstadoService
+from ...security import access_required
 
 
+@access_required("Ordenes", "ver")
 def orden_lista(request):
     ordenes = OrdenServicioService.get_all_ordenes_servicio()
     paginator = Paginator(ordenes, 10)
@@ -16,6 +18,7 @@ def orden_lista(request):
     return render(request, 'ordenes/ordenes_lista.html', {'ordenes': ordenes})
 
 
+@access_required("Ordenes", "ver")
 def orden_detalle(request, orden_id):
     orden = OrdenServicioService.get_orden_servicio_by_id(orden_id)
     if not orden:
@@ -29,6 +32,7 @@ def orden_detalle(request, orden_id):
     })
 
 
+@access_required("Ordenes", "crear")
 def orden_create(request):
     if request.method == 'POST':
         try:
@@ -55,6 +59,7 @@ def orden_create(request):
     })
 
 
+@access_required("Ordenes", "editar")
 def orden_editar(request, orden_id):
     orden = OrdenServicioService.get_orden_servicio_by_id(orden_id)
     if not orden:
@@ -85,6 +90,7 @@ def orden_editar(request, orden_id):
     })
 
 
+@access_required("Ordenes", "editar")
 def orden_cerrar(request, orden_id):
     orden = OrdenServicioService.get_orden_servicio_by_id(orden_id)
     if not orden:
@@ -102,6 +108,7 @@ def orden_cerrar(request, orden_id):
     return render(request, 'ordenes/ordenes_cerrar.html', {'orden': orden})
 
 
+@access_required("Ordenes", "eliminar")
 def orden_eliminar(request, orden_id):
     orden = OrdenServicioService.get_orden_servicio_by_id(orden_id)
     if not orden:

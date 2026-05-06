@@ -3,7 +3,9 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from ...services.cliente_service import ClienteService
+from ...security import access_required
 
+@access_required("Clientes", "ver")
 def cliente_lista(request):
     clientes = ClienteService.get_all_clientes().order_by('id')
     paginator = Paginator(clientes, 10)
@@ -12,6 +14,7 @@ def cliente_lista(request):
 
     return render(request, 'clientes/clientes_lista.html', {'clientes': clientes})
 
+@access_required("Clientes", "crear")
 def cliente_create(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -29,6 +32,7 @@ def cliente_create(request):
 
     return render(request, 'clientes/clientes_crear.html')
 
+@access_required("Clientes", "editar")
 def cliente_editar(request, cliente_id):
     cliente = ClienteService.get_cliente_by_id(cliente_id)
     if not cliente:
@@ -51,6 +55,7 @@ def cliente_editar(request, cliente_id):
 
     return render(request, 'clientes/clientes_editar.html', {'cliente': cliente})
 
+@access_required("Clientes", "eliminar")
 def cliente_eliminar(request, cliente_id):
     cliente = ClienteService.get_cliente_by_id(cliente_id)
     if not cliente:
@@ -68,6 +73,7 @@ def cliente_eliminar(request, cliente_id):
     return render(request, 'clientes/clientes_eliminar.html', {'cliente_id': cliente_id})
 
 
+@access_required("Clientes", "ver")
 def cliente_detalle_json(request, cliente_id):
     cliente = ClienteService.get_cliente_by_id(cliente_id)
     if not cliente:

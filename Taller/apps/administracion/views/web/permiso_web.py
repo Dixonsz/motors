@@ -5,8 +5,10 @@ from django.urls import reverse
 from ...services.permiso_service import PermisoService
 from ...services.modulo_service import ModuloService
 from ...services.rol_service import RolService
+from ...security import access_required
 
 
+@access_required("Roles", "ver")
 def permiso_lista(request):
     permisos = PermisoService.get_all_permisos()
 
@@ -18,6 +20,7 @@ def permiso_lista(request):
         'permisos': permisos,
     })
 
+@access_required("Roles", "ver")
 def rol_permiso_lista(request, rol_id):
     rol = RolService.get_rol_by_id(rol_id)
     permisos = PermisoService.get_all_permisos()
@@ -31,6 +34,7 @@ def rol_permiso_lista(request, rol_id):
         'rol': rol,
     })
 
+@access_required("Roles", "crear")
 def permiso_create(request):
     if request.method == 'POST':
         modulo_id = request.POST.get('modulo_id')
@@ -46,6 +50,7 @@ def permiso_create(request):
     return render(request, 'roles/permisos_crear.html', {'modulos': modulos})
 
 
+@access_required("Roles", "eliminar")
 def permiso_eliminar(request, permiso_id):
     permiso = PermisoService.get_permiso_by_id(permiso_id)
     if not permiso:

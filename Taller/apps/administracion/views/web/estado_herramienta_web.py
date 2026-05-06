@@ -3,8 +3,10 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.estado_herramienta_service import EstadoHerramientaService
+from ...security import access_required
 
 
+@access_required("Herramientas", "ver")
 def estado_herramienta_lista(request):
     estados = EstadoHerramientaService.get_all_estados()
     paginator = Paginator(estados, 10)
@@ -13,6 +15,7 @@ def estado_herramienta_lista(request):
 
     return render(request, 'estado_herramientas/estado_herramientas_lista.html', {'estados': estados})
 
+@access_required("Herramientas", "crear")
 def estado_herramienta_create(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -27,6 +30,7 @@ def estado_herramienta_create(request):
 
     return render(request, 'estado_herramientas/estado_herramientas_crear.html')
 
+@access_required("Herramientas", "editar")
 def estado_herramienta_editar(request, estado_id):
     estado = EstadoHerramientaService.get_estado_by_id(estado_id)
     if not estado:
@@ -46,6 +50,7 @@ def estado_herramienta_editar(request, estado_id):
 
     return render(request, 'estado_herramientas/estado_herramientas_editar.html', {'estado': estado})
 
+@access_required("Herramientas", "eliminar")
 def estado_herramienta_eliminar(request, estado_id):
     estado = EstadoHerramientaService.get_estado_by_id(estado_id)
     if not estado:

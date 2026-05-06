@@ -3,7 +3,9 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.rol_service import RolService
+from ...security import access_required
 
+@access_required("Roles", "ver")
 def rol_lista(request):
     rol = RolService.get_all_roles()
     paginator = Paginator(rol, 10)
@@ -12,6 +14,7 @@ def rol_lista(request):
 
     return render(request, 'roles/roles_lista.html', {'roles': rol})
 
+@access_required("Roles", "crear")
 def rol_create(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -25,6 +28,7 @@ def rol_create(request):
     
     return render(request, 'roles/roles_crear.html')
 
+@access_required("Roles", "editar")
 def rol_editar(request, rol_id):
     rol = RolService.get_rol_by_id(rol_id)
     if not rol:
@@ -43,6 +47,7 @@ def rol_editar(request, rol_id):
     
     return render(request, 'roles/roles_editar.html', {'rol': rol})
 
+@access_required("Roles", "eliminar")
 def rol_eliminar(request, rol_id):
     rol = RolService.get_rol_by_id(rol_id)
     if not rol:

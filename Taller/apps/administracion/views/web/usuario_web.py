@@ -4,8 +4,10 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from ...services.usuario_service import UsuarioService
 from ...services.rol_service import RolService
+from ...security import access_required
 
 
+@access_required("Usuarios", "ver")
 def usuario_lista(request):
     usuarios = UsuarioService.get_all_usuarios()
     paginator = Paginator(usuarios, 10)
@@ -14,6 +16,7 @@ def usuario_lista(request):
     return render(request, 'usuarios/usuarios_lista.html', {'usuarios': usuarios})
 
 
+@access_required("Usuarios", "crear")
 def usuario_create(request):
     if request.method == 'POST':
         try:
@@ -37,6 +40,7 @@ def usuario_create(request):
     return render(request, 'usuarios/usuarios_crear.html', {'roles': roles})
 
 
+@access_required("Usuarios", "editar")
 def usuario_editar(request, usuario_id):
     usuario = UsuarioService.get_usuario_by_id(usuario_id)
     if not usuario:
@@ -66,6 +70,7 @@ def usuario_editar(request, usuario_id):
     })
 
 
+@access_required("Usuarios", "editar")
 def usuario_cambiar_password(request, usuario_id):
     usuario = UsuarioService.get_usuario_by_id(usuario_id)
     if not usuario:
@@ -87,6 +92,7 @@ def usuario_cambiar_password(request, usuario_id):
     return render(request, 'usuarios/usuarios_cambiar_password.html', {'usuario': usuario})
 
 
+@access_required("Usuarios", "editar")
 def usuario_activar_desactivar(request, usuario_id):
     try:
         usuario = UsuarioService.activar_desactivar_usuario(usuario_id)

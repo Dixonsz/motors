@@ -3,8 +3,10 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.estado_service import EstadoService
+from ...security import access_required
 
 
+@access_required("Estados", "ver")
 def estado_lista(request):
     estados = EstadoService.get_all_estados()
     paginator = Paginator(estados, 10)
@@ -13,6 +15,7 @@ def estado_lista(request):
 
     return render(request, 'estados/estados_lista.html', {'estados': estados})
 
+@access_required("Estados", "crear")
 def estado_create(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -28,6 +31,7 @@ def estado_create(request):
 
     return render(request, 'estados/estados_crear.html')
 
+@access_required("Estados", "editar")
 def estado_editar(request, estado_id):
     estado = EstadoService.get_estado_by_id(estado_id)
     if not estado:
@@ -48,6 +52,7 @@ def estado_editar(request, estado_id):
 
     return render(request, 'estados/estados_editar.html', {'estado': estado})
 
+@access_required("Estados", "eliminar")
 def estado_eliminar(request, estado_id):
     estado = EstadoService.get_estado_by_id(estado_id)
     if not estado:

@@ -3,7 +3,9 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.marca_service import MarcaService
+from ...security import access_required
 
+@access_required("Vehiculos", "ver")
 def marca_lista(request):
     marcas = MarcaService.get_all_marcas().order_by('id')
     paginator = Paginator(marcas, 10)
@@ -11,6 +13,7 @@ def marca_lista(request):
     marcas_paginadas = paginator.get_page(page_number)
     return render(request, 'marcas/marcas_lista.html', {'marcas': marcas_paginadas})
 
+@access_required("Vehiculos", "crear")
 def marca_create(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -23,6 +26,7 @@ def marca_create(request):
 
     return render(request, 'marcas/marcas_crear.html')
 
+@access_required("Vehiculos", "editar")
 def marca_editar(request, marca_id):
     marca = MarcaService.get_marca_by_id(marca_id)
     if not marca:
@@ -40,6 +44,7 @@ def marca_editar(request, marca_id):
 
     return render(request, 'marcas/marcas_editar.html', {'marca': marca})
 
+@access_required("Vehiculos", "eliminar")
 def marca_eliminar(request, marca_id):
     marca = MarcaService.get_marca_by_id(marca_id)
     if not marca:

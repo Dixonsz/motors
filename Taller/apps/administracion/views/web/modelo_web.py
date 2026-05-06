@@ -3,7 +3,9 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.modelo_service import ModeloService
+from ...security import access_required
 
+@access_required("Vehiculos", "ver")
 def modelo_lista(request):
     modelo = ModeloService.get_all_modelos()
     paginator = Paginator(modelo, 10)
@@ -12,6 +14,7 @@ def modelo_lista(request):
 
     return render(request, 'modelos/modelos_lista.html', {'modelos': modelo})
 
+@access_required("Vehiculos", "crear")
 def modelo_create(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -24,6 +27,7 @@ def modelo_create(request):
     
     return render(request, 'modelos/modelos_crear.html')
 
+@access_required("Vehiculos", "editar")
 def modelo_editar(request, modelo_id):
     modelo = ModeloService.get_modelo_by_id(modelo_id)
     if not modelo:
@@ -41,6 +45,7 @@ def modelo_editar(request, modelo_id):
     
     return render(request, 'modelos/modelos_editar.html', {'modelo': modelo})
 
+@access_required("Vehiculos", "eliminar")
 def modelo_eliminar(request, modelo_id):
     modelo = ModeloService.get_modelo_by_id(modelo_id)
     if not modelo:

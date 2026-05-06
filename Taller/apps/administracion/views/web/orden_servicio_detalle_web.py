@@ -4,8 +4,10 @@ from django.urls import reverse
 from ...services.orden_servicio_detalle_service import OrdenServicioDetalleService
 from ...services.orden_servicio_service import OrdenServicioService
 from ...services.servicio_service import ServicioService
+from ...security import access_required
 
 
+@access_required("Ordenes", "crear")
 def detalle_create(request, orden_id):
     orden = OrdenServicioService.get_orden_servicio_by_id(orden_id)
     if not orden:
@@ -33,6 +35,7 @@ def detalle_create(request, orden_id):
     })
 
 
+@access_required("Ordenes", "editar")
 def detalle_editar(request, detalle_id):
     detalle = OrdenServicioDetalleService.get_detalle_by_id(detalle_id)
     if not detalle:
@@ -55,6 +58,7 @@ def detalle_editar(request, detalle_id):
     return render(request, 'ordenes/detalle_editar.html', {'detalle': detalle})
 
 
+@access_required("Ordenes", "eliminar")
 def detalle_eliminar(request, detalle_id):
     detalle = OrdenServicioDetalleService.get_detalle_by_id(detalle_id)
     if not detalle:

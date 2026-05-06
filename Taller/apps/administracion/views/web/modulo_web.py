@@ -3,8 +3,10 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.modulo_service import ModuloService
+from ...security import access_required
 
 
+@access_required("Modulos", "ver")
 def modulo_lista(request):
     modulos = ModuloService.get_all_modulos()
     paginator = Paginator(modulos, 10)
@@ -13,6 +15,7 @@ def modulo_lista(request):
 
     return render(request, 'modulos/modulos_lista.html', {'modulos': modulos})
 
+@access_required("Modulos", "crear")
 def modulo_crear(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -27,6 +30,7 @@ def modulo_crear(request):
     
     return render(request, 'modulos/modulos_crear.html')
 
+@access_required("Modulos", "editar")
 def modulo_editar(request, modulo_id):
     modulo = ModuloService.get_modulo_by_id(modulo_id)
     if not modulo:
@@ -46,6 +50,7 @@ def modulo_editar(request, modulo_id):
     
     return render(request, 'modulos/modulos_editar.html', {'modulo': modulo})
 
+@access_required("Modulos", "eliminar")
 def modulo_eliminar(request, modulo_id):
     modulo = ModuloService.get_modulo_by_id(modulo_id)
     if not modulo:

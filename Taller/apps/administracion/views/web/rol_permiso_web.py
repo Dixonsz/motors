@@ -4,8 +4,10 @@ from django.shortcuts import redirect, render
 from ...services.rol_permiso_service import RolPermisoService
 from ...services.permiso_service import PermisoService
 from ...services.rol_service import RolService
+from ...security import access_required
 
 
+@access_required("Roles", "ver")
 def rol_permiso_lista(request, rol_id):
     rol = RolService.get_rol_by_id(rol_id)
     if not rol:
@@ -23,6 +25,7 @@ def rol_permiso_lista(request, rol_id):
     })
 
 
+@access_required("Roles", "editar")
 def rol_permiso_asignar(request, rol_id):
     rol = RolService.get_rol_by_id(rol_id)
     if not rol:
@@ -48,6 +51,7 @@ def rol_permiso_asignar(request, rol_id):
     })
 
 
+@access_required("Roles", "editar")
 def rol_permiso_asignar_modulo(request, rol_id):
     rol = RolService.get_rol_by_id(rol_id)
     if not rol:
@@ -72,6 +76,7 @@ def rol_permiso_asignar_modulo(request, rol_id):
     })
 
 
+@access_required("Roles", "editar")
 def rol_permiso_revocar(request, rol_id, permiso_id):
     rol = RolService.get_rol_by_id(rol_id)
     if not rol:
@@ -92,6 +97,7 @@ def rol_permiso_revocar(request, rol_id, permiso_id):
     })
 
 
+@access_required("Roles", "editar")
 def rol_permiso_revocar_modulo(request, rol_id):
     rol = RolService.get_rol_by_id(rol_id)
     if not rol:

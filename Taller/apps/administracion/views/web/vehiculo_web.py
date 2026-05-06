@@ -7,8 +7,10 @@ from ...services.cliente_service import ClienteService
 from ...services.modelo_service import ModeloService
 from ...services.marca_service import MarcaService
 from ...services.combustible_service import CombustibleService
+from ...security import access_required
 
 
+@access_required("Vehiculos", "ver")
 def vehiculo_lista(request):
     vehiculos = VehiculoService.get_all_vehiculos()
     paginator = Paginator(vehiculos, 10)
@@ -17,6 +19,7 @@ def vehiculo_lista(request):
 
     return render(request, 'vehiculos/vehiculos_lista.html', {'vehiculos': vehiculos})
 
+@access_required("Vehiculos", "crear")
 def vehiculo_create(request):
     if request.method == 'POST':
         placa = request.POST.get('placa')
@@ -42,6 +45,7 @@ def vehiculo_create(request):
     return render(request, 'vehiculos/vehiculos_crear.html', {'clientes': clientes, 'modelos': modelos, 'marcas': marcas, 'combustibles': combustibles})    
 
 
+@access_required("Vehiculos", "editar")
 def vehiculo_editar(request, vehiculo_id):
     vehiculo = VehiculoService.get_vehiculo_by_id(vehiculo_id)
     clientes = ClienteService.get_all_clientes()
@@ -72,6 +76,7 @@ def vehiculo_editar(request, vehiculo_id):
 
     return render(request, 'vehiculos/vehiculos_editar.html', {'vehiculo': vehiculo, 'clientes': clientes, 'modelos': modelos, 'marcas': marcas, 'combustibles': combustibles})
 
+@access_required("Vehiculos", "eliminar")
 def vehiculo_eliminar(request, vehiculo_id):
     vehiculo = VehiculoService.get_vehiculo_by_id(vehiculo_id)
     if not vehiculo:

@@ -8,8 +8,10 @@ from ...services.vehiculo_service import VehiculoService
 from ...services.servicio_service import ServicioService
 from ...services.usuario_service import UsuarioService
 from ...services.estado_service import EstadoService
+from ...security import access_required
 
 
+@access_required("Citas", "ver")
 def cita_lista(request):
     citas = CitaService.get_all_citas()
     paginator = Paginator(citas, 10)
@@ -18,6 +20,7 @@ def cita_lista(request):
     return render(request, 'citas/citas_lista.html', {'citas': citas})
 
 
+@access_required("Citas", "crear")
 def cita_create(request):
     if request.method == 'POST':
         try:
@@ -52,6 +55,7 @@ def cita_create(request):
     })
 
 
+@access_required("Citas", "editar")
 def cita_editar(request, cita_id):
     cita = CitaService.get_cita_by_id(cita_id)
     if not cita:
@@ -93,6 +97,7 @@ def cita_editar(request, cita_id):
     })
 
 
+@access_required("Citas", "eliminar")
 def cita_eliminar(request, cita_id):
     cita = CitaService.get_cita_by_id(cita_id)
     if not cita:

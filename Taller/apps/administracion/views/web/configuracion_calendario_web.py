@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
 from ...services.configuracion_calendario_service import ConfiguracionCalendarioService as BloqueoService
+from ...security import access_required
 
 
+@access_required("Configuraciones", "ver")
 def configuracion_lista(request):
     bloqueos = BloqueoService.get_all_bloqueos()
     return render(request, 'citas/configuraciones/configuracion_lista.html', {
@@ -11,6 +13,7 @@ def configuracion_lista(request):
     })
 
 
+@access_required("Configuraciones", "crear")
 def configuracion_create(request):
     if request.method == 'POST':
         try:
@@ -34,6 +37,7 @@ def configuracion_create(request):
     })
 
 
+@access_required("Configuraciones", "editar")
 def configuracion_editar(request, configuracion_id):
     configuracion = BloqueoService.get_bloqueo_by_id(configuracion_id)
     if not configuracion:
@@ -65,6 +69,7 @@ def configuracion_editar(request, configuracion_id):
     })
 
 
+@access_required("Configuraciones", "eliminar")
 def configuracion_eliminar(request, configuracion_id):
     configuracion = BloqueoService.get_bloqueo_by_id(configuracion_id)
     if not configuracion:

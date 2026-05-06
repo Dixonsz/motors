@@ -2,8 +2,10 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from ...services.categoria_herramienta_service import CategoriaHerramientaService
+from ...security import access_required
 
 
+@access_required("Herramientas", "ver")
 def categoria_lista(request):
     categorias = CategoriaHerramientaService.get_all_categorias().order_by('id')
     paginator = Paginator(categorias, 10)
@@ -11,6 +13,7 @@ def categoria_lista(request):
     categorias_paginadas = paginator.get_page(page_number)
     return render(request, 'categoria_herramienta/categoria_herramientas_lista.html', {'categorias': categorias_paginadas})
 
+@access_required("Herramientas", "crear")
 def categoria_create(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -24,6 +27,7 @@ def categoria_create(request):
 
     return render(request, 'categoria_herramienta/categoria_herramientas_crear.html')
 
+@access_required("Herramientas", "editar")
 def categoria_editar(request, categoria_id):
     categoria = CategoriaHerramientaService.get_categoria_by_id(categoria_id)
     if not categoria:
@@ -42,6 +46,7 @@ def categoria_editar(request, categoria_id):
 
     return render(request, 'categoria_herramienta/categoria_herramientas_editar.html', {'categoria': categoria})
 
+@access_required("Herramientas", "eliminar")
 def categoria_eliminar(request, categoria_id):
     categoria = CategoriaHerramientaService.get_categoria_by_id(categoria_id)
     if not categoria:

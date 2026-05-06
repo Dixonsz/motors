@@ -2,8 +2,10 @@ from django.shortcuts import render
 from django.db.models import Count, Q
 
 from ...models import CategoriaServicio, Servicio
+from ...security import access_required
 
 
+@access_required()
 def inicio(request):
     categoria_id = request.GET.get('categoria')
 

@@ -5,8 +5,10 @@ from django.urls import reverse
 from ...services.recepcion_service import RecepcionService
 from ...services.vehiculo_service import VehiculoService
 from ...services.usuario_service import UsuarioService
+from ...security import access_required
 
 
+@access_required("Recepciones", "ver")
 def recepcion_lista(request):
     recepciones = RecepcionService.get_all_recepciones()
     paginator = Paginator(recepciones, 10)
@@ -15,6 +17,7 @@ def recepcion_lista(request):
     return render(request, 'recepciones/recepciones_lista.html', {'recepciones': recepciones})
 
 
+@access_required("Recepciones", "crear")
 def recepcion_create(request):
     if request.method == 'POST':
         try:
@@ -39,6 +42,7 @@ def recepcion_create(request):
     })
 
 
+@access_required("Recepciones", "ver")
 def recepcion_detalle(request, recepcion_id):
     recepcion = RecepcionService.get_recepcion_by_id(recepcion_id)
     if not recepcion:
@@ -48,6 +52,7 @@ def recepcion_detalle(request, recepcion_id):
     return render(request, 'recepciones/recepciones_detalle.html', {'recepcion': recepcion})
 
 
+@access_required("Recepciones", "eliminar")
 def recepcion_eliminar(request, recepcion_id):
     recepcion = RecepcionService.get_recepcion_by_id(recepcion_id)
     if not recepcion:
