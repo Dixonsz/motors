@@ -4,8 +4,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from ...models import Recepcion
 from ...services.evidencia_service import EvidenciaService
 from ...services.recepcion_service import RecepcionService
+from  ...security import access_required
 
-
+@access_required("Recepciones", "ver")
 def evidencia_lista(request, recepcion_id):
 
     recepcion = RecepcionService.get_recepcion_by_id(recepcion_id)
@@ -23,7 +24,7 @@ def evidencia_lista(request, recepcion_id):
         }
     )
 
-
+@access_required("Recepciones", "crear")
 def evidencia_create(request, recepcion_id):
     recepcion = get_object_or_404(Recepcion, id=recepcion_id)
 
@@ -43,6 +44,7 @@ def evidencia_create(request, recepcion_id):
     return render(request, 'evidencias/evidencias_crear.html', {'recepcion': recepcion})
 
 
+@access_required("Recepciones", "editar")
 def evidencia_editar(request, evidencia_id):
 
     evidencias = EvidenciaService.get_evidencia_by_id(evidencia_id)
@@ -72,6 +74,7 @@ def evidencia_editar(request, evidencia_id):
     return render(request, 'evidencias/evidencias_editar.html', {'evidencia': evidencias})
 
 
+@access_required("Recepciones", "eliminar")
 def evidencia_eliminar(request, evidencia_id):
 
     evidencia = EvidenciaService.get_evidencia_by_id(evidencia_id)

@@ -3,7 +3,10 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.combustible_service import CombustibleService
+from ...security import access_required
 
+
+@access_required("Vehiculos", "ver")
 def combustible_lista(request):
     combustibles = CombustibleService.get_all_combustibles()
     paginator = Paginator(combustibles, 10)
@@ -12,6 +15,7 @@ def combustible_lista(request):
 
     return render(request, 'combustibles/combustibles_lista.html', {'combustibles': combustibles})
 
+@access_required("Vehiculos", "crear")
 def combustible_create(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -24,6 +28,7 @@ def combustible_create(request):
 
     return render(request, 'combustibles/combustibles_crear.html')
 
+@access_required("Vehiculos", "editar")
 def combustible_editar(request, combustible_id):
     combustible = CombustibleService.get_combustible_by_id(combustible_id)
     if not combustible:
@@ -41,6 +46,7 @@ def combustible_editar(request, combustible_id):
 
     return render(request, 'combustibles/combustibles_editar.html', {'combustible': combustible})
 
+@access_required("Vehiculos", "eliminar")
 def combustible_eliminar(request, combustible_id):
     combustible = CombustibleService.get_combustible_by_id(combustible_id)
     if not combustible:

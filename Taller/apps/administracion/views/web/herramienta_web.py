@@ -5,7 +5,10 @@ from django.urls import reverse
 from ...services.herramienta_service import HerramientaService
 from ...services.estado_herramienta_service import EstadoHerramientaService
 from ...services.categoria_herramienta_service import CategoriaHerramientaService
+from ...security import access_required
 
+
+@access_required("Herramientas", "ver")
 def herramienta_lista(request):
     herramientas = HerramientaService.get_all_herramientas()
     paginator = Paginator(herramientas, 10)
@@ -14,6 +17,7 @@ def herramienta_lista(request):
 
     return render(request, 'herramientas/herramientas_lista.html', {'herramientas': herramientas})
 
+@access_required("Herramientas", "crear")   
 def herramienta_create(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -32,7 +36,8 @@ def herramienta_create(request):
     categorias = CategoriaHerramientaService.get_all_categorias()
     return render(request, 'herramientas/herramientas_crear.html', {'categorias': categorias})    
 
-
+    
+@access_required("Herramientas", "editar")
 def herramienta_editar(request, herramienta_id):
     herramienta = HerramientaService.get_herramienta_by_id(herramienta_id)
     categorias = CategoriaHerramientaService.get_all_categorias()
@@ -56,6 +61,7 @@ def herramienta_editar(request, herramienta_id):
 
     return render(request, 'herramientas/herramientas_editar.html', {'herramienta': herramienta, 'categorias': categorias})
 
+@access_required("Herramientas", "eliminar")
 def herramienta_eliminar(request, herramienta_id):
     herramienta = HerramientaService.get_herramienta_by_id(herramienta_id)
     if not herramienta:

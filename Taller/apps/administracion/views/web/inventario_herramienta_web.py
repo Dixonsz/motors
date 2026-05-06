@@ -5,7 +5,9 @@ from django.urls import reverse
 from ...services.inventario_herramienta_service import InventarioHerramientaService
 from ...services.estado_herramienta_service import EstadoHerramientaService
 from ...services.herramienta_service import HerramientaService
+from ...security import access_required
 
+@access_required("Herramientas", "ver")
 def inventario_herramientas_lista(request):
     inventario = InventarioHerramientaService.get_all_inventario()
     paginator = Paginator(inventario, 10)
@@ -14,6 +16,7 @@ def inventario_herramientas_lista(request):
 
     return render(request, 'inventario_herramientas/inventario_herramientas_lista.html', {'inventario': inventario})
 
+@access_required("Herramientas", "crear")
 def inventario_herramientas_create(request):
     if request.method == 'POST':
         herramienta_id = request.POST.get('herramienta_id')
@@ -45,6 +48,7 @@ def inventario_herramientas_create(request):
     return render(request, 'inventario_herramientas/inventario_herramientas_crear.html', {'herramientas': herramientas, 'estados': estados})    
 
 
+@access_required("Herramientas", "editar")
 def inventario_herramientas_editar(request, inventario_id):
     inventario = InventarioHerramientaService.get_inventario_by_id(inventario_id)
     estados = EstadoHerramientaService.get_all_estados()
@@ -83,6 +87,7 @@ def inventario_herramientas_editar(request, inventario_id):
         },
     )
 
+@access_required("Herramientas", "eliminar")
 def inventario_herramientas_eliminar(request, inventario_id):
     inventario = InventarioHerramientaService.get_inventario_by_id(inventario_id)
     if not inventario:

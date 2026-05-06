@@ -4,7 +4,9 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.servicio_service import ServicioService
 from ...services.categoria_servicio_service import CategoriaServicioService
+from ...security import access_required
 
+@access_required("Servicios", "ver")
 def servicio_lista(request):
     servicios = ServicioService.get_all_servicios()
     paginator = Paginator(servicios, 10)
@@ -14,6 +16,7 @@ def servicio_lista(request):
 
     return render(request, 'servicios/servicios_lista.html', {'servicios': servicios, 'categorias': categorias})
 
+@access_required("Servicios", "crear")
 def servicio_create(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -32,7 +35,7 @@ def servicio_create(request):
     categorias = CategoriaServicioService.get_all_categorias()
     return render(request, 'servicios/servicios_crear.html', {'categorias': categorias})    
 
-
+@access_required("Servicios", "editar")
 def servicio_editar(request, servicio_id):
     servicio = ServicioService.get_servicio_by_id(servicio_id)
     categorias = CategoriaServicioService.get_all_categorias()
@@ -65,6 +68,7 @@ def servicio_editar(request, servicio_id):
 
     return render(request, 'servicios/servicios_editar.html', {'servicio': servicio, 'categorias': categorias})
 
+@access_required("Servicios", "eliminar")
 def servicio_eliminar(request, servicio_id):
     servicio = ServicioService.get_servicio_by_id(servicio_id)
     if not servicio:

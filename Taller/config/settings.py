@@ -29,7 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-SECURITY_ACTIVE = False
+SECURITY_ACTIVE = True
 
 
 # Application definition
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage'
 ]
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
