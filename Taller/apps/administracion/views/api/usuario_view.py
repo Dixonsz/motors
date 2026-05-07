@@ -28,6 +28,7 @@ class UsuarioView():
         try:
             usuario = UsuarioService.create_usuario(
                 username=data['username'],
+                email=data['email'],
                 password=data['password'],
                 nombre=data['nombre'],
                 apellido=data['apellido'],
@@ -50,8 +51,11 @@ class UsuarioView():
         try:
             usuario = UsuarioService.update_usuario(
                 pk,
+                username=data.get('username'),
+                email=data.get('email'),
                 nombre=data.get('nombre'),
                 apellido=data.get('apellido'),
+                cedula=data.get('cedula'),
                 telefono=data.get('telefono'),
                 direccion=data.get('direccion'),
                 especialidad=data.get('especialidad'),

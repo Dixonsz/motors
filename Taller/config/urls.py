@@ -40,7 +40,7 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('api/login/', login_api, name='api_login'),
     path('recover_account/', recover_account_view, name='recover_account'),
-    path('reset_password/', reset_password_view, name='reset_password'),
+    path('reset-password/<uidb64>/<token>/', reset_password_view, name='reset_password'),
     path('logout/', logout_view, name='logout'),
     
     path('clientes/', cliente_lista, name='clientes_lista'),

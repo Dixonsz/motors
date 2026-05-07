@@ -21,6 +21,16 @@
         <form class="mt-6 grid gap-5 md:grid-cols-2" action="" method="post">
             {% csrf_token %}
 
+            <label class="block text-sm font-semibold text-slate-700" for="username">
+                Username
+                <input class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" id="username" name="username" required type="text" placeholder="Username" value="{{ usuario.username }}">
+            </label>
+
+            <label class="block text-sm font-semibold text-slate-700" for="email">
+                Email
+                <input class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" id="email" name="email" required type="email" placeholder="Email" value="{{ usuario.email }}">
+            </label>
+
             <label class="block text-sm font-semibold text-slate-700" for="nombre">
                 Nombre
                 <input class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" id="nombre" name="nombre" required type="text" placeholder="Nombre" value="{{ usuario.nombre }}">

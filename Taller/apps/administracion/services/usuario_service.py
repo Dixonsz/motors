@@ -17,10 +17,13 @@ class UsuarioService:
             return None
 
     @staticmethod
-    def create_usuario(username, password, nombre, apellido, cedula, telefono, direccion, rol_id, especialidad=None):
+    def create_usuario(username,email, password, nombre, apellido, cedula, telefono, direccion, rol_id, especialidad=None):
         
         if Usuario.objects.filter(username=username).exists():
             raise ValueError(f"Ya existe un usuario con el username '{username}'.")
+        
+        if Usuario.objects.filter(email=email).exists():
+            raise ValueError(f"Ya existe un usuario con el email '{email}'.")
         
         if Usuario.objects.filter(cedula=cedula).exists():
             raise ValueError(f"Ya existe un usuario con la cédula '{cedula}'.")
@@ -29,6 +32,7 @@ class UsuarioService:
 
         usuario = Usuario(
             username=username,
+            email=email,
             nombre=nombre,
             apellido=apellido,
             cedula=cedula,
@@ -42,15 +46,31 @@ class UsuarioService:
         return usuario
 
     @staticmethod
-    def update_usuario(usuario_id, nombre=None, apellido=None, telefono=None, direccion=None, especialidad=None, rol_id=None):
+    def update_usuario(usuario_id,username, email, nombre=None, apellido=None,cedula=None,telefono=None, direccion=None, especialidad=None, rol_id=None):
         usuario = UsuarioService.get_usuario_by_id(usuario_id)
         if not usuario:
             raise ValueError("Usuario no encontrado.")
+
+        if username != usuario.username:
+            if Usuario.objects.filter(username=username).exists():
+                raise ValueError(f"Ya existe un usuario con el username '{username}'.")
+            usuario.username = username
+
+        if email != usuario.email:
+            if Usuario.objects.filter(email=email).exists():
+                raise ValueError(f"Ya existe un usuario con el email '{email}'.")
+            usuario.email = email
+        if cedula and cedula != usuario.cedula:
+            if Usuario.objects.filter(cedula=cedula).exists():
+                raise ValueError(f"Ya existe un usuario con la cédula '{cedula}'.")
+            usuario.cedula = cedula
 
         if nombre is not None:
             usuario.nombre = nombre
         if apellido is not None:
             usuario.apellido = apellido
+        if cedula is not None:
+            usuario.cedula = cedula
         if telefono is not None:
             usuario.telefono = telefono
         if direccion is not None:

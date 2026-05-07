@@ -22,6 +22,7 @@ def usuario_create(request):
         try:
             UsuarioService.create_usuario(
                 username=request.POST.get('username'),
+                email=request.POST.get('email'),
                 password=request.POST.get('password'),
                 nombre=request.POST.get('nombre'),
                 apellido=request.POST.get('apellido'),
@@ -51,8 +52,11 @@ def usuario_editar(request, usuario_id):
         try:
             UsuarioService.update_usuario(
                 usuario_id,
+                username=request.POST.get('username'),
+                email=request.POST.get('email'),
                 nombre=request.POST.get('nombre'),
                 apellido=request.POST.get('apellido'),
+                cedula=request.POST.get('cedula'),
                 telefono=request.POST.get('telefono'),
                 direccion=request.POST.get('direccion'),
                 especialidad=request.POST.get('especialidad'),

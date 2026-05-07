@@ -3,6 +3,7 @@ from django.views.decorators.cache import never_cache
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from ...services.auth_service import AuthService
 
 from ...serializers.usuario_serializers import UsuarioSerializer
 
@@ -45,3 +46,35 @@ def login_api(request):
         },
         status=status.HTTP_200_OK
     )
+
+
+@api_view(['POST'])
+def reset_password_api(request):
+    email = request.data.get('email')
+    if not email:
+        return Response(
+            {'success': False, 'message': 'El campo email es requerido.'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    result = AuthService.reset_password(request)
+    if result['success']:
+        return Response({'success': True, 'message': result['message']}, status=status.HTTP_200_OK)
+    else:
+        return Response({'success': False, 'message': result['message']}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@api_view(['POST'])
+def confirm_reset_password_api(request):
+    vidb64 = request.data.get('uid')
+    token = request.data.get('token')
+    new_password = request.data.get('new_password')
+    confirm_password = request.data.get('confirm_password')
+
+    if not all([vidb64, token, new_password, confirm_password]):
+        return Response(
+            {'success': False, 'message': 'Todos los campos son requeridos.'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    result = AuthService.confirm_reset_password(vidb64, token, new_password, confirm_password)
+    http_status = status.HTTP_200_OK if result['success'] else status.HTTP_400_BAD_REQUEST
+    return Response({'success': result['success'], 'message': result['message']}, status=http_status)

@@ -163,7 +163,17 @@ SESSION_COOKIE_HTTPONLY = False
 SESSION_COOKIE_SAMESITE = None
 CSRF_COOKIE_SAMESITE = None
 
-DISABLE_ACCESS_SECURITY = True
+#DISABLE_ACCESS_SECURITY = True
+
+PASSWORD_RESET_TIMEOUT = 300
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'dixonsanchezsozacompra@gmail.com'
+EMAIL_HOST_PASSWORD = 'endm xzac rcih gulz'
+DEFAULT_FROM_EMAIL = 'dixonsanchezsozacompra@gmail.com'
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
