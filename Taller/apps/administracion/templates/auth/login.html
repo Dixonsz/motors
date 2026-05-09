@@ -205,6 +205,8 @@
                 />
               </div>
             </div>
+
+            <div class="cf-turnstile" data-sitekey="{{ site_key }}"></div>
             <!-- Action Button -->
             <button
               class="w-full bg-primary text-on-primary py-4 px-container-padding font-label-caps text-label-caps uppercase tracking-widest hover:bg-tertiary-container active:scale-[0.98] transition-all duration-200"
@@ -213,8 +215,10 @@
               Iniciar Sesión para continuar
             </button>
 
-            {% if form.non_field_errors %} 
-            <p class="text-error font-label-caps text-label-caps text-center">{{ form.non_field_errors.0 }}</p>
+            {% if form.non_field_errors %}
+            <p class="text-error font-label-caps text-label-caps text-center">
+              {{ form.non_field_errors.0 }}
+            </p>
             {% endif %}
           </form>
         </section>
@@ -226,5 +230,12 @@
         </footer>
       </div>
     </main>
+    {% block scripts %}
+    <script
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+      async
+      defer
+    ></script>
+    {% endblock %}
   </body>
 </html>

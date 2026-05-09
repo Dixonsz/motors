@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-mmph#&iw4%jray_6ral^of8vmz(fa$8obym9n7b!b3800w)%y$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
 SECURITY_ACTIVE = True
 
@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'apps.administracion',
     'rest_framework',
     'cloudinary',
-    'cloudinary_storage'
+    'cloudinary_storage',
+    'axes',
 ]
 
 
@@ -55,7 +56,16 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'axes.middleware.AxesMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesStandaloneBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = 1  
 
 
 ROOT_URLCONF = 'config.urls'
@@ -115,9 +125,9 @@ CLOUDINARY = {
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
+# AUTH_PASSWORD_VALIDATORS = [
     
-]
+# ]
 
 
 # Internationalization
@@ -174,6 +184,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'dixonsanchezsozacompra@gmail.com'
 EMAIL_HOST_PASSWORD = 'endm xzac rcih gulz'
 DEFAULT_FROM_EMAIL = 'dixonsanchezsozacompra@gmail.com'
+
+TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
+TURNSTILE_SECRET_KEY = "1x0000000000000000000000000000000AA"
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
