@@ -7,4 +7,4 @@ class AdministracionConfig(AppConfig):
     verbose_name = 'Administración'
 
     def ready(self):
-        import apps.administracion.signals
+        import Taller.apps.autenticacion.signals
