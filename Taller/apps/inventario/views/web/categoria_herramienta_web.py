@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
-from services.categoria_herramienta_service import CategoriaHerramientaService
+from ...services.categoria_herramienta_service import CategoriaHerramientaService
 from config.security import access_required
 
 

@@ -1,8 +1,8 @@
 from django.db import models
 
 class OrdenServicioDetalle(models.Model):
-    orden = models.ForeignKey('OrdenServicio', on_delete=models.CASCADE, related_name='ordenes_detalle')
-    servicio = models.ForeignKey('Servicio', on_delete=models.PROTECT, related_name='ordenes_detalle')
+    orden = models.ForeignKey('taller.OrdenServicio', on_delete=models.CASCADE, related_name='ordenes_detalle')
+    servicio = models.ForeignKey('agenda.Servicio', on_delete=models.PROTECT, related_name='ordenes_detalle')
     precio = models.PositiveIntegerField()
     cantidad = models.PositiveIntegerField(default=1)
     observaciones = models.TextField(blank=True, null=True)

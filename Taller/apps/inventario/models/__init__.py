@@ -1,7 +1,7 @@
-from models.categoria_herramienta import CategoriaHerramienta
-from models.herramienta import Herramienta
-from models.inventario_herramienta import InventarioHerramienta
-from models.estado_herramienta import EstadoHerramienta
+from .categoria_herramienta import CategoriaHerramienta
+from .herramienta import Herramienta
+from .inventario_herramienta import InventarioHerramienta
+from .estado_herramienta import EstadoHerramienta
 
 __all__ = [
     'CategoriaHerramienta',

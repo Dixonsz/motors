@@ -9,7 +9,7 @@ class Permiso(models.Model):
         ('ver', 'Ver'),
     ]
 
-    modulo = models.ForeignKey('Modulo', on_delete=models.CASCADE)
+    modulo = models.ForeignKey('autenticacion.Modulo', on_delete=models.CASCADE)
     accion = models.CharField(max_length=20, choices=ACCIONES)
 
     class Meta:

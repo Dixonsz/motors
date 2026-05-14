@@ -1,5 +1,5 @@
 from django.db import transaction
-from models import InventarioHerramienta, EstadoHerramienta, Herramienta
+from ..models import InventarioHerramienta, EstadoHerramienta, Herramienta
 from utils import get_required_instance
 
 

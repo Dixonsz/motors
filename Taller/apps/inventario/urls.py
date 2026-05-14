@@ -1,10 +1,10 @@
 from django.urls import path
-from views.web.categoria_herramienta_web import categoria_lista,categoria_create, categoria_editar, categoria_eliminar
-from views.web.estado_herramienta_web import estado_herramienta_lista, estado_herramienta_create, estado_herramienta_editar, estado_herramienta_eliminar
-from views.web.herramienta_web import herramienta_lista, herramienta_create, herramienta_editar, herramienta_eliminar
-from views.web.inventario_herramienta_web import inventario_herramientas_lista, inventario_herramientas_create, inventario_herramientas_editar, inventario_herramientas_eliminar
+from .views.web.categoria_herramienta_web import categoria_lista,categoria_create, categoria_editar, categoria_eliminar
+from .views.web.estado_herramienta_web import estado_herramienta_lista, estado_herramienta_create, estado_herramienta_editar, estado_herramienta_eliminar
+from .views.web.herramienta_web import herramienta_lista, herramienta_create, herramienta_editar, herramienta_eliminar
+from .views.web.inventario_herramienta_web import inventario_herramientas_lista, inventario_herramientas_create, inventario_herramientas_editar, inventario_herramientas_eliminar
 
-patherns = [
+urlpatterns = [
     path('categorias/', categoria_lista, name='categorias_lista'),
     path('categorias/crear/', categoria_create, name='categorias_crear'),
     path('categorias/editar/<int:categoria_id>/', categoria_editar, name='categorias_editar'),

@@ -1,10 +1,10 @@
 from django.db import models
 
 class OrdenServicio(models.Model):
-    recepcion = models.ForeignKey('Recepcion', on_delete=models.PROTECT, related_name='ordenes_servicio')
-    usuario = models.ForeignKey('Usuario', on_delete=models.PROTECT, related_name='ordenes_servicio')
+    recepcion = models.ForeignKey('taller.Recepcion', on_delete=models.PROTECT, related_name='ordenes_servicio')
+    usuario = models.ForeignKey('autenticacion.Usuario', on_delete=models.PROTECT, related_name='ordenes_servicio')
     diagnostico = models.TextField(blank=True, null=True)
-    estado = models.ForeignKey('Estado', on_delete=models.PROTECT, related_name='ordenes_servicio', default=1)
+    estado = models.ForeignKey('vehiculos.Estado', on_delete=models.PROTECT, related_name='ordenes_servicio', default=1)
     observaciones = models.TextField(blank=True, null=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_entrega = models.DateTimeField(blank=True, null=True)

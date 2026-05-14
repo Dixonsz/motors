@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from services.estado_herramienta_service import EstadoHerramientaService
+from ...services.estado_herramienta_service import EstadoHerramientaService
 from config.security import access_required
 
 

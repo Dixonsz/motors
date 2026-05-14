@@ -1,4 +1,4 @@
-from models.estado_herramienta import EstadoHerramienta
+from ..models.estado_herramienta import EstadoHerramienta
 
 class EstadoHerramientaService:
 

@@ -1,4 +1,4 @@
-from models import Herramienta, CategoriaHerramienta
+from ..models import Herramienta, CategoriaHerramienta
 from utils import get_required_instance
 import re
 

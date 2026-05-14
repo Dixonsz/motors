@@ -10,7 +10,7 @@ class Evidencia(models.Model):
         ('foto', 'Foto'),
         ('video', 'Video'),
     ]
-    recepcion = models.ForeignKey(Recepcion, on_delete=models.PROTECT, related_name='evidencias')
+    recepcion = models.ForeignKey('taller.Recepcion', on_delete=models.PROTECT, related_name='evidencias')
 
     tipo = models.CharField(max_length=10, choices=TIPO_EVIDENCIA)
 
