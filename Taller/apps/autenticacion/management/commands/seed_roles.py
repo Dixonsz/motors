@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
-from apps.administracion.models import Rol
+from apps.autenticacion.models import Rol
 
 
 class Command(BaseCommand):

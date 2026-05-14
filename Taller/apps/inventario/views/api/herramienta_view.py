@@ -1,7 +1,7 @@
-from rest_framework import viewsets, status
+from rest_framework import status
 from rest_framework.response import Response
-from ...services.herramienta_service import HerramientaService
-from ...serializers.herramienta_serializers import HerramientaSerializer
+from services.herramienta_service import HerramientaService
+from serializers.herramienta_serializers import HerramientaSerializer
 from django.views.decorators.cache import never_cache as django_never_cache
 from django.utils.decorators import method_decorator
 never_cache = method_decorator(django_never_cache)

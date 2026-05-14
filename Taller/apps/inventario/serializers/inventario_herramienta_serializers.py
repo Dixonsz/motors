@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from Taller.apps.administracion.models import InventarioHerramienta
+from models import InventarioHerramienta
 
 class InventarioHerramientaSerializer(serializers.ModelSerializer):
     class Meta:

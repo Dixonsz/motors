@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models.estado_herramienta import EstadoHerramienta
+from models.estado_herramienta import EstadoHerramienta
 
 class EstadoHerramientaSerializer(serializers.ModelSerializer):
     class Meta:

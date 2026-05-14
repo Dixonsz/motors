@@ -1,6 +1,5 @@
 from django.db import models
 from .categoria_herramienta import CategoriaHerramienta
-from .estado_herramienta import EstadoHerramienta
 
 class Herramienta(models.Model):
     nombre = models.CharField(max_length=100)

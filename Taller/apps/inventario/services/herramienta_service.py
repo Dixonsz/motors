@@ -1,7 +1,6 @@
-from ..models import Herramienta, CategoriaHerramienta, EstadoHerramienta
-from .utils import get_required_instance
+from models import Herramienta, CategoriaHerramienta
+from utils import get_required_instance
 import re
-
 
 class HerramientaService:
 
@@ -31,8 +30,8 @@ class HerramientaService:
             if not Herramienta.objects.filter(codigo_interno=codigo).exists():
                 return codigo
 
-        raise Exception("No se pudo generar un código interno único para la herramienta.")
-
+            raise RuntimeError("No se pudo generar un código interno único para la herramienta.")
+        
     @staticmethod
     def create_herramienta(nombre, descripcion, categoria_id, marca, modelo):
         categoria_herramienta = get_required_instance(CategoriaHerramienta, categoria_id, "La categoría no existe.")

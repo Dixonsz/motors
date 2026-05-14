@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from apps.administracion.models import CategoriaHerramienta
+from models.categoria_herramienta import CategoriaHerramienta
 
 
 class Command(BaseCommand):

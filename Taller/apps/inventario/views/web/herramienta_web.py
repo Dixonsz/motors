@@ -2,10 +2,9 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from ...services.herramienta_service import HerramientaService
-from ...services.estado_herramienta_service import EstadoHerramientaService
-from ...services.categoria_herramienta_service import CategoriaHerramientaService
-from ...security import access_required
+from services.herramienta_service import HerramientaService
+from services.categoria_herramienta_service import CategoriaHerramientaService
+from config.security import access_required
 
 
 @access_required("Herramientas", "ver")
