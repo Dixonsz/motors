@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status
+from rest_framework import status
 from rest_framework.response import Response
 from ...services.vehiculo_service import VehiculoService
 from ...serializers.vehiculo_serializers import VehiculoSerializer

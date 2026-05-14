@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status
+from rest_framework import status
 from rest_framework.response import Response
 from ...services.estado_service import EstadoService
 from ...serializers.estado_serializers import EstadoSerializer

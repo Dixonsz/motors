@@ -3,11 +3,11 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.vehiculo_service import VehiculoService
-from ...services.cliente_service import ClienteService
+from ....taller.services.cliente_service import ClienteService
 from ...services.modelo_service import ModeloService
 from ...services.marca_service import MarcaService
 from ...services.combustible_service import CombustibleService
-from ...security import access_required
+from config.security import access_required
 
 
 @access_required("Vehiculos", "ver")

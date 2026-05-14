@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status
+from rest_framework import status
 from rest_framework.response import Response
 from ...services.combustible_service import CombustibleService
 from ...serializers.combustible_serializers import CombustibleSerializer

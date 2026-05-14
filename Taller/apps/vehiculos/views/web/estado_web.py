@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.estado_service import EstadoService
-from ...security import access_required
+from config.security import access_required
 
 
 @access_required("Estados", "ver")

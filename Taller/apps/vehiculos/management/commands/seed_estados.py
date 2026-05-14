@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
-from apps.administracion.models import Estado
+from ...models import Estado
 
 
 class Command(BaseCommand):

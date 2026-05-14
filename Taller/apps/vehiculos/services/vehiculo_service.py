@@ -1,5 +1,9 @@
-from ..models import Vehiculo, Modelo, Marca, Combustible, Cliente
-from .utils import get_required_instance
+from ...taller.models.cliente import Cliente
+from ..models.vehiculo import Vehiculo
+from ..models.modelo import Modelo
+from ..models.marca import Marca
+from ..models.combustible import Combustible
+from utils import get_required_instance
 
 class VehiculoService:
 

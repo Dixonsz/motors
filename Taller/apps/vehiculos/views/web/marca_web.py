@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.marca_service import MarcaService
-from ...security import access_required
+from config.security import access_required
 
 @access_required("Vehiculos", "ver")
 def marca_lista(request):
