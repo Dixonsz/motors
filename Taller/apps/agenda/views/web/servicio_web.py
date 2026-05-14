@@ -2,9 +2,9 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from ...services.servicio_service import ServicioService
-from ...services.categoria_servicio_service import CategoriaServicioService
-from ...security import access_required
+from apps.agenda.services.servicio_service import ServicioService
+from apps.agenda.services.categoria_servicio_service import CategoriaServicioService
+from config.security import access_required
 
 @access_required("Servicios", "ver")
 def servicio_lista(request):

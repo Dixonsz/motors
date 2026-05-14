@@ -1,8 +1,7 @@
-from rest_framework import viewsets, status
+from rest_framework import status
 from rest_framework.response import Response
 from ...services.cliente_service import ClienteService
 from ...serializers.cliente_serializers import ClienteSerializer
-from ...models.cliente import Cliente
 from django.views.decorators.cache import never_cache as django_never_cache
 from django.utils.decorators import method_decorator
 never_cache = method_decorator(django_never_cache)
@@ -67,7 +66,7 @@ class ClienteView():
     @never_cache
     def destroy(self, request, pk=None):
         try:
-            cliente_nombre = ClienteService.delete_cliente(pk)
+            ClienteService.delete_cliente(pk)
             return Response(status=status.HTTP_204_NO_CONTENT)
 
         except ValueError as e:

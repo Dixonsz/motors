@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
-from ...services.configuracion_calendario_service import ConfiguracionCalendarioService as BloqueoService
-from ...security import access_required
+from apps.agenda.services.configuracion_calendario_service import ConfiguracionCalendarioService as BloqueoService
+from config.security import access_required
 
 
 @access_required("Configuraciones", "ver")
@@ -29,7 +29,7 @@ def configuracion_create(request):
             )
             messages.success(request, 'Configuración creada correctamente.')
             return redirect('configuracion_lista')
-        except (ValueError, Exception) as e:
+        except Exception as e:
             messages.error(request, str(e))
 
     return render(request, 'citas/configuraciones/configuracion_form.html', {
@@ -60,12 +60,12 @@ def configuracion_editar(request, configuracion_id):
             )
             messages.success(request, 'Configuración actualizada correctamente.')
             return redirect('configuracion_lista')
-        except (ValueError, Exception) as e:
+        except Exception as e:
             messages.error(request, str(e))
 
     return render(request, 'citas/configuraciones/configuracion_form.html', {
         'configuracion': configuracion,
-        'accion':  'Editar'
+        'accion': 'Editar'
     })
 
 

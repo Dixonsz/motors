@@ -1,7 +1,7 @@
 from ..models.orden_servicio_detalle import OrdenServicioDetalle
 from ..models.orden_servicio import OrdenServicio
-from ..models.servicio import Servicio
-from .utils import get_required_instance
+from ...agenda.models.servicio import Servicio
+from utils import get_required_instance
 
 
 class OrdenServicioDetalleService:

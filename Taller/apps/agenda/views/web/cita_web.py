@@ -2,13 +2,13 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from ...services.cita_service import CitaService
-from ...services.cliente_service import ClienteService
-from ...services.vehiculo_service import VehiculoService
-from ...services.servicio_service import ServicioService
-from ...services.usuario_service import UsuarioService
-from ...services.estado_service import EstadoService
-from ...security import access_required
+from apps.agenda.services.cita_service import CitaService
+from apps.taller.services.cliente_service import ClienteService
+from apps.vehiculos.services.vehiculo_service import VehiculoService
+from apps.agenda.services.servicio_service import ServicioService
+from apps.autenticacion.services.usuario_service import UsuarioService
+from apps.vehiculos.services.estado_service import EstadoService
+from config.security import access_required
 
 
 @access_required("Citas", "ver")

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models.configuracion_calendario import BloqueoCalendario
+from models.configuracion_calendario import BloqueoCalendario
 
 
 class BloqueoSerializer(serializers.ModelSerializer):

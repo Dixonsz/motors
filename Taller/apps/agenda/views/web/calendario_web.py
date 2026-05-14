@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from ...services.calendario_cita_service import CalendarioService
-from ...services.configuracion_calendario_service import ConfiguracionCalendarioService
+from apps.agenda.services.calendario_cita_service import CalendarioService
+from apps.agenda.services.configuracion_calendario_service import ConfiguracionCalendarioService
 from django.http import JsonResponse
-from ...security import access_required
+from config.security import access_required
 
 
 @access_required("Citas", "ver")

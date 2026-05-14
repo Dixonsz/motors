@@ -1,11 +1,9 @@
 import re
 from datetime import timedelta
-
 from django.utils.dateparse import parse_duration
-
-from ..models import Servicio
-from ..models.categoria_servicio import CategoriaServicio
-from .utils import get_required_instance
+from apps.agenda.models import Servicio
+from apps.agenda.models.categoria_servicio import CategoriaServicio
+from utils import get_required_instance
 
 class ServicioService:
 

@@ -1,4 +1,4 @@
-from ..models.categoria_servicio import CategoriaServicio
+from apps.agenda.models.categoria_servicio import CategoriaServicio
 
 class CategoriaServicioService:
 

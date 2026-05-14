@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from ...models import Recepcion
 from ...services.evidencia_service import EvidenciaService
 from ...services.recepcion_service import RecepcionService
-from  ...security import access_required
+from config.security import access_required
 
 @access_required("Recepciones", "ver")
 def evidencia_lista(request, recepcion_id):
@@ -102,7 +102,7 @@ def evidencia_eliminar(request, evidencia_id):
         }
     )
 
-def recepcion_detalle(request, recepcion_id):
+def evidencia_detalle(request, recepcion_id):
 
     recepcion = RecepcionService.get_recepcion_by_id(recepcion_id)
     evidencias = EvidenciaService.get_evidencias_by_recepcion(recepcion_id)

@@ -1,11 +1,9 @@
-from ..models.cita import Cita
-from ..models.configuracion_calendario import ConfiguracionCalendario
-from ..models.categoria_servicio import CategoriaServicio
-from ..models.servicio import Servicio
-from ...vehiculos.models.estado import Estado
-from ...autenticacion.models.usuario import Usuario
-from ...taller.models.cliente import Cliente
-from ...vehiculos.models.vehiculo import Vehiculo
+from apps.agenda.models.cita import Cita
+from apps.agenda.models.servicio import Servicio
+from apps.vehiculos.models.estado import Estado
+from apps.autenticacion.models.usuario import Usuario
+from apps.taller.models.cliente import Cliente
+from apps.vehiculos.models.vehiculo import Vehiculo
 
 
 COLORES_ESTADO = {

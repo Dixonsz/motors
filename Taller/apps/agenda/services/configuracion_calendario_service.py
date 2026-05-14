@@ -1,5 +1,5 @@
 from datetime import datetime
-from ..models.configuracion_calendario import ConfiguracionCalendario
+from apps.agenda.models.configuracion_calendario import ConfiguracionCalendario
 
 
 class ConfiguracionCalendarioService:

@@ -1,12 +1,12 @@
 
-
+from datetime import date
 from ..models.orden_servicio import OrdenServicio
 from ..models.recepcion import Recepcion
-from ..models.usuario import Usuario
-from ..models.estado import Estado
+from ...autenticacion.models.usuario import Usuario
+from ...vehiculos.models.estado import Estado
+from utils import get_required_instance
 
-from .utils import get_required_instance
-from datetime import date
+ORDEN_SERVICIO_ERROR_MESSAGES = "Orden de servicio no encontrada."
 
 
 class OrdenServicioService:
@@ -28,7 +28,7 @@ class OrdenServicioService:
 
         orden = OrdenServicioService.get_orden_servicio_by_id(orden_servicio_id)
         if not orden:
-            raise ValueError("Orden de servicio no encontrada.")
+            raise ValueError(ORDEN_SERVICIO_ERROR_MESSAGES)
         
         if not orden.ordenes_detalle.exists():
             raise ValueError("No se puede cerrar la orden de servicio sin detalles.")
@@ -74,7 +74,7 @@ class OrdenServicioService:
 
         orden_servicio = OrdenServicioService.get_orden_servicio_by_id(orden_servicio_id)
         if not orden_servicio:
-            raise ValueError("Orden de servicio no encontrada.")
+            raise ValueError(ORDEN_SERVICIO_ERROR_MESSAGES)
         
         if recepcion_id:
             orden_servicio.recepcion = get_required_instance(Recepcion, recepcion_id, "Recepción no encontrada.")
@@ -97,6 +97,6 @@ class OrdenServicioService:
     def delete_orden_servicio(orden_servicio_id):
         orden_servicio = OrdenServicioService.get_orden_servicio_by_id(orden_servicio_id)
         if not orden_servicio:
-            raise ValueError("Orden de servicio no encontrada.")
+            raise ValueError(ORDEN_SERVICIO_ERROR_MESSAGES)
         orden_servicio.delete()
        

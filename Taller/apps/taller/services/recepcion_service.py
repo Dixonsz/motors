@@ -1,8 +1,12 @@
-from ..models import Recepcion, Vehiculo, Usuario, Cita
 from django.db import transaction
-from .evidencia_service import EvidenciaService
-from .utils import get_required_instance
+from utils import get_required_instance
 from datetime import date
+from ..models import Recepcion
+from ...agenda.models.cita import Cita
+from ...vehiculos.models.vehiculo import Vehiculo
+from ...autenticacion.models.usuario import Usuario
+from .evidencia_service import EvidenciaService
+
 
 class RecepcionService:
 

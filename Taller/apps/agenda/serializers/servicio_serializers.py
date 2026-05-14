@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models.servicio import Servicio
+from models.servicio import Servicio
 
 class ServicioSerializer(serializers.ModelSerializer):
     class Meta:

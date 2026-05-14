@@ -1,4 +1,4 @@
-from ..models import Evidencia, Recepcion
+from ..models import Evidencia
 import cloudinary.uploader
 
 class EvidenciaService:

@@ -3,8 +3,8 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.orden_servicio_detalle_service import OrdenServicioDetalleService
 from ...services.orden_servicio_service import OrdenServicioService
-from ...services.servicio_service import ServicioService
-from ...security import access_required
+from ....agenda.services.servicio_service import ServicioService
+from config.security import access_required
 
 
 @access_required("Ordenes", "crear")

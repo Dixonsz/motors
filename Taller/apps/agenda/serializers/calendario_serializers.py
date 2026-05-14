@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from ..models.cita import Cita
 
 
 class EventoCalendarioSerializer(serializers.Serializer):

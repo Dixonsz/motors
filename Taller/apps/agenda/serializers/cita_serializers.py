@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models.cita import Cita
+from models.cita import Cita
 
 
 class CitaSerializer(serializers.ModelSerializer):

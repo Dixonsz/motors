@@ -3,9 +3,9 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.recepcion_service import RecepcionService
-from ...services.vehiculo_service import VehiculoService
-from ...services.usuario_service import UsuarioService
-from ...security import access_required
+from ....vehiculos.services.vehiculo_service import VehiculoService
+from ....autenticacion.services.usuario_service import UsuarioService
+from config.security import access_required
 
 
 @access_required("Recepciones", "ver")

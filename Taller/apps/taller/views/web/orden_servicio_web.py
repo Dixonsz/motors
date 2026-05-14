@@ -4,9 +4,11 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.orden_servicio_service import OrdenServicioService
 from ...services.recepcion_service import RecepcionService
-from ...services.usuario_service import UsuarioService
-from ...services.estado_service import EstadoService
-from ...security import access_required
+from ....autenticacion.services.usuario_service import UsuarioService
+from ....vehiculos.services.estado_service import EstadoService
+from config.security import access_required
+
+ORDEN_ERROR="La orden de servicio no existe o no se puede procesar la solicitud."
 
 
 @access_required("Ordenes", "ver")
@@ -22,7 +24,7 @@ def orden_lista(request):
 def orden_detalle(request, orden_id):
     orden = OrdenServicioService.get_orden_servicio_by_id(orden_id)
     if not orden:
-        messages.error(request, 'La orden no existe.')
+        messages.error(request, ORDEN_ERROR)
         return redirect('ordenes_lista')
 
     detalles = orden.ordenes_detalle.all()
@@ -63,7 +65,7 @@ def orden_create(request):
 def orden_editar(request, orden_id):
     orden = OrdenServicioService.get_orden_servicio_by_id(orden_id)
     if not orden:
-        messages.error(request, 'La orden no existe.')
+        messages.error(request, ORDEN_ERROR)
         return redirect('ordenes_lista')
 
     if request.method == 'POST':
@@ -94,7 +96,7 @@ def orden_editar(request, orden_id):
 def orden_cerrar(request, orden_id):
     orden = OrdenServicioService.get_orden_servicio_by_id(orden_id)
     if not orden:
-        messages.error(request, 'La orden no existe.')
+        messages.error(request, ORDEN_ERROR)
         return redirect('ordenes_lista')
 
     if request.method == 'POST':
@@ -112,7 +114,7 @@ def orden_cerrar(request, orden_id):
 def orden_eliminar(request, orden_id):
     orden = OrdenServicioService.get_orden_servicio_by_id(orden_id)
     if not orden:
-        messages.error(request, 'La orden no existe.')
+        messages.error(request, ORDEN_ERROR)
         return redirect('ordenes_lista')
 
     if request.method == 'POST':
