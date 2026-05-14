@@ -1,5 +1,4 @@
-from ..models import Modulo
-from .utils import get_required_instance
+from ..models.modulo import Modulo
 
 class ModuloService:
 

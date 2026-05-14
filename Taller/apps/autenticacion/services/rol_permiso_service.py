@@ -1,7 +1,7 @@
 from ..models.rol_permiso import RolPermiso
 from ..models.rol import Rol
 from ..models.permiso import Permiso
-from .utils import get_required_instance
+from  utils import get_required_instance
 
 
 class RolPermisoService:

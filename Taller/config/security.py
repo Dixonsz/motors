@@ -4,7 +4,7 @@ from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 
-from .models.rol_permiso import RolPermiso
+from apps.autenticacion.models import RolPermiso
 
 
 def _is_security_active():

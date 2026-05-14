@@ -41,10 +41,10 @@ class ConfiguracionCalendario(models.Model):
         from django.core.exceptions import ValidationError
 
         if self.tipo == 'dia_completo':
-            if self.hora_inicio or self.hora_fin:
-                raise ValidationError(
-                    'Un bloqueo de día completo no debe tener horas.'
-                )
+                if self.hora_inicio or self.hora_fin:
+                    raise ValidationError(
+                        'Un bloqueo de día completo no debe tener horas.'
+                    )
         if self.tipo == 'franja':
             if not self.hora_inicio or not self.hora_fin:
                 raise ValidationError(

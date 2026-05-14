@@ -1,7 +1,8 @@
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
-from apps.administracion.models import Permiso, Modulo
+from apps.autenticacion.models.modulo import Modulo
+from apps.autenticacion.models.permiso import Permiso
 
 
 class Command(BaseCommand):

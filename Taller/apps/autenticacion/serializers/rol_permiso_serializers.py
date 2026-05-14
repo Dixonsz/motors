@@ -1,7 +1,5 @@
 from rest_framework import serializers
 from ..models.rol_permiso import RolPermiso
-from ..models.rol import Rol
-from ..models.permiso import Permiso
 
 
 class RolPermisoSerializer(serializers.ModelSerializer):

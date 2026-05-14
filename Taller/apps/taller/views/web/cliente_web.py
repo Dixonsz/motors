@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from ...services.cliente_service import ClienteService
-from ...security import access_required
+from config.security import access_required
 
 @access_required("Clientes", "ver")
 def cliente_lista(request):

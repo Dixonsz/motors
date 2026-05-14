@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from ...services.usuario_service import UsuarioService
 from ...services.rol_service import RolService
-from ...security import access_required
+from config.security import access_required
 
 
 @access_required("Usuarios", "ver")

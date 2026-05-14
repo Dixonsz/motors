@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
-from apps.administracion.models import Modulo
+from apps.autenticacion.models.modulo import Modulo
 
 
 class Command(BaseCommand):

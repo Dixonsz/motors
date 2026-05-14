@@ -1,6 +1,6 @@
 from ..models import Permiso
-from ..models import Modulo
-from .utils import get_required_instance
+from ..models.modulo import Modulo
+from utils import get_required_instance
 
 class PermisoService:
 

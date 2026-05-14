@@ -1,15 +1,6 @@
 from django import forms
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-from django.contrib.auth.password_validation import validate_password
-
-class LoginForm(forms.Form):
-    username = forms.CharField(
-    )
-    password = forms.CharField(
-        widget=forms.PasswordInput
-    )
-
 
 
 INPUT_BASE = (

@@ -1,4 +1,12 @@
-from ..models import Cita, Vehiculo, Servicio, Estado, Usuario, Cliente
+from ..models.cita import Cita
+from ..models.configuracion_calendario import ConfiguracionCalendario
+from ..models.categoria_servicio import CategoriaServicio
+from ..models.servicio import Servicio
+from ...vehiculos.models.estado import Estado
+from ...autenticacion.models.usuario import Usuario
+from ...taller.models.cliente import Cliente
+from ...vehiculos.models.vehiculo import Vehiculo
+
 
 COLORES_ESTADO = {
     'Pendiente':  '#FFC300',

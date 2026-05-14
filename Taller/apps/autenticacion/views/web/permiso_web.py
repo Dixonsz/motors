@@ -5,7 +5,7 @@ from django.urls import reverse
 from ...services.permiso_service import PermisoService
 from ...services.modulo_service import ModuloService
 from ...services.rol_service import RolService
-from ...security import access_required
+from config.security import access_required
 
 
 @access_required("Roles", "ver")
@@ -21,7 +21,7 @@ def permiso_lista(request):
     })
 
 @access_required("Roles", "ver")
-def rol_permiso_lista(request, rol_id):
+def rol_permisos_lista(request, rol_id):
     rol = RolService.get_rol_by_id(rol_id)
     permisos = PermisoService.get_all_permisos()
 

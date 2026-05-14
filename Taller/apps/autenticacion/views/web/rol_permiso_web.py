@@ -4,14 +4,16 @@ from django.shortcuts import redirect, render
 from ...services.rol_permiso_service import RolPermisoService
 from ...services.permiso_service import PermisoService
 from ...services.rol_service import RolService
-from ...security import access_required
+from config.security import access_required
+
+ROL_NO_ENCONTRADO='El rol no existe.'
 
 
 @access_required("Roles", "ver")
 def rol_permiso_lista(request, rol_id):
     rol = RolService.get_rol_by_id(rol_id)
     if not rol:
-        messages.error(request, 'El rol no existe.')
+        messages.error(request, ROL_NO_ENCONTRADO)
         return redirect('roles_lista')
 
     permisos = RolPermisoService.get_permisos_by_rol(rol_id)
@@ -29,7 +31,7 @@ def rol_permiso_lista(request, rol_id):
 def rol_permiso_asignar(request, rol_id):
     rol = RolService.get_rol_by_id(rol_id)
     if not rol:
-        messages.error(request, 'El rol no existe.')
+        messages.error(request, ROL_NO_ENCONTRADO)
         return redirect('roles_lista')
 
     if request.method == 'POST':
@@ -55,7 +57,7 @@ def rol_permiso_asignar(request, rol_id):
 def rol_permiso_asignar_modulo(request, rol_id):
     rol = RolService.get_rol_by_id(rol_id)
     if not rol:
-        messages.error(request, 'El rol no existe.')
+        messages.error(request, ROL_NO_ENCONTRADO)
         return redirect('roles_lista')
 
     if request.method == 'POST':
@@ -80,7 +82,7 @@ def rol_permiso_asignar_modulo(request, rol_id):
 def rol_permiso_revocar(request, rol_id, permiso_id):
     rol = RolService.get_rol_by_id(rol_id)
     if not rol:
-        messages.error(request, 'El rol no existe.')
+        messages.error(request, ROL_NO_ENCONTRADO)
         return redirect('roles_lista')
 
     if request.method == 'POST':

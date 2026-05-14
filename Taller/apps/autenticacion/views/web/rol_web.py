@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.rol_service import RolService
-from ...security import access_required
+from config.security import access_required
 
 @access_required("Roles", "ver")
 def rol_lista(request):

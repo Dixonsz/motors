@@ -1,6 +1,6 @@
 from ..models import Rol
-from .rol_permiso_service import RolPermisoService
-from .utils import get_required_instance
+
+ROL_NO_ENCONTRADO = "Rol no encontrado."
 
 class RolService:
 
@@ -13,7 +13,7 @@ class RolService:
         try:
             return Rol.objects.get(id=rol_id)
         except Rol.DoesNotExist:
-            raise ValueError("Rol no encontrado.")
+            raise ValueError(ROL_NO_ENCONTRADO)
         
     @staticmethod
     def create_rol(nombre, descripcion=None):
@@ -26,10 +26,9 @@ class RolService:
     
     @staticmethod
     def update_rol(rol_id, nombre=None, descripcion=None):
-
         rol = RolService.get_rol_by_id(rol_id)
         if not rol:
-            raise ValueError("Rol no encontrado.")
+            raise ValueError(ROL_NO_ENCONTRADO)
         
         if nombre:
             if Rol.objects.filter(nombre=nombre).exclude(id=rol_id).exists():
@@ -46,12 +45,10 @@ class RolService:
     def delete_rol(rol_id):
         rol = RolService.get_rol_by_id(rol_id)
         if not rol:
-            raise ValueError("Rol no encontrado.")
+            raise ValueError(ROL_NO_ENCONTRADO)
         
         if rol.usuarios.exists():
             raise ValueError("No se puede eliminar el rol porque está asignado a usuarios.")
         
         rol.permisos.all().delete()
         rol.delete()
-
-

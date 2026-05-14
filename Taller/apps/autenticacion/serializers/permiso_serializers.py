@@ -1,4 +1,3 @@
-# permiso_serializer.py
 from rest_framework import serializers
 from ..models.permiso import Permiso
 

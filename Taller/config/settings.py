@@ -42,7 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'apps.administracion',
+    'apps.autenticacion',
+    'apps.vehiculos',
+    'apps.taller',
+    'apps.agenda',
+    'apps.inventario',
     'rest_framework',
     'cloudinary',
     'cloudinary_storage',
@@ -147,7 +151,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-AUTH_USER_MODEL = 'administracion.Usuario'
+AUTH_USER_MODEL = 'autenticacion.Usuario'
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
