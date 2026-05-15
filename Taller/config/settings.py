@@ -13,23 +13,40 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import os
 from pathlib import Path
 
+import dotenv # type: ignore
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+dotenv.load_dotenv(BASE_DIR / '.env')
+
+
+def env_bool(key, default=False):
+    value = os.getenv(key)
+    if value is None:
+        return default
+    return value.strip().lower() in {'1', 'true', 'yes', 'on'}
+
+
+def env_list(key, default=None):
+    value = os.getenv(key)
+    if value is None:
+        return default if default is not None else []
+    return [item.strip() for item in value.split(',') if item.strip()]
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-mmph#&iw4%jray_6ral^of8vmz(fa$8obym9n7b!b3800w)%y$'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env_bool('DJANGO_DEBUG', False)
 
-# ALLOWED_HOSTS = []
 
-SECURITY_ACTIVE = True
+SECURITY_ACTIVE = env_bool('DJANGO_SECURITY_ACTIVE', False)
 
 
 # Application definition
@@ -98,11 +115,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'taller_db',
-        'USER': 'root',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': os.getenv('DB_NAME', ''),
+        'USER': os.getenv('DB_USER', ''),
+        'PASSWORD': os.getenv('DB_PASSWORD', ''),
+        'HOST': os.getenv('DB_HOST', ''),
+        'PORT': os.getenv('DB_PORT', ''),
     }
 }
 
@@ -112,9 +129,9 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MEDIA_URL = '/media/'
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dlbonrawd',
-    'API_KEY': '539143291536575',
-    'API_SECRET': 'jY2s4dvO5f1VRYGnfWFjXtikxs4',
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME', ''),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY', ''),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET', ''),
 }
 
 CLOUDINARY = {
@@ -157,11 +174,9 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
 
-# Credenciales iniciales de acceso (desarrollo).
-# Puedes sobrescribirlas con variables de entorno en producción.
 DEFAULT_LOGIN_CREDENTIALS = {
-    'username': os.getenv('DEFAULT_LOGIN_USERNAME', 'admin'),
-    'password': os.getenv('DEFAULT_LOGIN_PASSWORD', 'Admin123*'),
+    'username': os.getenv('DEFAULT_LOGIN_USERNAME', ''),
+    'password': os.getenv('DEFAULT_LOGIN_PASSWORD', ''),
 }
 
 REST_FRAMEWORK = {
@@ -177,29 +192,29 @@ SESSION_COOKIE_HTTPONLY = False
 SESSION_COOKIE_SAMESITE = None
 CSRF_COOKIE_SAMESITE = None
 
-DISABLE_ACCESS_SECURITY = True
+DISABLE_ACCESS_SECURITY = env_bool('DISABLE_ACCESS_SECURITY', False)
 
 PASSWORD_RESET_TIMEOUT = 300
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'dixonsanchezsozacompra@gmail.com'
-EMAIL_HOST_PASSWORD = 'endm xzac rcih gulz'
-DEFAULT_FROM_EMAIL = 'dixonsanchezsozacompra@gmail.com'
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', '')
+EMAIL_HOST = os.getenv('EMAIL_HOST', '')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', '0'))
+EMAIL_USE_TLS = env_bool('EMAIL_USE_TLS', False)
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', '')
 
-TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
-TURNSTILE_SECRET_KEY = "1x0000000000000000000000000000000AA"
+TURNSTILE_SITE_KEY = os.getenv('TURNSTILE_SITE_KEY', '')
+TURNSTILE_SECRET_KEY = os.getenv('TURNSTILE_SECRET_KEY', '')
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-]
+CORS_ALLOWED_ORIGINS = env_list(
+    'CORS_ALLOWED_ORIGINS',
+    ['http://localhost:5173', 'http://127.0.0.1:5173'],
+)
 
 CORS_ALLOW_CREDENTIALS = True
 
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-]
+CSRF_TRUSTED_ORIGINS = env_list(
+    'CSRF_TRUSTED_ORIGINS',
+    ['http://localhost:5173', 'http://127.0.0.1:5173'],
+)

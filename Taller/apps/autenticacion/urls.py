@@ -29,8 +29,8 @@ urlpatterns = [
 
     path('roles/<int:rol_id>/permisos/asignar/', rol_permiso_asignar, name='rol_permisos_asignar'),
     path('roles/<int:rol_id>/permisos/asignar-modulo/', rol_permiso_asignar_modulo, name='rol_permisos_asignar_modulo'),
-    path('roles/<int:rol_id>/permisos/revocar/', rol_permiso_revocar, name='rol_permisos_revocar'),
-    path('roles/<int:rol_id>/permisos/revocar-modulo/', rol_permiso_revocar_modulo, name='rol_permisos_revocar_modulo'),
+    path('roles/<int:rol_id>/permisos/revocar/<int:permiso_id>/', rol_permiso_revocar, name='rol_permiso_revocar'),
+    path('roles/<int:rol_id>/permisos/revocar-modulo/', rol_permiso_revocar_modulo, name='rol_permiso_revocar_modulo'),
 
     path('roles/', rol_lista, name='roles_lista'),
     path('roles/crear/', rol_create, name='roles_crear'),
