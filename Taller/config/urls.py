@@ -1,7 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include
 
+from apps.autenticacion.views.web.index_web import inicio
+
 urlpatterns = [
+    path('', inicio, name='inicio'),
     path('admin/', admin.site.urls),
     path('autenticacion/', include('apps.autenticacion.urls')),
     path('vehiculos/', include('apps.vehiculos.urls')),

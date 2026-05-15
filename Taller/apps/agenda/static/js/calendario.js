@@ -67,36 +67,43 @@ function obtenerBloqueos() {
     .filter((e) => e.extendedProps?.bloqueo === true);
 }
 
-function esFechaHoraBloqueada(fecha, hora) {
+// ── Helpers for esFechaHoraBloqueada ─────────────────────────────────────────
 
-  for (const bloqueo of obtenerBloqueos()) {
-    const tipo = bloqueo.extendedProps?.tipo;
+function verificarBloqueDiaCompleto(bloqueo, fecha) {
+  const inicioStr = bloqueo.startStr.slice(0, 10);
+  const finDate = bloqueo.end ? new Date(bloqueo.end) : new Date(bloqueo.start);
+  finDate.setDate(finDate.getDate() - 1);
+  const finStr = finDate.toISOString().slice(0, 10);
 
-    if (tipo === "dia_completo") {
-      const inicioStr = bloqueo.startStr.slice(0, 10);
-      const finDate = bloqueo.end ? new Date(bloqueo.end) : new Date(bloqueo.start);
-      finDate.setDate(finDate.getDate() - 1);
-      const finStr = finDate.toISOString().slice(0, 10);
-
-      if (fecha >= inicioStr && fecha <= finStr) {
-        return { bloqueado: true, motivo: bloqueo.title };
-      }
-
-    } else {
-      // franja horaria — comparar "YYYY-MM-DDTHH:MM" como string
-      const citaStr   = `${fecha}T${hora}`;
-      const inicioStr = bloqueo.startStr.slice(0, 16);
-      const finStr    = bloqueo.endStr ? bloqueo.endStr.slice(0, 16) : inicioStr;
-
-      if (citaStr >= inicioStr && citaStr < finStr) {
-        const capacidad = bloqueo.extendedProps?.capacidad_maxima;
-        if (!capacidad) {
-          return { bloqueado: true, motivo: bloqueo.title };
-        }
-      }
-    }
+  if (fecha >= inicioStr && fecha <= finStr) {
+    return { bloqueado: true, motivo: bloqueo.title };
   }
+  return null;
+}
 
+function verificarBloqueHorario(bloqueo, fecha, hora) {
+  const citaStr   = `${fecha}T${hora}`;
+  const inicioStr = bloqueo.startStr.slice(0, 16);
+  const finStr    = bloqueo.endStr ? bloqueo.endStr.slice(0, 16) : inicioStr;
+
+  if (citaStr < inicioStr || citaStr >= finStr) return null;
+
+  const capacidad = bloqueo.extendedProps?.capacidad_maxima;
+  if (capacidad) return null;
+
+  return { bloqueado: true, motivo: bloqueo.title };
+}
+
+function esFechaHoraBloqueada(fecha, hora) {
+  for (const bloqueo of obtenerBloqueos()) {
+    const esDiaCompleto = bloqueo.extendedProps?.tipo === "dia_completo";
+
+    const resultado = esDiaCompleto
+      ? verificarBloqueDiaCompleto(bloqueo, fecha)
+      : verificarBloqueHorario(bloqueo, fecha, hora);
+
+    if (resultado) return resultado;
+  }
   return { bloqueado: false };
 }
 
@@ -123,12 +130,12 @@ function mostrarToast(msg) {
 // ── Drawer ────────────────────────────────────────────────────────────────────
 
 function abrirDrawer(fecha = "", hora = "") {
-  if (fecha && hora) {
-    const { bloqueado, motivo } = esFechaHoraBloqueada(fecha, hora);
-    if (bloqueado) {
-      mostrarToast(`Horario no disponible: ${motivo}`);
-      return;
-    }
+  if (!fecha || !hora) return;
+
+  const { bloqueado, motivo } = esFechaHoraBloqueada(fecha, hora);
+  if (bloqueado) {
+    mostrarToast(`Horario no disponible: ${motivo}`);
+    return;
   }
 
   document.getElementById("nc-fecha").value = fecha;
@@ -181,15 +188,15 @@ async function guardarCita() {
 
   const serviciosId = Array.from(
     document.getElementById("nc-servicios").selectedOptions,
-  ).map((o) => parseInt(o.value));
+  ).map((o) => Number.parseInt(o.value));
 
   const payload = {
     fecha,
     hora_inicio:  hora,
-    estado_id:    parseInt(estadoId),
-    usuario_id:   parseInt(usuarioId),
-    cliente_id:   parseInt(document.getElementById("nc-cliente").value)  || null,
-    vehiculo_id:  parseInt(document.getElementById("nc-vehiculo").value) || null,
+    estado_id:    Number.parseInt(estadoId),
+    usuario_id:   Number.parseInt(usuarioId),
+    cliente_id:   Number.parseInt(document.getElementById("nc-cliente").value)  || null,
+    vehiculo_id:  Number.parseInt(document.getElementById("nc-vehiculo").value) || null,
     anotaciones:  document.getElementById("nc-anotaciones").value,
     servicios_id: serviciosId,
   };
@@ -206,11 +213,11 @@ async function guardarCita() {
     });
     const data = await res.json();
 
-    if (!res.ok) {
-      mostrarError(data.error || "Error al guardar la cita.");
-    } else {
+    if (res.ok) {
       cerrarDrawer();
       calendarInstance.refetchEvents();
+    } else {
+      mostrarError(data.error || "Error al guardar la cita.");
     }
   } catch {
     mostrarError("Error de red. Intente de nuevo.");
@@ -240,11 +247,10 @@ function abrirModalDetalle(event) {
   document.getElementById("modal-title").textContent    = event.title;
   document.getElementById("modal-cliente").textContent  = props.cliente  || "Sin cliente";
   document.getElementById("modal-vehiculo").textContent = props.vehiculo || "Sin vehículo";
-  if (typeof URL_CITA_EDITAR_BASE !== "undefined") {
-    document.getElementById("modal-link").href = `${URL_CITA_EDITAR_BASE}${event.id}/`;
-  } else {
-    document.getElementById("modal-link").href = `/agenda/citas/editar/${event.id}/`;
-  }
+  const baseUrl = typeof URL_CITA_EDITAR_BASE === "undefined"
+    ? "/agenda/citas/editar/"
+    : URL_CITA_EDITAR_BASE;
+  document.getElementById("modal-link").href = `${baseUrl}${event.id}/`;
 
   const badgeEl          = document.getElementById("modal-estado");
   badgeEl.textContent    = estado;

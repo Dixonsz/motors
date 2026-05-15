@@ -1,14 +1,12 @@
+{% load static %}
 <!DOCTYPE html>
 <html class="light" lang="es">
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>{% block title %}Taller{% endblock %}</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-      rel="stylesheet"
-    />
+    <script src="{% static 'autenticacion/vendor/tailwindcss.js' %}"></script>
+    <link href="{% static 'autenticacion/css/fonts.css' %}" rel="stylesheet" />
     <style>
       .material-symbols-outlined {
         font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
@@ -16,7 +14,7 @@
       }
 
       body {
-        font-family: "Inter", sans-serif;
+        font-family: "Inter", "Segoe UI", Arial, sans-serif;
         background-color: #f8fafc;
       }
     </style>
