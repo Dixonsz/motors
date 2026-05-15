@@ -11,7 +11,7 @@ urlpatterns = [
     path('clientes/crear/', cliente_create, name='cliente_crear'),
     path('clientes/<int:cliente_id>/editar/', cliente_editar, name='clientes_editar'),
     path('clientes/<int:cliente_id>/eliminar/', cliente_eliminar, name='clientes_eliminar'),
-    path('clientes/<int:cliente_id>/detalle-json/', cliente_detalle_json, name='cliente_detalle_json'),
+    path('clientes/<int:cliente_id>/detalle-json/', cliente_detalle_json, name='clientes_detalle_json'),
 
     path('recepciones/<int:recepcion_id>/evidencias/', evidencia_lista, name='evidencia_lista'),
     path('recepciones/<int:recepcion_id>/evidencias/crear/', evidencia_create, name='evidencia_crear'),
@@ -21,15 +21,15 @@ urlpatterns = [
 
     path('recepciones/', recepcion_lista, name='recepciones_lista'),
     path('recepciones/crear/', recepcion_create, name='recepciones_crear'),
-    path('recepciones/<int:recepcion_id>/detalle/', recepcion_detalle, name='recepcion_detalle'),
-    path('recepciones/<int:recepcion_id>/eliminar/', recepcion_eliminar, name='recepcion_eliminar'),
+    path('recepciones/<int:recepcion_id>/detalle/', recepcion_detalle, name='recepciones_detalle'),
+    path('recepciones/<int:recepcion_id>/eliminar/', recepcion_eliminar, name='recepciones_eliminar'),
 
     path('ordenes/', orden_lista, name='ordenes_lista'),
     path('ordenes/<int:orden_id>/detalle/', orden_detalle, name='orden_detalle'),
     path('ordenes/crear/', orden_create, name='ordenes_crear'),
-    path('ordenes/<int:orden_id>/editar/', orden_editar, name='orden_editar'),
-    path('ordenes/<int:orden_id>/cerrar/', orden_cerrar, name='orden_cerrar'),
-    path('ordenes/<int:orden_id>/eliminar/', orden_eliminar, name='orden_eliminar'),
+    path('ordenes/<int:orden_id>/editar/', orden_editar, name='ordenes_editar'),
+    path('ordenes/<int:orden_id>/cerrar/', orden_cerrar, name='ordenes_cerrar'),
+    path('ordenes/<int:orden_id>/eliminar/', orden_eliminar, name='ordenes_eliminar'),
 
     path('ordenes/<int:orden_id>/detalle/crear/', detalle_create, name='detalle_crear'),
     path('ordenes/detalle/<int:detalle_id>/editar/', detalle_editar, name='detalle_editar'),

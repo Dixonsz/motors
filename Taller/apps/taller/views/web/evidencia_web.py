@@ -6,6 +6,8 @@ from ...services.evidencia_service import EvidenciaService
 from ...services.recepcion_service import RecepcionService
 from config.security import access_required
 
+ORDEN_CLOSED_ERROR = "La recepción tiene una orden de servicio cerrada y no se puede modificar."
+
 @access_required("Recepciones", "ver")
 def evidencia_lista(request, recepcion_id):
 
@@ -14,13 +16,15 @@ def evidencia_lista(request, recepcion_id):
     paginator = Paginator(evidencias, 10)
     page_number = request.GET.get('page')
     evidencias = paginator.get_page(page_number)
+    bloqueada = RecepcionService.is_recepcion_cerrada(recepcion)
 
     return render(
         request,
         'evidencias/evidencias_lista.html',
         {
             'recepcion': recepcion,
-            'evidencias': evidencias
+            'evidencias': evidencias,
+            'bloqueada': bloqueada
         }
     )
 
@@ -28,18 +32,31 @@ def evidencia_lista(request, recepcion_id):
 def evidencia_create(request, recepcion_id):
     recepcion = get_object_or_404(Recepcion, id=recepcion_id)
 
-    if request.method == 'POST':
-        url_archivo = request.FILES.get('url_archivo')
-        descripcion = request.POST.get('descripcion')
-        tipo = request.POST.get('tipo', 'imagen')
+    if RecepcionService.is_recepcion_cerrada(recepcion):
+        messages.error(request, ORDEN_CLOSED_ERROR)
+        return redirect('recepciones_detalle', recepcion_id=recepcion.id)
 
-        EvidenciaService.create_evidencia(
-            recepcion_id=recepcion.id,
-            tipo=tipo,
-            url_archivo=url_archivo,
-            descripcion=descripcion
-        )
-        return redirect('recepcion_lista')
+    if request.method == 'POST':
+        archivos = request.FILES.getlist('url_archivo') 
+        descripcion = request.POST.get('descripcion', '')
+        tipo = request.POST.get('tipo', 'foto')
+
+        if not archivos:
+            messages.error(request, 'Debes seleccionar al menos una foto.')
+            return render(request, 'evidencias/evidencias_crear.html', {'recepcion': recepcion})
+
+        try:
+            EvidenciaService.create_multiple_evidencias(
+                recepcion_id=recepcion.id,
+                archivos=archivos,
+                tipo=tipo,
+                descripcion=descripcion  # ← agregar descripción al método
+            )
+            messages.success(request, f'{len(archivos)} evidencia(s) subida(s) correctamente.')
+        except Exception as exc:
+            messages.error(request, str(exc))
+
+        return redirect('evidencia_lista', recepcion_id=recepcion.id)
 
     return render(request, 'evidencias/evidencias_crear.html', {'recepcion': recepcion})
 
@@ -50,7 +67,11 @@ def evidencia_editar(request, evidencia_id):
     evidencias = EvidenciaService.get_evidencia_by_id(evidencia_id)
     if not evidencias:
         messages.error(request, 'La evidencia no existe.')
-        return redirect('recepcion_lista')
+        return redirect('recepciones_lista')
+
+    if RecepcionService.is_recepcion_cerrada(evidencias.recepcion):
+        messages.error(request, ORDEN_CLOSED_ERROR)
+        return redirect('evidencia_lista', recepcion_id=evidencias.recepcion.id)
 
     if request.method == 'POST':
         tipo = request.POST.get('tipo')
@@ -80,7 +101,11 @@ def evidencia_eliminar(request, evidencia_id):
     evidencia = EvidenciaService.get_evidencia_by_id(evidencia_id)
     if not evidencia:
         messages.error(request, 'La evidencia no existe.')
-        return redirect('recepcion_lista')
+        return redirect('recepciones_lista')
+
+    if RecepcionService.is_recepcion_cerrada(evidencia.recepcion):
+        messages.error(request, ORDEN_CLOSED_ERROR)
+        return redirect('evidencia_lista', recepcion_id=evidencia.recepcion.id)
 
     if request.method == 'POST':
 

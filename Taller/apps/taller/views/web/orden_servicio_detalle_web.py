@@ -1,3 +1,5 @@
+from decimal import Decimal, InvalidOperation
+
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -5,6 +7,8 @@ from ...services.orden_servicio_detalle_service import OrdenServicioDetalleServi
 from ...services.orden_servicio_service import OrdenServicioService
 from ....agenda.services.servicio_service import ServicioService
 from config.security import access_required
+
+ORDEN_CLOSED_ERROR = "La orden de servicio está cerrada y no se puede modificar."
 
 
 @access_required("Ordenes", "crear")
@@ -14,12 +18,30 @@ def detalle_create(request, orden_id):
         messages.error(request, 'La orden no existe.')
         return redirect('ordenes_lista')
 
+    if OrdenServicioService.is_orden_cerrada(orden):
+        messages.error(request, ORDEN_CLOSED_ERROR)
+        return redirect('orden_detalle', orden_id=orden_id)
+
     if request.method == 'POST':
+        servicio_id = request.POST.get('servicio_id')
+        precio_raw = (request.POST.get('precio') or '').strip()
+        servicio = ServicioService.get_servicio_by_id(servicio_id)
+
+        if not servicio:
+            messages.error(request, 'El servicio no existe.')
+            return redirect('orden_detalle', orden_id=orden_id)
+
+        try:
+            precio = Decimal(precio_raw) if precio_raw else servicio.precio_base
+        except (InvalidOperation, TypeError):
+            messages.error(request, 'El precio ingresado no es valido.')
+            return redirect('detalle_crear', orden_id=orden_id)
+
         try:
             OrdenServicioDetalleService.create_detalle(
                 orden_id=orden_id,
-                servicio_id=request.POST.get('servicio_id'),
-                precio=int(request.POST.get('precio')),
+                servicio_id=servicio_id,
+                precio=precio,
                 cantidad=int(request.POST.get('cantidad', 1)),
                 observaciones=request.POST.get('observaciones')
             )
@@ -41,6 +63,10 @@ def detalle_editar(request, detalle_id):
     if not detalle:
         messages.error(request, 'El detalle no existe.')
         return redirect('ordenes_lista')
+
+    if OrdenServicioService.is_orden_cerrada(detalle.orden):
+        messages.error(request, ORDEN_CLOSED_ERROR)
+        return redirect('orden_detalle', orden_id=detalle.orden_id)
 
     if request.method == 'POST':
         try:
@@ -64,6 +90,10 @@ def detalle_eliminar(request, detalle_id):
     if not detalle:
         messages.error(request, 'El detalle no existe.')
         return redirect('ordenes_lista')
+
+    if OrdenServicioService.is_orden_cerrada(detalle.orden):
+        messages.error(request, ORDEN_CLOSED_ERROR)
+        return redirect('orden_detalle', orden_id=detalle.orden_id)
 
     orden_id = detalle.orden_id
 

@@ -12,6 +12,12 @@ ORDEN_SERVICIO_ERROR_MESSAGES = "Orden de servicio no encontrada."
 class OrdenServicioService:
 
     @staticmethod
+    def is_orden_cerrada(orden):
+        if not orden or not orden.estado_id:
+            return False
+        return orden.estado.nombre.strip().lower() == "completado"
+
+    @staticmethod
     def get_orden_servicio_by_id(orden_servicio_id):
         try:
             return OrdenServicio.objects.get(id=orden_servicio_id)
@@ -33,7 +39,7 @@ class OrdenServicioService:
         if not orden.ordenes_detalle.exists():
             raise ValueError("No se puede cerrar la orden de servicio sin detalles.")
         
-        if orden.estado.nombre.lower() == "Completado":
+        if OrdenServicioService.is_orden_cerrada(orden):
             raise ValueError("La orden de servicio ya está cerrada.")
 
         estado_completado = Estado.objects.filter(nombre__iexact="Completado").first()
@@ -57,6 +63,9 @@ class OrdenServicioService:
         if OrdenServicio.objects.filter(recepcion=recepcion).exists():
             raise ValueError("Ya existe una orden de servicio para esta recepción.") 
 
+        if OrdenServicio.objects.filter(recepcion=recepcion, estado__nombre__iexact="Completado").exists():
+            raise ValueError("La recepción tiene una orden de servicio cerrada.")
+
 
         orden_servicio = OrdenServicio(
             recepcion=recepcion,
@@ -75,6 +84,9 @@ class OrdenServicioService:
         orden_servicio = OrdenServicioService.get_orden_servicio_by_id(orden_servicio_id)
         if not orden_servicio:
             raise ValueError(ORDEN_SERVICIO_ERROR_MESSAGES)
+
+        if OrdenServicioService.is_orden_cerrada(orden_servicio):
+            raise ValueError("La orden de servicio está cerrada y no se puede modificar.")
         
         if recepcion_id:
             orden_servicio.recepcion = get_required_instance(Recepcion, recepcion_id, "Recepción no encontrada.")
@@ -98,5 +110,7 @@ class OrdenServicioService:
         orden_servicio = OrdenServicioService.get_orden_servicio_by_id(orden_servicio_id)
         if not orden_servicio:
             raise ValueError(ORDEN_SERVICIO_ERROR_MESSAGES)
+        if OrdenServicioService.is_orden_cerrada(orden_servicio):
+            raise ValueError("La orden de servicio está cerrada y no se puede eliminar.")
         orden_servicio.delete()
        

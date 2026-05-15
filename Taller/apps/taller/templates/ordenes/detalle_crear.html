@@ -24,7 +24,7 @@
             <select class="rounded-md border-slate-200 text-sm" name="servicio_id" id="servicio_id" required>
                 <option value="">Seleccione un servicio</option>
                 {% for servicio in servicios %}
-                    <option value="{{ servicio.id }}">{{ servicio.nombre }} - ₡{{ servicio.precio_base }}</option>
+                    <option value="{{ servicio.id }}" data-precio="{{ servicio.precio_base }}">{{ servicio.nombre }} - ₡{{ servicio.precio_base }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -32,7 +32,7 @@
         <div class="grid gap-4 md:grid-cols-2">
             <div class="grid gap-2">
                 <label class="text-sm font-semibold text-slate-600" for="precio">Precio</label>
-                <input class="rounded-md border-slate-200 text-sm" type="number" name="precio" id="precio" min="0" required>
+                <input class="rounded-md border-slate-200 text-sm" type="number" name="precio" id="precio" min="0" step="0.01" required>
             </div>
             <div class="grid gap-2">
                 <label class="text-sm font-semibold text-slate-600" for="cantidad">Cantidad</label>
@@ -61,4 +61,28 @@
         </div>
     </form>
 </div>
+{% endblock %}
+{% block scripts %}
+<script>
+    const servicioSelect = document.getElementById('servicio_id');
+    const precioInput = document.getElementById('precio');
+
+    if (servicioSelect && precioInput) {
+        const setPrecioDesdeServicio = () => {
+            const option = servicioSelect.options[servicioSelect.selectedIndex];
+            if (!option) return;
+            const precioBase = option.getAttribute('data-precio');
+            if (precioBase && !precioInput.value) {
+                precioInput.value = precioBase;
+            }
+        };
+
+        servicioSelect.addEventListener('change', () => {
+            precioInput.value = '';
+            setPrecioDesdeServicio();
+        });
+
+        setPrecioDesdeServicio();
+    }
+</script>
 {% endblock %}

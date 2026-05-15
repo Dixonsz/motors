@@ -3,8 +3,15 @@ from ..models.orden_servicio import OrdenServicio
 from ...agenda.models.servicio import Servicio
 from utils import get_required_instance
 
+ORDEN_CLOSED_ERROR = "La orden de servicio está cerrada y no se puede modificar."
 
 class OrdenServicioDetalleService:
+
+    @staticmethod
+    def _orden_cerrada(orden):
+        if not orden or not orden.estado_id:
+            return False
+        return orden.estado.nombre.strip().lower() == "completado"
 
     @staticmethod
     def get_detalle_by_id(detalle_id):
@@ -22,6 +29,9 @@ class OrdenServicioDetalleService:
 
         orden    = get_required_instance(OrdenServicio, orden_id, "Orden de servicio no encontrada.")
         servicio = get_required_instance(Servicio, servicio_id, "Servicio no encontrado.")
+
+        if OrdenServicioDetalleService._orden_cerrada(orden):
+            raise ValueError(ORDEN_CLOSED_ERROR)
 
         if OrdenServicioDetalle.objects.filter(orden=orden, servicio=servicio).exists():
             raise ValueError(f"El servicio '{servicio.nombre}' ya está agregado a esta orden.")
@@ -43,6 +53,9 @@ class OrdenServicioDetalleService:
         if not detalle:
             raise ValueError("Detalle no encontrado.")
 
+        if OrdenServicioDetalleService._orden_cerrada(detalle.orden):
+            raise ValueError(ORDEN_CLOSED_ERROR)
+
         if precio is not None:
             detalle.precio = precio
         if cantidad is not None:
@@ -58,4 +71,6 @@ class OrdenServicioDetalleService:
         detalle = OrdenServicioDetalleService.get_detalle_by_id(detalle_id)
         if not detalle:
             raise ValueError("Detalle no encontrado.")
+        if OrdenServicioDetalleService._orden_cerrada(detalle.orden):
+            raise ValueError(ORDEN_CLOSED_ERROR)
         detalle.delete()

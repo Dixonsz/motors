@@ -50,7 +50,7 @@ def orden_create(request):
         except ValueError as exc:
             messages.error(request, str(exc))
 
-    recepciones = RecepcionService.get_all_recepciones()
+    recepciones = RecepcionService.get_recepciones_disponibles_para_orden()
     usuarios    = UsuarioService.get_all_usuarios()
     estados     = EstadoService.get_all_estados()
 
@@ -67,6 +67,10 @@ def orden_editar(request, orden_id):
     if not orden:
         messages.error(request, ORDEN_ERROR)
         return redirect('ordenes_lista')
+
+    if OrdenServicioService.is_orden_cerrada(orden):
+        messages.error(request, 'La orden de servicio está cerrada y no se puede modificar.')
+        return redirect('orden_detalle', orden_id=orden_id)
 
     if request.method == 'POST':
         try:
@@ -99,6 +103,10 @@ def orden_cerrar(request, orden_id):
         messages.error(request, ORDEN_ERROR)
         return redirect('ordenes_lista')
 
+    if OrdenServicioService.is_orden_cerrada(orden):
+        messages.error(request, 'La orden de servicio ya está cerrada.')
+        return redirect('orden_detalle', orden_id=orden_id)
+
     if request.method == 'POST':
         try:
             OrdenServicioService.cerrar_orden_servicio(orden_id)
@@ -116,6 +124,10 @@ def orden_eliminar(request, orden_id):
     if not orden:
         messages.error(request, ORDEN_ERROR)
         return redirect('ordenes_lista')
+
+    if OrdenServicioService.is_orden_cerrada(orden):
+        messages.error(request, 'La orden de servicio está cerrada y no se puede eliminar.')
+        return redirect('orden_detalle', orden_id=orden_id)
 
     if request.method == 'POST':
         try:

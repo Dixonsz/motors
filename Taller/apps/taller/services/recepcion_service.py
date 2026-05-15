@@ -11,8 +11,18 @@ from .evidencia_service import EvidenciaService
 class RecepcionService:
 
     @staticmethod
+    def is_recepcion_cerrada(recepcion):
+        if not recepcion:
+            return False
+        return recepcion.ordenes_servicio.filter(estado__nombre__iexact="Completado").exists()
+
+    @staticmethod
     def get_all_recepciones():
         return Recepcion.objects.all()
+
+    @staticmethod
+    def get_recepciones_disponibles_para_orden():
+        return Recepcion.objects.filter(ordenes_servicio__isnull=True).distinct()
     
     @staticmethod
     def get_recepcion_by_id(recepcion_id):
@@ -66,6 +76,9 @@ class RecepcionService:
         recepcion = RecepcionService.get_recepcion_by_id(recepcion_id)
         if not recepcion:
             raise ValueError("La recepcion no existe.")
+
+        if RecepcionService.is_recepcion_cerrada(recepcion):
+            raise ValueError("La recepción tiene una orden de servicio cerrada y no se puede eliminar.")
 
         with transaction.atomic():
             evidencias = recepcion.evidencias.all()

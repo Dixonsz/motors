@@ -5,6 +5,7 @@ from django.urls import reverse
 from ...services.recepcion_service import RecepcionService
 from ....vehiculos.services.vehiculo_service import VehiculoService
 from ....autenticacion.services.usuario_service import UsuarioService
+from ...services.evidencia_service import EvidenciaService
 from config.security import access_required
 
 
@@ -21,15 +22,26 @@ def recepcion_lista(request):
 def recepcion_create(request):
     if request.method == 'POST':
         try:
-            RecepcionService.create_recepcion(
+            recepcion = RecepcionService.create_recepcion(
                 vehiculo_id=request.POST.get('vehiculo_id'),
                 usuario_id=request.POST.get('usuario_id'),
                 observaciones=request.POST.get('observaciones', ''),
                 kilometraje=int(request.POST.get('kilometraje')),
                 nivel_combustible=int(request.POST.get('nivel_combustible'))
             )
+
+            archivos = request.FILES.getlist('evidencias')
+            if archivos:
+                EvidenciaService.create_multiple_evidencias(
+                    recepcion_id=recepcion.id,
+                    archivos=archivos,
+                    tipo='foto',
+                    descripcion='Evidencia fotográfica de ingreso'
+                )
+
             messages.success(request, 'Recepción registrada correctamente.')
             return redirect('recepciones_lista')
+
         except ValueError as exc:
             messages.error(request, str(exc))
 
@@ -41,7 +53,6 @@ def recepcion_create(request):
         'usuarios': usuarios
     })
 
-
 @access_required("Recepciones", "ver")
 def recepcion_detalle(request, recepcion_id):
     recepcion = RecepcionService.get_recepcion_by_id(recepcion_id)
@@ -49,7 +60,8 @@ def recepcion_detalle(request, recepcion_id):
         messages.error(request, 'La recepción no existe.')
         return redirect('recepciones_lista')
 
-    return render(request, 'recepciones/recepciones_detalle.html', {'recepcion': recepcion})
+    bloqueada = RecepcionService.is_recepcion_cerrada(recepcion)
+    return render(request, 'recepciones/recepciones_detalle.html', {'recepcion': recepcion, 'bloqueada': bloqueada})
 
 
 @access_required("Recepciones", "eliminar")
@@ -58,6 +70,10 @@ def recepcion_eliminar(request, recepcion_id):
     if not recepcion:
         messages.error(request, 'La recepción no existe.')
         return redirect('recepciones_lista')
+
+    if RecepcionService.is_recepcion_cerrada(recepcion):
+        messages.error(request, 'La recepción tiene una orden de servicio cerrada y no se puede modificar.')
+        return redirect('recepciones_detalle', recepcion_id=recepcion.id)
 
     if request.method == 'POST':
         try:

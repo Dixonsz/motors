@@ -89,15 +89,249 @@
       </div>
     </div>
     {% endif %}
-  </div>
 
-  <aside class="space-y-4">
-    <div class="border border-slate-200 bg-white p-5 shadow-sm">
-      <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Cita asociada</p>
-      <p class="mt-2 text-sm text-slate-700">
-        {% if recepcion.cita %}{{ recepcion.cita.fecha }} {{ recepcion.cita.hora_inicio }}{% else %}Sin cita{% endif %}
-      </p>
+    <!-- Evidencias fotográficas -->
+    <div class="border border-slate-200 bg-white p-6 shadow-sm">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h3 class="text-base font-semibold text-slate-900">Evidencias fotográficas</h3>
+          <p class="mt-1 text-xs text-slate-400">Opcional. Puedes seleccionar varias fotos o videos a la vez.</p>
+        </div>
+      </div>
+
+      {% if bloqueada %}
+      <div class="mt-4 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+        Esta recepcion tiene una orden de servicio completada. No se permiten cambios.
+      </div>
+      {% else %}
+      <form action="{% url 'evidencia_crear' recepcion.id %}" class="mt-4 grid gap-3" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label class="text-sm font-semibold text-slate-600" for="evidencias-archivos">Evidencias fotográficas</label>
+        <label
+          for="evidencias-archivos"
+          id="evidencias-drop-zone"
+          class="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed border-slate-200 px-6 py-10 text-center transition-colors hover:border-slate-400 hover:bg-slate-50"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+          </svg>
+          <span class="text-sm font-medium text-slate-600">Haz clic para seleccionar archivos</span>
+          <span class="text-xs text-slate-400">JPG, PNG, MP4 — múltiples archivos permitidos</span>
+          <input
+            type="file"
+            name="url_archivo"
+            id="evidencias-archivos"
+            class="hidden"
+            multiple
+            accept="image/*,video/*"
+          >
+        </label>
+
+        <ul id="evidencias-preview" class="hidden grid gap-2"></ul>
+        <div class="flex justify-end">
+          <button class="rounded-md bg-primary px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-slate-800" type="submit">Subir evidencias</button>
+        </div>
+      </form>
+      {% endif %}
+
+      {% with evidencias=recepcion.evidencias.all %}
+      {% if evidencias %}
+      <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+        {% for evidencia in evidencias %}
+          {% if evidencia.tipo == 'foto' or evidencia.tipo == 'imagen' %}
+          <button
+            type="button"
+            class="lightbox-trigger group relative aspect-square overflow-hidden rounded-md border border-slate-100 bg-slate-50"
+            data-url="{{ evidencia.url_archivo.url }}"
+            data-descripcion="{{ evidencia.descripcion|default:'' }}"
+          >
+            <img
+              src="{{ evidencia.url_archivo.url }}"
+              alt="{{ evidencia.descripcion|default:'Evidencia' }}"
+              class="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+            >
+            <div class="absolute inset-0 flex flex-col justify-between bg-black/0 p-2 opacity-0 transition-all duration-200 group-hover:bg-black/40 group-hover:opacity-100">
+              <div class="flex justify-end">
+                {% if not bloqueada %}
+                <a
+                  href="{% url 'evidencia_eliminar' evidencia.id %}"
+                  class="rounded bg-white/90 p-1 text-slate-700 hover:bg-red-50 hover:text-red-600"
+                  onclick="event.stopPropagation()"
+                  title="Eliminar"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </a>
+                {% endif %}
+              </div>
+              {% if evidencia.descripcion %}
+              <p class="truncate rounded bg-black/50 px-2 py-1 text-left text-xs text-white">{{ evidencia.descripcion }}</p>
+              {% endif %}
+            </div>
+          </button>
+
+          {% else %}
+          <div class="group relative aspect-square overflow-hidden rounded-md border border-slate-100 bg-slate-900">
+            <video
+              src="{{ evidencia.url_archivo.url }}"
+              class="h-full w-full object-cover opacity-80"
+              muted
+            ></video>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="flex h-9 w-9 items-center justify-center rounded-full bg-white/90">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-700" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </span>
+            </div>
+            {% if not bloqueada %}
+            <div class="absolute top-2 right-2 opacity-0 transition-opacity group-hover:opacity-100">
+              <a
+                href="{% url 'evidencia_eliminar' evidencia.id %}"
+                class="rounded bg-white/90 p-1 text-slate-700 hover:bg-red-50 hover:text-red-600 block"
+                title="Eliminar"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </a>
+            </div>
+            {% endif %}
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <p class="mt-3 text-xs text-slate-400">{{ evidencias|length }} evidencia{{ evidencias|length|pluralize:",s" }} registrada{{ evidencias|length|pluralize:",s" }}</p>
+
+      {% else %}
+      <div class="mt-4 rounded-lg border border-dashed border-slate-200 bg-slate-50 p-6 text-center text-sm text-slate-500">
+        No hay evidencias registradas para esta recepcion.
+      </div>
+      {% endif %}
+      {% endwith %}
     </div>
-  </aside>
+  </div>
 </div>
+
+<div id="lightbox-overlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 p-4">
+  <div class="relative w-full max-w-3xl">
+    <button
+      id="lightbox-close"
+      type="button"
+      class="absolute right-3 top-3 rounded bg-white/90 p-1 text-slate-700 hover:bg-white"
+      aria-label="Cerrar"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <img id="lightbox-image" class="max-h-[80vh] w-full rounded-lg bg-white object-contain" alt="" />
+    <p id="lightbox-caption" class="mt-3 text-sm text-white"></p>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const lightboxOverlay = document.getElementById('lightbox-overlay');
+  const lightboxImage = document.getElementById('lightbox-image');
+  const lightboxCaption = document.getElementById('lightbox-caption');
+  const lightboxClose = document.getElementById('lightbox-close');
+
+  const closeLightbox = () => {
+    if (!lightboxOverlay) return;
+    lightboxOverlay.classList.add('hidden');
+    lightboxOverlay.classList.remove('flex');
+    if (lightboxImage) {
+      lightboxImage.src = '';
+      lightboxImage.alt = '';
+    }
+    if (lightboxCaption) {
+      lightboxCaption.textContent = '';
+    }
+  };
+
+  if (lightboxOverlay && lightboxImage) {
+    document.querySelectorAll('.lightbox-trigger').forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const url = trigger.getAttribute('data-url');
+        const descripcion = trigger.getAttribute('data-descripcion') || '';
+
+        if (!url) return;
+        lightboxImage.src = url;
+        lightboxImage.alt = descripcion || 'Evidencia';
+        if (lightboxCaption) {
+          lightboxCaption.textContent = descripcion;
+        }
+        lightboxOverlay.classList.remove('hidden');
+        lightboxOverlay.classList.add('flex');
+      });
+    });
+
+    lightboxOverlay.addEventListener('click', (event) => {
+      if (event.target === lightboxOverlay) {
+        closeLightbox();
+      }
+    });
+  }
+
+  if (lightboxClose) {
+    lightboxClose.addEventListener('click', closeLightbox);
+  }
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeLightbox();
+    }
+  });
+</script>
+
+<script>
+  const evidenciasInput = document.getElementById('evidencias-archivos');
+  const evidenciasPreview = document.getElementById('evidencias-preview');
+
+  if (evidenciasInput && evidenciasPreview) {
+    evidenciasInput.addEventListener('change', () => {
+      evidenciasPreview.innerHTML = '';
+
+      if (evidenciasInput.files.length === 0) {
+        evidenciasPreview.classList.add('hidden');
+        return;
+      }
+
+      evidenciasPreview.classList.remove('hidden');
+
+      Array.from(evidenciasInput.files).forEach((file) => {
+        const isImage = file.type.startsWith('image/');
+        const li = document.createElement('li');
+        li.className = 'flex items-center gap-3 rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-700';
+
+        if (isImage) {
+          const img = document.createElement('img');
+          img.className = 'h-10 w-10 rounded object-cover flex-shrink-0';
+          img.src = URL.createObjectURL(file);
+          li.appendChild(img);
+        } else {
+          li.innerHTML += `
+            <span class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded bg-slate-100">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9A2.25 2.25 0 0013.5 6h-9A2.25 2.25 0 002.25 8.25v9A2.25 2.25 0 004.5 18.75z" />
+              </svg>
+            </span>`;
+        }
+
+        const info = document.createElement('div');
+        info.className = 'flex flex-col min-w-0';
+        info.innerHTML = `
+          <span class="truncate font-medium">${file.name}</span>
+          <span class="text-xs text-slate-400">${(file.size / 1024).toFixed(1)} KB</span>
+        `;
+        li.appendChild(info);
+        evidenciasPreview.appendChild(li);
+      });
+    });
+  }
+</script>
 {% endblock %}

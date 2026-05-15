@@ -20,6 +20,12 @@
 {% block content %}
 <p class="mb-6 text-sm text-slate-500">Revisa las evidencias asociadas a esta recepcion y gestiona su contenido.</p>
 
+{% if bloqueada %}
+<div class="mb-6 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+	Esta recepcion tiene una orden de servicio completada. No se permiten cambios.
+</div>
+{% endif %}
+
 {% if evidencias %}
 <div class="grid gap-6 lg:grid-cols-2">
 	{% for evidencia in evidencias %}
@@ -38,10 +44,12 @@
 			{% endif %}
 		</div>
 		<p class="mt-4 text-sm text-slate-600">{{ evidencia.descripcion }}</p>
+		{% if not bloqueada %}
 		<div class="mt-4 flex flex-wrap items-center gap-2">
 			<a class="rounded-md border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:border-slate-400" href="{% url 'evidencia_editar' evidencia.id %}">Editar</a>
 			<a class="rounded-md border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 transition-colors hover:border-rose-300" href="{% url 'evidencia_eliminar' evidencia.id %}">Eliminar</a>
 		</div>
+		{% endif %}
 	</article>
 	{% endfor %}
 </div>
