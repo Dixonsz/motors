@@ -3,7 +3,6 @@
   href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css"
   rel="stylesheet"
 />
-{ % load static %}
 <link rel="stylesheet" href="{% static 'css/calendario.css' %}" />
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 
@@ -139,10 +138,11 @@
 </div>
 
 <script>
-  const URL_EVENTOS = "{% url 'citas_calendario_json' %}";
+  const URL_EVENTOS = "{% url 'citas_calendario' %}";
   const URL_FORM_DATA = "{% url 'calendario_form_data' %}";
-  const URL_VEHICULOS = "{% url 'calendario_vehiculos' cliente_id=0 %}".replace("/0/","/",);
+  const URL_VEHICULOS = "{% url 'calendario_vehiculos_por_cliente' cliente_id=0 %}".replace("/0/", "/");
   const URL_CREAR = "{% url 'calendario_crear_cita' %}";
+  const URL_CITA_EDITAR_BASE = "{% url 'citas_editar' 0 %}".replace("/0/", "/");
   const CSRF_TOKEN = "{{ csrf_token }}";
 </script>
 

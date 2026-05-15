@@ -6,7 +6,7 @@
 <nav aria-label="Acciones de vehiculos">
     <a
         class="flex items-center gap-2 bg-primary px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-slate-800"
-        href="{% url 'vehiculo_crear' %}"
+        href="{% url 'vehiculos_crear' %}"
     >
         <span class="material-symbols-outlined text-lg" data-icon="add">add</span>
         Nuevo vehiculo
@@ -64,13 +64,13 @@
                                 <div class="flex flex-wrap items-center gap-2">
                                     <a
                                         class="rounded-md border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:border-slate-400"
-                                        href="{% url 'vehiculo_editar' vehiculo.id %}"
+                                        href="{% url 'vehiculos_editar' vehiculo.id %}"
                                     >
                                         Editar
                                     </a>
                                     <a
                                         class="rounded-md border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 transition-colors hover:border-rose-300"
-                                        href="{% url 'vehiculo_eliminar' vehiculo.id %}"
+                                        href="{% url 'vehiculos_eliminar' vehiculo.id %}"
                                     >
                                         Eliminar
                                     </a>

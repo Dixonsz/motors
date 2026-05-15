@@ -77,7 +77,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -177,7 +177,7 @@ SESSION_COOKIE_HTTPONLY = False
 SESSION_COOKIE_SAMESITE = None
 CSRF_COOKIE_SAMESITE = None
 
-#DISABLE_ACCESS_SECURITY = True
+DISABLE_ACCESS_SECURITY = True
 
 PASSWORD_RESET_TIMEOUT = 300
 

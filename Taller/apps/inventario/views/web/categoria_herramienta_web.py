@@ -21,7 +21,7 @@ def categoria_create(request):
         try:
             CategoriaHerramientaService.create_categoria(nombre, descripcion)
             messages.success(request, 'Categoría creada correctamente.')
-            return redirect('categorias_lista')
+            return redirect('categoria_herramientas_lista')
         except ValueError as exc:
             messages.error(request, str(exc))
 
@@ -32,7 +32,7 @@ def categoria_editar(request, categoria_id):
     categoria = CategoriaHerramientaService.get_categoria_by_id(categoria_id)
     if not categoria:
         messages.error(request, 'La categoría no existe.')
-        return redirect('categorias_lista')
+        return redirect('categoria_herramientas_lista')
 
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -40,7 +40,7 @@ def categoria_editar(request, categoria_id):
         try:
             CategoriaHerramientaService.update_categoria(categoria_id, nombre, descripcion)
             messages.success(request, 'Categoría actualizada correctamente.')
-            return redirect('categorias_lista')
+            return redirect('categoria_herramientas_lista')
         except ValueError as exc:
             messages.error(request, str(exc))
 
@@ -51,13 +51,13 @@ def categoria_eliminar(request, categoria_id):
     categoria = CategoriaHerramientaService.get_categoria_by_id(categoria_id)
     if not categoria:
         messages.error(request, 'La categoría no existe.')
-        return redirect('categorias_lista')
+        return redirect('categoria_herramientas_lista')
 
     if request.method == 'POST':
         try:
             CategoriaHerramientaService.delete_categoria(categoria_id)
             messages.success(request, 'Categoría eliminada correctamente.')
-            return redirect('categorias_lista')
+            return redirect('categoria_herramientas_lista')
         except ValueError as exc:
             messages.error(request, str(exc))
 

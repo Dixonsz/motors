@@ -4,7 +4,7 @@
 
 {% block page_actions %}
 <nav aria-label="Acciones de evidencia">
-    <a class="flex items-center gap-2 border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-600 transition-all hover:border-slate-400" href="{% url 'recepcion_lista' %}">
+    <a class="flex items-center gap-2 border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-600 transition-all hover:border-slate-400" href="{% url 'recepciones_lista' %}">
         <span class="material-symbols-outlined text-base" data-icon="arrow_back">arrow_back</span>
         Volver a recepciones
     </a>
@@ -33,7 +33,7 @@
 
             <div class="flex flex-wrap items-center gap-3 pt-2">
                 <button class="bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-slate-700" type="submit">Guardar evidencia</button>
-                <a class="px-4 py-2 text-sm font-semibold text-slate-500 transition-colors hover:text-slate-700" href="{% url 'recepcion_lista' %}">Cancelar</a>
+                <a class="px-4 py-2 text-sm font-semibold text-slate-500 transition-colors hover:text-slate-700" href="{% url 'recepciones_lista' %}">Cancelar</a>
             </div>
         </form>
     </div>

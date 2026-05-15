@@ -5,10 +5,10 @@ from .views.web.herramienta_web import herramienta_lista, herramienta_create, he
 from .views.web.inventario_herramienta_web import inventario_herramientas_lista, inventario_herramientas_create, inventario_herramientas_editar, inventario_herramientas_eliminar
 
 urlpatterns = [
-    path('categorias/', categoria_lista, name='categorias_lista'),
-    path('categorias/crear/', categoria_create, name='categorias_crear'),
-    path('categorias/editar/<int:categoria_id>/', categoria_editar, name='categorias_editar'),
-    path('categorias/eliminar/<int:categoria_id>/', categoria_eliminar, name='categorias_eliminar'),
+    path('categorias/', categoria_lista, name='categoria_herramientas_lista'),
+    path('categorias/crear/', categoria_create, name='categoria_herramientas_crear'),
+    path('categorias/editar/<int:categoria_id>/', categoria_editar, name='categoria_herramientas_editar'),
+    path('categorias/eliminar/<int:categoria_id>/', categoria_eliminar, name='categoria_herramientas_eliminar'),
 
     path('estados/', estado_herramienta_lista, name='estado_herramientas_lista'),
     path('estados/crear/', estado_herramienta_create, name='estado_herramientas_crear'),

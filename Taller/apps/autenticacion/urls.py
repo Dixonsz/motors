@@ -1,4 +1,5 @@
 from django.urls import path
+from .views.web.index_web import inicio
 from .views.web.auth_web import login_view, logout_view,recover_account_view, reset_password_view
 from .views.web.modulo_web import modulo_crear, modulo_editar, modulo_eliminar, modulo_lista
 from .views.web.permiso_web import permiso_lista, rol_permisos_lista, permiso_create, permiso_eliminar
@@ -7,6 +8,8 @@ from .views.web.rol_web import rol_create, rol_editar, rol_eliminar, rol_lista
 from .views.web.usuario_web import usuario_lista, usuario_create, usuario_editar, usuario_cambiar_password, usuario_activar_desactivar
 
 urlpatterns = [
+    path('', inicio, name='inicio'),
+
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('recover-account/', recover_account_view, name='recover_account'),
@@ -18,15 +21,16 @@ urlpatterns = [
     path('modulos/eliminar/<int:modulo_id>/', modulo_eliminar, name='modulos_eliminar'),
 
     path('permisos/', permiso_lista, name='permisos_lista'),
-    path('roles/<int:rol_id>/permisos/', rol_permisos_lista, name='rol_permisos_lista'),
+    path('roles/<int:rol_id>/permisos/', rol_permiso_lista, name='rol_permiso_lista'),
     path('permisos/crear/', permiso_create, name='permisos_crear'),
     path('permisos/eliminar/<int:permiso_id>/', permiso_eliminar, name='permisos_eliminar'),
+
+    path('roles/<int:rol_id>/permisos-todos/', rol_permisos_lista, name='rol_permisos_lista'),
 
     path('roles/<int:rol_id>/permisos/asignar/', rol_permiso_asignar, name='rol_permisos_asignar'),
     path('roles/<int:rol_id>/permisos/asignar-modulo/', rol_permiso_asignar_modulo, name='rol_permisos_asignar_modulo'),
     path('roles/<int:rol_id>/permisos/revocar/', rol_permiso_revocar, name='rol_permisos_revocar'),
     path('roles/<int:rol_id>/permisos/revocar-modulo/', rol_permiso_revocar_modulo, name='rol_permisos_revocar_modulo'),
-    path('roles/<int:rol_id>/permisos/', rol_permiso_lista, name='rol_permisos_lista'),
 
     path('roles/', rol_lista, name='roles_lista'),
     path('roles/crear/', rol_create, name='roles_crear'),

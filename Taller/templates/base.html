@@ -128,8 +128,8 @@
           <li class="px-6 pt-3 text-[10px] font-semibold uppercase tracking-widest text-slate-400">Agenda</li>
           <li>
             <a
-              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':7' == '/citas/calendario' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
-              href="{% url 'citas_calendario' %}"
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':19' == '/agenda/calendario/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              href="{% url 'calendario_citas' %}"
             >
               <span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
               <span>Agenda</span>
@@ -139,7 +139,7 @@
           <li class="px-6 pt-4 text-[10px] font-semibold uppercase tracking-widest text-slate-400">Taller</li>
           <li>
             <a
-              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':7' == '/citas/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':14' == '/agenda/citas/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'citas_lista' %}"
             >
               <span class="material-symbols-outlined" data-icon="event">event</span>
@@ -148,7 +148,7 @@
           </li>
           <li>
             <a
-              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':14' == '/recepciones/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':20' == '/taller/recepciones/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'recepciones_lista' %}"
             >
               <span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
@@ -157,7 +157,7 @@
           </li>
           <li>
             <a
-              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':9' == '/ordenes/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':15' == '/taller/ordenes/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'ordenes_lista' %}"
             >
               <span class="material-symbols-outlined" data-icon="assignment">assignment</span>
@@ -168,7 +168,7 @@
           <li class="px-6 pt-4 text-[10px] font-semibold uppercase tracking-widest text-slate-400">Operación</li>
           <li>
             <a
-              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':9' == '/estados/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':19' == '/vehiculos/estados/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'estados_lista' %}"
             >
               <span class="material-symbols-outlined" data-icon="flag">flag</span>
@@ -179,7 +179,7 @@
           <li class="px-6 pt-4 text-[10px] font-semibold uppercase tracking-widest text-slate-400">Catálogo</li>
           <li>
             <a
-              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':10' == '/clientes/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':17' == '/taller/clientes/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'clientes_lista' %}"
             >
               <span class="material-symbols-outlined" data-icon="group">group</span>
@@ -188,7 +188,7 @@
           </li>
           <li>
             <a
-              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':10' == '/vehiculos/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':21' == '/vehiculos/vehiculos/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'vehiculos_lista' %}"
             >
               <span class="material-symbols-outlined" data-icon="directions_car">directions_car</span>
@@ -197,7 +197,7 @@
           </li>
           <li>
             <a
-              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':10' == '/servicios/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':18' == '/agenda/servicios/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'servicios_lista' %}"
             >
               <span class="material-symbols-outlined" data-icon="build">build</span>
@@ -206,7 +206,7 @@
           </li>
           <li>
             <a
-              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':11' == '/categorias/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':19' == '/agenda/categorias/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'categorias_lista' %}"
             >
               <span class="material-symbols-outlined" data-icon="category">category</span>
@@ -215,7 +215,7 @@
           </li>
           <li>
             <a
-              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':8' == '/marcas/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':18' == '/vehiculos/marcas/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'marcas_lista' %}"
             >
               <span class="material-symbols-outlined" data-icon="label">label</span>
@@ -224,7 +224,7 @@
           </li>
           <li>
             <a
-              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':9' == '/modelos/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':19' == '/vehiculos/modelos/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'modelos_lista' %}"
             >
               <span class="material-symbols-outlined" data-icon="precision_manufacturing">precision_manufacturing</span>
@@ -233,7 +233,7 @@
           </li>
           <li>
             <a
-              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':13' == '/combustibles/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':24' == '/vehiculos/combustibles/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'combustibles_lista' %}"
             >
               <span class="material-symbols-outlined" data-icon="local_gas_station">local_gas_station</span>
@@ -273,7 +273,7 @@
           </li>
           <li>
             <a
-              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':11' == '/bloqueos/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':24' == '/agenda/configuraciones/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'configuracion_lista' %}"
             >
               <span class="material-symbols-outlined" data-icon="tune">tune</span>
@@ -284,7 +284,7 @@
           <li class="px-6 pt-4 text-[10px] font-semibold uppercase tracking-widest text-slate-400">Inventario</li>
           <li>
             <a
-              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':24' == '/categoria_herramientas/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':23' == '/inventario/categorias/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'categoria_herramientas_lista' %}"
             >
               <span class="material-symbols-outlined" data-icon="category">category</span>
@@ -293,7 +293,7 @@
           </li>
           <li>
             <a
-              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':22' == '/estado_herramientas/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':20' == '/inventario/estados/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'estado_herramientas_lista' %}"
             >
               <span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
@@ -302,7 +302,7 @@
           </li>
           <li>
             <a
-              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':14' == '/herramientas/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':25' == '/inventario/herramientas/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'herramientas_lista' %}"
             >
               <span class="material-symbols-outlined" data-icon="handyman">handyman</span>
@@ -311,7 +311,7 @@
           </li>
           <li>
             <a
-              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':25' == '/inventario_herramientas/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':23' == '/inventario/inventario/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'inventario_herramientas_lista' %}"
             >
               <span class="material-symbols-outlined" data-icon="inventory">inventory</span>

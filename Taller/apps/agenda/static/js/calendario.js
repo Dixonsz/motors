@@ -240,7 +240,11 @@ function abrirModalDetalle(event) {
   document.getElementById("modal-title").textContent    = event.title;
   document.getElementById("modal-cliente").textContent  = props.cliente  || "Sin cliente";
   document.getElementById("modal-vehiculo").textContent = props.vehiculo || "Sin vehículo";
-  document.getElementById("modal-link").href = `/citas/${event.id}/`;
+  if (typeof URL_CITA_EDITAR_BASE !== "undefined") {
+    document.getElementById("modal-link").href = `${URL_CITA_EDITAR_BASE}${event.id}/`;
+  } else {
+    document.getElementById("modal-link").href = `/agenda/citas/editar/${event.id}/`;
+  }
 
   const badgeEl          = document.getElementById("modal-estado");
   badgeEl.textContent    = estado;

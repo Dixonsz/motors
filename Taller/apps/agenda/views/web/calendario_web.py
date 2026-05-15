@@ -7,7 +7,7 @@ from config.security import access_required
 
 @access_required("Citas", "ver")
 def calendario_view(request):
-    return render(request, 'citas/calendario/citas_calendario.html')
+    return render(request, 'calendario/citas_calendario.html')
 
 
 @access_required("Citas", "ver")
