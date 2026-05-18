@@ -6,7 +6,7 @@ from ...services.auth_service import AuthService
 from config.security import access_required
 
 # Constantes
-TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify"
+TURNSTILE_VERIFY_URL = settings.TURNSTILE_VERIFY_URL
 MSG_SEGURIDAD_FALLIDA = "Verificación de seguridad fallida. Por favor, inténtalo de nuevo."
 TEMPLATE_LOGIN = "auth/login.html"
 TEMPLATE_RECOVER = "auth/recover_account.html"
@@ -36,7 +36,7 @@ def login_view(request):
             password=form.cleaned_data["password"],
         )
         if service["success"]:
-            return redirect("citas_calendario")
+            return redirect("calendario_citas")
         else:
             form.add_error(None, service["message"])
 

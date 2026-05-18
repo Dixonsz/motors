@@ -13,7 +13,7 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('recover-account/', recover_account_view, name='recover_account'),
-    path('reset-password/<str:token>/', reset_password_view, name='reset_password'),
+    path('reset-password/<str:uidb64>/<str:token>/', reset_password_view, name='reset_password'),
 
     path('modulos/', modulo_lista, name='modulos_lista'),
     path('modulos/crear/', modulo_crear, name='modulos_crear'),

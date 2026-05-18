@@ -67,6 +67,40 @@ function obtenerBloqueos() {
     .filter((e) => e.extendedProps?.bloqueo === true);
 }
 
+function obtenerHorarioLaboral() {
+  if (typeof HORARIO_LABORAL === "undefined") return null;
+  return HORARIO_LABORAL;
+}
+
+function convertirDiaPythonAJs(diaPython) {
+  return (diaPython + 1) % 7;
+}
+
+function convertirDiaJsAPython(diaJs) {
+  return (diaJs + 6) % 7;
+}
+
+function verificarHorarioLaboral(fecha, hora) {
+  const horario = obtenerHorarioLaboral();
+  if (!horario) return null;
+
+  const dias = horario.dias_laborales || [];
+  const diaJs = new Date(`${fecha}T00:00:00`).getDay();
+  const diaPython = convertirDiaJsAPython(diaJs);
+
+  if (dias.length && !dias.includes(diaPython)) {
+    return { bloqueado: true, motivo: "Fuera de horario laboral" };
+  }
+
+  if (horario.hora_inicio && horario.hora_fin) {
+    if (hora < horario.hora_inicio || hora >= horario.hora_fin) {
+      return { bloqueado: true, motivo: "Fuera de horario laboral" };
+    }
+  }
+
+  return null;
+}
+
 // ── Helpers for esFechaHoraBloqueada ─────────────────────────────────────────
 
 function verificarBloqueDiaCompleto(bloqueo, fecha) {
@@ -95,6 +129,9 @@ function verificarBloqueHorario(bloqueo, fecha, hora) {
 }
 
 function esFechaHoraBloqueada(fecha, hora) {
+  const resultadoLaboral = verificarHorarioLaboral(fecha, hora);
+  if (resultadoLaboral) return resultadoLaboral;
+
   for (const bloqueo of obtenerBloqueos()) {
     const esDiaCompleto = bloqueo.extendedProps?.tipo === "dia_completo";
 
@@ -270,6 +307,16 @@ function cerrarModalDetalle() {
 document.addEventListener("DOMContentLoaded", function () {
   cargarFormData();
 
+  const horario = obtenerHorarioLaboral();
+  const diasLaborales = horario?.dias_laborales || [];
+  const businessHours = horario && diasLaborales.length
+    ? {
+        daysOfWeek: diasLaborales.map(convertirDiaPythonAJs),
+        startTime: horario.hora_inicio || "00:00",
+        endTime: horario.hora_fin || "24:00",
+      }
+    : null;
+
   calendarInstance = new FullCalendar.Calendar(
     document.getElementById("calendar"),
     {
@@ -283,6 +330,9 @@ document.addEventListener("DOMContentLoaded", function () {
       selectable:   true,
       selectMirror: true,
       height:       "auto",
+      businessHours: businessHours || undefined,
+      slotMinTime: businessHours ? businessHours.startTime : undefined,
+      slotMaxTime: businessHours ? businessHours.endTime : undefined,
 
       dateClick: function (info) {
         const fecha = info.dateStr.slice(0, 10);

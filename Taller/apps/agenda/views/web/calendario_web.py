@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from apps.agenda.services.calendario_cita_service import CalendarioService
 from apps.agenda.services.configuracion_calendario_service import ConfiguracionCalendarioService
@@ -7,7 +8,11 @@ from config.security import access_required
 
 @access_required("Citas", "ver")
 def calendario_view(request):
-    return render(request, 'calendario/citas_calendario.html')
+    horario_laboral = ConfiguracionCalendarioService.get_horario_laboral_data()
+    horario_laboral_json = json.dumps(horario_laboral) if horario_laboral else 'null'
+    return render(request, 'calendario/citas_calendario.html', {
+        'horario_laboral_json': horario_laboral_json,
+    })
 
 
 @access_required("Citas", "ver")

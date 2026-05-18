@@ -54,7 +54,7 @@ class AuthService:
 
         domain = request.get_host()
         protocol = 'https' if request.is_secure() else 'http'
-        reset_link = f"{protocol}://{domain}/reset-password/{uid}/{token}/"
+        reset_link = f"{protocol}://{domain}/autenticacion/reset-password/{uid}/{token}/"
 
         try:
             send_mail(

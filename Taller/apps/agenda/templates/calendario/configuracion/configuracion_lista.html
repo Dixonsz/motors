@@ -7,7 +7,7 @@
     <p class="mt-1 text-sm text-slate-500">Controla las reglas y bloqueos del calendario.</p>
   </div>
   <div class="flex flex-wrap items-center gap-3">
-    <a class="flex items-center gap-2 border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-600 transition-all hover:border-slate-400" href="{% url 'citas_calendario' %}">
+    <a class="flex items-center gap-2 border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-600 transition-all hover:border-slate-400" href="{% url 'calendario_citas' %}">
       <span class="material-symbols-outlined text-base" data-icon="calendar_month">calendar_month</span>
       Ver calendario
     </a>
@@ -26,6 +26,7 @@
           <th class="px-4 py-3 text-left">Tipo</th>
           <th class="px-4 py-3 text-left">Fecha inicio</th>
           <th class="px-4 py-3 text-left">Fecha fin</th>
+          <th class="px-4 py-3 text-left">Dias</th>
           <th class="px-4 py-3 text-left">Horario</th>
           <th class="px-4 py-3 text-left">Recurrencia</th>
           <th class="px-4 py-3 text-left">Capacidad max.</th>
@@ -40,6 +41,13 @@
           <td class="px-4 py-3">{{ b.get_tipo_display }}</td>
           <td class="px-4 py-3">{{ b.fecha_inicio }}</td>
           <td class="px-4 py-3">{{ b.fecha_fin|default:"-" }}</td>
+          <td class="px-4 py-3">
+            {% if b.tipo == "laboral" %}
+              {{ b.dias_laborales_label }}
+            {% else %}
+              -
+            {% endif %}
+          </td>
           <td class="px-4 py-3">
             {% if b.hora_inicio %}
               {{ b.hora_inicio }} - {{ b.hora_fin }}
@@ -66,7 +74,7 @@
         </tr>
         {% empty %}
         <tr>
-          <td class="px-4 py-6 text-center text-sm text-slate-500" colspan="9">No hay configuraciones registradas.</td>
+          <td class="px-4 py-6 text-center text-sm text-slate-500" colspan="10">No hay configuraciones registradas.</td>
         </tr>
         {% endfor %}
       </tbody>

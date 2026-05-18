@@ -19,10 +19,10 @@ urlpatterns = [
     path('citas/editar/<int:cita_id>/', cita_editar, name='citas_editar'),
     path('citas/eliminar/<int:cita_id>/', cita_eliminar, name='citas_eliminar'),
 
-    path('configuraciones/', configuracion_lista, name='configuracion_lista'),
-    path('configuraciones/crear/', configuracion_create, name='configuracion_crear'),
-    path('configuraciones/editar/<int:configuracion_id>/', configuracion_editar, name='configuracion_editar'),
-    path('configuraciones/eliminar/<int:configuracion_id>/', configuracion_eliminar, name='configuracion_eliminar'),
+    path('calendario/configuraciones/', configuracion_lista, name='configuracion_lista'),
+    path('calendario/configuraciones/crear/', configuracion_create, name='configuracion_crear'),
+    path('calendario/configuraciones/editar/<int:configuracion_id>/', configuracion_editar, name='configuracion_editar'),
+    path('calendario/configuraciones/eliminar/<int:configuracion_id>/', configuracion_eliminar, name='configuracion_eliminar'),
 
     path('servicios/', servicio_lista, name='servicios_lista'),
     path('servicios/crear/', servicio_create, name='servicios_crear'),

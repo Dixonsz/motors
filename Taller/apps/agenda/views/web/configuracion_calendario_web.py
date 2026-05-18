@@ -8,7 +8,7 @@ from config.security import access_required
 @access_required("Configuraciones", "ver")
 def configuracion_lista(request):
     bloqueos = BloqueoService.get_all_bloqueos()
-    return render(request, 'citas/configuraciones/configuracion_lista.html', {
+    return render(request, 'calendario/configuracion/configuracion_lista.html', {
         'bloqueos': bloqueos
     })
 
@@ -26,14 +26,16 @@ def configuracion_create(request):
                 recurrencia      = request.POST.get('recurrencia'),
                 motivo           = request.POST.get('motivo'),
                 capacidad_maxima = request.POST.get('capacidad_maxima') or None,
+                dias_laborales   = request.POST.getlist('dias_laborales'),
             )
             messages.success(request, 'Configuración creada correctamente.')
             return redirect('configuracion_lista')
         except Exception as e:
             messages.error(request, str(e))
 
-    return render(request, 'citas/configuraciones/configuracion_form.html', {
-        'accion': 'Crear'
+    return render(request, 'calendario/configuracion/configuracion_form.html', {
+        'accion': 'Crear',
+        'bloqueo': None,
     })
 
 
@@ -57,14 +59,16 @@ def configuracion_editar(request, configuracion_id):
                 motivo           = request.POST.get('motivo'),
                 capacidad_maxima = request.POST.get('capacidad_maxima') or None,
                 activo           = request.POST.get('activo') == 'on',
+                dias_laborales   = request.POST.getlist('dias_laborales'),
             )
             messages.success(request, 'Configuración actualizada correctamente.')
             return redirect('configuracion_lista')
         except Exception as e:
             messages.error(request, str(e))
 
-    return render(request, 'citas/configuraciones/configuracion_form.html', {
+    return render(request, 'calendario/configuracion/configuracion_form.html', {
         'configuracion': configuracion,
+        'bloqueo': configuracion,
         'accion': 'Editar'
     })
 

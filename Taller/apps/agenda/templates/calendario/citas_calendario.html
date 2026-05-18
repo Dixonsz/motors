@@ -144,6 +144,7 @@
   const URL_CREAR = "{% url 'calendario_crear_cita' %}";
   const URL_CITA_EDITAR_BASE = "{% url 'citas_editar' 0 %}".replace("/0/", "/");
   const CSRF_TOKEN = "{{ csrf_token }}";
+  const HORARIO_LABORAL = {{ horario_laboral_json|safe }};
 </script>
 
 <script src="{% static 'js/calendario.js' %}"></script>

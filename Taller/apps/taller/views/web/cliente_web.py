@@ -5,6 +5,8 @@ from django.shortcuts import redirect, render
 from ...services.cliente_service import ClienteService
 from config.security import access_required
 
+ERROR_CLIENTE = "El cliente no existe o no se puede procesar la solicitud."
+
 @access_required("Clientes", "ver")
 def cliente_lista(request):
     clientes = ClienteService.get_all_clientes().order_by('id')
@@ -36,7 +38,7 @@ def cliente_create(request):
 def cliente_editar(request, cliente_id):
     cliente = ClienteService.get_cliente_by_id(cliente_id)
     if not cliente:
-        messages.error(request, 'El cliente no existe.')
+        messages.error(request, ERROR_CLIENTE)
         return redirect('clientes_lista')
 
     if request.method == 'POST':
@@ -59,7 +61,7 @@ def cliente_editar(request, cliente_id):
 def cliente_eliminar(request, cliente_id):
     cliente = ClienteService.get_cliente_by_id(cliente_id)
     if not cliente:
-        messages.error(request, 'El cliente no existe.')
+        messages.error(request, ERROR_CLIENTE)
         return redirect('clientes_lista')
 
     if request.method == 'POST':
@@ -77,7 +79,7 @@ def cliente_eliminar(request, cliente_id):
 def cliente_detalle_json(request, cliente_id):
     cliente = ClienteService.get_cliente_by_id(cliente_id)
     if not cliente:
-        return JsonResponse({'detalle': 'El cliente no existe.'}, status=404)
+        return JsonResponse({'detalle': ERROR_CLIENTE}, status=404)
 
     return JsonResponse({
         'id': cliente.id,

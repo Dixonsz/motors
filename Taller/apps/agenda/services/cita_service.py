@@ -2,6 +2,7 @@ from datetime import datetime
 from apps.agenda.models.cita import Cita
 from apps.agenda.models.servicio import Servicio
 from apps.agenda.models.configuracion_calendario import ConfiguracionCalendario
+from apps.agenda.services.configuracion_calendario_service import ConfiguracionCalendarioService
 from apps.autenticacion.models.usuario import Usuario
 from apps.vehiculos.models.vehiculo import Vehiculo
 from apps.vehiculos.models.estado import Estado
@@ -85,7 +86,19 @@ class CitaService:
 
     @staticmethod
     def _validar_disponibilidad(fecha, hora_inicio, cita_id=None):
-        for bloqueo in ConfiguracionCalendario.objects.filter(activo=True):
+        horario = ConfiguracionCalendarioService.get_horario_laboral_activo()
+        if horario:
+            dias = horario.dias_laborales or []
+            if dias and fecha.weekday() not in dias:
+                raise ValueError('La fecha seleccionada esta fuera del horario laboral.')
+            if horario.hora_inicio and horario.hora_fin:
+                if not (horario.hora_inicio <= hora_inicio < horario.hora_fin):
+                    raise ValueError('La hora seleccionada esta fuera del horario laboral.')
+
+        for bloqueo in ConfiguracionCalendario.objects.filter(
+            activo=True,
+            tipo__in=['dia_completo', 'franja'],
+        ):
             if not CitaService._fecha_aplica_al_bloqueo(fecha, bloqueo):
                 continue
             motivo = bloqueo.motivo or 'sin motivo especificado'
@@ -99,7 +112,7 @@ class CitaService:
         vehiculo = Vehiculo.objects.filter(id=vehiculo_id).first() if vehiculo_id else None
         cliente  = Cliente.objects.filter(id=cliente_id).first()   if cliente_id  else None
         usuario  = Usuario.objects.filter(id=usuario_id).first()
-        estado   = Estado.objects.filter(id=estado_id).first()
+        estado   = Estado.objects.filter(id=estado_id).first() if estado_id else None
 
         if vehiculo_id and not vehiculo:
             raise ValueError(VEHICULO_NO_ENCONTRADO)
@@ -108,7 +121,9 @@ class CitaService:
         if not usuario:
             raise ValueError(USUARIO_NO_ENCONTRADO)
         if not estado:
-            raise ValueError(ESTADO_NO_ENCONTRADO)
+            estado = Estado.objects.filter(nombre__iexact="Programada").first()
+        if not estado:
+            raise ValueError("Estado 'Programada' no encontrado.")
         if not vehiculo and not cliente:
             raise ValueError("Debe asignar al menos un cliente o un vehículo a la cita.")
         return vehiculo, cliente, usuario, estado

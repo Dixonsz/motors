@@ -80,7 +80,7 @@
             <select class="rounded-md border-slate-200 text-sm" name="estado_id" id="estado_id" required>
                 <option value="">Seleccione un estado</option>
                 {% for estado in estados %}
-                    <option value="{{ estado.id }}">{{ estado.nombre }}</option>
+                    <option value="{{ estado.id }}" {% if estado.nombre|lower == "programada" %}selected{% endif %}>{{ estado.nombre }}</option>
                 {% endfor %}
             </select>
         </div>
