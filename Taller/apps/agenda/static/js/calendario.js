@@ -1,362 +1,278 @@
-const COLORES_BADGE = {
+import {
+  byId,
+  clearSelect,
+  getSelectedInts,
+  hideError,
+  populateSelect,
+  resetMultiSelect,
+  setText,
+  setValue,
+  showError,
+  showToast,
+  toggleClass,
+} from "./calendario/dom.js";
+import { fetchFormData, fetchVehicles, postCita } from "./calendario/api.js";
+import { buildBusinessHours, isDateTimeBlocked } from "./calendario/horario.js";
+import { createCalendar } from "./calendario/calendar.js";
+
+const IDS = {
+  calendar: "calendar",
+  calendarWrapper: "calendar-wrapper",
+  drawer: "drawer-cita",
+  drawerLabel: "drawer-fecha-label",
+  fecha: "nc-fecha",
+  hora: "nc-hora",
+  cliente: "nc-cliente",
+  vehiculo: "nc-vehiculo",
+  estado: "nc-estado",
+  servicios: "nc-servicios",
+  usuario: "nc-usuario",
+  anotaciones: "nc-anotaciones",
+  error: "nc-error",
+  btnGuardar: "btn-guardar",
+  modal: "modal-detalle",
+  modalOverlay: "overlay-detalle",
+  modalTitle: "modal-title",
+  modalEstado: "modal-estado",
+  modalCliente: "modal-cliente",
+  modalVehiculo: "modal-vehiculo",
+  modalLink: "modal-link",
+};
+
+const COLORS_BADGE = {
   Pendiente: { bg: "#fff7ed", color: "#c2410c" },
   Confirmada: { bg: "#eff6ff", color: "#1d4ed8" },
-  Cancelada:  { bg: "#fef2f2", color: "#dc2626" },
+  Cancelada: { bg: "#fef2f2", color: "#dc2626" },
   Completada: { bg: "#f0fdf4", color: "#15803d" },
 };
 
-let calendarInstance = null;
+const DEFAULT_BADGE = { bg: "#f3f4f6", color: "#374151" };
+const CALENDAR_RESIZE_MS = 360;
 
-async function cargarFormData() {
+const config = globalThis.__CALENDARIO_CONFIG__ || {};
+const state = { calendar: null };
+
+function getPlaceholder(key, fallback) {
+  return config.placeholders?.[key] || fallback;
+}
+
+async function loadFormData() {
   try {
-    const res  = await fetch(URL_FORM_DATA);
-    const data = await res.json();
-
-    poblarSelect("nc-cliente",   data.clientes,  "nombre", "Sin cliente");
-    poblarSelect("nc-estado",    data.estados,   "nombre", null);
-    poblarSelect("nc-servicios", data.servicios, "nombre", null, true);
-    poblarSelect("nc-usuario",   data.usuarios,  "nombre", null);
-
-    document.getElementById("nc-cliente").addEventListener("change", cargarVehiculos);
-  } catch {
-    console.error("Error cargando datos del formulario.");
+    const data = await fetchFormData(config.urlFormData);
+    populateSelect(IDS.cliente, data.clientes, {
+      labelKey: "nombre",
+      placeholder: getPlaceholder("cliente", "Sin cliente"),
+    });
+    populateSelect(IDS.estado, data.estados, { labelKey: "nombre" });
+    populateSelect(IDS.servicios, data.servicios, { labelKey: "nombre" });
+    populateSelect(IDS.usuario, data.usuarios, { labelKey: "nombre" });
+  } catch (error) {
+    console.error("Error cargando datos del formulario.", error);
   }
 }
 
-function poblarSelect(id, items, labelKey, opcionVacia = null, multiple = false) {
-  const sel = document.getElementById(id);
-  sel.innerHTML = "";
-  if (opcionVacia !== null) {
-    const opt = document.createElement("option");
-    opt.value = "";
-    opt.textContent = opcionVacia;
-    sel.appendChild(opt);
-  }
-  items.forEach((item) => {
-    const opt = document.createElement("option");
-    opt.value       = item.id;
-    opt.textContent = item[labelKey];
-    sel.appendChild(opt);
-  });
-}
-
-async function cargarVehiculos() {
-  const clienteId = document.getElementById("nc-cliente").value;
-  const sel       = document.getElementById("nc-vehiculo");
-  sel.innerHTML   = '<option value="">Sin vehículo</option>';
-
+async function loadVehicles(clienteId) {
+  clearSelect(IDS.vehiculo, getPlaceholder("vehiculo", "Sin vehiculo"));
   if (!clienteId) return;
 
   try {
-    const res  = await fetch(`${URL_VEHICULOS}${clienteId}/`);
-    const data = await res.json();
-    data.vehiculos.forEach((v) => {
-      const opt       = document.createElement("option");
-      opt.value       = v.id;
-      opt.textContent = v.placa;
-      sel.appendChild(opt);
-    });
-  } catch {
-    console.error("Error cargando vehículos.");
+    const vehiculos = await fetchVehicles(config.urlVehiculosBase, clienteId);
+    populateSelect(IDS.vehiculo, vehiculos, { labelKey: "placa" });
+  } catch (error) {
+    console.error("Error cargando vehiculos.", error);
   }
 }
 
-function obtenerBloqueos() {
-  return calendarInstance
-    .getEvents()
-    .filter((e) => e.extendedProps?.bloqueo === true);
+function resetDrawerForm() {
+  setValue(IDS.anotaciones, "");
+  setValue(IDS.cliente, "");
+  clearSelect(IDS.vehiculo, getPlaceholder("vehiculo", "Sin vehiculo"));
+  resetMultiSelect(IDS.servicios);
+  hideError(IDS.error);
 }
 
-function obtenerHorarioLaboral() {
-  if (typeof HORARIO_LABORAL === "undefined") return null;
-  return HORARIO_LABORAL;
-}
-
-function convertirDiaPythonAJs(diaPython) {
-  return (diaPython + 1) % 7;
-}
-
-function convertirDiaJsAPython(diaJs) {
-  return (diaJs + 6) % 7;
-}
-
-function verificarHorarioLaboral(fecha, hora) {
-  const horario = obtenerHorarioLaboral();
-  if (!horario) return null;
-
-  const dias = horario.dias_laborales || [];
-  const diaJs = new Date(`${fecha}T00:00:00`).getDay();
-  const diaPython = convertirDiaJsAPython(diaJs);
-
-  if (dias.length && !dias.includes(diaPython)) {
-    return { bloqueado: true, motivo: "Fuera de horario laboral" };
+function updateDrawerLabel(fecha, hora) {
+  if (!fecha) {
+    setText(IDS.drawerLabel, "");
+    return;
   }
-
-  if (horario.hora_inicio && horario.hora_fin) {
-    if (hora < horario.hora_inicio || hora >= horario.hora_fin) {
-      return { bloqueado: true, motivo: "Fuera de horario laboral" };
-    }
-  }
-
-  return null;
+  const [year, month, day] = fecha.split("-");
+  const labelHora = hora ? ` ${hora}` : "";
+  setText(IDS.drawerLabel, `— ${day}/${month}/${year}${labelHora}`);
 }
 
-// ── Helpers for esFechaHoraBloqueada ─────────────────────────────────────────
-
-function verificarBloqueDiaCompleto(bloqueo, fecha) {
-  const inicioStr = bloqueo.startStr.slice(0, 10);
-  const finDate = bloqueo.end ? new Date(bloqueo.end) : new Date(bloqueo.start);
-  finDate.setDate(finDate.getDate() - 1);
-  const finStr = finDate.toISOString().slice(0, 10);
-
-  if (fecha >= inicioStr && fecha <= finStr) {
-    return { bloqueado: true, motivo: bloqueo.title };
-  }
-  return null;
-}
-
-function verificarBloqueHorario(bloqueo, fecha, hora) {
-  const citaStr   = `${fecha}T${hora}`;
-  const inicioStr = bloqueo.startStr.slice(0, 16);
-  const finStr    = bloqueo.endStr ? bloqueo.endStr.slice(0, 16) : inicioStr;
-
-  if (citaStr < inicioStr || citaStr >= finStr) return null;
-
-  const capacidad = bloqueo.extendedProps?.capacidad_maxima;
-  if (capacidad) return null;
-
-  return { bloqueado: true, motivo: bloqueo.title };
-}
-
-function esFechaHoraBloqueada(fecha, hora) {
-  const resultadoLaboral = verificarHorarioLaboral(fecha, hora);
-  if (resultadoLaboral) return resultadoLaboral;
-
-  for (const bloqueo of obtenerBloqueos()) {
-    const esDiaCompleto = bloqueo.extendedProps?.tipo === "dia_completo";
-
-    const resultado = esDiaCompleto
-      ? verificarBloqueDiaCompleto(bloqueo, fecha)
-      : verificarBloqueHorario(bloqueo, fecha, hora);
-
-    if (resultado) return resultado;
-  }
-  return { bloqueado: false };
-}
-
-
-function mostrarToast(msg) {
-  let toast = document.getElementById("fc-toast");
-  if (!toast) {
-    toast = document.createElement("div");
-    toast.id = "fc-toast";
-    toast.style.cssText = `
-      position:fixed; bottom:2rem; left:50%; transform:translateX(-50%);
-      background:#1f2937; color:#fff; padding:.75rem 1.5rem;
-      border-radius:.5rem; font-size:.9rem; z-index:9999;
-      box-shadow:0 4px 12px rgba(0,0,0,.3); transition:opacity .3s;
-    `;
-    document.body.appendChild(toast);
-  }
-  toast.textContent  = msg;
-  toast.style.opacity = "1";
-  clearTimeout(toast._timer);
-  toast._timer = setTimeout(() => (toast.style.opacity = "0"), 3000);
-}
-
-// ── Drawer ────────────────────────────────────────────────────────────────────
-
-function abrirDrawer(fecha = "", hora = "") {
+function openDrawer(fecha, hora) {
   if (!fecha || !hora) return;
 
-  const { bloqueado, motivo } = esFechaHoraBloqueada(fecha, hora);
-  if (bloqueado) {
-    mostrarToast(`Horario no disponible: ${motivo}`);
-    return;
-  }
-
-  document.getElementById("nc-fecha").value = fecha;
-  document.getElementById("nc-hora").value  = hora;
-  document.getElementById("nc-anotaciones").value = "";
-  document.getElementById("nc-cliente").value     = "";
-  document.getElementById("nc-vehiculo").innerHTML = '<option value="">Sin vehículo</option>';
-  Array.from(document.getElementById("nc-servicios").options).forEach(
-    (o) => (o.selected = false),
-  );
-  ocultarError();
-
-  if (fecha) {
-    const [y, m, d] = fecha.split("-");
-    document.getElementById("drawer-fecha-label").textContent =
-      `— ${d}/${m}/${y}${hora ? " " + hora : ""}`;
-  } else {
-    document.getElementById("drawer-fecha-label").textContent = "";
-  }
-
-  document.getElementById("drawer-cita").classList.add("open");
-  document.getElementById("calendar-wrapper").classList.add("encogido");
-  setTimeout(() => calendarInstance?.updateSize(), 360);
-}
-
-function cerrarDrawer() {
-  document.getElementById("drawer-cita").classList.remove("open");
-  document.getElementById("calendar-wrapper").classList.remove("encogido");
-  setTimeout(() => calendarInstance?.updateSize(), 360);
-}
-
-
-async function guardarCita() {
-  ocultarError();
-
-  const fecha     = document.getElementById("nc-fecha").value;
-  const hora      = document.getElementById("nc-hora").value;
-  const estadoId  = document.getElementById("nc-estado").value;
-  const usuarioId = document.getElementById("nc-usuario").value;
-
-  if (!fecha || !hora) { mostrarError("La fecha y la hora son obligatorias."); return; }
-  if (!estadoId)        { mostrarError("Debe seleccionar un estado.");          return; }
-  if (!usuarioId)       { mostrarError("Debe asignar un usuario.");             return; }
-
-  const { bloqueado, motivo } = esFechaHoraBloqueada(fecha, hora);
-  if (bloqueado) {
-    mostrarError(`Horario no disponible: ${motivo}`);
-    return;
-  }
-
-  const serviciosId = Array.from(
-    document.getElementById("nc-servicios").selectedOptions,
-  ).map((o) => Number.parseInt(o.value));
-
-  const payload = {
+  const bloqueo = isDateTimeBlocked({
+    calendar: state.calendar,
+    horarioLaboral: config.horarioLaboral,
     fecha,
-    hora_inicio:  hora,
-    estado_id:    Number.parseInt(estadoId),
-    usuario_id:   Number.parseInt(usuarioId),
-    cliente_id:   Number.parseInt(document.getElementById("nc-cliente").value)  || null,
-    vehiculo_id:  Number.parseInt(document.getElementById("nc-vehiculo").value) || null,
-    anotaciones:  document.getElementById("nc-anotaciones").value,
-    servicios_id: serviciosId,
-  };
+    hora,
+  });
+  if (bloqueo.bloqueado) {
+    showToast(`Horario no disponible: ${bloqueo.motivo}`);
+    return;
+  }
 
-  const btn = document.getElementById("btn-guardar");
-  btn.disabled    = true;
+  setValue(IDS.fecha, fecha);
+  setValue(IDS.hora, hora);
+  resetDrawerForm();
+  updateDrawerLabel(fecha, hora);
+
+  toggleClass(IDS.drawer, "open", true);
+  toggleClass(IDS.calendarWrapper, "encogido", true);
+  setTimeout(() => state.calendar?.updateSize(), CALENDAR_RESIZE_MS);
+}
+
+function closeDrawer() {
+  toggleClass(IDS.drawer, "open", false);
+  toggleClass(IDS.calendarWrapper, "encogido", false);
+  setTimeout(() => state.calendar?.updateSize(), CALENDAR_RESIZE_MS);
+}
+
+function buildPayload() {
+  return {
+    fecha: byId(IDS.fecha).value,
+    hora_inicio: byId(IDS.hora).value,
+    estado_id: Number.parseInt(byId(IDS.estado).value, 10),
+    usuario_id: Number.parseInt(byId(IDS.usuario).value, 10),
+    cliente_id: toOptionalInt(byId(IDS.cliente).value),
+    vehiculo_id: toOptionalInt(byId(IDS.vehiculo).value),
+    anotaciones: byId(IDS.anotaciones).value,
+    servicios_id: getSelectedInts(IDS.servicios),
+  };
+}
+
+function toOptionalInt(value) {
+  const parsed = Number.parseInt(value, 10);
+  return Number.isNaN(parsed) ? null : parsed;
+}
+
+function validateRequired(payload) {
+  if (!payload.fecha || !payload.hora_inicio) {
+    return "La fecha y la hora son obligatorias.";
+  }
+  if (!payload.estado_id) {
+    return "Debe seleccionar un estado.";
+  }
+  if (!payload.usuario_id) {
+    return "Debe asignar un usuario.";
+  }
+  return null;
+}
+
+async function handleSave() {
+  hideError(IDS.error);
+  const payload = buildPayload();
+  const errorMsg = validateRequired(payload);
+  if (errorMsg) {
+    showError(IDS.error, errorMsg);
+    return;
+  }
+
+  const bloqueo = isDateTimeBlocked({
+    calendar: state.calendar,
+    horarioLaboral: config.horarioLaboral,
+    fecha: payload.fecha,
+    hora: payload.hora_inicio,
+  });
+  if (bloqueo.bloqueado) {
+    showError(IDS.error, `Horario no disponible: ${bloqueo.motivo}`);
+    return;
+  }
+
+  const btn = byId(IDS.btnGuardar);
+  btn.disabled = true;
   btn.textContent = "Guardando...";
 
   try {
-    const res  = await fetch(URL_CREAR, {
-      method:  "POST",
-      headers: { "Content-Type": "application/json", "X-CSRFToken": CSRF_TOKEN },
-      body:    JSON.stringify(payload),
+    const result = await postCita({
+      url: config.urlCrear,
+      payload,
+      csrfToken: config.csrfToken,
     });
-    const data = await res.json();
 
-    if (res.ok) {
-      cerrarDrawer();
-      calendarInstance.refetchEvents();
+    if (result.ok) {
+      closeDrawer();
+      state.calendar?.refetchEvents();
     } else {
-      mostrarError(data.error || "Error al guardar la cita.");
+      showError(IDS.error, result.data?.error || "Error al guardar la cita.");
     }
-  } catch {
-    mostrarError("Error de red. Intente de nuevo.");
+  } catch (error) {
+    showError(IDS.error, "Error de red. Intente de nuevo.");
+    console.error(error);
   } finally {
-    btn.disabled    = false;
+    btn.disabled = false;
     btn.textContent = "Guardar cita";
   }
 }
 
+function openModal(event) {
+  const props = event.extendedProps || {};
+  const estado = props.estado;
+  const colores = COLORS_BADGE[estado] || DEFAULT_BADGE;
+  const baseUrl = config.urlCitaEditarBase || "/agenda/citas/editar/";
 
-function mostrarError(msg) {
-  const el = document.getElementById("nc-error");
-  el.textContent = msg;
-  el.classList.add("visible");
-}
+  setText(IDS.modalTitle, event.title);
+  setText(IDS.modalCliente, props.cliente || "Sin cliente");
+  setText(IDS.modalVehiculo, props.vehiculo || "Sin vehiculo");
 
-function ocultarError() {
-  document.getElementById("nc-error").classList.remove("visible");
-}
-
-
-function abrirModalDetalle(event) {
-  const props   = event.extendedProps;
-  const estado  = props.estado;
-  const colores = COLORES_BADGE[estado] || { bg: "#f3f4f6", color: "#374151" };
-
-  document.getElementById("modal-title").textContent    = event.title;
-  document.getElementById("modal-cliente").textContent  = props.cliente  || "Sin cliente";
-  document.getElementById("modal-vehiculo").textContent = props.vehiculo || "Sin vehículo";
-  const baseUrl = typeof URL_CITA_EDITAR_BASE === "undefined"
-    ? "/agenda/citas/editar/"
-    : URL_CITA_EDITAR_BASE;
-  document.getElementById("modal-link").href = `${baseUrl}${event.id}/`;
-
-  const badgeEl          = document.getElementById("modal-estado");
-  badgeEl.textContent    = estado;
+  const badgeEl = byId(IDS.modalEstado);
+  badgeEl.textContent = estado;
   badgeEl.style.background = colores.bg;
-  badgeEl.style.color      = colores.color;
+  badgeEl.style.color = colores.color;
 
-  document.getElementById("modal-detalle").classList.add("active");
-  document.getElementById("overlay-detalle").classList.add("active");
+  byId(IDS.modalLink).href = `${baseUrl}${event.id}/`;
+  toggleClass(IDS.modal, "active", true);
+  toggleClass(IDS.modalOverlay, "active", true);
 }
 
-function cerrarModalDetalle() {
-  document.getElementById("modal-detalle").classList.remove("active");
-  document.getElementById("overlay-detalle").classList.remove("active");
+function closeModal() {
+  toggleClass(IDS.modal, "active", false);
+  toggleClass(IDS.modalOverlay, "active", false);
 }
 
+function handleEventClick(event) {
+  if (event.extendedProps?.bloqueo) {
+    showToast(`${event.title}`);
+    return;
+  }
+  openModal(event);
+}
 
-document.addEventListener("DOMContentLoaded", function () {
-  cargarFormData();
+function initCalendar() {
+  const businessHours = buildBusinessHours(config.horarioLaboral);
+  state.calendar = createCalendar({
+    element: byId(IDS.calendar),
+    eventosUrl: config.urlEventos,
+    businessHours,
+    slotMinTime: businessHours?.startTime,
+    slotMaxTime: businessHours?.endTime,
+    onDateSelected: ({ fecha, hora }) => openDrawer(fecha, hora),
+    onEventClick: handleEventClick,
+  });
+  state.calendar.render();
+}
 
-  const horario = obtenerHorarioLaboral();
-  const diasLaborales = horario?.dias_laborales || [];
-  const businessHours = horario && diasLaborales.length
-    ? {
-        daysOfWeek: diasLaborales.map(convertirDiaPythonAJs),
-        startTime: horario.hora_inicio || "00:00",
-        endTime: horario.hora_fin || "24:00",
-      }
-    : null;
+function bindUi() {
+  byId(IDS.btnGuardar).addEventListener("click", handleSave);
+  byId(IDS.cliente).addEventListener("change", (event) => {
+    loadVehicles(event.target.value);
+  });
 
-  calendarInstance = new FullCalendar.Calendar(
-    document.getElementById("calendar"),
-    {
-      initialView: "timeGridWeek",
-      locale:      "es",
-      headerToolbar: {
-        left:   "prev,next today",
-        center: "title",
-        right:  "dayGridMonth,timeGridWeek,timeGridDay",
-      },
-      selectable:   true,
-      selectMirror: true,
-      height:       "auto",
-      businessHours: businessHours || undefined,
-      slotMinTime: businessHours ? businessHours.startTime : undefined,
-      slotMaxTime: businessHours ? businessHours.endTime : undefined,
+  document.querySelectorAll("[data-action='close-drawer']").forEach((btn) => {
+    btn.addEventListener("click", closeDrawer);
+  });
+  document.querySelectorAll("[data-action='close-modal']").forEach((btn) => {
+    btn.addEventListener("click", closeModal);
+  });
+}
 
-      dateClick: function (info) {
-        const fecha = info.dateStr.slice(0, 10);
-        const hora  = info.dateStr.length > 10 ? info.dateStr.slice(11, 16) : "";
-        abrirDrawer(fecha, hora);
-      },
+function init() {
+  loadFormData();
+  initCalendar();
+  bindUi();
+}
 
-      select: function (info) {
-        const fecha = info.startStr.slice(0, 10);
-        const hora  = info.startStr.length > 10 ? info.startStr.slice(11, 16) : "";
-        abrirDrawer(fecha, hora);
-      },
-
-      events: URL_EVENTOS,
-
-      eventClick: function (info) {
-        if (info.event.extendedProps?.bloqueo) {
-          mostrarToast(`${info.event.title}`);
-          return;
-        }
-        abrirModalDetalle(info.event);
-      },
-    },
-  );
-
-  calendarInstance.render();
-});
+document.addEventListener("DOMContentLoaded", init);

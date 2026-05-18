@@ -1,33 +1,71 @@
-function toggleCampos() {
-  const tipo = document.getElementById("tipo").value;
-  const camposHorario = document.getElementById("campos-horario");
-  const camposLaboral = document.getElementById("campos-laboral");
-  const campoFechaFin = document.getElementById("campo-fecha-fin");
-  const campoFechaInicio = document.getElementById("campo-fecha-inicio");
-  const campoCapacidad = document.getElementById("campo-capacidad");
-  const campoRecurrencia = document.getElementById("campo-recurrencia");
-  const recurrencia = document.getElementById("recurrencia");
-  const fechaInicio = document.getElementById("fecha_inicio");
+const IDS = {
+  tipo: "tipo",
+  camposHorario: "campos-horario",
+  camposLaboral: "campos-laboral",
+  campoFechaFin: "campo-fecha-fin",
+  campoFechaInicio: "campo-fecha-inicio",
+  campoCapacidad: "campo-capacidad",
+  campoRecurrencia: "campo-recurrencia",
+  recurrencia: "recurrencia",
+  fechaInicio: "fecha_inicio",
+};
 
-  const esFranja = tipo === "franja";
-  const esLaboral = tipo === "laboral";
-  const esDiaCompleto = tipo === "dia_completo";
+function byId(id) {
+  return document.getElementById(id);
+}
 
-  camposHorario.style.display = esFranja || esLaboral ? "block" : "none";
-  camposLaboral.style.display = esLaboral ? "block" : "none";
-  campoCapacidad.style.display = esFranja ? "block" : "none";
-  campoFechaFin.style.display = esDiaCompleto ? "block" : "none";
-  campoFechaInicio.style.display = esLaboral ? "none" : "block";
-  campoRecurrencia.style.display = esLaboral ? "none" : "block";
+function setDisplay(id, visible) {
+  const el = byId(id);
+  if (el) el.style.display = visible ? "block" : "none";
+}
 
-  fechaInicio.required = !esLaboral;
-  if (esLaboral) {
-    fechaInicio.value = "";
-  }
+function setRequired(id, required) {
+  const el = byId(id);
+  if (el) el.required = required;
+}
 
-  if (esLaboral) {
-    recurrencia.value = "diaria";
+function setValue(id, value) {
+  const el = byId(id);
+  if (el) el.value = value;
+}
+
+function getState() {
+  const tipo = byId(IDS.tipo)?.value || "";
+  return {
+    tipo,
+    esFranja: tipo === "franja",
+    esLaboral: tipo === "laboral",
+    esDiaCompleto: tipo === "dia_completo",
+  };
+}
+
+function applyVisibility(state) {
+  setDisplay(IDS.camposHorario, state.esFranja || state.esLaboral);
+  setDisplay(IDS.camposLaboral, state.esLaboral);
+  setDisplay(IDS.campoCapacidad, state.esFranja);
+  setDisplay(IDS.campoFechaFin, state.esDiaCompleto);
+  setDisplay(IDS.campoFechaInicio, !state.esLaboral);
+  setDisplay(IDS.campoRecurrencia, !state.esLaboral);
+}
+
+function applyDefaults(state) {
+  setRequired(IDS.fechaInicio, !state.esLaboral);
+  if (state.esLaboral) {
+    setValue(IDS.fechaInicio, "");
+    setValue(IDS.recurrencia, "diaria");
   }
 }
 
-document.addEventListener("DOMContentLoaded", toggleCampos);
+function toggleCampos() {
+  const state = getState();
+  applyVisibility(state);
+  applyDefaults(state);
+}
+
+function init() {
+  const tipo = byId(IDS.tipo);
+  if (tipo) tipo.addEventListener("change", toggleCampos);
+  toggleCampos();
+}
+
+document.addEventListener("DOMContentLoaded", init);

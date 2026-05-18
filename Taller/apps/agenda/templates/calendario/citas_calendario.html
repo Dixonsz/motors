@@ -17,7 +17,7 @@
   <div id="drawer-cita">
     <div class="drawer-header">
       <h3>Nueva cita <span id="drawer-fecha-label"></span></h3>
-      <button class="btn-cerrar-drawer" onclick="cerrarDrawer()" title="Cerrar">
+      <button class="btn-cerrar-drawer" data-action="close-drawer" type="button" title="Cerrar">
         &#x2715;
       </button>
     </div>
@@ -98,8 +98,8 @@
     </div>
 
     <div class="drawer-footer">
-      <button class="btn-secundario" onclick="cerrarDrawer()">Cancelar</button>
-      <button class="btn-primario" id="btn-guardar" onclick="guardarCita()">
+      <button class="btn-secundario" data-action="close-drawer" type="button">Cancelar</button>
+      <button class="btn-primario" id="btn-guardar" type="button">
         Guardar cita
       </button>
     </div>
@@ -107,9 +107,9 @@
 </div>
 
 <!-- ── Modal detalle cita existente ── -->
-<div id="overlay-detalle" class="overlay" onclick="cerrarModalDetalle()"></div>
+<div id="overlay-detalle" class="overlay" data-action="close-modal"></div>
 <div id="modal-detalle" class="modal-detalle">
-  <h3 id="modal-title"></h3>
+  <h3 id="modal-title"><span class="sr-only">Detalle de cita</span></h3>
   <div class="detalle-fila">
     <span class="detalle-label">Estado</span>
     <span id="modal-estado" class="badge-estado"></span>
@@ -123,7 +123,7 @@
     <span id="modal-vehiculo" class="detalle-valor"></span>
   </div>
   <div class="modal-footer">
-    <button class="btn-secundario" onclick="cerrarModalDetalle()">
+    <button class="btn-secundario" data-action="close-modal" type="button">
       Cerrar
     </button>
     <a
@@ -138,15 +138,21 @@
 </div>
 
 <script>
-  const URL_EVENTOS = "{% url 'citas_calendario' %}";
-  const URL_FORM_DATA = "{% url 'calendario_form_data' %}";
-  const URL_VEHICULOS = "{% url 'calendario_vehiculos_por_cliente' cliente_id=0 %}".replace("/0/", "/");
-  const URL_CREAR = "{% url 'calendario_crear_cita' %}";
-  const URL_CITA_EDITAR_BASE = "{% url 'citas_editar' 0 %}".replace("/0/", "/");
-  const CSRF_TOKEN = "{{ csrf_token }}";
-  const HORARIO_LABORAL = {{ horario_laboral_json|safe }};
+  globalThis.__CALENDARIO_CONFIG__ = {
+    urlEventos: "{% url 'citas_calendario' %}",
+    urlFormData: "{% url 'calendario_form_data' %}",
+    urlVehiculosBase: "{% url 'calendario_vehiculos_por_cliente' cliente_id=0 %}".replace("/0/", "/"),
+    urlCrear: "{% url 'calendario_crear_cita' %}",
+    urlCitaEditarBase: "{% url 'citas_editar' 0 %}".replace("/0/", "/"),
+    csrfToken: "{{ csrf_token }}",
+    horarioLaboral: JSON.parse("{{ horario_laboral_json|escapejs }}"),
+    placeholders: {
+      cliente: "Sin cliente",
+      vehiculo: "Sin vehículo",
+    },
+  };
 </script>
 
-<script src="{% static 'js/calendario.js' %}"></script>
+<script type="module" src="{% static 'js/calendario.js' %}"></script>
 
 {% endblock %}
