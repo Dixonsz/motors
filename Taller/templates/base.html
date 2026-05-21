@@ -17,6 +17,31 @@
         font-family: "Inter", "Segoe UI", Arial, sans-serif;
         background-color: #f8fafc;
       }
+
+      input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+      select,
+      textarea {
+        border: 1px solid #e2e8f0;
+        background-color: #f8fafc;
+      }
+
+      input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus,
+      select:focus,
+      textarea:focus {
+        border-color: #94a3b8;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.35);
+      }
+
+      .page-actions .sr-only {
+        position: static;
+        width: auto;
+        height: auto;
+        margin: 0;
+        overflow: visible;
+        clip: auto;
+        white-space: normal;
+      }
     </style>
     <script id="tailwind-config">
       tailwind.config = {
@@ -397,7 +422,7 @@
           <h2 class="font-h1 text-h1 text-slate-900">{% block page_title %}Taller{% endblock %}</h2>
           {% block page_subtitle %}{% endblock %}
         </div>
-        <div class="flex items-center gap-3">{% block page_actions %}{% endblock %}</div>
+        <div class="page-actions flex items-center gap-3">{% block page_actions %}{% endblock %}</div>
       </div>
 
       {% if messages %}
