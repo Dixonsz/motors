@@ -197,12 +197,20 @@
                   >lock</span
                 >
                 <input
-                  class="w-full pl-10 pr-4 py-3 bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 transition-colors font-body-md text-on-surface placeholder:text-outline/50 outline-none"
+                  class="w-full pl-10 pr-12 py-3 bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 transition-colors font-body-md text-on-surface placeholder:text-outline/50 outline-none"
                   id="password"
                   name="password"
                   placeholder="Ingrese su contraseña"
                   type="password"
                 />
+                <button
+                  class="absolute right-3 text-outline hover:text-primary transition-colors"
+                  type="button"
+                  aria-label="Mostrar u ocultar contraseña"
+                  onclick="togglePassword('password', this)"
+                >
+                  <span class="material-symbols-outlined">visibility</span>
+                </button>
               </div>
             </div>
 
@@ -236,6 +244,24 @@
       async
       defer
     ></script>
+    <script>
+      function togglePassword(fieldId, btn) {
+        const input = document.getElementById(fieldId);
+        const icon = btn.querySelector('.material-symbols-outlined');
+
+        if (!input || !icon) {
+          return;
+        }
+
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.textContent = 'visibility_off';
+        } else {
+          input.type = 'password';
+          icon.textContent = 'visibility';
+        }
+      }
+    </script>
     {% endblock %}
   </body>
 </html>

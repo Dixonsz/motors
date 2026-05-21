@@ -6,17 +6,32 @@
 {% block page_actions %}
 <nav aria-label="Navegacion de roles">
     <div class="flex flex-wrap items-center gap-3">
-        <a class="flex items-center gap-2 border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-600 transition-all hover:border-slate-400" href="{% url 'roles_lista' %}">
+        <a
+            class="flex items-center gap-2 border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-600 transition-all hover:border-slate-400"
+            href="{% url 'roles_lista' %}"
+            aria-label="Regresar"
+            title="Regresar"
+        >
             <span class="material-symbols-outlined text-base" data-icon="arrow_back">arrow_back</span>
-            Regresar
+            <span class="sr-only">Regresar</span>
         </a>
-        <a class="flex items-center gap-2 bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition-all hover:bg-slate-700" href="{% url 'rol_permisos_asignar' rol.id %}">
+        <a
+            class="flex items-center gap-2 bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition-all hover:bg-slate-700"
+            href="{% url 'rol_permisos_asignar' rol.id %}"
+            aria-label="Asignar permiso"
+            title="Asignar permiso"
+        >
             <span class="material-symbols-outlined text-base" data-icon="add">add</span>
-            Asignar permiso
+            <span class="sr-only">Asignar permiso</span>
         </a>
-        <a class="flex items-center gap-2 border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-600 transition-all hover:border-slate-400" href="{% url 'rol_permisos_asignar_modulo' rol.id %}">
+        <a
+            class="flex items-center gap-2 border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-600 transition-all hover:border-slate-400"
+            href="{% url 'rol_permisos_asignar_modulo' rol.id %}"
+            aria-label="Asignar modulo"
+            title="Asignar modulo"
+        >
             <span class="material-symbols-outlined text-base" data-icon="apps">apps</span>
-            Asignar modulo
+            <span class="sr-only">Asignar modulo</span>
         </a>
     </div>
 </nav>
@@ -56,7 +71,15 @@
                     <td class="px-4 py-3">
                         <form action="{% url 'rol_permiso_revocar' rol.id rp.permiso.id %}" method="post">
                             {% csrf_token %}
-                            <button class="rounded-md border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 transition-colors hover:border-rose-300" type="submit">Revocar</button>
+                            <button
+                                class="rounded-md border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 transition-colors hover:border-rose-300"
+                                type="submit"
+                                aria-label="Revocar permiso"
+                                title="Revocar permiso"
+                            >
+                                <span class="material-symbols-outlined text-base" data-icon="remove_circle">remove_circle</span>
+                                <span class="sr-only">Revocar</span>
+                            </button>
                         </form>
                     </td>
                 </tr>

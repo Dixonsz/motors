@@ -7,9 +7,11 @@
     <a
         class="flex items-center gap-2 bg-primary px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-slate-800"
         href="{% url 'vehiculos_crear' %}"
+        aria-label="Nuevo vehiculo"
+        title="Nuevo vehiculo"
     >
         <span class="material-symbols-outlined text-lg" data-icon="add">add</span>
-        Nuevo vehiculo
+        <span class="sr-only">Nuevo vehiculo</span>
     </a>
 </nav>
 {% endblock %}
@@ -65,14 +67,20 @@
                                     <a
                                         class="rounded-md border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:border-slate-400"
                                         href="{% url 'vehiculos_editar' vehiculo.id %}"
+                                        aria-label="Editar vehiculo"
+                                        title="Editar vehiculo"
                                     >
-                                        Editar
+                                        <span class="material-symbols-outlined text-base" data-icon="edit">edit</span>
+                                        <span class="sr-only">Editar</span>
                                     </a>
                                     <a
                                         class="rounded-md border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 transition-colors hover:border-rose-300"
                                         href="{% url 'vehiculos_eliminar' vehiculo.id %}"
+                                        aria-label="Eliminar vehiculo"
+                                        title="Eliminar vehiculo"
                                     >
-                                        Eliminar
+                                        <span class="material-symbols-outlined text-base" data-icon="delete">delete</span>
+                                        <span class="sr-only">Eliminar</span>
                                     </a>
                                 </div>
                             </td>

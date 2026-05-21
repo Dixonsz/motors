@@ -111,10 +111,13 @@
     {% block extra_head %}{% endblock %}
   </head>
   <body class="bg-background text-on-background min-h-screen">
-    <aside class="fixed left-0 top-0 z-50 flex h-full min-h-0 w-[260px] flex-col border-r border-slate-200 bg-slate-50">
+    <aside
+      id="sidebar"
+      class="fixed left-0 top-0 z-50 flex h-full min-h-0 w-[260px] -translate-x-full flex-col border-r border-slate-200 bg-slate-50 transition-transform duration-200 md:translate-x-0"
+    >
       <div class="flex items-center gap-3 p-8">
         <div class="flex h-10 w-10 items-center justify-center rounded bg-primary">
-          <span class="material-symbols-outlined text-2xl text-white" data-icon="minor_crash">minor_crash</span>
+          <span class="material-symbols-outlined text-2xl text-white" data-icon="car_repair">car_repair</span>
         </div>
         <div>
           <h1 class="text-xl font-black leading-none tracking-tighter text-slate-900">M&M Motors</h1>
@@ -140,7 +143,7 @@
               class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':14' == '/agenda/citas/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'citas_lista' %}"
             >
-              <span class="material-symbols-outlined" data-icon="event">event</span>
+              <span class="material-symbols-outlined" data-icon="event_available">event_available</span>
               <span>Citas</span>
             </a>
           </li>
@@ -149,7 +152,7 @@
               class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':20' == '/taller/recepciones/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'recepciones_lista' %}"
             >
-              <span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+              <span class="material-symbols-outlined" data-icon="move_to_inbox">move_to_inbox</span>
               <span>Recepciones</span>
             </a>
           </li>
@@ -180,7 +183,7 @@
               class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':17' == '/taller/clientes/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'clientes_lista' %}"
             >
-              <span class="material-symbols-outlined" data-icon="group">group</span>
+              <span class="material-symbols-outlined" data-icon="groups">groups</span>
               <span>Clientes</span>
             </a>
           </li>
@@ -216,7 +219,7 @@
               class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':18' == '/vehiculos/marcas/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'marcas_lista' %}"
             >
-              <span class="material-symbols-outlined" data-icon="label">label</span>
+              <span class="material-symbols-outlined" data-icon="branding_watermark">branding_watermark</span>
               <span>Marcas</span>
             </a>
           </li>
@@ -245,7 +248,7 @@
               class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':7' == '/roles/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'roles_lista' %}"
             >
-              <span class="material-symbols-outlined" data-icon="badge">badge</span>
+              <span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
               <span>Roles</span>
             </a>
           </li>
@@ -254,7 +257,7 @@
               class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':10' == '/usuarios/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'usuarios_lista' %}"
             >
-              <span class="material-symbols-outlined" data-icon="person">person</span>
+              <span class="material-symbols-outlined" data-icon="manage_accounts">manage_accounts</span>
               <span>Usuarios</span>
             </a>
           </li>
@@ -265,7 +268,7 @@
               class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':9' == '/modulos/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'modulos_lista' %}"
             >
-              <span class="material-symbols-outlined" data-icon="settings">settings</span>
+              <span class="material-symbols-outlined" data-icon="view_module">view_module</span>
               <span>Módulos</span>
             </a>
           </li>
@@ -294,7 +297,7 @@
               class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':20' == '/inventario/estados/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'estado_herramientas_lista' %}"
             >
-              <span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+              <span class="material-symbols-outlined" data-icon="checklist">checklist</span>
               <span>Estados</span>
             </a>
           </li>
@@ -312,7 +315,7 @@
               class="flex items-center gap-4 px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all duration-150 {% if request.path|slice:':23' == '/inventario/inventario/' %}border-l-4 border-slate-900 bg-white text-slate-900{% else %}text-slate-500 hover:bg-slate-100 hover:text-slate-900{% endif %}"
               href="{% url 'inventario_herramientas_lista' %}"
             >
-              <span class="material-symbols-outlined" data-icon="inventory">inventory</span>
+              <span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
               <span>Inventario</span>
             </a>
           </li>
@@ -329,9 +332,23 @@
       </div>
     </aside>
 
-    <header class="fixed left-[260px] right-0 top-0 z-40 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-8 shadow-sm">
+    <div
+      id="sidebar-overlay"
+      class="fixed inset-0 z-40 bg-black/50 opacity-0 pointer-events-none transition-opacity duration-200 md:hidden"
+      aria-hidden="true"
+    ></div>
+
+    <header class="fixed left-0 right-0 top-0 z-40 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-8 shadow-sm md:left-[260px]">
       <div class="flex flex-1 items-center">
-        <div class="relative w-full max-w-md">
+        <button
+          id="sidebar-toggle"
+          class="mr-3 rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-50 md:hidden"
+          type="button"
+          aria-label="Abrir menu"
+        >
+          <span class="material-symbols-outlined" data-icon="menu">menu</span>
+        </button>
+        <div class="relative hidden w-full max-w-md md:block">
           <span
             class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-lg text-slate-400"
             data-icon="search"
@@ -374,7 +391,7 @@
       </div>
     </header>
 
-    <main class="ml-[260px] min-h-screen p-8 pt-16">
+    <main class="ml-0 min-h-screen p-8 pt-16 md:ml-[260px]">
       <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
         <div>
           <h2 class="font-h1 text-h1 text-slate-900">{% block page_title %}Taller{% endblock %}</h2>
@@ -395,7 +412,57 @@
 
       {% block content %}{% endblock %}
     </main>
-    {% block scripts %}{% endblock %}
+    {% block scripts %}
+    <script>
+      (function () {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        const toggle = document.getElementById('sidebar-toggle');
+
+        if (!sidebar || !overlay || !toggle) {
+          return;
+        }
+
+        function openSidebar() {
+          sidebar.classList.remove('-translate-x-full');
+          overlay.classList.remove('opacity-0', 'pointer-events-none');
+          overlay.classList.add('opacity-100');
+        }
+
+        function closeSidebar() {
+          sidebar.classList.add('-translate-x-full');
+          overlay.classList.add('opacity-0', 'pointer-events-none');
+          overlay.classList.remove('opacity-100');
+        }
+
+        toggle.addEventListener('click', function () {
+          if (sidebar.classList.contains('-translate-x-full')) {
+            openSidebar();
+          } else {
+            closeSidebar();
+          }
+        });
+
+        overlay.addEventListener('click', closeSidebar);
+        sidebar.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            if (window.innerWidth < 768) {
+              closeSidebar();
+            }
+          });
+        });
+        window.addEventListener('resize', function () {
+          if (window.innerWidth >= 768) {
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+            overlay.classList.remove('opacity-100');
+            sidebar.classList.remove('-translate-x-full');
+          } else {
+            sidebar.classList.add('-translate-x-full');
+          }
+        });
+      })();
+    </script>
+    {% endblock %}
 
   </body>
 </html>

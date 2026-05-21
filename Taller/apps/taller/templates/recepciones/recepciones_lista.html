@@ -7,9 +7,11 @@
   <a
     class="flex items-center gap-2 bg-primary px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-slate-800"
     href="{% url 'recepciones_crear' %}"
+    aria-label="Nueva recepcion"
+    title="Nueva recepcion"
   >
     <span class="material-symbols-outlined text-lg" data-icon="add">add</span>
-    Nueva recepción
+    <span class="sr-only">Nueva recepcion</span>
   </a>
 {% endblock %}
 
@@ -68,14 +70,20 @@
               <a
                 class="rounded-md border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:border-slate-400 hover:text-slate-900"
                 href="{% url 'recepciones_detalle' recepcion.id %}"
+                aria-label="Ver detalle"
+                title="Ver detalle"
               >
-                Ver detalle
+                <span class="material-symbols-outlined text-base" data-icon="visibility">visibility</span>
+                <span class="sr-only">Ver detalle</span>
               </a>
               <a
                 class="rounded-md border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 transition-colors hover:border-rose-300"
                 href="{% url 'recepciones_eliminar' recepcion.id %}"
+                aria-label="Eliminar recepcion"
+                title="Eliminar recepcion"
               >
-                Eliminar
+                <span class="material-symbols-outlined text-base" data-icon="delete">delete</span>
+                <span class="sr-only">Eliminar</span>
               </a>
             </div>
           </td>
