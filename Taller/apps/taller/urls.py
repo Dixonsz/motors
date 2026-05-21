@@ -35,5 +35,6 @@ urlpatterns = [
     path('ordenes/detalle/<int:detalle_id>/editar/', detalle_editar, name='detalle_editar'),
     path('ordenes/detalle/<int:detalle_id>/eliminar/', detalle_eliminar, name='detalle_eliminar'),
 
+
 ]
 

@@ -10,7 +10,7 @@ class Servicio(models.Model):
 
 
     def __str__(self):
-        return f" Nombre del servicio: {self.nombre} - Categoría: {self.categoria_servicio.nombre}"
+        return f" Servicio: {self.nombre} - Categoría: {self.categoria_servicio.nombre}"
 
     @property
     def duracion_hhmm(self):

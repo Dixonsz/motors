@@ -1,0 +1,429 @@
+<!doctype html>
+
+<html class="light" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>M&M MOTORS - Historial de Vehículo</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-background": "#191c1e",
+              "inverse-on-surface": "#eff1f3",
+              "tertiary-container": "#1b293b",
+              "surface-container-highest": "#e0e3e5",
+              "on-primary-container": "#8590a6",
+              "surface-dim": "#d8dadc",
+              "surface-container-low": "#f2f4f6",
+              "on-tertiary": "#ffffff",
+              "inverse-primary": "#bcc7de",
+              "secondary-fixed": "#ffdad7",
+              primary: "#091426",
+              "surface-container-high": "#e6e8ea",
+              "on-secondary": "#ffffff",
+              "outline-variant": "#c5c6cd",
+              outline: "#75777d",
+              "on-error-container": "#93000a",
+              "error-container": "#ffdad6",
+              "tertiary-fixed": "#d5e3fc",
+              "on-secondary-fixed": "#410004",
+              "inverse-surface": "#2d3133",
+              tertiary: "#051426",
+              "surface-bright": "#f7f9fb",
+              surface: "#f7f9fb",
+              "on-tertiary-fixed-variant": "#3a485b",
+              "on-surface-variant": "#45474c",
+              "secondary-fixed-dim": "#ffb3ad",
+              "surface-tint": "#545f73",
+              "on-tertiary-fixed": "#0d1c2e",
+              "on-tertiary-container": "#8290a6",
+              "primary-fixed-dim": "#bcc7de",
+              background: "#f7f9fb",
+              "surface-variant": "#e0e3e5",
+              "on-error": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-container": "#721315",
+              "on-primary-fixed-variant": "#3c475a",
+              "on-primary-fixed": "#111c2d",
+              "primary-fixed": "#d8e3fb",
+              "primary-container": "#1e293b",
+              "tertiary-fixed-dim": "#b9c7df",
+              secondary: "#a53936",
+              "on-surface": "#191c1e",
+              "secondary-container": "#fe7c74",
+              "on-secondary-fixed-variant": "#852221",
+              "on-primary": "#ffffff",
+              error: "#ba1a1a",
+              "surface-container": "#eceef0",
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
+            },
+            spacing: {
+              unit: "4px",
+              gutter: "24px",
+              "section-margin": "48px",
+              "element-gap": "16px",
+              "container-padding": "32px",
+              "form-row-gap": "24px",
+            },
+            fontFamily: {
+              "label-caps": ["Inter"],
+              h3: ["Inter"],
+              h2: ["Inter"],
+              h1: ["Inter"],
+              "data-mono": ["monospace"],
+              "body-md": ["Inter"],
+              "body-lg": ["Inter"],
+            },
+            fontSize: {
+              "label-caps": [
+                "12px",
+                {
+                  lineHeight: "1.2",
+                  letterSpacing: "0.05em",
+                  fontWeight: "700",
+                },
+              ],
+              h3: [
+                "18px",
+                { lineHeight: "1.4", letterSpacing: "0em", fontWeight: "600" },
+              ],
+              h2: [
+                "24px",
+                {
+                  lineHeight: "1.3",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              h1: [
+                "32px",
+                {
+                  lineHeight: "1.2",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "data-mono": [
+                "13px",
+                { lineHeight: "1.5", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "body-md": [
+                "14px",
+                { lineHeight: "1.5", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "body-lg": [
+                "16px",
+                { lineHeight: "1.6", letterSpacing: "0em", fontWeight: "400" },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .soft-executive-shadow {
+        box-shadow:
+          0 4px 6px -1px rgba(15, 23, 42, 0.05),
+          0 2px 4px -2px rgba(15, 23, 42, 0.03);
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+        vertical-align: middle;
+        line-height: 1;
+      }
+    </style>
+  </head>
+  <body class="bg-background text-on-surface font-body-md">
+    <!-- TopAppBar -->
+    <header
+      class="bg-surface-container-lowest dark:bg-surface-container-low border-b border-outline-variant dark:border-outline shadow-sm dark:shadow-none flex justify-between items-center px-container-padding h-16 w-full max-w-full mx-auto fixed top-0 z-50"
+    >
+      <div class="flex items-center gap-element-gap">
+        <span
+          class="font-h2 text-h2 font-semibold tracking-tight text-primary dark:text-primary-fixed"
+          >M&M MOTORS</span
+        >
+      </div>
+      
+      
+    </header>
+    <main
+      class="pt-24 pb-section-margin px-container-padding max-w-7xl mx-auto min-h-screen"
+    >
+      <!-- Django Messages -->
+      {% if messages %}
+      <div class="mb-gutter">
+        {% for message in messages %}
+        <div
+          class="p-4 rounded-lg flex items-center gap-3 {% if message.tags == 'error' %}bg-error-container text-on-error-container border border-error/20{% else %}bg-primary-container text-on-primary-container border border-primary/20{% endif %}"
+        >
+          <span class="material-symbols-outlined">error</span>
+          <span class="font-body-md">{{ message }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Navigation / Back Button -->
+      <div class="mb-8">
+        <a
+          class="inline-flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors group"
+          href="{% url 'consulta_busqueda' %}"
+        >
+          <span
+            class="material-symbols-outlined text-[20px] transition-transform group-hover:-translate-x-1"
+            >arrow_back</span
+          >
+          <span class="font-label-caps">NUEVA CONSULTA</span>
+        </a>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+        <!-- Vehicle Card (Ficha del vehículo) -->
+        <section class="lg:col-span-4 sticky top-24">
+          <div
+            class="bg-surface-container-lowest border border-outline-variant rounded-xl p-container-padding soft-executive-shadow"
+          >
+            <div class="flex flex-col items-center mb-8">
+              <div
+                class="w-20 h-20 bg-primary-fixed rounded-full flex items-center justify-center mb-4"
+              >
+                <span class="material-symbols-outlined text-primary text-[40px]"
+                  >directions_car</span
+                >
+              </div>
+              <h2 class="font-h1 text-h1 text-primary tracking-tighter">
+                {{ vehiculo.placa }}
+              </h2>
+              <span class="font-label-caps text-on-surface-variant mt-1"
+                >MATRÍCULA IDENTIFICADA</span
+              >
+            </div>
+            <div class="space-y-form-row-gap">
+              <div
+                class="flex flex-col border-b border-surface-container-high pb-4"
+              >
+                <span
+                  class="font-label-caps text-on-surface-variant uppercase mb-1"
+                  >Marca / Modelo</span
+                >
+                <span class="font-h3 text-h3 text-primary">{{ vehiculo.marca.nombre }} {{ vehiculo.modelo.nombre }}</span>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                  <span
+                    class="font-label-caps text-on-surface-variant uppercase mb-1"
+                    >Año</span
+                  >
+                  <span class="font-body-lg text-on-surface font-semibold"
+                    >{{ vehiculo.anio }}</span
+                  >
+                </div>
+                <div class="flex flex-col">
+                  <span
+                    class="font-label-caps text-on-surface-variant uppercase mb-1"
+                    >Color</span
+                  >
+                  <span class="font-body-lg text-on-surface font-semibold"
+                    >{{ vehiculo.color }}</span
+                  >
+                </div>
+              </div>
+              <div class="flex flex-col">
+                <span
+                  class="font-label-caps text-on-surface-variant uppercase mb-1"
+                  >Combustible</span
+                >
+                <div class="flex items-center gap-2">
+                  <span
+                    class="material-symbols-outlined text-on-surface-variant text-[18px]"
+                    >local_gas_station</span
+                  >
+                  <span class="font-body-lg text-on-surface font-semibold"
+                    >{{ vehiculo.combustible.nombre }}</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-outline-variant">
+              <div
+                class="bg-surface-container-low p-4 rounded-lg flex items-center gap-4"
+              >
+                <div class="flex-1">
+                  <p class="text-label-caps text-on-surface-variant">
+                    ESTADO DEL VEHÍCULO
+                  </p>
+                  <p class="text-body-md font-semibold text-primary">
+                    Flota Activa
+                  </p>
+                </div>
+                <span
+                  class="w-3 h-3 rounded-full bg-green-500 animate-pulse"
+                ></span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Service Orders List -->
+        <section class="lg:col-span-8">
+          <div
+            class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden soft-executive-shadow"
+          >
+            <div
+              class="px-container-padding py-6 border-b border-outline-variant flex justify-between items-center bg-surface-container-low/50"
+            >
+              <h3 class="font-h2 text-h2 text-primary">Historial de Órdenes</h3>
+              <span
+                class="bg-primary text-on-primary text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-widest"
+              >
+                {% if ordenes %}{{ ordenes|length }}{% else %}0{% endif %}
+                ÓRDENES
+              </span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-surface-container-high/30">
+                    <th
+                      class="px-6 py-4 font-label-caps text-on-surface-variant uppercase"
+                    >
+                      Orden
+                    </th>
+                    <th
+                      class="px-6 py-4 font-label-caps text-on-surface-variant uppercase"
+                    >
+                      Fecha Entrada
+                    </th>
+                    <th
+                      class="px-6 py-4 font-label-caps text-on-surface-variant uppercase"
+                    >
+                      Estado
+                    </th>
+                    <th
+                      class="px-6 py-4 font-label-caps text-on-surface-variant uppercase"
+                    >
+                      Total
+                    </th>
+                    <th
+                      class="px-6 py-4 font-label-caps text-on-surface-variant uppercase text-right"
+                    >
+                      Acciones
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-surface-container-low">
+                  {% if ordenes %} {% for orden in ordenes %}
+                  <tr
+                    class="hover:bg-surface-container-lowest transition-colors group"
+                  >
+                    <td class="px-6 py-5">
+                      <div class="flex flex-col">
+                        <span class="font-data-mono font-bold text-primary"
+                          >#{{ orden.id }}</span
+                        >
+                        <span class="text-[11px] text-on-surface-variant">Entrega: {% if orden.fecha_entrega %}{{ orden.fecha_entrega|slice:":10" }}{% else %}Pendiente{% endif %}</span>
+                      </div>
+                    </td>
+                    <td class="px-6 py-5 text-on-surface font-medium">
+                      {{ orden.recepcion.fecha_ingreso|slice:":10" }}
+                    </td>
+                    <td class="px-6 py-5">
+                      <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider {% if orden.estado.nombre == 'Entregado' or orden.estado.nombre == 'Finalizado' %} bg-[#e8f5e9] text-[#2e7d32] {% elif orden.estado.nombre == 'Pendiente' or orden.estado.nombre == 'En Proceso' %} bg-[#fff3e0] text-[#ef6c00] {% else %} bg-surface-container-high text-on-surface-variant {% endif %}"
+                      >
+                        {{ orden.estado.nombre }}
+                      </span>
+                    </td>
+                    <td class="px-6 py-5 font-data-mono font-bold text-primary">
+                      ₡{{ orden.total }}
+                    </td>
+                    <td class="px-6 py-5 text-right">
+                      <a
+                        aria-label="Ver detalle"
+                        class="inline-flex items-center justify-center text-primary hover:text-primary-container transition-colors"
+                        href="{% url 'consulta_orden_detalle' orden.id %}"
+                      >
+                        <span class="material-symbols-outlined text-[20px]"
+                          >visibility</span
+                        >
+                      </a>
+                    </td>
+                  </tr>
+                  {% endfor %} {% else %}
+                  <tr>
+                    <td class="px-6 py-16 text-center" colspan="5">
+                      <div class="flex flex-col items-center gap-4">
+                        <span
+                          class="material-symbols-outlined text-on-surface-variant text-[48px] opacity-20"
+                          >history_toggle_off</span
+                        >
+                        <p class="text-on-surface-variant font-body-lg">
+                          No se encontraron órdenes de servicio para este
+                          vehículo
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Administrative Timeline Hint -->
+          <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+           
+        </section>
+      </div>
+    </main>
+    <!-- Footer -->
+    <footer
+      class="bg-surface-container dark:bg-surface-dim border-t border-outline-variant dark:border-outline py-8 px-container-padding w-full flex flex-col md:flex-row justify-between items-center"
+    >
+      <div class="mb-4 md:mb-0">
+        <span
+          class="font-label-caps text-label-caps uppercase tracking-widest text-primary"
+          >M&M MOTORS</span
+        >
+        <p
+          class="text-on-surface-variant dark:text-on-surface-variant font-body-md mt-1"
+        >
+          © 2026 M&M Motors. Todos los derechos reservados.
+        </p>
+      </div>
+    </footer>
+    <script>
+      // Simple micro-interactions for table rows
+      document.querySelectorAll("tbody tr").forEach((row) => {
+        row.addEventListener("click", () => {
+          const link = row.querySelector("a");
+          if (link) window.location.href = link.getAttribute("href");
+        });
+        row.style.cursor = "pointer";
+      });
+    </script>
+  </body>
+</html>

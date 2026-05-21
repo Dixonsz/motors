@@ -29,6 +29,11 @@ def env_bool(key, default=False):
     return value.strip().lower() in {'1', 'true', 'yes', 'on'}
 
 
+def env(key, default=None):
+    value = os.getenv(key)
+    return default if value is None else value
+
+
 def env_list(key, default=None):
     value = os.getenv(key)
     if value is None:
@@ -68,6 +73,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage',
     'axes',
+    'django_ratelimit',
 ]
 
 
@@ -78,6 +84,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'axes.middleware.AxesMiddleware',
+    'django_ratelimit.middleware.RatelimitMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -219,3 +226,19 @@ CSRF_TRUSTED_ORIGINS = env_list(
     'CSRF_TRUSTED_ORIGINS',
     ['http://localhost:5173', 'http://127.0.0.1:5173'],
 )
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': env('REDIS_URL', default='redis://127.0.0.1:6379/1'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'IGNORE_EXCEPTIONS': True,  # Si Redis cae, no rompe la app
+        }
+    }
+}
+
+RATELIMIT_ENABLE = True
+RATELIMIT_USE_CACHE = 'default'
+RATELIMIT_EXCEPTION_CLASS = 'django_ratelimit.exceptions.Ratelimited'
+RATELIMIT_VIEW = 'apps.taller.views.public.historial_web.ratelimit_error'

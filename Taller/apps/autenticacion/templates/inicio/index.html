@@ -184,11 +184,12 @@
             >Contacto</a
           >
         </nav>
-        <button
+        <a
           class="bg-secondary text-white px-6 py-2.5 rounded-lg font-label-caps text-label-caps uppercase tracking-wider hover:opacity-90 active:scale-95 transition-all shadow-sm"
+          href="{% url 'consulta_busqueda' %}"
         >
-          Reservar cita
-        </button>
+          Consultar vehículo
+        </a>
       </div>
     </header>
     <main>
@@ -215,11 +216,13 @@
               técnica que merece.
             </p>
             <div class="flex flex-col sm:flex-row gap-4">
-              <button
-                class="bg-secondary text-on-secondary px-8 py-4 rounded-lg font-h3 hover:opacity-95 transition-all shadow-lg active:scale-95"
+              <a
+                class="flex items-center justify-center gap-2 bg-secondary text-on-secondary px-8 py-4 rounded-lg font-h3 hover:opacity-95 transition-all shadow-lg active:scale-95"
+                href="{% url 'consulta_busqueda' %}"
               >
-                Reservar cita
-              </button>
+                <span class="material-symbols-outlined">manage_search</span>
+                Consultar mi vehículo
+              </a>
               <button
                 class="flex items-center justify-center gap-2 border-2 border-white/30 text-white px-8 py-4 rounded-lg font-h3 hover:bg-white/10 backdrop-blur-sm transition-all active:scale-95"
               >
