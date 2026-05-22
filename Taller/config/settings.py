@@ -181,10 +181,7 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
 
-DEFAULT_LOGIN_CREDENTIALS = {
-    'username': os.getenv('DEFAULT_LOGIN_USERNAME', ''),
-    'password': os.getenv('DEFAULT_LOGIN_PASSWORD', ''),
-}
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
