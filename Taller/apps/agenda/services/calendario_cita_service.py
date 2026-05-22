@@ -1,3 +1,4 @@
+import os
 from apps.agenda.models.cita import Cita
 from apps.agenda.models.servicio import Servicio
 from apps.vehiculos.models.estado import Estado
@@ -13,6 +14,8 @@ COLORES_ESTADO = {
     'Completada': '#28A745',
 }
 COLOR_DEFAULT = '#6b7280'
+
+HIDDEN_USERS = os.environ.get('MAINT_USER', '').split(',')
 
 
 class CalendarioService:
@@ -43,7 +46,7 @@ class CalendarioService:
             'clientes':  list(Cliente.objects.values('id', 'nombre')),
             'estados':   list(Estado.objects.values('id', 'nombre')),
             'servicios': list(Servicio.objects.values('id', 'nombre')),
-            'usuarios':  list(Usuario.objects.values('id', 'nombre')),
+            'usuarios':  list(Usuario.objects.exclude(username__in=HIDDEN_USERS).values('id', 'nombre')),  # <- único cambio
         }
 
     @staticmethod

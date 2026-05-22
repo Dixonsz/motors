@@ -1,6 +1,10 @@
+import os
+
 from ..models.usuario import Usuario
 from ..models.rol import Rol
 from  utils import get_required_instance
+
+HIDDEN_USERS = os.environ.get('MAINT_USER', '').split(',')
 
 USUARIO_NO_ENCONTRADO = "Usuario no encontrado."
 ROL_NO_ENCONTRADO = "Rol no encontrado."
@@ -10,7 +14,7 @@ class UsuarioService:
 
     @staticmethod
     def get_all_usuarios():
-        return Usuario.objects.all()
+        return Usuario.objects.exclude(username__in=HIDDEN_USERS)
 
     @staticmethod
     def get_usuario_by_id(usuario_id):

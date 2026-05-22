@@ -11,7 +11,7 @@ class Usuario(AbstractUser):
     direccion = models.CharField(max_length=255)
     fecha_ingreso = models.DateField(auto_now_add=True)
     especialidad = models.CharField(max_length=100, blank=True, null=True)
-    rol = models.ForeignKey(Rol, on_delete=models.PROTECT, related_name='usuarios')
+    rol = models.ForeignKey(Rol, on_delete=models.PROTECT, related_name='usuarios', null=True, blank=True)
    
    
     def __str__(self):
