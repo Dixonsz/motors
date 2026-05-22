@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.modulo_service import ModuloService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 
 @access_required("Modulos", "ver")
@@ -51,6 +51,7 @@ def modulo_editar(request, modulo_id):
     return render(request, 'modulos/modulos_editar.html', {'modulo': modulo})
 
 @access_required("Modulos", "eliminar")
+@protected_error_to_message
 def modulo_eliminar(request, modulo_id):
     modulo = ModuloService.get_modulo_by_id(modulo_id)
     if not modulo:

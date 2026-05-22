@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.combustible_service import CombustibleService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 
 @access_required("Vehiculos", "ver")
@@ -47,6 +47,7 @@ def combustible_editar(request, combustible_id):
     return render(request, 'combustibles/combustibles_editar.html', {'combustible': combustible})
 
 @access_required("Vehiculos", "eliminar")
+@protected_error_to_message
 def combustible_eliminar(request, combustible_id):
     combustible = CombustibleService.get_combustible_by_id(combustible_id)
     if not combustible:

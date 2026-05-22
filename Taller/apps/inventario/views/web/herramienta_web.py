@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.herramienta_service import HerramientaService
 from ...services.categoria_herramienta_service import CategoriaHerramientaService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 
 @access_required("Herramientas", "ver")
@@ -61,6 +61,7 @@ def herramienta_editar(request, herramienta_id):
     return render(request, 'herramientas/herramientas_editar.html', {'herramienta': herramienta, 'categorias': categorias})
 
 @access_required("Herramientas", "eliminar")
+@protected_error_to_message
 def herramienta_eliminar(request, herramienta_id):
     herramienta = HerramientaService.get_herramienta_by_id(herramienta_id)
     if not herramienta:

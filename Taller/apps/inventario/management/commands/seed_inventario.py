@@ -1,0 +1,9 @@
+from django.core.management.base import BaseCommand
+from django.core.management import call_command
+
+class Command(BaseCommand):
+    help = 'Seeders del módulo inventario'
+
+    def handle(self, *args, **kwargs):
+        call_command('seed_categoria_herramientas')
+        call_command('seed_estado_herramientas')

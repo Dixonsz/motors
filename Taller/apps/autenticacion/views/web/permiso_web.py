@@ -5,7 +5,7 @@ from django.urls import reverse
 from ...services.permiso_service import PermisoService
 from ...services.modulo_service import ModuloService
 from ...services.rol_service import RolService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 
 @access_required("Roles", "ver")
@@ -51,6 +51,7 @@ def permiso_create(request):
 
 
 @access_required("Roles", "eliminar")
+@protected_error_to_message
 def permiso_eliminar(request, permiso_id):
     permiso = PermisoService.get_permiso_by_id(permiso_id)
     if not permiso:

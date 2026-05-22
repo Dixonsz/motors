@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.estado_service import EstadoService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 
 @access_required("Estados", "ver")
@@ -53,6 +53,7 @@ def estado_editar(request, estado_id):
     return render(request, 'estados/estados_editar.html', {'estado': estado})
 
 @access_required("Estados", "eliminar")
+@protected_error_to_message
 def estado_eliminar(request, estado_id):
     estado = EstadoService.get_estado_by_id(estado_id)
     if not estado:

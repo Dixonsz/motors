@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from ...models import Recepcion
 from ...services.evidencia_service import EvidenciaService
 from ...services.recepcion_service import RecepcionService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 ORDEN_CLOSED_ERROR = "La recepción tiene una orden de servicio cerrada y no se puede modificar."
 
@@ -96,6 +96,7 @@ def evidencia_editar(request, evidencia_id):
 
 
 @access_required("Recepciones", "eliminar")
+@protected_error_to_message
 def evidencia_eliminar(request, evidencia_id):
 
     evidencia = EvidenciaService.get_evidencia_by_id(evidencia_id)

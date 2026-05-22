@@ -8,7 +8,7 @@ from apps.vehiculos.services.vehiculo_service import VehiculoService
 from apps.agenda.services.servicio_service import ServicioService
 from apps.autenticacion.services.usuario_service import UsuarioService
 from apps.vehiculos.services.estado_service import EstadoService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 
 @access_required("Citas", "ver")
@@ -98,6 +98,7 @@ def cita_editar(request, cita_id):
 
 
 @access_required("Citas", "eliminar")
+@protected_error_to_message
 def cita_eliminar(request, cita_id):
     cita = CitaService.get_cita_by_id(cita_id)
     if not cita:

@@ -6,7 +6,7 @@ from ...services.orden_servicio_service import OrdenServicioService
 from ...services.recepcion_service import RecepcionService
 from ....autenticacion.services.usuario_service import UsuarioService
 from ....vehiculos.services.estado_service import EstadoService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 ORDEN_ERROR="La orden de servicio no existe o no se puede procesar la solicitud."
 
@@ -119,6 +119,7 @@ def orden_cerrar(request, orden_id):
 
 
 @access_required("Ordenes", "eliminar")
+@protected_error_to_message
 def orden_eliminar(request, orden_id):
     orden = OrdenServicioService.get_orden_servicio_by_id(orden_id)
     if not orden:

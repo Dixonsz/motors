@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
 from apps.agenda.services.configuracion_calendario_service import ConfiguracionCalendarioService as BloqueoService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 
 @access_required("Configuraciones", "ver")
@@ -74,6 +74,7 @@ def configuracion_editar(request, configuracion_id):
 
 
 @access_required("Configuraciones", "eliminar")
+@protected_error_to_message
 def configuracion_eliminar(request, configuracion_id):
     configuracion = BloqueoService.get_bloqueo_by_id(configuracion_id)
     if not configuracion:

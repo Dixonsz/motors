@@ -6,7 +6,7 @@ from django.urls import reverse
 from ...services.orden_servicio_detalle_service import OrdenServicioDetalleService
 from ...services.orden_servicio_service import OrdenServicioService
 from ....agenda.services.servicio_service import ServicioService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 ORDEN_CLOSED_ERROR = "La orden de servicio está cerrada y no se puede modificar."
 
@@ -85,6 +85,7 @@ def detalle_editar(request, detalle_id):
 
 
 @access_required("Ordenes", "eliminar")
+@protected_error_to_message
 def detalle_eliminar(request, detalle_id):
     detalle = OrdenServicioDetalleService.get_detalle_by_id(detalle_id)
     if not detalle:

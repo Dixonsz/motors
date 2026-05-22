@@ -5,7 +5,7 @@ from django.urls import reverse
 from ...services.inventario_herramienta_service import InventarioHerramientaService
 from ...services.estado_herramienta_service import EstadoHerramientaService
 from ...services.herramienta_service import HerramientaService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 @access_required("Herramientas", "ver")
 def inventario_herramientas_lista(request):
@@ -88,6 +88,7 @@ def inventario_herramientas_editar(request, inventario_id):
     )
 
 @access_required("Herramientas", "eliminar")
+@protected_error_to_message
 def inventario_herramientas_eliminar(request, inventario_id):
     inventario = InventarioHerramientaService.get_inventario_by_id(inventario_id)
     if not inventario:

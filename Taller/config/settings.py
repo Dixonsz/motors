@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'axes',
     'django_ratelimit',
+    'core',
 ]
 
 
@@ -83,6 +84,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'config.middleware.ProtectedErrorMiddleware',
     'axes.middleware.AxesMiddleware',
     'django_ratelimit.middleware.RatelimitMiddleware',
 ]

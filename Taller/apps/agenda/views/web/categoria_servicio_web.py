@@ -1,8 +1,9 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from apps.agenda.services.categoria_servicio_service import CategoriaServicioService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 
 @access_required("Servicios", "ver")
@@ -52,6 +53,7 @@ def categoria_editar(request, categoria_id):
     return render(request, 'categoria_servicios/categoria_servicios_editar.html', {'categoria': categoria})
 
 @access_required("Servicios", "eliminar")
+@protected_error_to_message
 def categoria_eliminar(request, categoria_id):
     categoria = CategoriaServicioService.get_categoria_by_id(categoria_id)
     if not categoria:
@@ -66,4 +68,4 @@ def categoria_eliminar(request, categoria_id):
         except ValueError as exc:
             messages.error(request, str(exc))
 
-    return render(request, 'categoria_servicios/categoria_servicios_eliminar.html', {'categoria': categoria_id})
+    return render(request, 'confirmar_eliminacion.html',{'object': categoria, 'cancel_url': reverse('categorias_lista'), 'categoria': categoria})

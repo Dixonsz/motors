@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from apps.agenda.services.servicio_service import ServicioService
 from apps.agenda.services.categoria_servicio_service import CategoriaServicioService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 @access_required("Servicios", "ver")
 def servicio_lista(request):
@@ -69,6 +69,7 @@ def servicio_editar(request, servicio_id):
     return render(request, 'servicios/servicios_editar.html', {'servicio': servicio, 'categorias': categorias})
 
 @access_required("Servicios", "eliminar")
+@protected_error_to_message
 def servicio_eliminar(request, servicio_id):
     servicio = ServicioService.get_servicio_by_id(servicio_id)
     if not servicio:

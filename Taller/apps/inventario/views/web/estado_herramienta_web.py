@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.estado_herramienta_service import EstadoHerramientaService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 
 @access_required("Herramientas", "ver")
@@ -51,6 +51,7 @@ def estado_herramienta_editar(request, estado_id):
     return render(request, 'estado_herramientas/estado_herramientas_editar.html', {'estado': estado})
 
 @access_required("Herramientas", "eliminar")
+@protected_error_to_message
 def estado_herramienta_eliminar(request, estado_id):
     estado = EstadoHerramientaService.get_estado_by_id(estado_id)
     if not estado:

@@ -6,7 +6,7 @@ from ...services.recepcion_service import RecepcionService
 from ....vehiculos.services.vehiculo_service import VehiculoService
 from ....autenticacion.services.usuario_service import UsuarioService
 from ...services.evidencia_service import EvidenciaService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 
 @access_required("Recepciones", "ver")
@@ -65,6 +65,7 @@ def recepcion_detalle(request, recepcion_id):
 
 
 @access_required("Recepciones", "eliminar")
+@protected_error_to_message
 def recepcion_eliminar(request, recepcion_id):
     recepcion = RecepcionService.get_recepcion_by_id(recepcion_id)
     if not recepcion:

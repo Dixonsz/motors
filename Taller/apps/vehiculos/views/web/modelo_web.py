@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.modelo_service import ModeloService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 @access_required("Vehiculos", "ver")
 def modelo_lista(request):
@@ -46,6 +46,7 @@ def modelo_editar(request, modelo_id):
     return render(request, 'modelos/modelos_editar.html', {'modelo': modelo})
 
 @access_required("Vehiculos", "eliminar")
+@protected_error_to_message
 def modelo_eliminar(request, modelo_id):
     modelo = ModeloService.get_modelo_by_id(modelo_id)
     if not modelo:

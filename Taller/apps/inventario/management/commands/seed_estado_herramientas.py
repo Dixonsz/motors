@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from models.estado_herramienta import EstadoHerramienta
+from ...models.estado_herramienta import EstadoHerramienta
 
 
 class Command(BaseCommand):

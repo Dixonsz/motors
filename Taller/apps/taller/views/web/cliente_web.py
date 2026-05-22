@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from ...services.cliente_service import ClienteService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 ERROR_CLIENTE = "El cliente no existe o no se puede procesar la solicitud."
 
@@ -58,6 +58,7 @@ def cliente_editar(request, cliente_id):
     return render(request, 'clientes/clientes_editar.html', {'cliente': cliente})
 
 @access_required("Clientes", "eliminar")
+@protected_error_to_message
 def cliente_eliminar(request, cliente_id):
     cliente = ClienteService.get_cliente_by_id(cliente_id)
     if not cliente:

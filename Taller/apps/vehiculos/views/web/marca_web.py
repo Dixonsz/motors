@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from ...services.marca_service import MarcaService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 @access_required("Vehiculos", "ver")
 def marca_lista(request):
@@ -45,6 +45,7 @@ def marca_editar(request, marca_id):
     return render(request, 'marcas/marcas_editar.html', {'marca': marca})
 
 @access_required("Vehiculos", "eliminar")
+@protected_error_to_message
 def marca_eliminar(request, marca_id):
     marca = MarcaService.get_marca_by_id(marca_id)
     if not marca:

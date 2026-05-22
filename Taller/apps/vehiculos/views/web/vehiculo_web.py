@@ -7,7 +7,7 @@ from ....taller.services.cliente_service import ClienteService
 from ...services.modelo_service import ModeloService
 from ...services.marca_service import MarcaService
 from ...services.combustible_service import CombustibleService
-from config.security import access_required
+from config.security import access_required, protected_error_to_message
 
 
 @access_required("Vehiculos", "ver")
@@ -77,6 +77,7 @@ def vehiculo_editar(request, vehiculo_id):
     return render(request, 'vehiculos/vehiculos_editar.html', {'vehiculo': vehiculo, 'clientes': clientes, 'modelos': modelos, 'marcas': marcas, 'combustibles': combustibles})
 
 @access_required("Vehiculos", "eliminar")
+@protected_error_to_message
 def vehiculo_eliminar(request, vehiculo_id):
     vehiculo = VehiculoService.get_vehiculo_by_id(vehiculo_id)
     if not vehiculo:

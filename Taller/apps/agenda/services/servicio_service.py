@@ -1,6 +1,7 @@
 import re
 from datetime import timedelta
 from django.utils.dateparse import parse_duration
+from django.db.models import ProtectedError
 from apps.agenda.models import Servicio
 from apps.agenda.models.categoria_servicio import CategoriaServicio
 from utils import get_required_instance
@@ -93,6 +94,9 @@ class ServicioService:
         servicio = ServicioService.get_servicio_by_id(servicio_id)
         if not servicio:
             raise ValueError("El servicio no existe.")
-        servicio.delete()
+        try:
+            servicio.delete()
+        except ProtectedError:
+            raise ValueError("No se puede eliminar el servicio porque esta asociado a ordenes de servicio.")
 
       

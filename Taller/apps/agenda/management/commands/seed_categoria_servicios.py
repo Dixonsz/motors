@@ -1,8 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
-from models import CategoriaServicio
-
+from ...models import CategoriaServicio
 
 class Command(BaseCommand):
     help = "Crea categorías de servicio base en la base de datos"
