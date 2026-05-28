@@ -40,11 +40,11 @@
         <div class="grid gap-5 md:grid-cols-2">
           <label class="block text-sm font-semibold text-slate-700" for="hora_inicio">
             Hora inicio
-            <input class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" type="time" id="hora_inicio" name="hora_inicio" value="{{ bloqueo.hora_inicio|default:'' }}">
+            <input class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" type="time" id="hora_inicio" name="hora_inicio" value="{{ bloqueo.hora_inicio|time:"H:i"|default:'' }}">
           </label>
           <label class="block text-sm font-semibold text-slate-700" for="hora_fin">
             Hora fin
-            <input class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" type="time" id="hora_fin" name="hora_fin" value="{{ bloqueo.hora_fin|default:'' }}">
+            <input class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900" type="time" id="hora_fin" name="hora_fin" value="{{ bloqueo.hora_fin|time:"H:i"|default:'' }}">
           </label>
         </div>
 
