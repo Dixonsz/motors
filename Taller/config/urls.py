@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from apps.autenticacion.views.web.index_web import inicio
+from config.views import permission_denied_view
 
 
 urlpatterns = [
@@ -16,3 +17,4 @@ urlpatterns = [
 ]
 
 handler429 = 'apps.taller.views.public.historial_web.ratelimit_error'
+handler403 = permission_denied_view

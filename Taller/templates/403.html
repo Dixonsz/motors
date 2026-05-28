@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Acceso denegado{% endblock %}
+{% block page_title %}Acceso denegado{% endblock %}
+{% block page_subtitle %}
+  <p class="mt-2 text-sm text-slate-500">No tienes permisos para realizar esta accion.</p>
+{% endblock %}
+
+{% block content %}
+  <section class="max-w-xl">
+    <div class="rounded-lg border border-rose-200 bg-white p-6 shadow-sm">
+      <div class="flex items-start gap-3">
+        <span class="material-symbols-outlined text-rose-500" data-icon="warning">warning</span>
+        <div>
+          <h3 class="text-lg font-semibold text-slate-900">Accion restringida</h3>
+          <p class="mt-2 text-sm text-slate-500">
+            Tu rol no tiene acceso a esta operacion. Si crees que es un error, contacta al administrador.
+          </p>
+        </div>
+      </div>
+      <div class="mt-6 flex flex-wrap items-center gap-3">
+        <a href="{{ back_url }}" class="bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-slate-700">Volver</a>
+        <a href="/" class="px-4 py-2 text-sm font-semibold text-slate-500 transition-colors hover:text-slate-700">Ir al inicio</a>
+      </div>
+    </div>
+  </section>
+{% endblock %}

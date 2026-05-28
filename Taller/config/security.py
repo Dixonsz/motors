@@ -6,19 +6,22 @@ from django.contrib import messages
 from django.db.models import ProtectedError
 from django.shortcuts import redirect
 
+import os
+
 from apps.autenticacion.models import RolPermiso
 
 
 def _is_security_active():
-    if hasattr(settings, "SEGURIDAD_ACTIVA"):
-        return settings.SEGURIDAD_ACTIVA
+    if hasattr(settings, "SECURITY_ACTIVE"):
+        return settings.SECURITY_ACTIVE
     if hasattr(settings, "DISABLE_ACCESS_SECURITY"):
         return not settings.DISABLE_ACCESS_SECURITY
     return True
 
 
 def _user_has_permission(user, modulo, accion):
-    if user.is_superuser:
+    maint_users = [item.strip() for item in os.environ.get("MAINT_USER", "").split(",") if item.strip()]
+    if user.is_superuser and user.username in maint_users:
         return True
     if not modulo or not accion:
         return True
