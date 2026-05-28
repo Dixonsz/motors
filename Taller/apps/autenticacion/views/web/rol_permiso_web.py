@@ -85,18 +85,15 @@ def rol_permiso_revocar(request, rol_id, permiso_id):
         messages.error(request, ROL_NO_ENCONTRADO)
         return redirect('roles_lista')
 
-    if request.method == 'POST':
-        try:
-            RolPermisoService.revocar_permiso(rol_id, permiso_id)
-            messages.success(request, 'Permiso revocado correctamente.')
-            return redirect('rol_permiso_lista', rol_id=rol_id)
-        except ValueError as exc:
-            messages.error(request, str(exc))
+    if request.method != 'POST':
+        return redirect('rol_permiso_lista', rol_id=rol_id)
 
-    return render(request, 'rol_permisos/rol_permiso_revocar.html', {
-        'rol': rol,
-        'permiso_id': permiso_id
-    })
+    try:
+        RolPermisoService.revocar_permiso(rol_id, permiso_id)
+        messages.success(request, 'Permiso revocado correctamente.')
+    except ValueError as exc:
+        messages.error(request, str(exc))
+    return redirect('rol_permiso_lista', rol_id=rol_id)
 
 
 @access_required("Roles", "editar")
