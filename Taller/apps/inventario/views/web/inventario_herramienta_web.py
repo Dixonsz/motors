@@ -9,12 +9,33 @@ from config.security import access_required, protected_error_to_message
 
 @access_required("Herramientas", "ver")
 def inventario_herramientas_lista(request):
-    inventario = InventarioHerramientaService.get_all_inventario()
+    herramienta_id = request.GET.get('herramienta_id', '').strip()
+    codigo_interno = request.GET.get('codigo_interno', '').strip()
+    estado_id = request.GET.get('estado', '').strip()
+
+    inventario = InventarioHerramientaService.get_inventario_filtrado(
+        herramienta_id=herramienta_id if herramienta_id else None,
+        codigo_interno=codigo_interno if codigo_interno else None,
+        estado_id=estado_id if estado_id else None
+    )
     paginator = Paginator(inventario, 10)
     page_number = request.GET.get('page')
     inventario = paginator.get_page(page_number)
 
-    return render(request, 'inventario_herramientas/inventario_herramientas_lista.html', {'inventario': inventario})
+    filtros_query = request.GET.copy()
+    filtros_query.pop('page', None)
+
+    return render(request, 'inventario_herramientas/inventario_herramientas_lista.html', {
+        'inventario': inventario,
+        'herramientas': HerramientaService.get_all_herramientas(),
+        'estados': EstadoHerramientaService.get_all_estados(),
+        'filtros': {
+            'herramienta_id': herramienta_id,
+            'codigo_interno': codigo_interno,
+            'estado_id': estado_id
+        },
+        'filtros_query': filtros_query.urlencode(),
+    })
 
 @access_required("Herramientas", "crear")
 def inventario_herramientas_create(request):

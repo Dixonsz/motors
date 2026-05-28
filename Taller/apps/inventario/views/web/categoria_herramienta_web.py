@@ -8,11 +8,20 @@ from config.security import access_required, protected_error_to_message
 
 @access_required("Herramientas", "ver")
 def categoria_lista(request):
-    categorias = CategoriaHerramientaService.get_all_categorias().order_by('id')
+    nombre = request.GET.get('nombre', '').strip()
+
+    categorias = CategoriaHerramientaService.get_categoria_filtros(nombre=nombre or None)
+    
     paginator = Paginator(categorias, 10)
     page_number = request.GET.get('page')
-    categorias_paginadas = paginator.get_page(page_number)
-    return render(request, 'categoria_herramienta/categoria_herramientas_lista.html', {'categorias': categorias_paginadas})
+    categorias = paginator.get_page(page_number)
+    filtros_query = request.GET.copy()
+    filtros_query.pop('page', None)
+
+    return render(request, 'categoria_herramienta/categoria_herramientas_lista.html',
+                   {'categorias': categorias,
+                     'filtros': {'nombre': nombre},
+                     'filtros_query': filtros_query.urlencode()})
 
 @access_required("Herramientas", "crear")
 def categoria_create(request):

@@ -13,6 +13,14 @@ class EstadoHerramientaService:
         except EstadoHerramienta.DoesNotExist:
             return None
        
+    @staticmethod
+    def get_estados_filtrados(nombre=None):
+        estados = EstadoHerramienta.objects.all()
+
+        if nombre:
+            estados = estados.filter(nombre__icontains=nombre.strip())
+
+        return estados.order_by('nombre', 'id')
         
     @staticmethod
     def create_estado(nombre, is_active=True):

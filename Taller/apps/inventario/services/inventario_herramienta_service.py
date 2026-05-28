@@ -24,6 +24,19 @@ class InventarioHerramientaService:
             return InventarioHerramienta.objects.select_related('herramienta', 'estado').get(id=inventario_id)
         except InventarioHerramienta.DoesNotExist:
             return None
+    
+    @staticmethod
+    def get_inventario_filtrado(herramienta_id=None, codigo_interno=None, estado_id=None):
+        inventarios = InventarioHerramienta.objects.select_related('herramienta', 'estado').all()
+
+        if herramienta_id:
+            inventarios = inventarios.filter(herramienta_id=herramienta_id)
+        if codigo_interno:
+            inventarios = inventarios.filter(herramienta__codigo_interno=codigo_interno)
+        if estado_id:
+            inventarios = inventarios.filter(estado_id=estado_id)
+
+        return inventarios.order_by('herramienta__nombre','herramienta__codigo_interno', 'estado__nombre', 'id')
 
     @staticmethod
     def get_stock_por_herramienta(herramienta_id):

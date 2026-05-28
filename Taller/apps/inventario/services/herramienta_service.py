@@ -14,7 +14,20 @@ class HerramientaService:
             return Herramienta.objects.get(id=herramienta_id)
         except Herramienta.DoesNotExist:
             return None
-        
+
+    @staticmethod
+    def get_herramientas_filtradas(nombre=None, categoria_id=None, codigo_interno=None):
+        herramientas = Herramienta.objects.all()
+
+        if nombre:
+            herramientas = herramientas.filter(nombre__icontains=nombre.strip())
+        if categoria_id:
+            herramientas = herramientas.filter(categoria_herramienta_id=categoria_id)
+        if codigo_interno:
+            herramientas = herramientas.filter(codigo_interno__icontains=codigo_interno.strip())
+
+        return herramientas.order_by('nombre', 'id')    
+
     @staticmethod
     def set_codigo_interno(nombre, categoria):
         set_nombre = re.sub(r'[^a-zA-Z]', '', nombre).upper()
@@ -30,7 +43,7 @@ class HerramientaService:
             if not Herramienta.objects.filter(codigo_interno=codigo).exists():
                 return codigo
 
-            raise RuntimeError("No se pudo generar un código interno único para la herramienta.")
+        raise RuntimeError("No se pudo generar un código interno único para la herramienta.")
         
     @staticmethod
     def create_herramienta(nombre, descripcion, categoria_id, marca, modelo):

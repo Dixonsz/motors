@@ -9,12 +9,28 @@ from config.security import access_required, protected_error_to_message
 
 @access_required("Herramientas", "ver")
 def herramienta_lista(request):
-    herramientas = HerramientaService.get_all_herramientas()
+
+    nombre = request.GET.get('nombre', '').strip()
+    categoria_id = request.GET.get('categoria_id', None)
+    codigo_interno = request.GET.get('codigo_interno', '').strip()
+
+    herramientas = HerramientaService.get_herramientas_filtradas(nombre=nombre, categoria_id=categoria_id,codigo_interno=codigo_interno)
     paginator = Paginator(herramientas, 10)
     page_number = request.GET.get('page')
     herramientas = paginator.get_page(page_number)
+    filtros_query = request.GET.copy()
+    filtros_query.pop('page', None)
 
-    return render(request, 'herramientas/herramientas_lista.html', {'herramientas': herramientas})
+    return render(request, 'herramientas/herramientas_lista.html',
+                   {'herramientas': herramientas
+                    , 'categorias': CategoriaHerramientaService.get_all_categorias()
+                    , 'filtros': {
+                        'nombre': nombre,
+                        'categoria_id': categoria_id,
+                        'codigo_interno': codigo_interno
+                    }
+                    , 'filtros_query': filtros_query.urlencode()
+                    })
 
 @access_required("Herramientas", "crear")   
 def herramienta_create(request):

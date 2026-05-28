@@ -13,6 +13,12 @@ class CategoriaHerramientaService:
         except CategoriaHerramienta.DoesNotExist:
             return None
        
+    @staticmethod
+    def get_categoria_filtros(nombre=None):
+        categorias = CategoriaHerramienta.objects.all()
+        if nombre:
+            categorias = categorias.filter(nombre__icontains=nombre.strip())
+        return categorias.order_by('nombre')
         
     @staticmethod
     def create_categoria(nombre, descripcion):
