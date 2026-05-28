@@ -7,6 +7,13 @@ class ModeloService:
         return Modelo.objects.all()
     
     @staticmethod
+    def get_modelos_filtrados(nombre=None):
+        modelos = Modelo.objects.all()
+        if nombre:
+            modelos = modelos.filter(nombre__icontains=nombre.strip())
+        return modelos.order_by('nombre')
+    
+    @staticmethod
     def get_modelo_by_id(modelo_id):
         try:
             return Modelo.objects.get(id=modelo_id)

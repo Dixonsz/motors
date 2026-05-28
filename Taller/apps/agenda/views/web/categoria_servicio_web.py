@@ -8,12 +8,17 @@ from config.security import access_required, protected_error_to_message
 
 @access_required("Servicios", "ver")
 def categoria_lista(request):
-    categorias = CategoriaServicioService.get_all_categorias()
+
+    nombre = request.GET.get('nombre', '').strip()
+
+    categorias = CategoriaServicioService.get_categorias_filtradas(nombre=nombre)
     paginator = Paginator(categorias, 10)
     page_number = request.GET.get('page')
     categorias = paginator.get_page(page_number)
+    filtros_query = request.GET.copy()
+    filtros_query.pop('page', None)
 
-    return render(request, 'categoria_servicios/categoria_servicios_lista.html', {'categorias': categorias})
+    return render(request, 'categoria_servicios/categoria_servicios_lista.html', {'categorias': categorias, 'filtros_query': filtros_query.urlencode(), 'filtros': {'nombre': nombre}   })
 
 @access_required("Servicios", "crear")
 def categoria_create(request):

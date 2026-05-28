@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
@@ -13,11 +14,47 @@ ORDEN_ERROR="La orden de servicio no existe o no se puede procesar la solicitud.
 
 @access_required("Ordenes", "ver")
 def orden_lista(request):
-    ordenes = OrdenServicioService.get_all_ordenes_servicio()
+    placa = request.GET.get('placa', '').strip()
+    cliente = request.GET.get('cliente', '').strip()
+    fecha_str = request.GET.get('fecha', '').strip()
+    usuario_id = request.GET.get('usuario_id', '').strip()
+    estado_id = request.GET.get('estado_id', '').strip()
+
+    fecha = None
+    if fecha_str:
+        try:
+            fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
+        except ValueError:
+            messages.error(request, 'La fecha no tiene el formato correcto (YYYY-MM-DD).')
+
+    ordenes = OrdenServicioService.get_ordenes_filtradas(
+        placa=placa or None,
+        cliente=cliente or None,
+        fecha=fecha,
+        usuario_id=usuario_id or None,
+        estado_id=estado_id or None
+    )
     paginator = Paginator(ordenes, 10)
     page_number = request.GET.get('page')
     ordenes = paginator.get_page(page_number)
-    return render(request, 'ordenes/ordenes_lista.html', {'ordenes': ordenes})
+    usuarios = UsuarioService.get_all_usuarios()
+    estados = EstadoService.get_all_estados()
+    filtros_query = request.GET.copy()
+    filtros_query.pop('page', None)
+
+    return render(request, 'ordenes/ordenes_lista.html', {
+        'ordenes': ordenes,
+        'usuarios': usuarios,
+        'estados': estados,
+        'filtros': {
+            'placa': placa,
+            'cliente': cliente,
+            'fecha': fecha_str,
+            'usuario_id': usuario_id,
+            'estado_id': estado_id
+        },
+        'filtros_query': filtros_query.urlencode()
+    })
 
 
 @access_required("Ordenes", "ver")

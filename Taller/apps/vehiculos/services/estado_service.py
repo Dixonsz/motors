@@ -7,6 +7,14 @@ class EstadoService:
         return Estado.objects.all()
     
     @staticmethod
+    def get_estados_filtrados(nombre=None):
+        estados = Estado.objects.all()
+        if nombre:
+            estados = estados.filter(nombre__icontains=nombre.strip())
+        return estados.order_by('nombre')
+    
+
+    @staticmethod
     def get_estado_by_id(estado_id):
         try:
             return Estado.objects.get(id=estado_id)

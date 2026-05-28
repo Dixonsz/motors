@@ -18,7 +18,7 @@ class Command(BaseCommand):
                 "descripcion": "La orden está siendo atendida",
             },
             {
-                "nombre": "Completada",
+                "nombre": "Completado",
                 "descripcion": "La orden ha sido finalizada",
             },
         ]

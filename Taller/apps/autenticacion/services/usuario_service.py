@@ -24,6 +24,20 @@ class UsuarioService:
             return None
 
     @staticmethod
+    def get_usuarios_filtrados(nombre=None, email=None, cedula=None):
+        usuarios = Usuario.objects.exclude(username__in=HIDDEN_USERS)
+
+        if nombre:
+            usuarios = usuarios.filter(nombre__icontains=nombre.strip())
+        if email:
+            usuarios = usuarios.filter(email__icontains=email.strip())
+        if cedula:
+            usuarios = usuarios.filter(cedula__icontains=cedula.strip())
+       
+
+        return usuarios.order_by('nombre', 'id')
+
+    @staticmethod
     def _get_usuario_or_raise(usuario_id):
         usuario = UsuarioService.get_usuario_by_id(usuario_id)
         if not usuario:

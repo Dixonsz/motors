@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 
 <html class="light" lang="es">
@@ -364,36 +365,7 @@
   
       </div>
     </footer>
-    <script>
-      /**
-       * Dynamic placeholder update logic
-       */
-      function updatePlaceholder(type) {
-        const input = document.getElementById("valor");
-        if (type === "Placa") {
-          input.placeholder = "Placa: ABC123";
-        } else {
-          input.placeholder = "Cédula: 123456789";
-        }
-      }
-
-      // Add subtle animation on form focus
-      const searchForm = document.getElementById("searchForm");
-      searchForm.addEventListener("submit", function () {
-        const btn = this.querySelector('button[type="submit"]');
-        btn.innerHTML =
-          '<span class="material-symbols-outlined animate-spin">sync</span> Consultando...';
-        btn.classList.add("opacity-80");
-      });
-
-      // Initialize with default state
-      document.addEventListener("DOMContentLoaded", () => {
-        const checkedRadio = document.querySelector(
-          'input[name="tipo"]:checked',
-        );
-        if (checkedRadio) updatePlaceholder(checkedRadio.value);
-      });
-    </script>
+    <script src="{% static 'taller/js/busqueda.js' %}" defer></script>
     {% block scripts %}
     <script
       src="https://challenges.cloudflare.com/turnstile/v0/api.js"

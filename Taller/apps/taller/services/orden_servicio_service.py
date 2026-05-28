@@ -26,7 +26,24 @@ class OrdenServicioService:
         
     @staticmethod
     def get_all_ordenes_servicio():
-       return OrdenServicio.objects.all()
+         return OrdenServicio.objects.order_by('-fecha_creacion', '-id')
+
+    @staticmethod
+    def get_ordenes_filtradas(placa=None, cliente=None, fecha=None, usuario_id=None, estado_id=None):
+        ordenes = OrdenServicio.objects.all()
+
+        if placa:
+            ordenes = ordenes.filter(recepcion__vehiculo__placa__icontains=placa.strip())
+        if cliente:
+            ordenes = ordenes.filter(recepcion__vehiculo__cliente__nombre__icontains=cliente.strip())
+        if fecha:
+            ordenes = ordenes.filter(fecha_creacion__date=fecha)
+        if usuario_id:
+            ordenes = ordenes.filter(usuario_id=usuario_id)
+        if estado_id:
+            ordenes = ordenes.filter(estado_id=estado_id)
+
+        return ordenes.order_by('-fecha_creacion', '-id')
     
 
     @staticmethod

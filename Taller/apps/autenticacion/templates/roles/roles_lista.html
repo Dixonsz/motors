@@ -18,6 +18,28 @@
 {% block content %}
 <p class="mb-6 text-sm text-slate-500">Administra los roles y sus permisos asociados.</p>
 
+ <form class="mb-6 grid gap-4 rounded-md border border-slate-200 bg-white p-4 text-sm md:grid-cols-2 lg:grid-cols-4" method="get">
+  <div>
+    <label class="mb-1 block text-xs font-semibold text-slate-600">Nombre</label>
+    <input
+      class="w-full rounded-md border border-slate-200 px-3 py-2"
+      name="nombre"
+      placeholder="Nombre del rol"
+      type="text"
+      value="{{ filtros.nombre }}"
+    />
+  </div>
+
+  <div class="flex items-end gap-2">
+    <button class="w-full rounded-md bg-slate-900 px-3 py-2 font-semibold text-white" type="submit">
+      Filtrar
+    </button>
+    <a class="w-full rounded-md border border-slate-200 px-3 py-2 text-center font-semibold text-slate-700" href="{% url 'roles_lista' %}">
+      Limpiar
+    </a>
+  </div>
+</form>
+
 <div class="overflow-hidden border border-slate-200 bg-white shadow-sm">
     <div class="flex items-center justify-between border-b border-slate-100 bg-slate-50/50 p-4 text-sm">
         <span class="text-slate-500">
@@ -95,10 +117,10 @@
     <div class="text-slate-500">Pagina {{ roles.number }} de {{ roles.paginator.num_pages }}</div>
     <div class="flex items-center gap-2">
         {% if roles.has_previous %}
-        <a class="rounded-md border border-slate-200 px-3 py-1.5 font-semibold text-slate-700 transition-colors hover:border-slate-400" href="?page={{ roles.previous_page_number }}">Anterior</a>
+        <a class="rounded-md border border-slate-200 px-3 py-1.5 font-semibold text-slate-700 transition-colors hover:border-slate-400" href="?page={{ roles.previous_page_number }}{% if filtros_query %}&{{ filtros_query }}{% endif %}">Anterior</a>
         {% endif %}
         {% if roles.has_next %}
-        <a class="rounded-md border border-slate-200 px-3 py-1.5 font-semibold text-slate-700 transition-colors hover:border-slate-400" href="?page={{ roles.next_page_number }}">Siguiente</a>
+        <a class="rounded-md border border-slate-200 px-3 py-1.5 font-semibold text-slate-700 transition-colors hover:border-slate-400" href="?page={{ roles.next_page_number }}{% if filtros_query %}&{{ filtros_query }}{% endif %}">Siguiente</a>
         {% endif %}
     </div>
 </nav>

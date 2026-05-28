@@ -14,6 +14,15 @@ class RolService:
             return Rol.objects.get(id=rol_id)
         except Rol.DoesNotExist:
             raise ValueError(ROL_NO_ENCONTRADO)
+    
+    @staticmethod
+    def get_roles_filtrados(nombre=None):
+        roles = Rol.objects.all()
+
+        if nombre:
+            roles = roles.filter(nombre__icontains=nombre.strip())
+
+        return roles.order_by('nombre', 'id')
         
     @staticmethod
     def create_rol(nombre, descripcion=None):

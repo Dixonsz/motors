@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
@@ -12,12 +14,36 @@ from config.security import access_required, protected_error_to_message
 
 
 @access_required("Citas", "ver")
+
 def cita_lista(request):
-    citas = CitaService.get_all_citas()
+
+    vehiculo = request.GET.get('vehiculo', '').strip()
+    cliente = request.GET.get('cliente', '').strip()
+    fecha_str = request.GET.get('fecha', '').strip()
+
+    fecha = None
+    if fecha_str:
+        try:
+            fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
+        except ValueError:
+            messages.error(request, 'La fecha no tiene el formato correcto (YYYY-MM-DD).')
+    
+    citas = CitaService.get_citas_filtradas(cliente=cliente or None, vehiculo=vehiculo or None, fecha=fecha)
+
     paginator = Paginator(citas, 10)
     page_number = request.GET.get('page')
     citas = paginator.get_page(page_number)
-    return render(request, 'citas/citas_lista.html', {'citas': citas})
+    filtros_query = request.GET.copy()
+    filtros_query.pop('page', None)
+    return render(request, 'citas/citas_lista.html', {
+        'citas': citas,
+        'filtros': {
+            'vehiculo': vehiculo,
+            'cliente': cliente,
+            'fecha': fecha_str
+        },
+        'filtros_query': filtros_query.urlencode()
+    })
 
 
 @access_required("Citas", "crear")

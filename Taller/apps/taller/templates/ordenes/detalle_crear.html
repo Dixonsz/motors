@@ -1,4 +1,5 @@
 <!-- detalle_crear.html -->
+{% load static %}
 {% extends 'base.html' %}
 {% block title %}Agregar Servicio{% endblock %}
 {% block page_title %}Agregar Servicio a Orden #{{ orden.id }}{% endblock %}
@@ -63,26 +64,5 @@
 </div>
 {% endblock %}
 {% block scripts %}
-<script>
-    const servicioSelect = document.getElementById('servicio_id');
-    const precioInput = document.getElementById('precio');
-
-    if (servicioSelect && precioInput) {
-        const setPrecioDesdeServicio = () => {
-            const option = servicioSelect.options[servicioSelect.selectedIndex];
-            if (!option) return;
-            const precioBase = option.getAttribute('data-precio');
-            if (precioBase && !precioInput.value) {
-                precioInput.value = precioBase;
-            }
-        };
-
-        servicioSelect.addEventListener('change', () => {
-            precioInput.value = '';
-            setPrecioDesdeServicio();
-        });
-
-        setPrecioDesdeServicio();
-    }
-</script>
+<script src="{% static 'taller/js/detalle_crear.js' %}" defer></script>
 {% endblock %}

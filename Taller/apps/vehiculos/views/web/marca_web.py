@@ -7,11 +7,17 @@ from config.security import access_required, protected_error_to_message
 
 @access_required("Vehiculos", "ver")
 def marca_lista(request):
-    marcas = MarcaService.get_all_marcas().order_by('id')
+
+    nombre = request.GET.get('nombre', '').strip()
+
+    marcas = MarcaService.get_marcas_filtradas(nombre=nombre or None)
+
     paginator = Paginator(marcas, 10)
     page_number = request.GET.get('page')
     marcas_paginadas = paginator.get_page(page_number)
-    return render(request, 'marcas/marcas_lista.html', {'marcas': marcas_paginadas})
+    filtros_query = request.GET.copy()
+    filtros_query.pop('page', None)
+    return render(request, 'marcas/marcas_lista.html', {'marcas': marcas_paginadas, 'filtros': {'nombre': nombre}, 'filtros_query': filtros_query.urlencode()})
 
 @access_required("Vehiculos", "crear")
 def marca_create(request):

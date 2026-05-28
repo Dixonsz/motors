@@ -17,7 +17,21 @@ class VehiculoService:
             return Vehiculo.objects.get(id=vehiculo_id)
         except Vehiculo.DoesNotExist:
             return None
+    
+    @staticmethod
+    def get_vehiculos_filtrados(cliente = None, placa = None, vin = None):
+        vehiculos = Vehiculo.objects.all()
+
+        if cliente:
+            vehiculos = vehiculos.filter(cliente__nombre__icontains=cliente.strip())
+        if placa:
+            vehiculos = vehiculos.filter(placa__icontains=placa.strip())
+        if vin:
+            vehiculos = vehiculos.filter(vin__icontains=vin.strip())
+
+        return vehiculos.order_by('id')
         
+
     @staticmethod
     def create_vehiculo(placa, anio, color, vin, cliente_id, modelo_id, marca_id, combustible_id):
         if Vehiculo.objects.filter(placa=placa).exists():

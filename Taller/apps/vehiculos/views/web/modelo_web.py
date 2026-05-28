@@ -7,12 +7,17 @@ from config.security import access_required, protected_error_to_message
 
 @access_required("Vehiculos", "ver")
 def modelo_lista(request):
-    modelo = ModeloService.get_all_modelos()
+    nombre = request.GET.get('nombre', '').strip()
+
+    
+    modelo = ModeloService.get_modelos_filtrados(nombre=nombre or None)
     paginator = Paginator(modelo, 10)
     page_number = request.GET.get('page')
     modelo = paginator.get_page(page_number)
+    filtros_query = request.GET.copy()
+    filtros_query.pop('page', None)
 
-    return render(request, 'modelos/modelos_lista.html', {'modelos': modelo})
+    return render(request, 'modelos/modelos_lista.html', {'modelos': modelo, 'filtros': {'nombre': nombre}, 'filtros_query': filtros_query})
 
 @access_required("Vehiculos", "crear")
 def modelo_create(request):

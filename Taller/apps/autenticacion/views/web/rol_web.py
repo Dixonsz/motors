@@ -7,12 +7,22 @@ from config.security import access_required, protected_error_to_message
 
 @access_required("Roles", "ver")
 def rol_lista(request):
-    rol = RolService.get_all_roles()
+    nombre = request.GET.get('nombre', '').strip()
+
+    rol = RolService.get_roles_filtrados(nombre=nombre)
     paginator = Paginator(rol, 10)
     page_number = request.GET.get('page')
     rol = paginator.get_page(page_number)
+    filtros_query = request.GET.copy()
+    filtros_query.pop('page', None)
 
-    return render(request, 'roles/roles_lista.html', {'roles': rol})
+    return render(request, 'roles/roles_lista.html', {
+        'roles': rol,
+        'filtros': {
+            'nombre': nombre
+        },
+        'filtros_query': filtros_query.urlencode()
+    })
 
 @access_required("Roles", "crear")
 def rol_create(request):

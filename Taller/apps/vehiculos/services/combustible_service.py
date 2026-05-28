@@ -14,6 +14,12 @@ class CombustibleService:
             return None
         
     @staticmethod
+    def get_combustibles_filtrados(nombre=None):
+        combustibles = Combustible.objects.all()
+        if nombre:
+            combustibles = combustibles.filter(nombre__icontains=nombre.strip())
+        return combustibles.order_by('nombre')
+    @staticmethod
     def create_combustible(nombre):
         if Combustible.objects.filter(nombre=nombre).exists():
             raise ValueError("El nombre del combustible ya existe.")

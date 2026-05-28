@@ -20,7 +20,21 @@ class CitaService:
 
     @staticmethod
     def get_all_citas():
-        return Cita.objects.all()
+        return Cita.objects.order_by('-fecha', '-hora_inicio', '-id')
+    
+    @staticmethod
+    def get_citas_filtradas(cliente=None, vehiculo=None, fecha=None):
+
+        citas = Cita.objects.all()
+
+        if cliente:
+            citas = citas.filter(cliente__nombre__icontains=cliente.strip())
+        if vehiculo:
+            citas = citas.filter(vehiculo__placa__icontains=vehiculo.strip())
+        if fecha:
+            citas = citas.filter(fecha=fecha)
+
+        return citas.order_by('-fecha', '-id')
 
     @staticmethod
     def get_cita_by_id(cita_id):

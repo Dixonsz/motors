@@ -1,6 +1,7 @@
+from datetime import date, datetime, time, timedelta
 from django.db import transaction
+from django.utils import timezone
 from utils import get_required_instance
-from datetime import date
 from ..models import Recepcion
 from ...agenda.models.cita import Cita
 from ...vehiculos.models.vehiculo import Vehiculo
@@ -15,10 +16,27 @@ class RecepcionService:
         if not recepcion:
             return False
         return recepcion.ordenes_servicio.filter(estado__nombre__iexact="Completado").exists()
+    
+    @staticmethod
+    def get_recepciones_filtradas(vehiculo, cliente, usuario, fecha_ingreso):
+        recepciones = Recepcion.objects.all()
+
+        if vehiculo:
+            recepciones = recepciones.filter(vehiculo__placa__icontains=vehiculo.strip())
+        if cliente:
+            recepciones = recepciones.filter(vehiculo__cliente__nombre__icontains=cliente.strip())
+        if usuario:
+            recepciones = recepciones.filter(usuario_id=usuario)
+        if fecha_ingreso:
+            inicio = timezone.make_aware(datetime.combine(fecha_ingreso, time.min))
+            fin = inicio + timedelta(days=1)
+            recepciones = recepciones.filter(fecha_ingreso__gte=inicio, fecha_ingreso__lt=fin)
+
+        return recepciones.order_by('-fecha_ingreso', '-id')
 
     @staticmethod
     def get_all_recepciones():
-        return Recepcion.objects.all()
+        return Recepcion.objects.order_by('-fecha_ingreso', '-id')
 
     @staticmethod
     def get_recepciones_disponibles_para_orden():

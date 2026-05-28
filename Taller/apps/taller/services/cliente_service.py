@@ -11,6 +11,19 @@ class ClienteService:
             return Cliente.objects.get(id=cliente_id)
         except Cliente.DoesNotExist:
             return None
+    
+    @staticmethod
+    def get_clientes_filtrados(nombre=None, correo=None, telefono=None, cedula=None):
+        clientes = Cliente.objects.all()
+
+        if nombre:
+            clientes = clientes.filter(nombre__icontains=nombre.strip())
+        if correo:
+            clientes = clientes.filter(correo__icontains=correo.strip())
+        if cedula:
+            clientes = clientes.filter(cedula__icontains=cedula.strip())
+
+        return clientes.order_by('nombre', 'id')
         
     @staticmethod
     def create_cliente(nombre, correo, telefono, cedula, direccion):

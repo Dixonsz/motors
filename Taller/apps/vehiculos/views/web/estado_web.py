@@ -8,12 +8,21 @@ from config.security import access_required, protected_error_to_message
 
 @access_required("Estados", "ver")
 def estado_lista(request):
-    estados = EstadoService.get_all_estados()
+
+    nombre = request.GET.get('nombre', '').strip()
+
+    estados = EstadoService.get_estados_filtrados(nombre=nombre or None)
+
     paginator = Paginator(estados, 10)
     page_number = request.GET.get('page')
     estados = paginator.get_page(page_number)
+    filtros_query = request.GET.copy()
+    filtros_query.pop('page', None)
 
-    return render(request, 'estados/estados_lista.html', {'estados': estados})
+    return render(request, 'estados/estados_lista.html',
+                   {'estados': estados,
+                     'filtros': {'nombre': nombre}, 
+                     'filtros_query': filtros_query.urlencode()})
 
 @access_required("Estados", "crear")
 def estado_create(request):

@@ -48,6 +48,16 @@ class ServicioService:
             return None
         
     @staticmethod
+    def get_servicios_filtrados(nombre=None, categoria=None):
+        servicios = Servicio.objects.all()
+
+        if nombre:
+            servicios = servicios.filter(nombre__icontains=nombre.strip())
+        if categoria:
+            servicios = servicios.filter(categoria_servicio_id=categoria)
+
+        return servicios.order_by('nombre', 'id')
+    @staticmethod
     def create_servicio(nombre, categoria_id, descripcion, precio_base, duracion_estimada, is_active=True):
 
         if Servicio.objects.filter(nombre=nombre).exists():

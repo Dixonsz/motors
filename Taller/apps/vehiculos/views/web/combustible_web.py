@@ -8,12 +8,17 @@ from config.security import access_required, protected_error_to_message
 
 @access_required("Vehiculos", "ver")
 def combustible_lista(request):
-    combustibles = CombustibleService.get_all_combustibles()
+    nombre = request.GET.get('nombre', '').strip()
+
+
+    combustibles = CombustibleService.get_combustibles_filtrados(nombre=nombre or None)
     paginator = Paginator(combustibles, 10)
     page_number = request.GET.get('page')
     combustibles = paginator.get_page(page_number)
+    filtros_query = request.GET.copy()
+    filtros_query.pop('page', None)
 
-    return render(request, 'combustibles/combustibles_lista.html', {'combustibles': combustibles})
+    return render(request, 'combustibles/combustibles_lista.html', {'combustibles': combustibles, 'filtros': filtros_query})
 
 @access_required("Vehiculos", "crear")
 def combustible_create(request):

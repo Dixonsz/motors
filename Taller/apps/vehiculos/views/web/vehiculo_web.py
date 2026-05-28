@@ -12,12 +12,26 @@ from config.security import access_required, protected_error_to_message
 
 @access_required("Vehiculos", "ver")
 def vehiculo_lista(request):
-    vehiculos = VehiculoService.get_all_vehiculos()
+    cliente = request.GET.get('cliente', '').strip()
+    placa = request.GET.get('placa', '').strip()
+    vin = request.GET.get('vin', '').strip()
+
+    vehiculos = VehiculoService.get_vehiculos_filtrados(cliente=cliente, placa=placa, vin=vin)
     paginator = Paginator(vehiculos, 10)
     page_number = request.GET.get('page')
     vehiculos = paginator.get_page(page_number)
+    filtros_query = request.GET.copy()
+    filtros_query.pop('page', None)
 
-    return render(request, 'vehiculos/vehiculos_lista.html', {'vehiculos': vehiculos})
+    return render(request, 'vehiculos/vehiculos_lista.html', {
+        'vehiculos': vehiculos,
+        'filtros': {
+            'cliente': cliente,
+            'placa': placa,
+            'vin': vin
+        },
+        'filtros_query': filtros_query.urlencode()
+    })
 
 @access_required("Vehiculos", "crear")
 def vehiculo_create(request):

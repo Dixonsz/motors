@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
@@ -11,11 +12,42 @@ from config.security import access_required, protected_error_to_message
 
 @access_required("Recepciones", "ver")
 def recepcion_lista(request):
-    recepciones = RecepcionService.get_all_recepciones()
+    vehiculo = request.GET.get('vehiculo', '').strip()
+    cliente = request.GET.get('cliente', '').strip()
+    fecha_str = request.GET.get('fecha_ingreso', '').strip()
+    usuario_id = request.GET.get('usuario_id', '').strip()
+
+    fecha_ingreso = None
+    if fecha_str:
+        try:
+            fecha_ingreso = datetime.strptime(fecha_str, '%Y-%m-%d').date()
+        except ValueError:
+            messages.error(request, 'La fecha no tiene el formato correcto (YYYY-MM-DD).')
+
+    recepciones = RecepcionService.get_recepciones_filtradas(
+        vehiculo=vehiculo or None,
+        cliente=cliente or None,
+        usuario=usuario_id or None,
+        fecha_ingreso=fecha_ingreso
+    )
     paginator = Paginator(recepciones, 10)
     page_number = request.GET.get('page')
     recepciones = paginator.get_page(page_number)
-    return render(request, 'recepciones/recepciones_lista.html', {'recepciones': recepciones})
+    usuarios = UsuarioService.get_all_usuarios()
+    filtros_query = request.GET.copy()
+    filtros_query.pop('page', None)
+
+    return render(request, 'recepciones/recepciones_lista.html', {
+        'recepciones': recepciones,
+        'usuarios': usuarios,
+        'filtros': {
+            'vehiculo': vehiculo,
+            'cliente': cliente,
+            'fecha_ingreso': fecha_str,
+            'usuario_id': usuario_id
+        },
+        'filtros_query': filtros_query.urlencode()
+    })
 
 
 @access_required("Recepciones", "crear")

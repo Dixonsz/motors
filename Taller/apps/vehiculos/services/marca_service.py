@@ -12,6 +12,13 @@ class MarcaService:
             return Marca.objects.get(id=marca_id)
         except Marca.DoesNotExist:
             return None
+        
+    @staticmethod
+    def get_marcas_filtradas(nombre=None):
+        marcas = Marca.objects.all()
+        if nombre:
+            marcas = marcas.filter(nombre__icontains=nombre.strip())
+        return marcas.order_by('nombre')
        
         
     @staticmethod

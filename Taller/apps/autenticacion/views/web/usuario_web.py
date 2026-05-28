@@ -9,11 +9,22 @@ from config.security import access_required
 
 @access_required("Usuarios", "ver")
 def usuario_lista(request):
-    usuarios = UsuarioService.get_all_usuarios()
+    nombre = request.GET.get('nombre', '').strip()
+    email = request.GET.get('email', '').strip()
+    cedula = request.GET.get('cedula', '').strip()
+
+    usuarios = UsuarioService.get_usuarios_filtrados(nombre=nombre, email=email, cedula=cedula)
     paginator = Paginator(usuarios, 10)
     page_number = request.GET.get('page')
     usuarios = paginator.get_page(page_number)
-    return render(request, 'usuarios/usuarios_lista.html', {'usuarios': usuarios})
+    filtros_query = request.GET.copy()
+    filtros_query.pop('page', None)
+    return render(request, 'usuarios/usuarios_lista.html', {'usuarios': usuarios, 'filtros': {
+        'nombre': nombre,
+        'email': email,
+        'cedula': cedula
+    }, 'filtros_query': filtros_query.urlencode()
+    })
 
 
 @access_required("Usuarios", "crear")

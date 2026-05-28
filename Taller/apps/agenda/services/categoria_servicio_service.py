@@ -12,8 +12,15 @@ class CategoriaServicioService:
             return CategoriaServicio.objects.get(id=categoria_id)
         except CategoriaServicio.DoesNotExist:
             return None
-       
         
+    @staticmethod
+    def get_categorias_filtradas(nombre=None):
+        categorias = CategoriaServicio.objects.all()
+
+        if nombre:
+            categorias = categorias.filter(nombre__icontains=nombre)
+        return categorias.order_by('nombre')
+
     @staticmethod
     def create_categoria(nombre, descripcion, is_active=True):
         if CategoriaServicio.objects.filter(nombre=nombre).exists():

@@ -9,12 +9,26 @@ ERROR_CLIENTE = "El cliente no existe o no se puede procesar la solicitud."
 
 @access_required("Clientes", "ver")
 def cliente_lista(request):
-    clientes = ClienteService.get_all_clientes().order_by('id')
+    nombre = request.GET.get('nombre', '').strip()
+    correo = request.GET.get('correo', '').strip()
+    cedula = request.GET.get('cedula', '').strip()
+
+    clientes = ClienteService.get_clientes_filtrados(nombre=nombre, correo=correo, cedula=cedula)
     paginator = Paginator(clientes, 10)
     page_number = request.GET.get('page')
     clientes = paginator.get_page(page_number)
+    filtros_query = request.GET.copy()
+    filtros_query.pop('page', None)
 
-    return render(request, 'clientes/clientes_lista.html', {'clientes': clientes})
+    return render(request, 'clientes/clientes_lista.html', {
+        'clientes': clientes,
+        'filtros': {
+            'nombre': nombre,
+            'correo': correo,
+            'cedula': cedula
+        },
+        'filtros_query': filtros_query.urlencode()
+    })
 
 @access_required("Clientes", "crear")
 def cliente_create(request):
