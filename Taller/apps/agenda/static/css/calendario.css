@@ -276,3 +276,17 @@
     font-size: 12px;
     font-weight: 500;
   }
+
+  @media (max-width: 768px) {
+    #drawer-cita {
+      width: 100%;
+    }
+
+    #calendar-wrapper.encogido {
+      margin-right: 0;
+    }
+
+    .fila-2 {
+      grid-template-columns: 1fr;
+    }
+  }

@@ -363,7 +363,7 @@
       aria-hidden="true"
     ></div>
 
-    <header class="fixed left-0 right-0 top-0 z-40 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-8 shadow-sm md:left-[260px]">
+    <header class="fixed left-0 right-0 top-0 z-40 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 shadow-sm sm:px-6 md:left-[260px] md:px-8">
       <div class="flex flex-1 items-center">
         <button
           id="sidebar-toggle"
@@ -395,14 +395,14 @@
       </div>
     </header>
 
-    <main class="ml-0 min-h-screen p-8 pt-16 md:ml-[260px]">
-    <div style="display:flex; flex-direction:row; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:32px; margin-top:24px;">
+    <main class="ml-0 min-h-screen px-4 pb-8 pt-20 sm:px-6 md:ml-[260px] md:p-8 md:pt-16">
+    <div class="mb-4 mt-6 flex flex-col gap-4 md:mb-6 md:mt-8 md:flex-row md:items-center md:justify-between">
     <div>
-        <h2 class="font-h1 text-h1 text-slate-900">{% block page_title %}Taller{% endblock %}</h2>
-        {% block page_subtitle %}{% endblock %}
+      <h2 class="font-h1 text-h1 text-slate-900">{% block page_title %}Taller{% endblock %}</h2>
+      {% block page_subtitle %}{% endblock %}
     </div>
-    <div class="page-actions flex items-center gap-3">{% block page_actions %}{% endblock %}</div>
-</div>
+    <div class="page-actions flex flex-wrap items-center gap-3 [&_a.bg-primary]:rounded-lg">{% block page_actions %}{% endblock %}</div>
+  </div>
 
       {% if messages %}
         <div class="mb-6 space-y-2">
