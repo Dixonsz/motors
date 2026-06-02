@@ -19,8 +19,7 @@ import dotenv # type: ignore  # noqa: E402
 pymysql.install_as_MySQLdb()
 pymysql.version_info = (2, 2, 1, "final", 0)  # fuerza la versión que Django espera
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# Build paths inside the project like this: BASE_DIR / 'subdir'.\nBASE_DIR = Path(__file__).resolve().parent.parent
 
 dotenv.load_dotenv(BASE_DIR / '.env')
 
@@ -101,10 +100,10 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-AXES_FAILURE_LIMIT = 10
-AXES_COOLOFF_TIME = timedelta(minutes=15)
-AXES_USE_USER_AGENT = True
-AXES_LOCK_OUT_BY_COMBINATION_USER_AND_IP = True
+# Axes configuration - more lenient for better UX
+AXES_FAILURE_LIMIT = 20  # Allow 20 failed attempts
+AXES_COOLOFF_TIME = timedelta(hours=1)  # 1 hour lockout
+AXES_LOCK_OUT_BY_COMBINATION_USER_AND_IP = False  # Lock by IP only
 
 
 ROOT_URLCONF = 'config.urls'
@@ -249,7 +248,8 @@ CACHES = {
     }
 }
 
-RATELIMIT_ENABLE = True
+RATELIMIT_ENABLE = False  # DISABLE rate limiting completely
 RATELIMIT_USE_CACHE = 'default'
 RATELIMIT_EXCEPTION_CLASS = 'django_ratelimit.exceptions.Ratelimited'
 RATELIMIT_VIEW = 'apps.taller.views.public.historial_web.ratelimit_error'
+
