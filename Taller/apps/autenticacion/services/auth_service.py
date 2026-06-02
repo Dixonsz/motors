@@ -5,8 +5,24 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import send_mail
 from django.conf import settings
+import threading
 
 User = get_user_model()                                
+
+
+def send_email_async(subject, message, from_email, recipient_list):
+    """Envía email en un thread separado para no bloquear la request"""
+    try:
+        send_mail(
+            subject=subject,
+            message=message,
+            from_email=from_email,
+            recipient_list=recipient_list,
+            fail_silently=False,
+        )
+    except Exception as e:
+        # Log del error pero no bloquea la app
+        print(f"Error enviando email: {str(e)}")
 
 
 class AuthService:
@@ -46,7 +62,7 @@ class AuthService:
 
             return {
                 'success': True,
-                'message': 'Se enviar[a] un enlace para restablecer tu contraseña.'
+                'message': 'Se enviará un enlace para restablecer tu contraseña.'
             }
 
         token = default_token_generator.make_token(user)   
@@ -56,25 +72,21 @@ class AuthService:
         protocol = 'https' if request.is_secure() else 'http'
         reset_link = f"{protocol}://{domain}/autenticacion/reset-password/{uid}/{token}/"
 
-        try:
-            send_mail(
-                subject='Restablecer contraseña',
-                message=                                    
-                    f'Hola {user.nombre} {user.apellido},\n'
-                    f'Recibimos una solicitud para restablecer tu contraseña.\n\n'
-                    f'Haz clic en el siguiente enlace (válido por 5 minutos):\n{reset_link}\n\n'
-                    f'Si no solicitaste esto, ignora este mensaje.',
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[email],
-                fail_silently=False,
+        # Enviar email en un thread separado para no bloquear
+        email_thread = threading.Thread(
+            target=send_email_async,
+            args=(
+                'Restablecer contraseña',
+                f'Hola {user.nombre} {user.apellido},\n'
+                f'Recibimos una solicitud para restablecer tu contraseña.\n\n'
+                f'Haz clic en el siguiente enlace (válido por 5 minutos):\n{reset_link}\n\n'
+                f'Si no solicitaste esto, ignora este mensaje.',
+                settings.DEFAULT_FROM_EMAIL,
+                [email],
             )
-
-        except Exception as e:
-
-            return {
-                'success': False,
-                'message': f'Error al enviar el correo: {str(e)}'
-            }
+        )
+        email_thread.daemon = True
+        email_thread.start()
 
         return {
             'success': True,
@@ -86,22 +98,23 @@ class AuthService:
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
-        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        except (TypeError, ValueError, User.DoesNotExist):
             return {
                 'success': False,
-                'message': 'Enlace de restablecimiento de contraseña no válido'
+                'message': 'El enlace de restablecimiento es inválido o ha expirado.'
             }
 
         if not default_token_generator.check_token(user, token):
             return {
                 'success': False,
-                'message': 'Enlace de restablecimiento de contraseña no válido o ha expirado'
+                'message': 'El enlace de restablecimiento es inválido o ha expirado.'
             }
-
 
         user.set_password(new_password)
         user.save()
+
         return {
             'success': True,
-            'message': 'Contraseña restablecida exitosamente'
+            'message': 'Tu contraseña ha sido restablecida exitosamente.'
         }
+
