@@ -21,6 +21,7 @@ pymysql.version_info = (2, 2, 1, "final", 0)  # fuerza la versión que Django es
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.\nBASE_DIR = Path(__file__).resolve().parent.parent
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 dotenv.load_dotenv(BASE_DIR / '.env')
 
 
