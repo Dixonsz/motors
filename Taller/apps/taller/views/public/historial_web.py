@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.conf import settings
 import requests
-from django_ratelimit.decorators import Ratelimited, ratelimit
 from ...services.public.historial_public_service import HistorialPublicService
 from ...serializers.public.historial_serializers import OrdenServicioPublicSerializer
 from ....vehiculos.serializers.public.vehiculo_public_serializers import VehiculoPublicSerializer
@@ -22,7 +21,6 @@ def _verify_turnstile(token):
     return resp.json().get("success", False)
 
 
-@ratelimit(key='ip', rate='20/m', block=True)
 def consulta_busqueda(request):
 
     if request.method == 'POST':
@@ -47,7 +45,6 @@ def consulta_busqueda(request):
     return render(request, TEMPLATE_BUSQUEDA, {"site_key": settings.TURNSTILE_SITE_KEY})
 
 
-@ratelimit(key='ip', rate='20/m', block=True)
 def consulta_historial_placa(request, placa):
   
     try:
@@ -67,7 +64,6 @@ def consulta_historial_placa(request, placa):
     return render(request, 'consulta_publica/historial.html', context)
     
 
-@ratelimit(key='ip', rate='20/m', block=True)
 def consulta_historial_cedula(request, cedula):
  
     try:
@@ -93,7 +89,6 @@ def consulta_historial_cedula(request, cedula):
     return render(request, 'consulta_publica/historial_cedula.html', context)
 
 
-@ratelimit(key='ip', rate='30/m', block=True)
 def consulta_orden_detalle(request, orden_id):
 
     try:

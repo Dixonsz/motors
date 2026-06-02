@@ -78,7 +78,6 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage',
     'axes',
-    'django_ratelimit',
     'core',
 ]
 
@@ -92,7 +91,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'config.middleware.ProtectedErrorMiddleware',
     'axes.middleware.AxesMiddleware',
-    'django_ratelimit.middleware.RatelimitMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -248,8 +246,4 @@ CACHES = {
     }
 }
 
-RATELIMIT_ENABLE = False  # DISABLE rate limiting completely
-RATELIMIT_USE_CACHE = 'default'
-RATELIMIT_EXCEPTION_CLASS = 'django_ratelimit.exceptions.Ratelimited'
-RATELIMIT_VIEW = 'apps.taller.views.public.historial_web.ratelimit_error'
 
