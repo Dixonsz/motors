@@ -13,8 +13,7 @@ export function createCalendar({
   onDateSelected,
   onEventClick,
 }) {
-  return new FullCalendar.Calendar(element, {
-    plugins: [FullCalendar.DayGridPlugin, FullCalendar.TimeGridPlugin],
+  const calendarOptions = {
     initialView: "timeGridWeek",
     locale: "es",
     headerToolbar: {
@@ -25,13 +24,17 @@ export function createCalendar({
     selectable: true,
     selectMirror: true,
     height: "auto",
-    businessHours: businessHours || undefined,
-    slotMinTime: slotMinTime || undefined,
-    slotMaxTime: slotMaxTime || undefined,
     events: eventosUrl,
     dateClick: (info) => onDateSelected(extractFechaHora(info.dateStr)),
     select: (info) => onDateSelected(extractFechaHora(info.startStr)),
     eventClick: (info) => onEventClick(info.event),
-  });
+  };
+
+  // Solo agregar si están definidos
+  if (businessHours) calendarOptions.businessHours = businessHours;
+  if (slotMinTime) calendarOptions.slotMinTime = slotMinTime;
+  if (slotMaxTime) calendarOptions.slotMaxTime = slotMaxTime;
+
+  return new FullCalendar.Calendar(element, calendarOptions);
 }
 
