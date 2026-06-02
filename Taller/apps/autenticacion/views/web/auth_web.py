@@ -22,7 +22,7 @@ def _verify_turnstile(token):
     )
     return resp.json().get("success", False)
 
-@ratelimit(key='ip', rate='10/m', method='POST', block=True)
+@ratelimit(key='ip', rate='30/m', method='POST', block=True)
 def login_view(request):
     form = LoginForm(request.POST or None)
 
@@ -49,7 +49,7 @@ def logout_view(request):
     AuthService.logout_user(request)
     return redirect("login")
 
-@ratelimit(key='ip', rate='10/m', method='POST', block=True)
+@ratelimit(key='ip', rate='20/m', method='POST', block=True)
 def recover_account_view(request):
     form = ResetPasswordForm(request.POST or None)
 
@@ -72,7 +72,7 @@ def recover_account_view(request):
     return render(request, TEMPLATE_RECOVER, {"form": form, "site_key": settings.TURNSTILE_SITE_KEY})
 
 
-@ratelimit(key='ip', rate='10/m', method='POST', block=True)
+@ratelimit(key='ip', rate='20/m', method='POST', block=True)
 def reset_password_view(request, uidb64, token):
     form = ConfirmResetPasswordForm(request.POST or None)
 
