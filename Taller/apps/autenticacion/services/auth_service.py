@@ -15,14 +15,13 @@ User = get_user_model()
 
 def send_email_async(subject, message, from_email, recipient_list):
     """Envía email en un thread separado para no bloquear la request"""
+    sendgrid_key = getattr(settings, "SENDGRID_API_KEY", "") or ""
     logger.info(
-        "Configuración de email — BACKEND: %s | HOST: %s | PORT: %s | "
-        "USE_TLS: %s | HOST_USER: %s",
+        "Configuración de email — BACKEND: %s | SENDGRID_API_KEY configurada: %s | "
+        "DEFAULT_FROM_EMAIL: %s",
         getattr(settings, "EMAIL_BACKEND", "no configurado"),
-        getattr(settings, "EMAIL_HOST", "no configurado"),
-        getattr(settings, "EMAIL_PORT", "no configurado"),
-        getattr(settings, "EMAIL_USE_TLS", "no configurado"),
-        getattr(settings, "EMAIL_HOST_USER", "no configurado"),
+        "sí" if sendgrid_key else "NO — falta la variable de entorno SENDGRID_API_KEY",
+        getattr(settings, "DEFAULT_FROM_EMAIL", "no configurado"),
     )
     logger.info(
         "Iniciando envío de email — asunto: %r | de: %s | para: %s",
