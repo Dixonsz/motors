@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
-
+import pymysql
 import os
 import sys
+pymysql.install_as_MySQLdb()
 
 
 

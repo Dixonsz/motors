@@ -9,11 +9,14 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
+import pymysql
 import os  # noqa: E402
 from pathlib import Path  # noqa: E402
 
 import dotenv # type: ignore  # noqa: E402
 
+pymysql.install_as_MySQLdb()
+pymysql.version_info = (2, 2, 1, "final", 0)  # fuerza la versión que Django espera
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
