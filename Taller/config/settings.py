@@ -51,7 +51,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', '')
 DEBUG = env_bool('DJANGO_DEBUG', False)
 
 # Allow all hosts during development, but restrict in production
-ALLOWED_HOSTS = env_list('ALLOWED_HOSTS', ['localhost', '127.0.0.1'])
+ALLOWED_HOSTS = ["*"]
 
 
 SECURITY_ACTIVE = env_bool('DJANGO_SECURITY_ACTIVE', False)
