@@ -14,7 +14,7 @@ export function createCalendar({
   onEventClick,
 }) {
   return new FullCalendar.Calendar(element, {
-    plugins: [FullCalendar.DayGridPlugin, FullCalendar.TimeGridPlugin, FullCalendar.InteractionPlugin],
+    plugins: [FullCalendar.DayGridPlugin, FullCalendar.TimeGridPlugin],
     initialView: "timeGridWeek",
     locale: "es",
     headerToolbar: {
