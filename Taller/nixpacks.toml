@@ -1,3 +1,6 @@
+[phases.setup]
+nixPkgs = ["mysql"]
+
 [phases.build]
 cmds = ["pip install -r requirements.txt"]
 
