@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import pymysql
 import os  # noqa: E402
 from pathlib import Path  # noqa: E402
+from datetime import timedelta  # noqa: E402
 
 import dotenv # type: ignore  # noqa: E402
 
@@ -100,8 +101,10 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-AXES_FAILURE_LIMIT = 5
-AXES_COOLOFF_TIME = 1  
+AXES_FAILURE_LIMIT = 10
+AXES_COOLOFF_TIME = timedelta(minutes=15)
+AXES_USE_USER_AGENT = True
+AXES_LOCK_OUT_BY_COMBINATION_USER_AND_IP = True
 
 
 ROOT_URLCONF = 'config.urls'
