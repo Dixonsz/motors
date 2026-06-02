@@ -9,8 +9,6 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-import pymysql # type: ignore
-pymysql.install_as_MySQLdb()
 import os  # noqa: E402
 from pathlib import Path  # noqa: E402
 
