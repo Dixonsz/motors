@@ -14,11 +14,7 @@ export function createCalendar({
   onEventClick,
 }) {
   return new FullCalendar.Calendar(element, {
-    plugins: [
-      FullCalendar.dayGridPlugin,
-      FullCalendar.timeGridPlugin,
-      FullCalendar.interactionPlugin,
-    ],
+    plugins: ["dayGridPlugin", "timeGridPlugin", "interactionPlugin"],
     initialView: "timeGridWeek",
     locale: "es",
     headerToolbar: {
@@ -38,3 +34,4 @@ export function createCalendar({
     eventClick: (info) => onEventClick(info.event),
   });
 }
+
