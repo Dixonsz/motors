@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
 import requests
-from django_ratelimit.decorators import ratelimit
 from ...forms import LoginForm, ResetPasswordForm, ConfirmResetPasswordForm
 from ...services.auth_service import AuthService
 from config.security import access_required
@@ -22,7 +21,6 @@ def _verify_turnstile(token):
     )
     return resp.json().get("success", False)
 
-@ratelimit(key='ip', rate='30/m', method='POST', block=True)
 def login_view(request):
     form = LoginForm(request.POST or None)
 
@@ -49,7 +47,6 @@ def logout_view(request):
     AuthService.logout_user(request)
     return redirect("login")
 
-@ratelimit(key='ip', rate='20/m', method='POST', block=True)
 def recover_account_view(request):
     form = ResetPasswordForm(request.POST or None)
 
@@ -72,7 +69,6 @@ def recover_account_view(request):
     return render(request, TEMPLATE_RECOVER, {"form": form, "site_key": settings.TURNSTILE_SITE_KEY})
 
 
-@ratelimit(key='ip', rate='20/m', method='POST', block=True)
 def reset_password_view(request, uidb64, token):
     form = ConfirmResetPasswordForm(request.POST or None)
 
@@ -100,3 +96,4 @@ def reset_password_view(request, uidb64, token):
         "token": token,
         "site_key": settings.TURNSTILE_SITE_KEY,
     })
+
