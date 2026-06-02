@@ -6,12 +6,30 @@ from django.utils.encoding import force_bytes, force_str
 from django.core.mail import send_mail
 from django.conf import settings
 import threading
+import logging
+
+logger = logging.getLogger(__name__)
 
 User = get_user_model()                                
 
 
 def send_email_async(subject, message, from_email, recipient_list):
     """Envía email en un thread separado para no bloquear la request"""
+    logger.info(
+        "Configuración de email — BACKEND: %s | HOST: %s | PORT: %s | "
+        "USE_TLS: %s | HOST_USER: %s",
+        getattr(settings, "EMAIL_BACKEND", "no configurado"),
+        getattr(settings, "EMAIL_HOST", "no configurado"),
+        getattr(settings, "EMAIL_PORT", "no configurado"),
+        getattr(settings, "EMAIL_USE_TLS", "no configurado"),
+        getattr(settings, "EMAIL_HOST_USER", "no configurado"),
+    )
+    logger.info(
+        "Iniciando envío de email — asunto: %r | de: %s | para: %s",
+        subject,
+        from_email,
+        recipient_list,
+    )
     try:
         send_mail(
             subject=subject,
@@ -20,9 +38,19 @@ def send_email_async(subject, message, from_email, recipient_list):
             recipient_list=recipient_list,
             fail_silently=False,
         )
-    except Exception as e:
-        # Log del error pero no bloquea la app
-        print(f"Error enviando email: {str(e)}")
+        logger.info(
+            "Email enviado exitosamente — asunto: %r | para: %s",
+            subject,
+            recipient_list,
+        )
+    except Exception:
+        logger.error(
+            "Error enviando email — asunto: %r | de: %s | para: %s",
+            subject,
+            from_email,
+            recipient_list,
+            exc_info=True,
+        )
 
 
 class AuthService:
