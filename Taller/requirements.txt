@@ -32,6 +32,6 @@ urllib3==2.7.0
 whitenoise==6.9.0
 gunicorn==23.0.0
 cryptography>=41.0.0
-sendgrid>=6.10.0
 python-http-client>=3.3.0
-django-sendgrid-v5>=1.2.3
+sendgrid>=6.10.0
+
