@@ -101,7 +101,9 @@ class AuthService:
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
+            logger.info("Usuario encontrado para restablecimiento de contraseña: %s", user.pk)
         except (TypeError, ValueError, User.DoesNotExist):
+            logger.error("Error decodificando uidb64 o usuario no encontrado: %s", uidb64, exc_info=True)
             return {
                 'success': False,
                 'message': 'El enlace de restablecimiento es inválido o ha expirado.'
@@ -116,6 +118,7 @@ class AuthService:
 
         user.set_password(new_password)
         user.save()
+        logger.info("Contraseña restablecida exitosamente para usuario %s", user.pk)
 
         return {
             'success': True,
