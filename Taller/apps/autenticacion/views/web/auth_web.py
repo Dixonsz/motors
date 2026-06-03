@@ -73,15 +73,6 @@ def reset_password_view(request, uidb64, token):
     form = ConfirmResetPasswordForm(request.POST or None)
 
     if request.method == "POST" and form.is_valid():
-        if not _verify_turnstile(request.POST.get("cf-turnstile-response")):
-            form.add_error(None, MSG_SEGURIDAD_FALLIDA)
-            return render(request, TEMPLATE_RESET, {
-                "form": form,
-                "uid": uidb64,
-                "token": token,
-                "site_key": settings.TURNSTILE_SITE_KEY,
-            })
-
         result = AuthService.confirm_reset_password(
             uidb64, token, form.cleaned_data["new_password"]
         )
@@ -96,4 +87,3 @@ def reset_password_view(request, uidb64, token):
         "token": token,
         "site_key": settings.TURNSTILE_SITE_KEY,
     })
-
