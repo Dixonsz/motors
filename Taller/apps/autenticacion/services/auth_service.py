@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
-from django.core.mail import send_mail
+import resend 
 from django.conf import settings
 import threading
 import logging
@@ -13,43 +13,19 @@ logger = logging.getLogger(__name__)
 User = get_user_model()                                
 
 
+
 def send_email_async(subject, message, from_email, recipient_list):
-    """Envía email en un thread separado para no bloquear la request"""
-    sendgrid_key = getattr(settings, "SENDGRID_API_KEY", "") or ""
-    logger.info(
-        "Configuración de email — BACKEND: %s | SENDGRID_API_KEY configurada: %s | "
-        "DEFAULT_FROM_EMAIL: %s",
-        getattr(settings, "EMAIL_BACKEND", "no configurado"),
-        "sí" if sendgrid_key else "NO — falta la variable de entorno SENDGRID_API_KEY",
-        getattr(settings, "DEFAULT_FROM_EMAIL", "no configurado"),
-    )
-    logger.info(
-        "Iniciando envío de email — asunto: %r | de: %s | para: %s",
-        subject,
-        from_email,
-        recipient_list,
-    )
+    resend.api_key = settings.RESEND_API_KEY
     try:
-        send_mail(
-            subject=subject,
-            message=message,
-            from_email=from_email,
-            recipient_list=recipient_list,
-            fail_silently=False,
-        )
-        logger.info(
-            "Email enviado exitosamente — asunto: %r | para: %s",
-            subject,
-            recipient_list,
-        )
+        resend.Emails.send({
+            "from": from_email,
+            "to": recipient_list,
+            "subject": subject,
+            "text": message,
+        })
+        logger.info("Email enviado exitosamente — asunto: %r | para: %s", subject, recipient_list)
     except Exception:
-        logger.error(
-            "Error enviando email — asunto: %r | de: %s | para: %s",
-            subject,
-            from_email,
-            recipient_list,
-            exc_info=True,
-        )
+        logger.error("Error enviando email", exc_info=True)
 
 
 class AuthService:
