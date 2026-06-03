@@ -108,6 +108,7 @@ class AuthService:
             }
 
         if not default_token_generator.check_token(user, token):
+            logger.warning("Token de restablecimiento inválido para usuario %s", user.pk)
             return {
                 'success': False,
                 'message': 'El enlace de restablecimiento es inválido o ha expirado.'
