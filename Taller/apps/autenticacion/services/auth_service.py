@@ -108,6 +108,12 @@ class AuthService:
                 'success': False,
                 'message': 'El enlace de restablecimiento es inválido o ha expirado.'
             }
+        except Exception:
+            logger.error("Error inesperado decodificando uidb64: %s", uidb64, exc_info=True)
+            return {
+                'success': False,
+                'message': 'El enlace de restablecimiento es inválido o ha expirado.'
+            }
 
         if not default_token_generator.check_token(user, token):
             logger.warning("Token de restablecimiento inválido para usuario %s", user.pk)
