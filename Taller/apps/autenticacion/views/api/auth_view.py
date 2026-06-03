@@ -56,7 +56,7 @@ def reset_password_api(request):
             {'success': False, 'message': 'El campo email es requerido.'},
             status=status.HTTP_400_BAD_REQUEST
         )
-    result = AuthService.reset_password(request)
+    result = AuthService.reset_password(request, email)
     if result['success']:
         return Response({'success': True, 'message': result['message']}, status=status.HTTP_200_OK)
     else:
@@ -64,17 +64,23 @@ def reset_password_api(request):
     
 @api_view(['POST'])
 def confirm_reset_password_api(request):
-    vidb64 = request.data.get('uid')
+    uidb64 = request.data.get('uid')
     token = request.data.get('token')
     new_password = request.data.get('new_password')
     confirm_password = request.data.get('confirm_password')
 
-    if not all([vidb64, token, new_password, confirm_password]):
+    if not all([uidb64, token, new_password, confirm_password]):
         return Response(
             {'success': False, 'message': 'Todos los campos son requeridos.'},
             status=status.HTTP_400_BAD_REQUEST
         )
+
+    if new_password != confirm_password:
+        return Response(
+            {'success': False, 'message': 'Las contraseñas no coinciden.'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
     
-    result = AuthService.confirm_reset_password(vidb64, token, new_password, confirm_password)
+    result = AuthService.confirm_reset_password(uidb64, token, new_password)
     http_status = status.HTTP_200_OK if result['success'] else status.HTTP_400_BAD_REQUEST
     return Response({'success': result['success'], 'message': result['message']}, status=http_status)
