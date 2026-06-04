@@ -2,16 +2,28 @@ const input = document.getElementById('evidencias');
 const cameraInput = document.getElementById('evidencias_camara');
 const preview = document.getElementById('file-preview');
 let previewUrls = [];
+const selectedFiles = new Map();
 
-const collectFiles = () => {
-  const files = [];
+const fileKey = (file) => `${file.name}-${file.size}-${file.lastModified}`;
+
+const updateSelectedFiles = (files) => {
+  files.forEach((file) => {
+    selectedFiles.set(fileKey(file), file);
+  });
+};
+
+const syncInputFiles = () => {
+  const dataTransfer = new DataTransfer();
+  selectedFiles.forEach((file) => {
+    dataTransfer.items.add(file);
+  });
+
   if (input) {
-    files.push(...Array.from(input.files));
+    input.files = dataTransfer.files;
   }
   if (cameraInput) {
-    files.push(...Array.from(cameraInput.files));
+    cameraInput.files = dataTransfer.files;
   }
-  return files;
 };
 
 const clearPreviewUrls = () => {
@@ -27,7 +39,7 @@ const renderPreview = () => {
   clearPreviewUrls();
   preview.innerHTML = '';
 
-  const files = collectFiles();
+  const files = Array.from(selectedFiles.values());
   if (files.length === 0) {
     preview.classList.add('hidden');
     return;
@@ -70,9 +82,17 @@ const renderPreview = () => {
 };
 
 if (input) {
-  input.addEventListener('change', renderPreview);
+  input.addEventListener('change', () => {
+    updateSelectedFiles(Array.from(input.files));
+    syncInputFiles();
+    renderPreview();
+  });
 }
 
 if (cameraInput) {
-  cameraInput.addEventListener('change', renderPreview);
+  cameraInput.addEventListener('change', () => {
+    updateSelectedFiles(Array.from(cameraInput.files));
+    syncInputFiles();
+    renderPreview();
+  });
 }
