@@ -140,14 +140,24 @@
       id="sidebar"
       class="fixed left-0 top-0 z-50 flex h-full min-h-0 w-[260px] flex-none -translate-x-full flex-col border-r border-slate-200 bg-slate-50 transition-transform duration-200 md:translate-x-0"
     >
-      <div class="flex items-center gap-3 p-8">
-        <div class="flex h-10 w-10 items-center justify-center rounded bg-primary">
-          <span class="material-symbols-outlined text-2xl text-white" data-icon="car_repair">car_repair</span>
+      <div class="flex items-center justify-between gap-3 p-8">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded bg-primary">
+            <span class="material-symbols-outlined text-2xl text-white" data-icon="car_repair">car_repair</span>
+          </div>
+          <div>
+            <h1 class="text-xl font-black leading-none tracking-tighter text-slate-900">M&M Motors</h1>
+            <p class="mt-1 text-[10px] font-semibold uppercase tracking-widest text-slate-500">Dashboard</p>
+          </div>
         </div>
-        <div>
-          <h1 class="text-xl font-black leading-none tracking-tighter text-slate-900">M&M Motors</h1>
-          <p class="mt-1 text-[10px] font-semibold uppercase tracking-widest text-slate-500">Dashboard</p>
-        </div>
+        <button
+          id="sidebar-close"
+          class="rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-100 md:hidden"
+          type="button"
+          aria-label="Cerrar menu"
+        >
+          <span class="material-symbols-outlined" data-icon="close">close</span>
+        </button>
       </div>
       <nav class="mt-4 flex-1 min-h-0 overflow-y-auto pb-6">
         <ul class="space-y-1">
@@ -395,7 +405,7 @@
       </div>
     </header>
 
-    <main class="ml-0 min-h-screen min-w-0 w-full overflow-x-hidden px-4 pb-8 pt-20 sm:px-6 md:ml-[260px] md:w-[calc(100%-260px)] md:p-8 md:pt-16">
+    <main class="ml-0 min-h-screen min-w-0 w-full max-w-full overflow-x-hidden px-4 pb-8 pt-20 sm:px-6 md:ml-[260px] md:w-[calc(100vw-260px)] md:max-w-[calc(100vw-260px)] md:p-8 md:pt-16">
     <div class="mb-4 mt-6 flex flex-col gap-4 md:mb-6 md:mt-8 md:flex-row md:items-center md:justify-between">
     <div>
       <h2 class="font-h1 text-h1 text-slate-900">{% block page_title %}Taller{% endblock %}</h2>
@@ -422,6 +432,7 @@
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebar-overlay');
         const toggle = document.getElementById('sidebar-toggle');
+        const closeButton = document.getElementById('sidebar-close');
 
         if (!sidebar || !overlay || !toggle) {
           return;
@@ -450,6 +461,9 @@
         });
 
         overlay.addEventListener('click', closeSidebar);
+        if (closeButton) {
+          closeButton.addEventListener('click', closeSidebar);
+        }
         sidebar.querySelectorAll('a').forEach(function (link) {
           link.addEventListener('click', function () {
             if (window.innerWidth < 768) {
@@ -465,6 +479,8 @@
             document.body.classList.remove('overflow-hidden');
           } else {
             sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+            overlay.classList.remove('opacity-100');
             document.body.classList.remove('overflow-hidden');
           }
         });
