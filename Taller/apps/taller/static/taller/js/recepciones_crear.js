@@ -1,18 +1,41 @@
 const input = document.getElementById('evidencias');
+const cameraInput = document.getElementById('evidencias_camara');
 const preview = document.getElementById('file-preview');
+let previewUrls = [];
 
-if (input && preview) {
-  input.addEventListener('change', () => {
-    preview.innerHTML = '';
+const collectFiles = () => {
+  const files = [];
+  if (input) {
+    files.push(...Array.from(input.files));
+  }
+  if (cameraInput) {
+    files.push(...Array.from(cameraInput.files));
+  }
+  return files;
+};
 
-    if (input.files.length === 0) {
-      preview.classList.add('hidden');
-      return;
-    }
+const clearPreviewUrls = () => {
+  previewUrls.forEach((url) => URL.revokeObjectURL(url));
+  previewUrls = [];
+};
 
-    preview.classList.remove('hidden');
+const renderPreview = () => {
+  if (!preview) {
+    return;
+  }
 
-    Array.from(input.files).forEach((file) => {
+  clearPreviewUrls();
+  preview.innerHTML = '';
+
+  const files = collectFiles();
+  if (files.length === 0) {
+    preview.classList.add('hidden');
+    return;
+  }
+
+  preview.classList.remove('hidden');
+
+  files.forEach((file) => {
       const isImage = file.type.startsWith('image/');
       const li = document.createElement('li');
       li.className =
@@ -21,7 +44,9 @@ if (input && preview) {
       if (isImage) {
         const img = document.createElement('img');
         img.className = 'h-10 w-10 rounded object-cover flex-shrink-0';
-        img.src = URL.createObjectURL(file);
+        const previewUrl = URL.createObjectURL(file);
+        previewUrls.push(previewUrl);
+        img.src = previewUrl;
         li.appendChild(img);
       } else {
         // Icon for video
@@ -42,5 +67,12 @@ if (input && preview) {
       li.appendChild(info);
       preview.appendChild(li);
     });
-  });
+};
+
+if (input) {
+  input.addEventListener('change', renderPreview);
+}
+
+if (cameraInput) {
+  cameraInput.addEventListener('change', renderPreview);
 }
