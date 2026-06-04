@@ -20,8 +20,8 @@ $(document).ready(function () {
             limpiarCamposCliente();
             return;
         }
-        // Reemplaza el 0 por el id seleccionado
-        var url = baseUrl.replace(/0\/?$/, clienteId + '/');
+        // Reemplaza el marcador de id en rutas como /clientes/0/detalle-json/
+        var url = baseUrl.replace('/0/', '/' + clienteId + '/');
         $.get(url, function (data) {
             if (data && data.id) {
                 $('#cliente_cedula').val(data.cedula || '');
@@ -35,6 +35,10 @@ $(document).ready(function () {
             limpiarCamposCliente();
         });
     });
+
+    if ($('#cliente_id').val()) {
+        $('#cliente_id').trigger('change');
+    }
 
     function limpiarCamposCliente() {
         $('#cliente_cedula').val('');
