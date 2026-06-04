@@ -137,7 +137,7 @@
 
       {% with evidencias=recepcion.evidencias.all %}
       {% if evidencias %}
-      <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+      <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
         {% for evidencia in evidencias %}
           {% if evidencia.tipo == 'foto' or evidencia.tipo == 'imagen' %}
           <button

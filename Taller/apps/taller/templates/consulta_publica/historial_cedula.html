@@ -170,7 +170,7 @@
 <span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">PLACA</span>
 <span class="font-h2 text-h2 font-bold text-primary tracking-tight">{{ item.vehiculo.placa }}</span>
 </div>
-<div class="grid grid-cols-2 md:grid-cols-3 md:col-span-3 gap-form-row-gap">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 md:col-span-3 gap-form-row-gap">
 <div>
 <span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">MARCA / MODELO</span>
 <span class="font-body-lg text-body-lg font-semibold">{{ item.vehiculo.marca.nombre }} {{ item.vehiculo.modelo.nombre }}</span>
@@ -192,8 +192,8 @@
 <span class="material-symbols-outlined text-primary">history</span>
                         Historial de Órdenes
                     </h4>
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[640px]">
 <thead>
 <tr class="bg-surface-container text-on-surface-variant">
 <th class="px-4 py-3 font-label-caps text-label-caps first:rounded-l last:rounded-r">ORDEN</th>

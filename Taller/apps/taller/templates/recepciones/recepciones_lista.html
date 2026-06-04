@@ -1,4 +1,4 @@
-﻿<!-- recepciones_lista.html -->
+<!-- recepciones_lista.html -->
 {% extends 'base.html' %} 
 {% block title %}Recepciones{% endblock %} 
 {% block page_title %}Recepciones{% endblock %}
@@ -62,7 +62,7 @@
       {% endfor %}
     </select>
   </div>
-  <div class="flex items-end gap-2">
+  <div class="flex flex-wrap items-end gap-2">
     <button class="w-full rounded-md bg-slate-900 px-3 py-2 font-semibold text-white" type="submit">
       Filtrar
     </button>
@@ -86,8 +86,8 @@
       recepciones
     </span>
   </div>
-  <div class="overflow-x-auto">
-    <table class="w-full text-sm">
+  <div class="w-full overflow-x-auto">
+    <table class="w-full text-sm min-w-[640px]">
       <thead class="bg-slate-900 text-xs uppercase tracking-widest text-white">
         <tr>
           <th class="px-4 py-3 text-left">Vehiculo</th>
@@ -154,7 +154,7 @@
 {% if recepciones.has_other_pages %}
   <nav class="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm">
     <div class="text-slate-500">
-      Página {{ recepciones.number }} de {{ recepciones.paginator.num_pages }}
+      P�gina {{ recepciones.number }} de {{ recepciones.paginator.num_pages }}
     </div>
     <div class="flex items-center gap-2">
       {% if recepciones.has_previous %}

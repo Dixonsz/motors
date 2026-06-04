@@ -164,7 +164,7 @@
 <span class="material-symbols-outlined text-primary">directions_car</span>
 <h3 class="font-h3 text-h3 text-primary">Información del Vehículo</h3>
 </div>
-<dl class="grid grid-cols-2 gap-y-4 font-body-md">
+<dl class="grid grid-cols-1 sm:grid-cols-2 gap-y-4 font-body-md">
 <div>
 <dt class="text-label-caps font-label-caps text-outline uppercase">Placa</dt>
 <dd class="text-primary font-semibold">{{ vehiculo.placa }}</dd>
@@ -229,7 +229,8 @@
                             {% empty %}
                             
                             {% endfor %}
-                        <table class="w-full text-left border-collapse">
+                        <div class="w-full overflow-x-auto">
+                        <table class="w-full text-left border-collapse min-w-[640px]">
 <thead class="bg-surface-container-low">
 <tr>
 <th class="px-container-padding py-3 text-label-caps font-label-caps text-outline uppercase">Servicio</th>
@@ -261,6 +262,7 @@
 </tr>
 </tfoot>
 </table>
+</div>
 </div>
 <!-- Observations -->
 <div class="bg-surface-container-lowest border border-outline-variant p-container-padding rounded-lg soft-executive-shadow">

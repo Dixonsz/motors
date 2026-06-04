@@ -1,4 +1,4 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% block title %}Modelos{% endblock %}
 {% block page_title %}Modelos{% endblock %}
 
@@ -29,7 +29,7 @@
       value="{{ filtros.nombre }}"
     />
   </div>
-  <div class="flex items-end gap-2">
+  <div class="flex flex-wrap items-end gap-2">
     <button class="w-full rounded-md bg-slate-900 px-3 py-2 font-semibold text-white" type="submit">
       Filtrar
     </button>
@@ -52,8 +52,8 @@
       modelos
     </span>
   </div>
-  <div class="overflow-x-auto">
-    <table class="w-full text-sm">
+  <div class="w-full overflow-x-auto">
+    <table class="w-full text-sm min-w-[640px]">
       <thead class="bg-slate-900 text-xs uppercase tracking-widest text-white">
         <tr>
           <th class="px-4 py-3 text-left">ID</th>
