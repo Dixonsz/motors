@@ -431,12 +431,14 @@
           sidebar.classList.remove('-translate-x-full');
           overlay.classList.remove('opacity-0', 'pointer-events-none');
           overlay.classList.add('opacity-100');
+          document.body.classList.add('overflow-hidden');
         }
 
         function closeSidebar() {
           sidebar.classList.add('-translate-x-full');
           overlay.classList.add('opacity-0', 'pointer-events-none');
           overlay.classList.remove('opacity-100');
+          document.body.classList.remove('overflow-hidden');
         }
 
         toggle.addEventListener('click', function () {
@@ -460,8 +462,10 @@
             overlay.classList.add('opacity-0', 'pointer-events-none');
             overlay.classList.remove('opacity-100');
             sidebar.classList.remove('-translate-x-full');
+            document.body.classList.remove('overflow-hidden');
           } else {
             sidebar.classList.add('-translate-x-full');
+            document.body.classList.remove('overflow-hidden');
           }
         });
       })();
