@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-<p class="mb-6 text-sm text-slate-500">Consulta y administra los modulos disponibles.</p>
+<p class="mb-6 text-sm text-slate-500">Consulta y administra los módulos disponibles.</p>
 
 <div class="overflow-hidden border border-slate-200 bg-white shadow-sm">
   <div class="flex items-center justify-between border-b border-slate-100 bg-slate-50/50 p-4 text-sm">
@@ -20,7 +20,7 @@
           {{ modulos|length }}
         {% endif %}
       </span>
-      modulos
+      módulos
     </span>
   </div>
   <div class="w-full overflow-x-auto">
@@ -29,7 +29,7 @@
         <tr>
           <th class="px-4 py-3 text-left">ID</th>
           <th class="px-4 py-3 text-left">Nombre</th>
-          <th class="px-4 py-3 text-left">Descripcion</th>
+          <th class="px-4 py-3 text-left">Descripción</th>
         </tr>
       </thead>
       <tbody class="divide-y divide-slate-100">
@@ -41,7 +41,7 @@
         </tr>
         {% empty %}
         <tr>
-          <td class="px-4 py-6 text-center text-sm text-slate-500" colspan="4">No hay modulos registrados.</td>
+          <td class="px-4 py-6 text-center text-sm text-slate-500" colspan="4">No hay módulos registrados.</td>
         </tr>
         {% endfor %}
       </tbody>

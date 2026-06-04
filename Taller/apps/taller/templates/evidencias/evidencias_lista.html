@@ -28,11 +28,11 @@
 {% endblock %}
 
 {% block content %}
-<p class="mb-6 text-sm text-slate-500">Revisa las evidencias asociadas a esta recepcion y gestiona su contenido.</p>
+<p class="mb-6 text-sm text-slate-500">Revisa las evidencias asociadas a esta recepción y gestiona su contenido.</p>
 
 {% if bloqueada %}
 <div class="mb-6 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-	Esta recepcion tiene una orden de servicio completada. No se permiten cambios.
+	Esta recepción tiene una orden de servicio completada. No se permiten cambios.
 </div>
 {% endif %}
 
@@ -82,7 +82,7 @@
 
 {% if evidencias.has_other_pages %}
 <nav class="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm">
-	<div class="text-slate-500">Pagina {{ evidencias.number }} de {{ evidencias.paginator.num_pages }}</div>
+	<div class="text-slate-500">Página {{ evidencias.number }} de {{ evidencias.paginator.num_pages }}</div>
 	<div class="flex items-center gap-2">
 		{% if evidencias.has_previous %}
 		<a class="rounded-md border border-slate-200 px-3 py-1.5 font-semibold text-slate-700 transition-colors hover:border-slate-400" href="?page={{ evidencias.previous_page_number }}">Anterior</a>
@@ -95,7 +95,7 @@
 {% endif %}
 {% else %}
 <div class="rounded-lg border border-dashed border-slate-200 bg-white p-6 text-center text-sm text-slate-500">
-	No hay evidencias registradas para esta recepcion.
+	No hay evidencias registradas para esta recepción.
 </div>
 {% endif %}
 {% endblock %}

@@ -35,7 +35,7 @@
             <h3 class="text-base font-semibold text-slate-900">Resumen de la orden</h3>
             <div class="mt-4 grid gap-4 md:grid-cols-2">
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Vehiculo</p>
+                    <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Vehículo</p>
                     <p class="mt-1 text-sm font-semibold text-slate-800">{{ orden.recepcion.vehiculo.placa }}</p>
                 </div>
                 <div>
@@ -57,7 +57,7 @@
                     </p>
                 </div>
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Fecha creacion</p>
+                    <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Fecha creación</p>
                     <p class="mt-1 text-sm text-slate-700">{{ orden.fecha_creacion|date:"d/m/Y H:i" }}</p>
                 </div>
                 <div>
@@ -68,8 +68,8 @@
                 </div>
             </div>
             <div class="mt-4">
-                <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Diagnostico</p>
-                <p class="mt-1 text-sm text-slate-700">{{ orden.diagnostico|default:"Sin diagnostico" }}</p>
+                <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Diagnóstico</p>
+                <p class="mt-1 text-sm text-slate-700">{{ orden.diagnostico|default:"Sin diagnóstico" }}</p>
             </div>
             <div class="mt-4">
                 <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Observaciones</p>

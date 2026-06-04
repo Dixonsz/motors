@@ -73,12 +73,12 @@
               <p class="mt-1 text-sm text-slate-700">{{ orden.estado.nombre }}</p>
             </div>
             <div>
-              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Fecha creacion</p>
+              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Fecha creación</p>
               <p class="mt-1 text-sm text-slate-700">{{ orden.fecha_creacion|date:"d/m/Y H:i" }}</p>
             </div>
             <div class="md:col-span-2">
-              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Diagnostico</p>
-              <p class="mt-1 text-sm text-slate-700">{{ orden.diagnostico|default:"Sin diagnostico" }}</p>
+              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Diagnóstico</p>
+              <p class="mt-1 text-sm text-slate-700">{{ orden.diagnostico|default:"Sin diagnóstico" }}</p>
             </div>
             <div>
               <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Total</p>
@@ -102,7 +102,7 @@
 
       {% if bloqueada %}
       <div class="mt-4 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-        Esta recepcion tiene una orden de servicio completada. No se permiten cambios.
+        Esta recepción tiene una orden de servicio completada. No se permiten cambios.
       </div>
       {% else %}
       <form action="{% url 'evidencia_crear' recepcion.id %}" class="mt-4 grid gap-3" method="post" enctype="multipart/form-data">
@@ -208,7 +208,7 @@
 
       {% else %}
       <div class="mt-4 rounded-lg border border-dashed border-slate-200 bg-slate-50 p-6 text-center text-sm text-slate-500">
-        No hay evidencias registradas para esta recepcion.
+        No hay evidencias registradas para esta recepción.
       </div>
       {% endif %}
       {% endwith %}

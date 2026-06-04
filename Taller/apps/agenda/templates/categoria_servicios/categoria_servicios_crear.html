@@ -10,16 +10,16 @@
 
 {% block content %}
 <div class="border border-slate-200 bg-white p-6 shadow-sm">
-    <h3 class="text-base font-semibold text-slate-900">Crear nueva categoria</h3>
+    <h3 class="text-base font-semibold text-slate-900">Crear nueva categoría</h3>
     <form action="" method="post" class="mt-4 grid gap-6">
         {% csrf_token %}
         <div class="grid gap-2">
             <label class="text-sm font-semibold text-slate-600" for="nombre">Nombre</label>
-            <input class="rounded-md border-slate-200 text-sm" type="text" name="nombre" id="nombre" required placeholder="Nombre de la categoria">
+            <input class="rounded-md border-slate-200 text-sm" type="text" name="nombre" id="nombre" required placeholder="Nombre de la categoría">
         </div>
         <div class="grid gap-2">
-            <label class="text-sm font-semibold text-slate-600" for="descripcion">Descripcion</label>
-            <input class="rounded-md border-slate-200 text-sm" type="text" name="descripcion" id="descripcion" placeholder="Descripcion de la categoria">
+            <label class="text-sm font-semibold text-slate-600" for="descripcion">Descripción</label>
+            <input class="rounded-md border-slate-200 text-sm" type="text" name="descripcion" id="descripcion" placeholder="Descripción de la categoría ">
         </div>
         <label class="flex items-center gap-2 text-sm font-semibold text-slate-600" for="is_active">
             <input class="rounded border-slate-300" type="checkbox" name="is_active" id="is_active" checked>

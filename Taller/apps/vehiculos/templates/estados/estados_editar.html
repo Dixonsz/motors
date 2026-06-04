@@ -18,8 +18,8 @@
             <input class="rounded-md border-slate-200 text-sm" type="text" name="nombre" id="nombre" value="{{ estado.nombre }}" required placeholder="Nombre del estado">
         </div>
         <div class="grid gap-2">
-            <label class="text-sm font-semibold text-slate-600" for="descripcion">Descripcion</label>
-            <input class="rounded-md border-slate-200 text-sm" type="text" name="descripcion" id="descripcion" value="{{ estado.descripcion }}" placeholder="Descripcion del estado">
+            <label class="text-sm font-semibold text-slate-600" for="descripcion">Descripción</label>
+            <input class="rounded-md border-slate-200 text-sm" type="text" name="descripcion" id="descripcion" value="{{ estado.descripcion }}" placeholder="Descripción del estado">
         </div>
         <label class="flex items-center gap-2 text-sm font-semibold text-slate-600" for="is_active">
             <input class="rounded border-slate-300" type="checkbox" name="is_active" id="is_active" {% if estado.is_active %}checked{% endif %}>

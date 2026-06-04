@@ -20,9 +20,9 @@
         {% csrf_token %}
 
         <div class="grid gap-2">
-            <label class="text-sm font-semibold text-slate-600" for="recepcion_id">Recepcion</label>
+            <label class="text-sm font-semibold text-slate-600" for="recepcion_id">Recepción</label>
             <select class="rounded-md border-slate-200 text-sm" name="recepcion_id" id="recepcion_id" required>
-                <option value="">Seleccione una recepcion</option>
+                <option value="">Seleccione una recepción</option>
                 {% for recepcion in recepciones %}
                     <option
                         value="{{ recepcion.id }}"
@@ -55,8 +55,8 @@
         </div>
 
         <div class="grid gap-2">
-            <label class="text-sm font-semibold text-slate-600" for="diagnostico">Diagnostico</label>
-            <textarea class="min-h-[120px] rounded-md border-slate-200 text-sm" name="diagnostico" id="diagnostico" placeholder="Diagnostico"></textarea>
+            <label class="text-sm font-semibold text-slate-600" for="diagnostico">Diagnóstico</label>
+            <textarea class="min-h-[120px] rounded-md border-slate-200 text-sm" name="diagnostico" id="diagnostico" placeholder="Diagnóstico"></textarea>
         </div>
         <div class="grid gap-2">
             <label class="text-sm font-semibold text-slate-600" for="observaciones">Observaciones</label>

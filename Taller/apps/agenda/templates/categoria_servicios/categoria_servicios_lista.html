@@ -60,7 +60,6 @@
                     <tr>
                         <th class="px-4 py-3 text-left">ID</th>
                         <th class="px-4 py-3 text-left">Nombre</th>
-                        <th class="px-4 py-3 text-left">Descripcion</th>
                         <th class="px-4 py-3 text-left">Activo</th>
                         <th class="px-4 py-3 text-left">Acciones</th>
                     </tr>
@@ -70,7 +69,6 @@
                     <tr class="hover:bg-slate-50">
                         <td class="px-4 py-3">{{ categoria.id }}</td>
                         <td class="px-4 py-3">{{ categoria.nombre }}</td>
-                        <td class="px-4 py-3">{{ categoria.descripcion }}</td>
                         <td class="px-4 py-3">
                             <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-semibold text-slate-600">
                                 {{ categoria.is_active|yesno:"Si,No" }}
