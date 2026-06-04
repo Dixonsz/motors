@@ -24,24 +24,24 @@
                 <input class="rounded-md border-slate-200 text-sm" type="text" id="nombre" name="nombre" required placeholder="Nombre">
             </div>
             <div class="grid gap-2">
-                <label class="text-sm font-semibold text-slate-600" for="categoria_id">Categoria</label>
+                <label class="text-sm font-semibold text-slate-600" for="categoria_id">Categoría</label>
                 <select class="rounded-md border-slate-200 text-sm" name="categoria_id" id="categoria_id" required>
-                    <option value="">Seleccione una categoria</option>
+                    <option value="">Seleccione una categoría</option>
                     {% for categoria in categorias %}
                         <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="grid gap-2 md:col-span-2">
-                <label class="text-sm font-semibold text-slate-600" for="descripcion">Descripcion</label>
-                <input class="rounded-md border-slate-200 text-sm" type="text" id="descripcion" name="descripcion" required placeholder="Descripcion">
+                <label class="text-sm font-semibold text-slate-600" for="descripcion">Descripción</label>
+                <input class="rounded-md border-slate-200 text-sm" type="text" id="descripcion" name="descripcion" required placeholder="Descripción">
             </div>
             <div class="grid gap-2">
                 <label class="text-sm font-semibold text-slate-600" for="precio_base">Precio base</label>
                 <input class="rounded-md border-slate-200 text-sm" type="number" id="precio_base" name="precio_base" step="0.01" required placeholder="Precio base">
             </div>
             <div class="grid gap-2">
-                <label class="text-sm font-semibold text-slate-600" for="duracion_estimada">Duracion estimada</label>
+                <label class="text-sm font-semibold text-slate-600" for="duracion_estimada">Duración estimada</label>
                 <input class="rounded-md border-slate-200 text-sm" type="time" id="duracion_estimada" name="duracion_estimada" step="60" required>
             </div>
         </div>

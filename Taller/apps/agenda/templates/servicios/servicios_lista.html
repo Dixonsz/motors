@@ -26,18 +26,18 @@
     <input
       class="w-full rounded-md border border-slate-200 px-3 py-2"
       name="nombre"
-      placeholder="Nombre de la categoria"
+      placeholder="Nombre de la categoría"
       type="text"
       value="{{ filtros.nombre }}"
     />
   </div>
   <div>
-    <label class="mb-1 block text-xs font-semibold text-slate-600">Categoria</label>
+    <label class="mb-1 block text-xs font-semibold text-slate-600">Categoría</label>
     <select
       class="w-full rounded-md border border-slate-200 px-3 py-2"
       name="categoria_id"
     >
-      <option value="">Todas las categorias</option>
+      <option value="">Todas las categorías</option>
       {% for categoria in categorias %}
                 <option value="{{ categoria.id }}" {% if filtros.categoria_id == categoria.id|stringformat:"s" %}selected{% endif %}>
           {{ categoria.nombre }}
@@ -76,10 +76,8 @@
                     <tr>
                         <th class="px-4 py-3 text-left">ID</th>
                         <th class="px-4 py-3 text-left">Nombre</th>
-                        <th class="px-4 py-3 text-left">Categoria</th>
-                        <th class="px-4 py-3 text-left">Descripcion</th>
+                        <th class="px-4 py-3 text-left">Categoría</th>
                         <th class="px-4 py-3 text-left">Precio base</th>
-                        <th class="px-4 py-3 text-left">Duracion</th>
                         <th class="px-4 py-3 text-left">Activo</th>
                         <th class="px-4 py-3 text-left">Acciones</th>
                     </tr>
@@ -90,9 +88,7 @@
                             <td class="px-4 py-3">{{ servicio.id }}</td>
                             <td class="px-4 py-3">{{ servicio.nombre }}</td>
                             <td class="px-4 py-3">{{ servicio.categoria_servicio.nombre }}</td>
-                            <td class="px-4 py-3">{{ servicio.descripcion }}</td>
                             <td class="px-4 py-3">₡{{ servicio.precio_base }}</td>
-                            <td class="px-4 py-3">{{ servicio.duracion_hhmm }}</td>
                             <td class="px-4 py-3">
                                 <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-semibold text-slate-600">
                                     {% if servicio.is_active %}Si{% else %}No{% endif %}
